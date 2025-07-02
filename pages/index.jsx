@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div style={{ padding: '2rem', maxWidth: '700px', margin: 'auto', fontFamily: 'sans-serif' }}>
       <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔥 PlaceBets.ai - AI Picks</h1>
-      
+
       {predictions.length === 0 ? (
         <p>Loading predictions...</p>
       ) : (
@@ -29,14 +29,14 @@ export default function Home() {
         ))
       )}
 
-      {/* Chatbot Embed */}
-      <iframe
-        src="https://chat.openai.com/g/g-68653d8d66f08191b86b0a5613d39434"
-        width="100%"
-        height="600"
-        style={{ border: "1px solid #ccc", borderRadius: "10px", marginTop: "2rem" }}
-        title="Trash Talk Bot"
-      ></iframe>
+      <a
+        href="https://chat.openai.com/g/g-68653d8d66f08191b86b0a5613d39434"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: "block", textAlign: "center", marginTop: "2rem", fontWeight: "bold", fontSize: "18px" }}
+      >
+        💬 Chat with our Trash Talk Bot
+      </a>
     </div>
   );
 }
