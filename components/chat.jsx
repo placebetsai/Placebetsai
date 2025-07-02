@@ -1,55 +1,75 @@
-import { useState } from 'react';
+"use client";
+import { useState, useRef, useEffect } from "react";
 
 export default function Chat() {
   const [messages, setMessages] = useState([
-    { role: 'system', content: 'I’m your savage AI bookie. Gimme a matchup.' }
+    { from: "bot", text: "🤖 I'm your savage AI bookie. Ask me anything." }
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const endRef = useRef();
 
-  const sendMessage = async () => {
-    if (!input) return;
-    const newMessages = [...messages, { role: 'user', content: input }];
-    setMessages(newMessages);
+  const send = async () => {
+    if (!input.trim()) return;
+    setMessages((m) => [...m, { from: "user", text: input }]);
     setLoading(true);
-    setInput('');
-
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: newMessages })
-    });
-
-    const data = await res.json();
-    setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input })
+    }).then(r => r.json());
+    setMessages((m) => [...m, { from: "bot", text: res.reply }]);
+    setInput("");
     setLoading(false);
   };
 
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div style={{
-      position: 'fixed',
+      position: "fixed",
       bottom: 20,
       right: 20,
-      width: 300,
-      background: '#111',
-      color: 'white',
-      borderRadius: 10,
-      padding: 10,
-      zIndex: 1000
+      width: 350,
+      height: 450,
+      background: "#222",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      borderRadius: 8,
+      padding: 8,
+      zIndex: 9999
     }}>
-      <div style={{ height: 200, overflowY: 'auto', fontSize: 12, marginBottom: 10 }}>
-        {messages.map((msg, i) => (
-          <div key={i}><b>{msg.role}:</b> {msg.content}</div>
+      <div style={{ flex: 1, overflowY: "auto", padding: 8 }}>
+        {messages.map((m, i) => (
+          <div key={i} style={{
+            margin: "4px 0",
+            textAlign: m.from === "user" ? "right" : "left"
+          }}>
+            <span style={{
+              background: m.from === "user" ? "#555" : "#444",
+              padding: "6px 8px",
+              borderRadius: 4,
+              display: "inline-block"
+            }}>{m.text}</span>
+          </div>
         ))}
-        {loading && <div><i>Typing...</i></div>}
+        <div ref={endRef} />
       </div>
-      <input
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        placeholder="e.g. Makhachev vs Volkanovski"
-        style={{ width: '100%', padding: 5, borderRadius: 5 }}
-        onKeyDown={e => e.key === 'Enter' && sendMessage()}
-      />
+      <div style={{ display: "flex", marginTop: 8 }}>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && send()}
+          style={{ flex: 1, padding: 6, borderRadius: 4, border: "none" }}
+          placeholder="Ask me who’s winning..."
+        />
+        <button onClick={send} disabled={loading} style={{ marginLeft: 4 }}>
+          {loading ? "..." : "Send"}
+        </button>
+      </div>
     </div>
   );
 }
