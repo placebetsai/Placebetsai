@@ -5,7 +5,9 @@ export default function Home() {
 
   useEffect(() => {
     const fetchPredictions = async () => {
-      const res = await fetch("https://opensheet.elk.sh/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/Sheet1");
+      const res = await fetch(
+        'https://opensheet.elk.sh/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/Sheet1'
+      );
       const data = await res.json();
       setPredictions(data);
     };
@@ -19,10 +21,18 @@ export default function Home() {
         <p>Loading predictions...</p>
       ) : (
         predictions.map((pick, i) => (
-          <div key={i} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem' }}>
-            <strong>{pick[0]}</strong>
-            <p>{pick[1]}</p>
-            <small>{new Date(pick[2]).toLocaleString()}</small>
+          <div
+            key={i}
+            style={{
+              border: '1px solid #ddd',
+              padding: '1rem',
+              borderRadius: '10px',
+              marginBottom: '1rem',
+            }}
+          >
+            <strong>{pick['Event']}</strong>
+            <p>{pick['Prediction']}</p>
+            <small>{new Date(pick['Date + Time']).toLocaleString()}</small>
           </div>
         ))
       )}
