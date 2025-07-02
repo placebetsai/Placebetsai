@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [predictions, setPredictions] = useState([]);
@@ -13,34 +13,31 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto', fontFamily: 'Arial' }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔥 PlaceBets.ai - AI Picks</h1>
-
+    <div style={{ padding: "2rem", maxWidth: "700px", margin: "auto", fontFamily: "sans-serif" }}>
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>🔥 PlaceBets.ai - AI Picks</h1>
       {predictions.length === 0 ? (
         <p>Loading predictions...</p>
       ) : (
-        predictions.map((pick, i) => (
-          <div key={i} style={{ border: '1px solid #ddd', padding: '1rem', marginBottom: '1rem' }}>
-            <p><strong>Sport:</strong> {pick["Sport"] || "N/A"}</p>
-            <p><strong>Event:</strong> {pick["Event"] || "N/A"}</p>
-            <p><strong>Prediction:</strong> {pick["Prediction"]}</p>
-            <p><strong>Date:</strong> {pick["Date + Time"] || "N/A"}</p>
+        predictions.map((row, i) => (
+          <div key={i} style={{ border: "1px solid #ddd", padding: "1rem", marginBottom: "1rem", borderRadius: "8px" }}>
+            <p><strong>Sport:</strong> {row[0]}</p>
+            <p><strong>Event:</strong> {row[1]}</p>
+            <p><strong>Prediction:</strong> {row[2]}</p>
+            <p><strong>Date:</strong> {new Date(row[3]).toLocaleString()}</p>
           </div>
         ))
       )}
 
-      {/* Embedded GPT Chatbot */}
-      <div style={{ marginTop: '3rem' }}>
-        <h2>🤖 Talk to the Trash Talk Bot</h2>
+      <div style={{ marginTop: "3rem", borderTop: "1px solid #ccc", paddingTop: "2rem" }}>
+        <h2>💬 Ask the AI Bookie</h2>
         <iframe
           src="https://chat.openai.com/g/g-68653d8d66f08191b86b0a5613d39434"
           width="100%"
-          height="600"
-          style={{ border: 'none', borderRadius: '12px', marginTop: '1rem' }}
-          title="Trash Talk Bot"
-        />
-        <p style={{ fontSize: '0.9rem', color: '#999', marginTop: '0.5rem' }}>
-          *You must be logged in to ChatGPT to use this bot.*
+          height="500"
+          style={{ border: "1px solid #ccc", borderRadius: "8px" }}
+        ></iframe>
+        <p style={{ fontSize: "0.8rem", color: "#777" }}>
+          *Note: You must be logged into ChatGPT to chat with the AI.
         </p>
       </div>
     </div>
