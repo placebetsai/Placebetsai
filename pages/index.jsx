@@ -39,3 +39,7 @@ export default function Home() {
     </div>
   );
 }
+import Chat from '../components/Chat';
+...
+<Chat />
+
