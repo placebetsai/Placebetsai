@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [predictions, setPredictions] = useState([]);
+  const [search, setSearch] = useState("");
+  const [sortAsc, setSortAsc] = useState(true);
 
   useEffect(() => {
     const fetchPredictions = async () => {
@@ -14,47 +16,61 @@ export default function Home() {
     fetchPredictions();
   }, []);
 
+  const filtered = predictions
+    .filter(
+      (p) =>
+        p["Sport"]?.toLowerCase().includes(search.toLowerCase()) ||
+        p["Event"]?.toLowerCase().includes(search.toLowerCase()) ||
+        p["Prediction"]?.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) =>
+      sortAsc
+        ? new Date(a["Date + Time"]) - new Date(b["Date + Time"])
+        : new Date(b["Date + Time"]) - new Date(a["Date + Time"])
+    );
+
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto' }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔥 PlaceBets.ai - AI Picks</h1>
+    <div style={{ padding: "2rem", maxWidth: "700px", margin: "auto" }}>
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
+        🔥 PlaceBets.ai - AI Picks
+      </h1>
 
-      <div style={{ marginBottom: '2rem' }}>
-        {predictions.length === 0 ? (
-          <p>Loading predictions...</p>
-        ) : (
-          predictions.map((pick, i) => (
-            <div
-              key={i}
-              style={{
-                border: '1px solid #ccc',
-                borderRadius: '8px',
-                padding: '1rem',
-                marginBottom: '1rem',
-              }}
-            >
-              <strong>Sport:</strong> {pick["Sport"]}<br />
-              <strong>Event:</strong> {pick["Event"]}<br />
-              <strong>Odds:</strong> {pick["Odds"]}<br />
-              <strong>Prediction:</strong> {pick["Prediction"]}<br />
-              <strong>Date:</strong>{" "}
-              {new Date(pick["Date + Time"]).toLocaleString()}
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* CHATBOT */}
-      <iframe
-        src="https://chat.openai.com/gpts/share/g-68653d8d66f08191b86b0a5613d39434"
-        width="100%"
-        height="600px"
+      <input
+        type="text"
+        placeholder="Search by sport, event, or prediction"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         style={{
-          border: '1px solid #ccc',
-          borderRadius: '8px',
-          display: 'block',
+          width: "100%",
+          padding: "0.5rem",
+          marginBottom: "1rem",
+          border: "1px solid #ccc",
         }}
-        title="Ask the Bookie Anything"
-      ></iframe>
+      />
+
+      <button onClick={() => setSortAsc(!sortAsc)} style={{ marginBottom: "1rem" }}>
+        Sort by Date: {sortAsc ? "Ascending" : "Descending"}
+      </button>
+
+      {filtered.length === 0 ? (
+        <p>No predictions found.</p>
+      ) : (
+        filtered.map((pick, i) => (
+          <div
+            key={i}
+            style={{
+              border: "1px solid #ddd",
+              padding: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            <p><strong>Sport:</strong> {pick["Sport"]}</p>
+            <p><strong>Event:</strong> {pick["Event"]}</p>
+            <p><strong>Prediction:</strong> {pick["Prediction"]}</p>
+            <p><strong>Date:</strong> {new Date(pick["Date + Time"]).toLocaleString()}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }
