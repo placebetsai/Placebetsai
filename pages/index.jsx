@@ -1,76 +1,48 @@
-import { useEffect, useState } from "react";
+// pages/index.tsx import { useEffect, useState } from 'react';
 
-export default function Home() {
-  const [predictions, setPredictions] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortAsc, setSortAsc] = useState(true);
+interface Prediction { Sport: string; Match: string; "GPT Trash Talk": string; "Start Time": string; }
 
-  useEffect(() => {
-    const fetchPredictions = async () => {
-      const res = await fetch(
-        "https://opensheet.elk.sh/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/Sheet1"
-      );
-      const data = await res.json();
-      setPredictions(data);
-    };
-    fetchPredictions();
-  }, []);
+export default function Home() { const [predictions, setPredictions] = useState<Prediction[]>([]);
 
-  const filtered = predictions
-    .filter(
-      (p) =>
-        p["Sport"]?.toLowerCase().includes(search.toLowerCase()) ||
-        p["Event"]?.toLowerCase().includes(search.toLowerCase()) ||
-        p["Prediction"]?.toLowerCase().includes(search.toLowerCase())
-    )
-    .sort((a, b) =>
-      sortAsc
-        ? new Date(a["Date + Time"]) - new Date(b["Date + Time"])
-        : new Date(b["Date + Time"]) - new Date(a["Date + Time"])
-    );
+useEffect(() => { const fetchPredictions = async () => { try { const res = await fetch('https://sheet.best/api/sheets/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8'); const data = await res.json();
 
-  return (
-    <div style={{ padding: "2rem", maxWidth: "700px", margin: "auto" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
-        🔥 PlaceBets.ai - AI Picks
-      </h1>
+const clean = data.filter((row: Prediction) => {
+      const bannedWords = ['balls', 'cock', 'fuck', 'licking', 'shit'];
+      const fields = `${row.Sport} ${row.Match} ${row["GPT Trash Talk"]}`.toLowerCase();
+      return row.Sport && row.Match && row["GPT Trash Talk"] && !bannedWords.some(word => fields.includes(word));
+    });
 
-      <input
-        type="text"
-        placeholder="Search by sport, event, or prediction"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "0.5rem",
-          marginBottom: "1rem",
-          border: "1px solid #ccc",
-        }}
-      />
+    setPredictions(clean);
+  } catch (err) {
+    console.error('Error fetching data:', err);
+  }
+};
 
-      <button onClick={() => setSortAsc(!sortAsc)} style={{ marginBottom: "1rem" }}>
-        Sort by Date: {sortAsc ? "Ascending" : "Descending"}
-      </button>
+fetchPredictions();
 
-      {filtered.length === 0 ? (
-        <p>No predictions found.</p>
-      ) : (
-        filtered.map((pick, i) => (
-          <div
-            key={i}
-            style={{
-              border: "1px solid #ddd",
-              padding: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <p><strong>Sport:</strong> {pick["Sport"]}</p>
-            <p><strong>Event:</strong> {pick["Event"]}</p>
-            <p><strong>Prediction:</strong> {pick["Prediction"]}</p>
-            <p><strong>Date:</strong> {new Date(pick["Date + Time"]).toLocaleString()}</p>
-          </div>
-        ))
-      )}
-    </div>
-  );
-}
+}, []);
+
+return ( <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white p-4"> <h1 className="text-3xl font-bold mb-4">🔥 PlaceBets.ai - AI Picks</h1>
+
+<div className="grid gap-4">
+    {predictions.length === 0 ? (
+      <p>No clean predictions available.</p>
+    ) : (
+      predictions.map((row, idx) => (
+        <div key={idx} className="border border-gray-700 rounded-xl p-4 shadow-lg bg-gray-800">
+          <p><strong>Sport:</strong> {row.Sport}</p>
+          <p><strong>Match:</strong> {row.Match}</p>
+          <p><strong>Prediction:</strong> {row["GPT Trash Talk"]}</p>
+          <p><strong>Date:</strong> {row["Start Time"] || 'TBD'}</p>
+        </div>
+      ))
+    )}
+  </div>
+
+  {/* ✅ Botpress Chatbot Embed */}
+  <script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js" defer></script>
+  <script src="https://files.bpcontent.cloud/2025/07/03/19/20250703190712-6HEFPEHY.js" defer></script>
+</div>
+
+); }
+
