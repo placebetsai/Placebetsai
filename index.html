@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PlaceBets.ai – AI Picks & Trash Talk</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #0f0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+    th {
+      background: #222;
+      cursor: pointer;
+    }
+    tr:nth-child(even) {
+      background: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <h1>PlaceBets.ai – AI Picks & Trash Talk</h1>
+  <p>Real sports events. AI-generated predictions. Shit-talking included.</p>
+
+  <table id="bet-table">
+    <thead>
+      <tr>
+        <th>Match</th>
+        <th>Start Date</th>
+        <th>Start Time</th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+        <th>Odds 1</th>
+        <th>Odds 2</th>
+        <th>Trash Talk</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <tr><td colspan="8">Loading...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
+
+    fetch(CSV_URL)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").slice(1); // skip headers
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+
+        rows.forEach(row => {
+          const cols = row.split(",");
+          const tr = document.createElement("tr");
+          cols.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = col;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = `<tr><td colspan="8">Failed to load data: ${err.message}</td></tr>`;
+      });
+  </script>
+</body>
+</html>
