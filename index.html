@@ -1,42 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>PlaceBets.ai – AI Picks & Trash Talk</title>
+  <title>PlaceBets.ai – Sports Odds & Trash Talk</title>
   <style>
     body {
-      background: #111;
-      color: #fff;
-      font-family: sans-serif;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      margin: 0;
       padding: 20px;
     }
-    h1 {
+
+    h1, h2 {
+      text-align: center;
       color: #0f0;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-bottom: 60px;
+      font-size: 14px;
     }
+
     th, td {
-      padding: 12px;
-      border: 1px solid #333;
+      border: 1px solid #0f0;
+      padding: 10px;
       text-align: left;
+      vertical-align: top;
+      max-width: 250px;
+      word-wrap: break-word;
+      white-space: normal;
     }
+
     th {
-      background: #222;
+      background: #111;
       cursor: pointer;
     }
-    tr:nth-child(even) {
-      background: #1a1a1a;
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <h1>PlaceBets.ai – AI Picks & Trash Talk</h1>
-  <p>Real sports events. AI-generated predictions. Shit-talking included.</p>
 
-  <table id="bet-table">
+  <h1>💸 PlaceBets.ai — Daily Picks & Trash Talk</h1>
+
+  <table id="odds-table">
     <thead>
       <tr>
         <th>Match</th>
@@ -49,36 +64,68 @@
         <th>Trash Talk</th>
       </tr>
     </thead>
-    <tbody id="table-body">
-      <tr><td colspan="8">Loading...</td></tr>
-    </tbody>
+    <tbody id="table-body"></tbody>
   </table>
+
+  <h2>🧠 Ask the Bookie Anything (Claude GPT)</h2>
+  <iframe
+    src="https://chat.openrouter.ai/chat/g-68653d8d66f08191b86b0a5613d39434"
+    allow="clipboard-write; clipboard-read; microphone"
+    title="Claude Bookie Chat"
+  ></iframe>
 
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
 
     fetch(CSV_URL)
       .then(res => res.text())
-      .then(csv => {
-        const rows = csv.trim().split("\n").slice(1); // skip headers
+      .then(data => {
+        const rows = data.split("\n").slice(1);
         const tbody = document.getElementById("table-body");
-        tbody.innerHTML = "";
 
         rows.forEach(row => {
-          const cols = row.split(",");
-          const tr = document.createElement("tr");
-          cols.forEach(col => {
-            const td = document.createElement("td");
-            td.textContent = col;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
+          const cols = row.split(",").map(col => col.replace(/^"|"$/g, '').trim());
+          if (cols.length >= 8) {
+            const tr = document.createElement("tr");
+
+            cols.forEach((text, i) => {
+              const td = document.createElement("td");
+
+              // Limit trash talk to 200 chars
+              if (i === 7 && text.length > 200) {
+                td.textContent = text.slice(0, 200) + "...";
+              } else {
+                td.textContent = text;
+              }
+
+              tr.appendChild(td);
+            });
+
+            tbody.appendChild(tr);
+          }
         });
-      })
-      .catch(err => {
-        const tbody = document.getElementById("table-body");
-        tbody.innerHTML = `<tr><td colspan="8">Failed to load data: ${err.message}</td></tr>`;
       });
+
+    // Make table sortable
+    document.querySelectorAll("th").forEach((th, index) => {
+      th.addEventListener("click", () => {
+        const tbody = document.querySelector("#odds-table tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const asc = !th.asc;
+        th.asc = asc;
+
+        rows.sort((a, b) => {
+          const cellA = a.children[index].textContent.trim();
+          const cellB = b.children[index].textContent.trim();
+
+          return asc
+            ? cellA.localeCompare(cellB, undefined, { numeric: true })
+            : cellB.localeCompare(cellA, undefined, { numeric: true });
+        });
+
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
   </script>
 </body>
 </html>
