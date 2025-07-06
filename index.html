@@ -1,78 +1,92 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai</title>
   <link rel="stylesheet" href="Assets/style.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <header>
     <h1>PlaceBets.ai</h1>
     <p>Search odds, teams, matches, or get roasted.</p>
-    <input type="text" id="searchBox" placeholder="Search teams, odds, matches...">
-  </header>  <main id="cardContainer" class="card-grid"></main>
-  <button id="loadMore">Show More</button>  <!-- Botpress Chatbot -->  <script src="https://cdn.botpress.cloud/webchat/v3" defer></script>  <script>
-    window.botpressWebChat = {
+    <input type="text" id="searchBox" placeholder="Search teams, odds, matches..."/>
+  </header>
+
+  <div class="card-grid" id="eventList"></div>
+  <button id="loadMore">Show More</button>
+
+  <!-- Botpress Embed -->
+  <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
+  <script>
+    window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-    };
-  </script>  <script>
-    const SHEET_URL = 'https://opensheet.elk.sh/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/Sheet1';
-    const container = document.getElementById('cardContainer');
-    const searchBox = document.getElementById('searchBox');
-    const loadMoreBtn = document.getElementById('loadMore');
-
-    let data = [],
-        visibleCount = 3;
-
-    const loadData = async () => {
-      try {
-        const response = await axios.get(SHEET_URL);
-        data = response.data;
-        renderCards();
-      } catch (error) {
-        container.innerHTML = '<p>Error loading data</p>';
-      }
-    };
-
-    const renderCards = () => {
-      container.innerHTML = '';
-      const filtered = data.filter(entry => {
-        const q = searchBox.value.toLowerCase();
-        return (
-          entry.Match.toLowerCase().includes(q) ||
-          entry['Team 1'].toLowerCase().includes(q) ||
-          entry['Team 2'].toLowerCase().includes(q) ||
-          entry.Odds1.toLowerCase().includes(q) ||
-          entry.Odds2.toLowerCase().includes(q) ||
-          entry.TrashTalk.toLowerCase().includes(q)
-        );
-      });
-
-      filtered.slice(0, visibleCount).forEach(entry => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-header">
-            <img src="https://logo.clearbit.com/${entry['Team 1'].replace(/ /g, '').toLowerCase()}.com" onerror="this.src='https://placehold.co/50x50?text=Logo'" />
-            <span>${entry.Match}</span>
-            <img src="https://logo.clearbit.com/${entry['Team 2'].replace(/ /g, '').toLowerCase()}.com" onerror="this.src='https://placehold.co/50x50?text=Logo'" />
-          </div>
-          <p><strong>Date:</strong> ${entry['Start Date']} ${entry['Start Time']}</p>
-          <p><strong>Odds:</strong> ${entry.Odds1} - ${entry.Odds2}</p>
-          <p class="trashtalk">${entry.TrashTalk}</p>
-        `;
-        container.appendChild(card);
-      });
-    };
-
-    loadMoreBtn.addEventListener('click', () => {
-      visibleCount += 3;
-      renderCards();
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v3",
+      disableAnimations: false,
     });
+  </script>
 
-    searchBox.addEventListener('input', renderCards);
+  <!-- Event Rendering Script -->
+  <script>
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ31pX6TDzfhTY3SH6D6kWBR1YOEA4azrACIF9b8Y_w14a5U0-eDTHgJ8F1TFB3Y9uZm__Sl2JeQZRE/pub?output=csv';
+    const searchBox = document.getElementById('searchBox');
+    const eventList = document.getElementById('eventList');
+    const loadMoreBtn = document.getElementById('loadMore');
+    let allEvents = [];
+    let currentIndex = 0;
+    const eventsPerLoad = 3;
 
-    loadData();
-  </script></body>
+    fetch(sheetURL)
+      .then(response => response.text())
+      .then(csv => {
+        const lines = csv.split('\n').slice(1);
+        allEvents = lines.map(line => {
+          const [match, date, time, team1, team2, odds1, odds2, trash] = line.split(',');
+          return {
+            match, date, time, team1, team2, odds1, odds2, trash
+          };
+        }).filter(e => e.match);
+        renderEvents();
+      });
+
+    function renderEvents() {
+      const end = Math.min(currentIndex + eventsPerLoad, allEvents.length);
+      for (let i = currentIndex; i < end; i++) {
+        const e = allEvents[i];
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <div class="card-header">
+            <img src="https://placehold.co/40x40" alt="Logo" />
+            <span>${e.team1} vs ${e.team2}</span>
+            <img src="https://placehold.co/40x40" alt="Logo" />
+          </div>
+          <div><strong>Match:</strong> ${e.match}</div>
+          <div><strong>Date:</strong> ${e.date} ${e.time}</div>
+          <div><strong>Odds:</strong> ${e.odds1} - ${e.odds2}</div>
+          <div class="trashtalk">${e.trash}</div>
+        `;
+        eventList.appendChild(div);
+      }
+      currentIndex = end;
+      if (currentIndex >= allEvents.length) {
+        loadMoreBtn.style.display = 'none';
+      }
+    }
+
+    loadMoreBtn.addEventListener('click', renderEvents);
+
+    searchBox.addEventListener('input', () => {
+      const q = searchBox.value.toLowerCase();
+      eventList.innerHTML = '';
+      currentIndex = 0;
+      const filtered = allEvents.filter(e =>
+        `${e.match} ${e.team1} ${e.team2} ${e.trash} ${e.odds1} ${e.odds2}`.toLowerCase().includes(q)
+      );
+      allEvents = filtered;
+      renderEvents();
+    });
+  </script>
+</body>
 </html>
