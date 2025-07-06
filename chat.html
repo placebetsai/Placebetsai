@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Ask The Bookie Anything</title>
+  <style>
+    body { background: #111; color: #fff; font-family: sans-serif; padding: 20px; }
+    #chat { max-width: 600px; margin: auto; }
+    .msg { padding: 10px; border-bottom: 1px solid #333; }
+    input { width: 100%; padding: 10px; font-size: 16px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>💬 Ask The Bookie Anything</h1>
+  <div id="chat"></div>
+  <input id="input" placeholder="Who wins tonight?" autofocus />
+
+  <script>
+    const chatDiv = document.getElementById('chat');
+    const input = document.getElementById('input');
+
+    input.addEventListener('keydown', async (e) => {
+      if (e.key === 'Enter' && input.value.trim()) {
+        const msg = input.value.trim();
+        input.value = '';
+        chatDiv.innerHTML += `<div class="msg"><b>You:</b> ${msg}</div>`;
+        const res = await fetch('https://placebets.israeljoffe.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: msg })
+        });
+        const data = await res.json();
+        chatDiv.innerHTML += `<div class="msg"><b>Bookie:</b> ${data.reply}</div>`;
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
