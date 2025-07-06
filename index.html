@@ -1,129 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>PlaceBets.ai – Sports Odds & Trash Talk</title>
-  <style>
-    body {
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1, h2 {
-      text-align: center;
-      color: #0f0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 60px;
-      font-size: 14px;
-    }
-
-    th, td {
-      border: 1px solid #0f0;
-      padding: 10px;
-      text-align: left;
-      vertical-align: top;
-      max-width: 250px;
-      word-wrap: break-word;
-      white-space: normal;
-    }
-
-    th {
-      background: #111;
-      cursor: pointer;
-    }
-
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      margin-top: 40px;
-    }
-  </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PlaceBets.ai</title>
+  <link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
+  <div class="hero">
+    <div class="overlay">
+      <h1>PlaceBets.ai</h1>
+      <p>AI Predictions • Trash Talk • No Bullshit</p>
+    </div>
+  </div>
 
-  <h1>💸 PlaceBets.ai — Daily Picks & Trash Talk</h1>
+  <div class="container">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <div id="cardContainer">Loading matches...</div>
+  </div>
 
-  <table id="odds-table">
-    <thead>
-      <tr>
-        <th>Match</th>
-        <th>Start Date</th>
-        <th>Start Time</th>
-        <th>Team 1</th>
-        <th>Team 2</th>
-        <th>Odds 1</th>
-        <th>Odds 2</th>
-        <th>Trash Talk</th>
-      </tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-  </table>
-
-  <h2>🧠 Ask the Bookie Anything (Claude GPT)</h2>
-  <iframe
-    src="https://chat.openrouter.ai/chat/g-68653d8d66f08191b86b0a5613d39434"
-    allow="clipboard-write; clipboard-read; microphone"
-    title="Claude Bookie Chat"
-  ></iframe>
-
+  <!-- Botpress Chat -->
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
   <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
+    window.botpressWebChat.init({
+      configUrl:"https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
+      botId:"539d8fd6-0467-49c5-ba74-367f2e8ec6cb"
+    });
+  </script>
 
-    fetch(CSV_URL)
-      .then(res => res.text())
-      .then(data => {
-        const rows = data.split("\n").slice(1);
-        const tbody = document.getElementById("table-body");
+  <!-- Google Sheet Integration -->
+  <script>
+    fetch('https://docs.google.com/spreadsheets/d/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/gviz/tq?tqx=out:json')
+      .then(r => r.text())
+      .then(t => {
+        const js = JSON.parse(t.substring(47).slice(0, -2));
+        const rows = js.table.rows;
+        const ctn = document.getElementById('cardContainer');
+        ctn.innerHTML = '';
+        rows.forEach(r => {
+          const c = r.c;
+          const team1 = c[3]?.v || '';
+          const team2 = c[4]?.v || '';
+          const logo1 = `logos/${team1.toLowerCase().replace(/\s/g,'')}.png`;
+          const logo2 = `logos/${team2.toLowerCase().replace(/\s/g,'')}.png`;
 
-        rows.forEach(row => {
-          const cols = row.split(",").map(col => col.replace(/^"|"$/g, '').trim());
-          if (cols.length >= 8) {
-            const tr = document.createElement("tr");
-
-            cols.forEach((text, i) => {
-              const td = document.createElement("td");
-
-              // Limit trash talk to 200 chars
-              if (i === 7 && text.length > 200) {
-                td.textContent = text.slice(0, 200) + "...";
-              } else {
-                td.textContent = text;
-              }
-
-              tr.appendChild(td);
-            });
-
-            tbody.appendChild(tr);
-          }
+          const card = document.createElement('div');
+          card.className = 'match-card';
+          card.innerHTML = `
+            <div class="teams">
+              <img src="${logo1}" onerror="this.src='logos/fallback.svg'">
+              <span>${team1}</span><span>vs</span><span>${team2}</span>
+              <img src="${logo2}" onerror="this.src='logos/fallback.svg'">
+            </div>
+            <div class="meta">
+              <p><b>Match:</b> ${c[0]?.v||''}</p>
+              <p><b>Date/Time:</b> ${c[1]?.v||''} ${c[2]?.v||''}</p>
+              <p><b>Odds:</b> ${c[5]?.v||''} – ${c[6]?.v||''}</p>
+              <p class="trash">${c[7]?.v||''}</p>
+            </div>`;
+          ctn.appendChild(card);
         });
       });
 
-    // Make table sortable
-    document.querySelectorAll("th").forEach((th, index) => {
-      th.addEventListener("click", () => {
-        const tbody = document.querySelector("#odds-table tbody");
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        const asc = !th.asc;
-        th.asc = asc;
-
-        rows.sort((a, b) => {
-          const cellA = a.children[index].textContent.trim();
-          const cellB = b.children[index].textContent.trim();
-
-          return asc
-            ? cellA.localeCompare(cellB, undefined, { numeric: true })
-            : cellB.localeCompare(cellA, undefined, { numeric: true });
-        });
-
-        rows.forEach(row => tbody.appendChild(row));
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const f = e.target.value.toLowerCase();
+      document.querySelectorAll('.match-card').forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(f) ? 'block' : 'none';
       });
     });
   </script>
