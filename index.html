@@ -4,97 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
-  <div class="hero">
-    <div class="overlay">
-      <h1>PlaceBets.ai</h1>
-      <p>Search odds, teams, matches, or get roasted.</p>
-    </div>
-  </div>
+  <header>
+    <h1>PlaceBets.ai</h1>
+    <p>Search odds, teams, matches, or get roasted.</p>
+    <input type="text" id="searchInput" placeholder="Type a team name or odds..." />
+  </header>
 
-  <div class="container">
-    <input type="text" id="searchInput" placeholder="Type a team name or odds...">
-    <div id="cardContainer">Loading...</div>
-    <button id="showMoreBtn" style="display:none;">Show More</button>
-  </div>
+  <main id="eventsContainer"></main>
+  <button id="showMoreBtn">Show More</button>
 
-  <!-- Chatbot -->
+  <!-- Chatbot script -->
   <script src="https://cdn.botpress.cloud/webchat/v3"></script>
   <script>
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb"
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+      showPoweredBy: false,
+      showCloseButton: true
     });
   </script>
 
-  <!-- Sheet + Card Script -->
+  <!-- Data + Display Logic -->
   <script>
-    const sheetURL = "https://docs.google.com/spreadsheets/d/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/gviz/tq?tqx=out:json";
-    const fallbackLogo = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjNTU1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5MT0dPPC90ZXh0Pjwvc3ZnPg==";
+    const data = [
+      {
+        match: "MLS – Nashville SC vs Philadelphia Union",
+        date: "Fri Jul 04 2025",
+        odds: "8.5 - 3.9",
+        trashTalk: "Ah, the mighty Nashville SC taking on the mighty Philadelphia Union, huh? Let me tell you..."
+      },
+      {
+        match: "NBA Summer League – Utah Jazz vs Philadelphia 76ers",
+        date: "Fri Jul 04 2025",
+        odds: "6.2 - 1.11",
+        trashTalk: "Alright, listen up you bunch of scrubs! The Jazz are gonna get absolutely demolished by the Sixers..."
+      }
+    ];
 
-    let fullCards = [];
+    const container = document.getElementById("eventsContainer");
+    const searchInput = document.getElementById("searchInput");
+    const showMoreBtn = document.getElementById("showMoreBtn");
+    let visibleCount = 0;
 
-    fetch(sheetURL)
-      .then(res => res.text())
-      .then(text => {
-        const data = JSON.parse(text.substring(47).slice(0, -2));
-        const ctn = document.getElementById("cardContainer");
-        ctn.innerHTML = "";
-        fullCards = [];
-
-        data.table.rows.forEach(r => {
-          const c = r.c;
-          const team1 = c[3]?.v || "";
-          const team2 = c[4]?.v || "";
-          const logo1 = fallbackLogo;
-          const logo2 = fallbackLogo;
-          const date = new Date(c[1]?.f || c[1]?.v || "").toDateString();
-          const time = c[2]?.v || "";
-          const match = c[0]?.v || "";
-          const odds = `${c[5]?.v || ""} - ${c[6]?.v || ""}`;
-          const trash = c[7]?.v || "";
-
-          const card = document.createElement("div");
-          card.className = "match-card";
-          card.innerHTML = `
-            <div class="teams">
-              <img src="${logo1}"><span>${team1}</span><span>vs</span><span>${team2}</span><img src="${logo2}">
-            </div>
-            <div class="meta">
-              <p><b>Match:</b> ${match}</p>
-              <p><b>Date:</b> ${date} ${time}</p>
-              <p><b>Odds:</b> ${odds}</p>
-              <p class="trash">${trash}</p>
-            </div>`;
-          fullCards.push(card);
-        });
-
-        renderLimitedCards();
-        document.getElementById("showMoreBtn").style.display = "block";
+    function renderCards() {
+      container.innerHTML = "";
+      const filtered = data.filter(d => {
+        const query = searchInput.value.toLowerCase();
+        return (
+          d.match.toLowerCase().includes(query) ||
+          d.date.toLowerCase().includes(query) ||
+          d.odds.toLowerCase().includes(query) ||
+          d.trashTalk.toLowerCase().includes(query)
+        );
       });
 
-    function renderLimitedCards(limit = 4) {
-      const ctn = document.getElementById("cardContainer");
-      ctn.innerHTML = "";
-      fullCards.slice(0, limit).forEach(card => ctn.appendChild(card));
+      const toShow = filtered.slice(0, visibleCount + 3);
+      toShow.forEach((d, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="logo">LOGO</div>
+          <div class="content">
+            <h2>${d.match}</h2>
+            <p><strong>Date:</strong> ${d.date}</p>
+            <p><strong>Odds:</strong> ${d.odds}</p>
+            <p>${d.trashTalk}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      if (toShow.length < filtered.length) {
+        showMoreBtn.style.display = "block";
+      } else {
+        showMoreBtn.style.display = "none";
+      }
     }
 
-    document.getElementById("showMoreBtn").addEventListener("click", () => {
-      const ctn = document.getElementById("cardContainer");
-      ctn.innerHTML = "";
-      fullCards.forEach(card => ctn.appendChild(card));
-      document.getElementById("showMoreBtn").style.display = "none";
+    searchInput.addEventListener("input", () => {
+      visibleCount = 0;
+      renderCards();
     });
 
-    document.getElementById("searchInput").addEventListener("input", e => {
-      const f = e.target.value.toLowerCase();
-      const ctn = document.getElementById("cardContainer");
-      ctn.innerHTML = "";
-      fullCards.filter(card => card.innerText.toLowerCase().includes(f))
-               .forEach(card => ctn.appendChild(card));
+    showMoreBtn.addEventListener("click", () => {
+      visibleCount += 3;
+      renderCards();
     });
+
+    renderCards();
   </script>
 </body>
 </html>
