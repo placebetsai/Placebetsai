@@ -1,100 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="assets/style.css"/>
+  <link rel="stylesheet" href="Assets/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <header>
     <h1>PlaceBets.ai</h1>
     <p>Search odds, teams, matches, or get roasted.</p>
-    <input type="text" id="searchInput" placeholder="Type a team name or odds..." />
-  </header>
-
-  <main id="eventsContainer"></main>
-  <button id="showMoreBtn">Show More</button>
-
-  <!-- Chatbot script -->
-  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
-  <script>
-    window.botpressWebChat.init({
+    <input type="text" id="searchBox" placeholder="Search teams, odds, matches...">
+  </header>  <main id="cardContainer" class="card-grid"></main>
+  <button id="loadMore">Show More</button>  <!-- Botpress Chatbot -->  <script src="https://cdn.botpress.cloud/webchat/v3" defer></script>  <script>
+    window.botpressWebChat = {
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      showPoweredBy: false,
-      showCloseButton: true
-    });
-  </script>
+    };
+  </script>  <script>
+    const SHEET_URL = 'https://opensheet.elk.sh/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/Sheet1';
+    const container = document.getElementById('cardContainer');
+    const searchBox = document.getElementById('searchBox');
+    const loadMoreBtn = document.getElementById('loadMore');
 
-  <!-- Data + Display Logic -->
-  <script>
-    const data = [
-      {
-        match: "MLS – Nashville SC vs Philadelphia Union",
-        date: "Fri Jul 04 2025",
-        odds: "8.5 - 3.9",
-        trashTalk: "Ah, the mighty Nashville SC taking on the mighty Philadelphia Union, huh? Let me tell you..."
-      },
-      {
-        match: "NBA Summer League – Utah Jazz vs Philadelphia 76ers",
-        date: "Fri Jul 04 2025",
-        odds: "6.2 - 1.11",
-        trashTalk: "Alright, listen up you bunch of scrubs! The Jazz are gonna get absolutely demolished by the Sixers..."
+    let data = [],
+        visibleCount = 3;
+
+    const loadData = async () => {
+      try {
+        const response = await axios.get(SHEET_URL);
+        data = response.data;
+        renderCards();
+      } catch (error) {
+        container.innerHTML = '<p>Error loading data</p>';
       }
-    ];
+    };
 
-    const container = document.getElementById("eventsContainer");
-    const searchInput = document.getElementById("searchInput");
-    const showMoreBtn = document.getElementById("showMoreBtn");
-    let visibleCount = 0;
-
-    function renderCards() {
-      container.innerHTML = "";
-      const filtered = data.filter(d => {
-        const query = searchInput.value.toLowerCase();
+    const renderCards = () => {
+      container.innerHTML = '';
+      const filtered = data.filter(entry => {
+        const q = searchBox.value.toLowerCase();
         return (
-          d.match.toLowerCase().includes(query) ||
-          d.date.toLowerCase().includes(query) ||
-          d.odds.toLowerCase().includes(query) ||
-          d.trashTalk.toLowerCase().includes(query)
+          entry.Match.toLowerCase().includes(q) ||
+          entry['Team 1'].toLowerCase().includes(q) ||
+          entry['Team 2'].toLowerCase().includes(q) ||
+          entry.Odds1.toLowerCase().includes(q) ||
+          entry.Odds2.toLowerCase().includes(q) ||
+          entry.TrashTalk.toLowerCase().includes(q)
         );
       });
 
-      const toShow = filtered.slice(0, visibleCount + 3);
-      toShow.forEach((d, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
+      filtered.slice(0, visibleCount).forEach(entry => {
+        const card = document.createElement('div');
+        card.className = 'card';
         card.innerHTML = `
-          <div class="logo">LOGO</div>
-          <div class="content">
-            <h2>${d.match}</h2>
-            <p><strong>Date:</strong> ${d.date}</p>
-            <p><strong>Odds:</strong> ${d.odds}</p>
-            <p>${d.trashTalk}</p>
+          <div class="card-header">
+            <img src="https://logo.clearbit.com/${entry['Team 1'].replace(/ /g, '').toLowerCase()}.com" onerror="this.src='https://placehold.co/50x50?text=Logo'" />
+            <span>${entry.Match}</span>
+            <img src="https://logo.clearbit.com/${entry['Team 2'].replace(/ /g, '').toLowerCase()}.com" onerror="this.src='https://placehold.co/50x50?text=Logo'" />
           </div>
+          <p><strong>Date:</strong> ${entry['Start Date']} ${entry['Start Time']}</p>
+          <p><strong>Odds:</strong> ${entry.Odds1} - ${entry.Odds2}</p>
+          <p class="trashtalk">${entry.TrashTalk}</p>
         `;
         container.appendChild(card);
       });
+    };
 
-      if (toShow.length < filtered.length) {
-        showMoreBtn.style.display = "block";
-      } else {
-        showMoreBtn.style.display = "none";
-      }
-    }
-
-    searchInput.addEventListener("input", () => {
-      visibleCount = 0;
-      renderCards();
-    });
-
-    showMoreBtn.addEventListener("click", () => {
+    loadMoreBtn.addEventListener('click', () => {
       visibleCount += 3;
       renderCards();
     });
 
-    renderCards();
-  </script>
-</body>
+    searchBox.addEventListener('input', renderCards);
+
+    loadData();
+  </script></body>
 </html>
