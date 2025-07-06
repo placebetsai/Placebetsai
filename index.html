@@ -10,13 +10,14 @@
   <div class="hero">
     <div class="overlay">
       <h1>PlaceBets.ai</h1>
-      <p>AI Predictions • Trash Talk • No Bullshit</p>
+      <p>Search odds, teams, matches, or get roasted.</p>
     </div>
   </div>
 
   <div class="container">
-    <input type="text" id="searchInput" placeholder="Search teams, match, trash talk...">
-    <div id="cardContainer">Loading matches...</div>
+    <input type="text" id="searchInput" placeholder="Type a team name or odds...">
+    <div id="cardContainer">Loading...</div>
+    <button id="showMoreBtn" style="display:none;">Show More</button>
   </div>
 
   <!-- Chatbot -->
@@ -28,9 +29,12 @@
     });
   </script>
 
+  <!-- Sheet + Card Script -->
   <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/1MNtoPhDrCXHaAds0LdkrIzYXLpTLrcZFdjYgYDEFXP8/gviz/tq?tqx=out:json";
     const fallbackLogo = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjNTU1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5MT0dPPC90ZXh0Pjwvc3ZnPg==";
+
+    let fullCards = [];
 
     fetch(sheetURL)
       .then(res => res.text())
@@ -38,12 +42,20 @@
         const data = JSON.parse(text.substring(47).slice(0, -2));
         const ctn = document.getElementById("cardContainer");
         ctn.innerHTML = "";
+        fullCards = [];
+
         data.table.rows.forEach(r => {
           const c = r.c;
           const team1 = c[3]?.v || "";
           const team2 = c[4]?.v || "";
           const logo1 = fallbackLogo;
           const logo2 = fallbackLogo;
+          const date = new Date(c[1]?.f || c[1]?.v || "").toDateString();
+          const time = c[2]?.v || "";
+          const match = c[0]?.v || "";
+          const odds = `${c[5]?.v || ""} - ${c[6]?.v || ""}`;
+          const trash = c[7]?.v || "";
+
           const card = document.createElement("div");
           card.className = "match-card";
           card.innerHTML = `
@@ -51,20 +63,37 @@
               <img src="${logo1}"><span>${team1}</span><span>vs</span><span>${team2}</span><img src="${logo2}">
             </div>
             <div class="meta">
-              <p><b>Match:</b> ${c[0]?.v || ""}</p>
-              <p><b>Date:</b> ${c[1]?.v || ""} ${c[2]?.v || ""}</p>
-              <p><b>Odds:</b> ${c[5]?.v || ""} - ${c[6]?.v || ""}</p>
-              <p class="trash">${c[7]?.v || ""}</p>
+              <p><b>Match:</b> ${match}</p>
+              <p><b>Date:</b> ${date} ${time}</p>
+              <p><b>Odds:</b> ${odds}</p>
+              <p class="trash">${trash}</p>
             </div>`;
-          ctn.appendChild(card);
+          fullCards.push(card);
         });
+
+        renderLimitedCards();
+        document.getElementById("showMoreBtn").style.display = "block";
       });
 
+    function renderLimitedCards(limit = 4) {
+      const ctn = document.getElementById("cardContainer");
+      ctn.innerHTML = "";
+      fullCards.slice(0, limit).forEach(card => ctn.appendChild(card));
+    }
+
+    document.getElementById("showMoreBtn").addEventListener("click", () => {
+      const ctn = document.getElementById("cardContainer");
+      ctn.innerHTML = "";
+      fullCards.forEach(card => ctn.appendChild(card));
+      document.getElementById("showMoreBtn").style.display = "none";
+    });
+
     document.getElementById("searchInput").addEventListener("input", e => {
-      const filter = e.target.value.toLowerCase();
-      document.querySelectorAll(".match-card").forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(filter) ? "block" : "none";
-      });
+      const f = e.target.value.toLowerCase();
+      const ctn = document.getElementById("cardContainer");
+      ctn.innerHTML = "";
+      fullCards.filter(card => card.innerText.toLowerCase().includes(f))
+               .forEach(card => ctn.appendChild(card));
     });
   </script>
 </body>
