@@ -7,10 +7,10 @@
   <style>
     :root {
       --primary: #00ff99;
-      --bg: #0f0f0f;
-      --card: #1b1b1b;
-      --text: #ffffff;
       --accent: #ffcc00;
+      --bg: #0d0d0d;
+      --text: #ffffff;
+      --card: rgba(0, 0, 0, 0.75);
     }* {
   box-sizing: border-box;
 }
@@ -18,20 +18,22 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
+  background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text);
 }
 
 header {
-  background: #111;
-  padding: 1rem 2rem;
+  background: rgba(0,0,0,0.85);
+  padding: 1.5rem 2rem;
   text-align: center;
-  border-bottom: 3px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
 }
 
 header h1 {
-  font-size: 2rem;
+  margin: 0;
   color: var(--primary);
+  font-size: 2rem;
   text-shadow: 0 0 10px var(--primary);
 }
 
@@ -47,7 +49,7 @@ header h1 {
   font-size: 1rem;
   border-radius: 8px;
   border: none;
-  background: #222;
+  background: rgba(30, 30, 30, 0.85);
   color: var(--text);
   margin-bottom: 2rem;
 }
@@ -59,11 +61,6 @@ header h1 {
   margin-bottom: 1.5rem;
   padding: 1.2rem 1rem;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
-  transition: 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.01);
 }
 
 .card h2 {
@@ -80,10 +77,26 @@ header h1 {
   margin-bottom: 0.6rem;
 }
 
-.trash-talk {
-  color: var(--accent);
+.info-row div {
+  flex: 1 1 45%;
+  margin-bottom: 0.5rem;
+}
+
+.favorite {
+  color: #00ff99;
   font-weight: bold;
+}
+
+.underdog {
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+.trash-talk {
+  color: #ffcc00;
+  font-weight: 600;
   font-style: italic;
+  margin-top: 0.5rem;
 }
 
 #bp-web-widget-container {
@@ -100,7 +113,7 @@ header h1 {
 </head>
 <body>
   <header>
-    <h1>PlaceBets.ai — AI Sportsbook & Smart Trash Talk</h1>
+    <h1>PlaceBets.ai — AI Sportsbook & Trash Talk</h1>
   </header>
   <div class="container">
     <div class="search">
@@ -115,7 +128,7 @@ header h1 {
       lazyLoad: false,
       stylesheet: "https://cdn.botpress.cloud/webchat/v3/assets/css/theme-dark.css"
     });
-  </script>  <!-- CSV Load & UI Render -->  <script>
+  </script>  <!-- Load CSV and Render Cards -->  <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
 
     async function fetchCSV(url) {
@@ -125,17 +138,21 @@ header h1 {
     }
 
     function buildCard([match, date, time, team1, team2, odds1, odds2, trash]) {
+      const o1 = parseFloat(odds1);
+      const o2 = parseFloat(odds2);
+      const fav1 = o1 < o2;
+
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
         <h2>${match}</h2>
         <div class="info-row">
-          <div><strong>${team1}:</strong> ${odds1}</div>
-          <div><strong>${team2}:</strong> ${odds2}</div>
+          <div><strong>${team1}:</strong> <span class="${fav1 ? 'favorite' : 'underdog'}">${odds1}</span></div>
+          <div><strong>${team2}:</strong> <span class="${!fav1 ? 'favorite' : 'underdog'}">${odds2}</span></div>
           <div><strong>Date:</strong> ${date}</div>
           <div><strong>Time:</strong> ${time}</div>
         </div>
-        <div class="trash-talk">${trash}</div>
+        <div class="trash-talk">“${trash}”</div>
       `;
       return card;
     }
