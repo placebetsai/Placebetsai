@@ -10,7 +10,7 @@
       --accent: #ffcc00;
       --bg: #0d0d0d;
       --text: #ffffff;
-      --card: rgba(0, 0, 0, 0.75);
+      --card: rgba(0, 0, 0, 0.8);
     }* {
   box-sizing: border-box;
 }
@@ -18,7 +18,7 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+  background: url('https://images.unsplash.com/photo-1627398242454-9c85e055f6d7?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
   background-size: cover;
   color: var(--text);
 }
@@ -43,7 +43,7 @@ header h1 {
   padding: 2rem 1rem;
 }
 
-.search input {
+.search input, .dropdown {
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
@@ -51,7 +51,7 @@ header h1 {
   border: none;
   background: rgba(30, 30, 30, 0.85);
   color: var(--text);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .card {
@@ -116,6 +116,9 @@ header h1 {
     <h1>PlaceBets.ai — AI Sportsbook & Trash Talk</h1>
   </header>
   <div class="container">
+    <select id="sportFilter" class="dropdown">
+      <option value="all">All Sports</option>
+    </select>
     <div class="search">
       <input type="text" id="searchInput" placeholder="Search teams, odds, or events..." />
     </div>
@@ -131,6 +134,17 @@ header h1 {
   </script>  <!-- Load CSV and Render Cards -->  <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
 
+    function convertToAmericanOdds(decimalOdds) {
+      const dec = parseFloat(decimalOdds);
+      if (dec >= 2.0) return '+' + Math.round((dec - 1) * 100);
+      return '-' + Math.round(100 / (dec - 1));
+    }
+
+    function getSportType(matchName) {
+      const [type] = matchName.split('–');
+      return type.trim();
+    }
+
     async function fetchCSV(url) {
       const res = await fetch(url);
       const text = await res.text();
@@ -138,17 +152,24 @@ header h1 {
     }
 
     function buildCard([match, date, time, team1, team2, odds1, odds2, trash]) {
+      const eventDate = new Date(`${date}T${time}`);
+      const today = new Date();
+      const sixDaysFromNow = new Date();
+      sixDaysFromNow.setDate(today.getDate() + 6);
+      if (eventDate < today || eventDate > sixDaysFromNow) return null;
+
       const o1 = parseFloat(odds1);
       const o2 = parseFloat(odds2);
       const fav1 = o1 < o2;
 
       const card = document.createElement('div');
       card.className = 'card';
+      card.setAttribute('data-sport', getSportType(match));
       card.innerHTML = `
         <h2>${match}</h2>
         <div class="info-row">
-          <div><strong>${team1}:</strong> <span class="${fav1 ? 'favorite' : 'underdog'}">${odds1}</span></div>
-          <div><strong>${team2}:</strong> <span class="${!fav1 ? 'favorite' : 'underdog'}">${odds2}</span></div>
+          <div><strong>${team1}:</strong> <span class="${fav1 ? 'favorite' : 'underdog'}">${convertToAmericanOdds(odds1)}</span></div>
+          <div><strong>${team2}:</strong> <span class="${!fav1 ? 'favorite' : 'underdog'}">${convertToAmericanOdds(odds2)}</span></div>
           <div><strong>Date:</strong> ${date}</div>
           <div><strong>Time:</strong> ${time}</div>
         </div>
@@ -160,24 +181,42 @@ header h1 {
     function renderCards(data) {
       const cards = document.getElementById("cards");
       cards.innerHTML = "";
+      const sports = new Set();
       data.forEach(row => {
         if (row.length >= 8) {
-          cards.appendChild(buildCard(row));
+          const card = buildCard(row);
+          if (card) {
+            cards.appendChild(card);
+            sports.add(getSportType(row[0]));
+          }
         }
       });
+      const dropdown = document.getElementById("sportFilter");
+      dropdown.innerHTML = '<option value="all">All Sports</option>' + [...sports].map(s => `<option value="${s}">${s}</option>`).join('');
     }
 
-    function handleSearch(data) {
-      document.getElementById("searchInput").addEventListener("input", e => {
-        const val = e.target.value.toLowerCase();
-        const filtered = data.filter(row => row.some(cell => cell.toLowerCase().includes(val)));
-        renderCards(filtered);
-      });
+    function handleSearchAndFilter(data) {
+      const input = document.getElementById("searchInput");
+      const filter = document.getElementById("sportFilter");
+
+      function update() {
+        const val = input.value.toLowerCase();
+        const sport = filter.value;
+        const cards = document.querySelectorAll(".card");
+        cards.forEach(card => {
+          const matchesSearch = card.innerText.toLowerCase().includes(val);
+          const matchesSport = sport === "all" || card.getAttribute("data-sport") === sport;
+          card.style.display = matchesSearch && matchesSport ? "block" : "none";
+        });
+      }
+
+      input.addEventListener("input", update);
+      filter.addEventListener("change", update);
     }
 
     fetchCSV(CSV_URL).then(data => {
       renderCards(data);
-      handleSearch(data);
+      handleSearchAndFilter(data);
     });
   </script></body>
 </html>
