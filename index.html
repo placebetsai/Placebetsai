@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai — AI Sports Picks</title>
+  <title>PlaceBets.ai — Unfiltered AI Sports Predictions</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -15,28 +15,44 @@
     }
 
     .overlay {
-      background-color: rgba(0,0,0,0.85);
+      background-color: rgba(0, 0, 0, 0.85);
       min-height: 100vh;
       padding-bottom: 5rem;
     }
 
     header {
-      padding: 2rem;
+      background: url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1600&q=80') no-repeat center center;
+      background-size: cover;
+      padding: 3rem 1rem;
       text-align: center;
-      background: rgba(0,0,0,0.9);
-      border-bottom: 2px solid #00ff99;
+      position: relative;
+      border-bottom: 3px solid #00ff99;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 0;
+    }
+
+    header h1, header p {
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: #00ff99;
       margin: 0;
+      text-shadow: 0 0 12px #00ff99aa;
     }
 
     .sub {
       color: #ccc;
-      font-size: 1rem;
-      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      margin-top: 0.75rem;
     }
 
     .container {
@@ -61,6 +77,11 @@
       padding: 1.25rem;
       margin-bottom: 1.5rem;
       box-shadow: 0 0 12px #00ff9940;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
     }
 
     .card h2 {
@@ -112,9 +133,14 @@
       z-index: 99;
     }
 
+    .chat-icon:hover {
+      box-shadow: 0 0 20px #00ff99;
+      transform: scale(1.1);
+    }
+
     @media screen and (max-width: 768px) {
       h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
 
       .card h2 {
@@ -135,7 +161,7 @@
   <div class="overlay">
     <header>
       <h1>🏆 PlaceBets.ai</h1>
-      <p class="sub">AI-powered picks with real trash talk</p>
+      <p class="sub">Unfiltered AI Sports Predictions</p>
     </header>
 
     <div class="container">
