@@ -1,130 +1,162 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlaceBets.ai — AI Sportsbook & Trash Talk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlaceBets.ai – AI Sports Trash Talk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"/>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(circle at top left, #0f0f0f, #1c1c1c);
-      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      background: #0e0e0e;
+      color: #f2f2f2;
     }
     header {
-      text-align: center;
+      background: #1a1a1a;
       padding: 1rem;
-      background-color: #000;
-      color: #00ff88;
-      font-size: 1.8rem;
-      font-weight: bold;
-      text-shadow: 0 0 5px #00ff88;
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 1px;
     }
-    #searchBox, #sportFilter {
-      display: block;
-      margin: 1rem auto;
+    .search-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem;
+    }
+    input, select {
       padding: 0.5rem;
       font-size: 1rem;
-      width: 80%;
-      border-radius: 5px;
       border: none;
+      border-radius: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
     }
     .card {
-      background-color: #111;
-      border-left: 5px solid #00ff88;
-      margin: 1rem auto;
+      background: #1a1a1a;
       padding: 1rem;
-      width: 90%;
-      max-width: 600px;
       border-radius: 10px;
-      box-shadow: 0 0 10px #000;
+      box-shadow: 0 0 10px #111;
     }
-    .match-title {
-      font-weight: bold;
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 0 0 0.5rem;
+    }
+    .card .teams {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .card .odds {
+      font-size: 1rem;
       color: #00ff88;
       margin-bottom: 0.5rem;
     }
-    .odds {
-      font-size: 1.1rem;
-    }
-    .odds .plus {
-      color: #00ff00;
-    }
-    .odds .minus {
-      color: #ff4d4d;
-    }
-    .trash-talk {
-      margin-top: 0.5rem;
-      color: #facc15;
+    .card .talk {
       font-style: italic;
+      color: #ff4c4c;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.8rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <header>
-    🔥 PlaceBets.ai — AI Sportsbook & Trash Talk
-  </header>  <select id="sportFilter">
-    <option value="">All Sports</option>
-  </select>  <input type="text" id="searchBox" placeholder="Search teams, odds, or events..." />  <div id="matches"></div>  <script>
-    async function loadMatches() {
-      const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv");
+
+  <header>PLACEBETS.AI – WHO YOU GOT?</header>
+
+  <div class="search-filter">
+    <input type="text" id="search" placeholder="Search team or match..." />
+    <select id="filter">
+      <option value="">All Sports</option>
+    </select>
+  </div>
+
+  <div class="grid" id="events"></div>
+
+  <footer>© 2025 PlaceBets.ai — All picks are for entertainment only. No actual betting is offered.</footer>
+
+  <!-- Botpress Chatbot -->
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
+  <script>
+    window.botpressWebChat.init({
+      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+      lazyLoad: false,
+      enableReset: true,
+      showPoweredBy: false
+    });
+  </script>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
+
+    async function fetchCSV(url) {
+      const res = await fetch(url);
       const text = await res.text();
-      const lines = text.trim().split("\n").slice(1);
-      const container = document.getElementById("matches");
-      const sports = new Set();
-      container.innerHTML = "";
-      lines.forEach(row => {
-        const [match, date, time, team1, team2, odds1, odds2, trash] = row.split(",");
-        sports.add(match.split("–")[0].trim());
+      const rows = text.split("\n").slice(1); // remove header
+      const events = rows.map(row => {
+        const [match, date, time, team1, team2, odds1, odds2, talk] = row.split(",");
+        return {
+          match, date, time, team1, team2,
+          odds: `+${odds1} / +${odds2}`,
+          talk,
+          sport: match?.split(":")[0] || ""
+        };
+      });
+      return events;
+    }
+
+    function display(events) {
+      const grid = document.getElementById("events");
+      grid.innerHTML = "";
+      events.forEach(e => {
         const card = document.createElement("div");
         card.className = "card";
-        card.setAttribute("data-search", row.toLowerCase());
-        card.setAttribute("data-sport", match.split("–")[0].trim());
         card.innerHTML = `
-          <div class="match-title">${match}</div>
-          <div><strong>Date:</strong> ${date} — <strong>Time:</strong> ${time}</div>
-          <div class="odds">
-            <strong>${team1}</strong>: <span class="${odds1.includes('-') ? 'minus' : 'plus'}">${odds1}</span><br>
-            <strong>${team2}</strong>: <span class="${odds2.includes('-') ? 'minus' : 'plus'}">${odds2}</span>
-          </div>
-          <div class="trash-talk">🗣️ ${trash || "No mercy. Place your bets."}</div>
+          <h2>${e.match}</h2>
+          <div class="teams">${e.team1} vs ${e.team2}</div>
+          <div class="odds">${e.odds}</div>
+          <div class="talk">"${e.talk}"</div>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
       });
-      const filter = document.getElementById("sportFilter");
+    }
+
+    function update(events) {
+      const term = document.getElementById("search").value.toLowerCase();
+      const filter = document.getElementById("filter").value;
+      const filtered = events.filter(e =>
+        (!filter || e.sport === filter) &&
+        (e.match?.toLowerCase().includes(term) ||
+         e.team1?.toLowerCase().includes(term) ||
+         e.team2?.toLowerCase().includes(term))
+      );
+      display(filtered);
+    }
+
+    fetchCSV(CSV_URL).then(events => {
+      const sports = [...new Set(events.map(e => e.sport))].filter(Boolean);
+      const filter = document.getElementById("filter");
       sports.forEach(s => {
         const opt = document.createElement("option");
         opt.value = s;
         opt.textContent = s;
         filter.appendChild(opt);
       });
-    }
-
-    document.getElementById("sportFilter").addEventListener("change", (e) => {
-      const val = e.target.value;
-      document.querySelectorAll(".card").forEach(card => {
-        card.style.display = !val || card.dataset.sport === val ? "block" : "none";
-      });
+      document.getElementById("search").oninput = () => update(events);
+      filter.onchange = () => update(events);
+      display(events);
     });
+  </script>
 
-    document.getElementById("searchBox").addEventListener("input", (e) => {
-      const val = e.target.value.toLowerCase();
-      document.querySelectorAll(".card").forEach(card => {
-        card.style.display = card.dataset.search.includes(val) ? "block" : "none";
-      });
-    });
-
-    loadMatches();
-  </script>  <!-- Botpress Chatbot -->  <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>  <script>
-    window.botpressWebChat.init({
-      "composerPlaceholder": "Ask the Bookie Anything...",
-      "botId": "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      "hostUrl": "https://cdn.botpress.cloud/webchat/v3",
-      "messagingUrl": "https://messaging.botpress.cloud",
-      "clientId": "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      "enableConversationDeletion": false,
-      "showPoweredBy": false,
-      "botName": "Ask the Bookie Anything",
-      "stylesheet": "https://cdn.botpress.cloud/webchat/v3/themes/default.css"
-    });
-  </script></body>
+</body>
 </html>
