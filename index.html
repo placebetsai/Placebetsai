@@ -1,162 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai – AI Sports Trash Talk</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlaceBets.ai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Bebas Neue', sans-serif;
-      background: #0e0e0e;
-      color: #f2f2f2;
+      font-family: 'Orbitron', sans-serif;
+      background: url('https://images.unsplash.com/photo-1605874959476-1be3b9f0f8b0?fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
     }
-    header {
-      background: #1a1a1a;
-      padding: 1rem;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
       text-align: center;
-      font-size: 2rem;
-      letter-spacing: 1px;
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: #00ff91;
+      text-shadow: 1px 1px 5px #000;
     }
     .search-filter {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1rem;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
-    input, select {
-      padding: 0.5rem;
-      font-size: 1rem;
+    .search-filter input, .search-filter select {
+      padding: 10px;
+      font-size: 1em;
       border: none;
-      border-radius: 5px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
+      border-radius: 8px;
+      width: 48%;
     }
     .card {
-      background: #1a1a1a;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #111;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
     }
     .card h2 {
-      font-size: 1.2rem;
-      margin: 0 0 0.5rem;
-    }
-    .card .teams {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
+      margin-top: 0;
+      font-size: 1.5em;
     }
     .card .odds {
-      font-size: 1rem;
-      color: #00ff88;
-      margin-bottom: 0.5rem;
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #00ff91;
     }
-    .card .talk {
+    .card .trash-talk {
+      margin-top: 15px;
       font-style: italic;
-      color: #ff4c4c;
+      color: #ff5f5f;
     }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      color: #888;
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #00ff91;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #00ff91;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="header">PlaceBets.ai</div>
+    <div class="search-filter">
+      <input type="text" id="search" placeholder="Search for a match or team...">
+      <select id="sport-filter">
+        <option value="all">All Sports</option>
+        <option value="NFL">NFL</option>
+        <option value="NBA">NBA</option>
+        <option value="WWE">Wrestling</option>
+        <option value="Boxing">Boxing</option>
+      </select>
+    </div>
+    <div id="events"></div>
+  </div>  <div id="chatbot">💬</div>  <script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+    const eventsContainer = document.getElementById('events');
+    const searchInput = document.getElementById('search');
+    const sportFilter = document.getElementById('sport-filter');
 
-  <header>PLACEBETS.AI – WHO YOU GOT?</header>
-
-  <div class="search-filter">
-    <input type="text" id="search" placeholder="Search team or match..." />
-    <select id="filter">
-      <option value="">All Sports</option>
-    </select>
-  </div>
-
-  <div class="grid" id="events"></div>
-
-  <footer>© 2025 PlaceBets.ai — All picks are for entertainment only. No actual betting is offered.</footer>
-
-  <!-- Botpress Chatbot -->
-  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
-  <script>
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      lazyLoad: false,
-      enableReset: true,
-      showPoweredBy: false
-    });
-  </script>
-
-  <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
-
-    async function fetchCSV(url) {
-      const res = await fetch(url);
+    async function fetchEvents() {
+      const res = await fetch(csvUrl);
       const text = await res.text();
-      const rows = text.split("\n").slice(1); // remove header
-      const events = rows.map(row => {
-        const [match, date, time, team1, team2, odds1, odds2, talk] = row.split(",");
-        return {
-          match, date, time, team1, team2,
-          odds: `+${odds1} / +${odds2}`,
-          talk,
-          sport: match?.split(":")[0] || ""
-        };
+      const rows = text.trim().split('\n').slice(1);
+      return rows.map(row => {
+        const [match, date, time, team1, team2, odds1, odds2, trash] = row.split(',');
+        const sport = match.includes('WWE') ? 'WWE' : match.includes('NFL') ? 'NFL' : match.includes('NBA') ? 'NBA' : 'Boxing';
+        return { match, date, time, team1, team2, odds1, odds2, trash, sport };
       });
-      return events;
     }
 
-    function display(events) {
-      const grid = document.getElementById("events");
-      grid.innerHTML = "";
+    function render(events) {
+      eventsContainer.innerHTML = '';
       events.forEach(e => {
-        const card = document.createElement("div");
-        card.className = "card";
+        const card = document.createElement('div');
+        card.className = 'card';
         card.innerHTML = `
           <h2>${e.match}</h2>
-          <div class="teams">${e.team1} vs ${e.team2}</div>
-          <div class="odds">${e.odds}</div>
-          <div class="talk">"${e.talk}"</div>
+          <div>${e.date} — ${e.time}</div>
+          <div class="odds">${e.team1}: ${e.odds1} | ${e.team2}: ${e.odds2}</div>
+          <div class="trash-talk">${e.trash}</div>
         `;
-        grid.appendChild(card);
+        eventsContainer.appendChild(card);
       });
     }
 
-    function update(events) {
-      const term = document.getElementById("search").value.toLowerCase();
-      const filter = document.getElementById("filter").value;
-      const filtered = events.filter(e =>
-        (!filter || e.sport === filter) &&
-        (e.match?.toLowerCase().includes(term) ||
-         e.team1?.toLowerCase().includes(term) ||
-         e.team2?.toLowerCase().includes(term))
-      );
-      display(filtered);
+    async function updateUI() {
+      const events = await fetchEvents();
+      const keyword = searchInput.value.toLowerCase();
+      const sport = sportFilter.value;
+      const filtered = events.filter(e => {
+        return (sport === 'all' || e.sport === sport) &&
+               (e.match.toLowerCase().includes(keyword) ||
+                e.team1.toLowerCase().includes(keyword) ||
+                e.team2.toLowerCase().includes(keyword));
+      });
+      render(filtered);
     }
 
-    fetchCSV(CSV_URL).then(events => {
-      const sports = [...new Set(events.map(e => e.sport))].filter(Boolean);
-      const filter = document.getElementById("filter");
-      sports.forEach(s => {
-        const opt = document.createElement("option");
-        opt.value = s;
-        opt.textContent = s;
-        filter.appendChild(opt);
-      });
-      document.getElementById("search").oninput = () => update(events);
-      filter.onchange = () => update(events);
-      display(events);
-    });
-  </script>
-
-</body>
+    searchInput.addEventListener('input', updateUI);
+    sportFilter.addEventListener('change', updateUI);
+    updateUI();
+  </script></body>
 </html>
