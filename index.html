@@ -1,92 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="Assets/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1606857521015-7f7a7f1ba77b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 16px;
+      margin-top: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+    }
+    .card {
+      background-color: #222;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    .card img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+    .match-header {
+      display: flex;
+      align-items: center;
+    }
+    .match-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .trash {
+      margin-top: 10px;
+      font-style: italic;
+    }
+    #loadMore {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      background-color: #ff4000;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 16px;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>PlaceBets.ai</h1>
-    <p>Search odds, teams, matches, or get roasted.</p>
-    <input type="text" id="searchBox" placeholder="Search teams, odds, matches..."/>
-  </header>
+    <p style="text-align:center;">Search odds, teams, matches, or get roasted.</p>
+    <input type="text" id="searchBox" placeholder="Search teams, odds, matches...">
+    <div id="matchList"></div>
+    <button id="loadMore">Show More</button><iframe src="https://cdn.botpress.cloud/webchat/v3.0/shareable.html?configUrl=https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json"></iframe>
 
-  <div class="card-grid" id="eventList"></div>
-  <button id="loadMore">Show More</button>
+  </div>  <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS4YKDydPqaGLx9Q3AhXyld4wzXY2C5KRRdiU-Q70gx7u6oQ1IYLLyVRL5f6W-hyb8WoswlgmnQhvDf/pub?output=csv';
+    let matches = [];
+    let shown = 0;
 
-  <!-- Botpress Embed -->
-  <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
-  <script>
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3",
-      disableAnimations: false,
-    });
-  </script>
-
-  <!-- Event Rendering Script -->
-  <script>
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ31pX6TDzfhTY3SH6D6kWBR1YOEA4azrACIF9b8Y_w14a5U0-eDTHgJ8F1TFB3Y9uZm__Sl2JeQZRE/pub?output=csv';
-    const searchBox = document.getElementById('searchBox');
-    const eventList = document.getElementById('eventList');
-    const loadMoreBtn = document.getElementById('loadMore');
-    let allEvents = [];
-    let currentIndex = 0;
-    const eventsPerLoad = 3;
-
-    fetch(sheetURL)
-      .then(response => response.text())
-      .then(csv => {
-        const lines = csv.split('\n').slice(1);
-        allEvents = lines.map(line => {
-          const [match, date, time, team1, team2, odds1, odds2, trash] = line.split(',');
-          return {
-            match, date, time, team1, team2, odds1, odds2, trash
-          };
-        }).filter(e => e.match);
-        renderEvents();
-      });
-
-    function renderEvents() {
-      const end = Math.min(currentIndex + eventsPerLoad, allEvents.length);
-      for (let i = currentIndex; i < end; i++) {
-        const e = allEvents[i];
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.innerHTML = `
-          <div class="card-header">
-            <img src="https://placehold.co/40x40" alt="Logo" />
-            <span>${e.team1} vs ${e.team2}</span>
-            <img src="https://placehold.co/40x40" alt="Logo" />
+    function createCard(data) {
+      return `
+        <div class="card">
+          <div class="match-header">
+            <img src="https://placehold.co/50x50" alt="logo">
+            <div class="match-title">${data.Match}</div>
           </div>
-          <div><strong>Match:</strong> ${e.match}</div>
-          <div><strong>Date:</strong> ${e.date} ${e.time}</div>
-          <div><strong>Odds:</strong> ${e.odds1} - ${e.odds2}</div>
-          <div class="trashtalk">${e.trash}</div>
-        `;
-        eventList.appendChild(div);
-      }
-      currentIndex = end;
-      if (currentIndex >= allEvents.length) {
-        loadMoreBtn.style.display = 'none';
-      }
+          <div><strong>Date:</strong> ${data['Start Date']}</div>
+          <div><strong>Odds:</strong> ${data['Odds 1']} - ${data['Odds 2']}</div>
+          <div class="trash">${data['Trash Talk']}</div>
+        </div>
+      `;
     }
 
-    loadMoreBtn.addEventListener('click', renderEvents);
+    function displayMatches() {
+      const list = document.getElementById('matchList');
+      const next = matches.slice(shown, shown + 4);
+      next.forEach(match => list.innerHTML += createCard(match));
+      shown += 4;
+      if (shown >= matches.length) document.getElementById('loadMore').style.display = 'none';
+    }
 
-    searchBox.addEventListener('input', () => {
-      const q = searchBox.value.toLowerCase();
-      eventList.innerHTML = '';
-      currentIndex = 0;
-      const filtered = allEvents.filter(e =>
-        `${e.match} ${e.team1} ${e.team2} ${e.trash} ${e.odds1} ${e.odds2}`.toLowerCase().includes(q)
-      );
-      allEvents = filtered;
-      renderEvents();
+    fetch(SHEET_URL)
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.split('\n');
+        const headers = lines[0].split(',');
+        lines.slice(1).forEach(line => {
+          const values = line.split(',');
+          const obj = {};
+          headers.forEach((h, i) => obj[h] = values[i]);
+          matches.push(obj);
+        });
+        displayMatches();
+      });
+
+    document.getElementById('loadMore').addEventListener('click', displayMatches);
+    document.getElementById('searchBox').addEventListener('input', e => {
+      const val = e.target.value.toLowerCase();
+      const filtered = matches.filter(m => Object.values(m).some(v => v.toLowerCase().includes(val)));
+      document.getElementById('matchList').innerHTML = filtered.map(createCard).join('');
     });
-  </script>
-</body>
+  </script></body>
 </html>
