@@ -3,83 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai — AI Sports Picks & Trash Talk</title>
+  <title>PlaceBets.ai — AI Trash Talk Sportsbook</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: url('https://images.unsplash.com/photo-1605733513150-9e2f2f6b4a3f?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
       background-size: cover;
-      backdrop-filter: brightness(0.2);
+      background-color: #000;
       color: #fff;
     }
 
     header {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.9);
       text-align: center;
-      border-bottom: 2px solid #00ff99;
+      padding: 1.5rem;
+      border-bottom: 3px solid #00ff99;
     }
 
     header h1 {
+      font-size: 2.2rem;
       color: #00ff99;
-      font-size: 2.5rem;
       margin: 0;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 2rem auto;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 0 20px #00ff9960;
+      padding: 1rem;
     }
 
-    .search-bar {
+    .search-box {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1.5rem;
+      padding: 0.75rem;
       font-size: 1rem;
       border-radius: 8px;
       border: none;
+      margin-bottom: 1.5rem;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .card {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 0 12px #00ff9977;
+      transition: transform 0.2s ease;
     }
 
-    th, td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid #333;
+    .card:hover {
+      transform: scale(1.02);
     }
 
-    th {
-      color: #00ff99;
-      cursor: pointer;
-      background: #111;
-      font-size: 1.1rem;
-    }
-
-    td {
-      color: #eee;
-    }
-
-    tr:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .trash-talk {
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 0 0 0.5rem;
       color: #ffcc00;
+    }
+
+    .odds {
+      margin: 0.5rem 0;
+      color: #00ffcc;
+    }
+
+    .trash {
+      margin-top: 1rem;
       font-style: italic;
+      color: #ffcc00;
     }
 
     @media screen and (max-width: 768px) {
-      th, td {
-        font-size: 0.875rem;
-        padding: 0.5rem;
+      .card h2 {
+        font-size: 1rem;
+      }
+
+      .odds {
+        font-size: 0.95rem;
+      }
+
+      .trash {
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -87,78 +90,54 @@
 <body>
   <header>
     <h1>🏆 PlaceBets.ai</h1>
-    <p style="color:#ccc;margin-top:0.5rem;">AI-powered Sports Picks with Attitude</p>
+    <p style="margin-top:0.5rem; color:#ccc;">AI-powered picks with real trash talk</p>
   </header>
   <div class="container">
-    <input type="text" id="searchInput" class="search-bar" placeholder="Search match, team, or trash talk...">
-    <table id="predictionsTable">
-      <thead>
-        <tr>
-          <th>Match</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Team 1</th>
-          <th>Team 2</th>
-          <th>Team 1 Odds</th>
-          <th>Team 2 Odds</th>
-          <th>Trash Talk</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-        <tr><td colspan="8">Loading...</td></tr>
-      </tbody>
-    </table>
+    <input class="search-box" type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
+    <div id="cards"></div>
   </div>
 
   <script>
-    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
 
-    fetch(SHEET_URL)
-      .then(res => res.text())
-      .then(data => {
-        const rows = data.split('\n').slice(1); // skip header
-        const tbody = document.getElementById("tableBody");
-        tbody.innerHTML = "";
-        rows.forEach(row => {
-          const cols = row.split(',');
-          if (cols.length < 8) return;
-          const tr = document.createElement("tr");
-          cols.forEach((col, idx) => {
-            const td = document.createElement("td");
-            td.innerHTML = idx === 7
-              ? `<span class="trash-talk">${col}</span>`
-              : (idx === 5 ? `Team 1 Odds: ${col}` : (idx === 6 ? `Team 2 Odds: ${col}` : col));
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-      });
+    async function fetchData() {
+      const res = await fetch(CSV_URL);
+      const text = await res.text();
+      const lines = text.split('\n').slice(1);
+      return lines.map(line => line.split(','));
+    }
 
-    // Sorting
-    document.querySelectorAll("th").forEach((th, i) => {
-      th.addEventListener("click", () => {
-        const rows = Array.from(document.querySelector("#tableBody").rows);
-        const asc = !th.asc;
-        th.asc = asc;
-        rows.sort((a, b) => {
-          const valA = a.cells[i].innerText.toLowerCase();
-          const valB = b.cells[i].innerText.toLowerCase();
-          return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-        });
-        rows.forEach(row => document.querySelector("#tableBody").appendChild(row));
-      });
-    });
+    function renderCards(data) {
+      const container = document.getElementById('cards');
+      container.innerHTML = '';
 
-    // Search
-    document.getElementById("searchInput").addEventListener("input", function () {
-      const filter = this.value.toLowerCase();
-      const rows = document.querySelectorAll("#tableBody tr");
-      rows.forEach(row => {
-        row.style.display = Array.from(row.cells).some(td =>
-          td.innerText.toLowerCase().includes(filter)
-        ) ? "" : "none";
+      data.forEach(row => {
+        if (row.length < 8) return;
+        const [match, date, time, team1, team2, odds1, odds2, trash] = row;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h2>${match} — ${date} @ ${time}</h2>
+          <div><strong>${team1}</strong> vs <strong>${team2}</strong></div>
+          <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
+          <div class="trash">${trash}</div>
+        `;
+        container.appendChild(card);
       });
-    });
+    }
+
+    function filterCards() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterCards);
+
+    fetchData().then(renderCards);
   </script>
 </body>
 </html>
