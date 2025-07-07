@@ -1,207 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai - AI Sports Picks & Trash Talk</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Montserrat&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlaceBets.ai - AI Sportsbook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #0f0f0f;
-      background-image: url('https://images.unsplash.com/photo-1616502850957-03f6b0f89d61?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
-      background-size: cover;
-      background-attachment: fixed;
-      color: #fff;
-    }
+    :root {
+      --primary: #00ff99;
+      --bg: #0f0f0f;
+      --card: #1b1b1b;
+      --text: #ffffff;
+      --accent: #ffcc00;
+    }* {
+  box-sizing: border-box;
+}
 
-    header {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 2px solid #00ff99;
-    }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      font-family: 'Inter', sans-serif;
-      color: #00ff99;
-      text-shadow: 0 0 10px #00ff99;
-    }
+header {
+  background: #111;
+  padding: 1rem 2rem;
+  text-align: center;
+  border-bottom: 3px solid var(--primary);
+}
 
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.75);
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.7);
-    }
+header h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  text-shadow: 0 0 10px var(--primary);
+}
 
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      border-radius: 8px;
-      border: none;
-      background: #1e1e1e;
-      color: #fff;
-    }
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: rgba(30, 30, 30, 0.95);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+.search input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
 
-    th, td {
-      padding: 0.75rem;
-      border-bottom: 1px solid #333;
-      text-align: left;
-      font-size: 0.95rem;
-    }
+.card {
+  background: var(--card);
+  border-left: 5px solid var(--primary);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+  transition: 0.3s ease;
+}
 
-    th {
-      background-color: #111;
-      color: #00ff99;
-      cursor: pointer;
-      font-weight: 700;
-    }
+.card:hover {
+  transform: scale(1.01);
+}
 
-    tr:hover {
-      background-color: #222;
-    }
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
 
-    .trash-talk {
-      color: #ffcc00;
-      font-style: italic;
-    }
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
 
-    .toggle-theme {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      padding: 0.5rem 1rem;
-      background: #00ff99;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+.trash-talk {
+  color: var(--accent);
+  font-weight: bold;
+  font-style: italic;
+}
 
-    @media (max-width: 768px) {
-      th, td {
-        font-size: 0.85rem;
-      }
+#bp-web-widget-container {
+  z-index: 9999 !important;
+}
 
-      header h1 {
-        font-size: 1.5rem;
-      }
+@media(max-width: 768px) {
+  .info-row {
+    flex-direction: column;
+  }
+}
 
-      .toggle-theme {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.8rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
   <header>
-    <h1>PlaceBets.ai — AI Sports Picks & Trash Talk</h1>
+    <h1>PlaceBets.ai — AI Sportsbook & Smart Trash Talk</h1>
   </header>
   <div class="container">
-    <input type="text" id="searchInput" placeholder="Search match, team, odds, or trash talk...">
-    <table id="predictionsTable">
-      <thead>
-        <tr>
-          <th>Match</th>
-          <th>Start Date</th>
-          <th>Start Time</th>
-          <th>Team 1</th>
-          <th>Team 2</th>
-          <th>Odds 1</th>
-          <th>Odds 2</th>
-          <th>Trash Talk</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-        <tr><td colspan="8" style="text-align:center">Loading...</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Botpress Chat Embed -->
-  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
-  <script>
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Search teams, odds, or events..." />
+    </div>
+    <div id="cards"></div>
+  </div>  <!-- Botpress Chatbot Embed -->  <script src="https://cdn.botpress.cloud/webchat/v3"></script>  <script>
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
       botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
       hostUrl: "https://cdn.botpress.cloud/webchat/v3",
-      stylesheet: "https://cdn.botpress.cloud/webchat/v3/assets/css/theme-dark.css",
-      lazyLoad: false
+      lazyLoad: false,
+      stylesheet: "https://cdn.botpress.cloud/webchat/v3/assets/css/theme-dark.css"
     });
-  </script>
-
-  <!-- CSV Fetch + Render -->
-  <script>
+  </script>  <!-- CSV Load & UI Render -->  <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
 
-    fetch(CSV_URL)
-      .then(res => res.text())
-      .then(data => {
-        const rows = data.trim().split("\n").slice(1).map(r => r.split(","));
-        const tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = "";
-        rows.forEach(row => {
-          const tr = document.createElement("tr");
-          row.forEach((cell, i) => {
-            const td = document.createElement("td");
-            td.innerHTML = i === 7 ? `<span class="trash-talk">${cell}</span>` : cell;
-            tr.appendChild(td);
-          });
-          tableBody.appendChild(tr);
-        });
-      });
-
-    // Sortable Columns
-    document.querySelectorAll("th").forEach((th, i) => {
-      th.addEventListener("click", () => {
-        const rows = Array.from(document.querySelector("#tableBody").rows);
-        const asc = !th.asc;
-        th.asc = asc;
-        rows.sort((a, b) => {
-          const valA = a.cells[i].innerText.toLowerCase();
-          const valB = b.cells[i].innerText.toLowerCase();
-          return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-        });
-        rows.forEach(row => document.querySelector("#tableBody").appendChild(row));
-      });
-    });
-
-    // Search Box
-    document.getElementById("searchInput").addEventListener("input", function () {
-      const filter = this.value.toLowerCase();
-      const rows = document.querySelectorAll("#tableBody tr");
-      rows.forEach(row => {
-        row.style.display = Array.from(row.cells).some(td =>
-          td.innerText.toLowerCase().includes(filter)
-        ) ? "" : "none";
-      });
-    });
-
-    // Theme Toggle
-    function toggleTheme() {
-      const bg = document.body.style.backgroundColor;
-      document.body.style.backgroundColor = bg === "white" ? "#0f0f0f" : "white";
-      document.body.style.color = bg === "white" ? "#fff" : "#000";
+    async function fetchCSV(url) {
+      const res = await fetch(url);
+      const text = await res.text();
+      return text.trim().split('\n').slice(1).map(r => r.split(','));
     }
-  </script>
-</body>
+
+    function buildCard([match, date, time, team1, team2, odds1, odds2, trash]) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h2>${match}</h2>
+        <div class="info-row">
+          <div><strong>${team1}:</strong> ${odds1}</div>
+          <div><strong>${team2}:</strong> ${odds2}</div>
+          <div><strong>Date:</strong> ${date}</div>
+          <div><strong>Time:</strong> ${time}</div>
+        </div>
+        <div class="trash-talk">${trash}</div>
+      `;
+      return card;
+    }
+
+    function renderCards(data) {
+      const cards = document.getElementById("cards");
+      cards.innerHTML = "";
+      data.forEach(row => {
+        if (row.length >= 8) {
+          cards.appendChild(buildCard(row));
+        }
+      });
+    }
+
+    function handleSearch(data) {
+      document.getElementById("searchInput").addEventListener("input", e => {
+        const val = e.target.value.toLowerCase();
+        const filtered = data.filter(row => row.some(cell => cell.toLowerCase().includes(val)));
+        renderCards(filtered);
+      });
+    }
+
+    fetchCSV(CSV_URL).then(data => {
+      renderCards(data);
+      handleSearch(data);
+    });
+  </script></body>
 </html>
