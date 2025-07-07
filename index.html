@@ -1,222 +1,164 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlaceBets.ai - AI Sportsbook</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlaceBets.ai - AI Sports Predictions</title>
   <style>
-    :root {
-      --primary: #00ff99;
-      --accent: #ffcc00;
-      --bg: #0d0d0d;
-      --text: #ffffff;
-      --card: rgba(0, 0, 0, 0.8);
-    }* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: url('https://images.unsplash.com/photo-1627398242454-9c85e055f6d7?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color: var(--text);
-}
-
-header {
-  background: rgba(0,0,0,0.85);
-  padding: 1.5rem 2rem;
-  text-align: center;
-  border-bottom: 2px solid var(--primary);
-}
-
-header h1 {
-  margin: 0;
-  color: var(--primary);
-  font-size: 2rem;
-  text-shadow: 0 0 10px var(--primary);
-}
-
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 2rem 1rem;
-}
-
-.search input, .dropdown {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: none;
-  background: rgba(30, 30, 30, 0.85);
-  color: var(--text);
-  margin-bottom: 1rem;
-}
-
-.card {
-  background: var(--card);
-  border-left: 5px solid var(--primary);
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  padding: 1.2rem 1rem;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
-}
-
-.card h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.2rem;
-  color: var(--primary);
-}
-
-.info-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: 0.95rem;
-  margin-bottom: 0.6rem;
-}
-
-.info-row div {
-  flex: 1 1 45%;
-  margin-bottom: 0.5rem;
-}
-
-.favorite {
-  color: #00ff99;
-  font-weight: bold;
-}
-
-.underdog {
-  color: #ffcc00;
-  font-weight: bold;
-}
-
-.trash-talk {
-  color: #ffcc00;
-  font-weight: 600;
-  font-style: italic;
-  margin-top: 0.5rem;
-}
-
-#bp-web-widget-container {
-  z-index: 9999 !important;
-}
-
-@media(max-width: 768px) {
-  .info-row {
-    flex-direction: column;
-  }
-}
-
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    select {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      border: 1px solid #555;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #333;
+    }
+    .favorite {
+      color: #4caf50;
+      font-weight: bold;
+    }
+    .underdog {
+      color: #ff9800;
+      font-weight: bold;
+    }
+    .trash {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>PlaceBets.ai — AI Sportsbook & Trash Talk</h1>
-  </header>
-  <div class="container">
-    <select id="sportFilter" class="dropdown">
-      <option value="all">All Sports</option>
-    </select>
-    <div class="search">
-      <input type="text" id="searchInput" placeholder="Search teams, odds, or events..." />
-    </div>
-    <div id="cards"></div>
-  </div>  <!-- Botpress Chatbot Embed -->  <script src="https://cdn.botpress.cloud/webchat/v3"></script>  <script>
+  <h1>🔥 PlaceBets.ai – AI Sports Predictions & Trash Talk</h1>
+  <select id="sportFilter">
+    <option value="all">All Sports</option>
+  </select>
+  <table id="eventTable">
+    <thead>
+      <tr>
+        <th>Match</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+        <th>Odds 1</th>
+        <th>Odds 2</th>
+        <th>Trash Talk</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>
+    <strong>Disclaimer:</strong> PlaceBets.ai is an entertainment-only platform providing AI-generated predictions and trash talk for sporting and entertainment events. We do not facilitate or accept real money wagers. Odds and predictions displayed are for informational purposes only and should not be considered betting advice. Use at your own risk. PlaceBets.ai is not affiliated with any sports leagues, organizations, or bookmakers.
+  </footer>
+
+  <!-- Botpress Chatbot -->
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
+  <script>
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3",
-      lazyLoad: false,
-      stylesheet: "https://cdn.botpress.cloud/webchat/v3/assets/css/theme-dark.css"
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb"
     });
-  </script>  <!-- Load CSV and Render Cards -->  <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
+  </script>
 
-    function convertToAmericanOdds(decimalOdds) {
-      const dec = parseFloat(decimalOdds);
-      if (dec >= 2.0) return '+' + Math.round((dec - 1) * 100);
-      return '-' + Math.round(100 / (dec - 1));
+  <!-- CSV Loader -->
+  <script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+    const tableBody = document.querySelector('#eventTable tbody');
+    const sportFilter = document.getElementById('sportFilter');
+    let allRows = [];
+
+    function parseOdds(value) {
+      const num = parseFloat(value);
+      if (num >= 2) return '+' + Math.round((num - 1) * 100);
+      if (num > 0) return '-' + Math.round(100 / (num - 1));
+      return value;
     }
 
-    function getSportType(matchName) {
-      const [type] = matchName.split('–');
-      return type.trim();
+    function detectSport(matchName) {
+      const name = matchName.toLowerCase();
+      if (name.includes('ufc') || name.includes('mma')) return 'MMA';
+      if (name.includes('wwe') || name.includes('aew') || name.includes('njpw')) return 'Wrestling';
+      if (name.includes('nba') || name.includes('basketball')) return 'Basketball';
+      if (name.includes('nfl') || name.includes('football')) return 'Football';
+      if (name.includes('mlb') || name.includes('baseball')) return 'Baseball';
+      if (name.includes('soccer') || name.includes('epl') || name.includes('mls')) return 'Soccer';
+      if (name.includes('boxing')) return 'Boxing';
+      if (name.includes('horse')) return 'Horse Racing';
+      return 'Other';
     }
 
-    async function fetchCSV(url) {
-      const res = await fetch(url);
-      const text = await res.text();
-      return text.trim().split('\n').slice(1).map(r => r.split(','));
-    }
+    function populateTable(data) {
+      tableBody.innerHTML = '';
+      const sportSet = new Set();
 
-    function buildCard([match, date, time, team1, team2, odds1, odds2, trash]) {
-      const eventDate = new Date(`${date}T${time}`);
-      const today = new Date();
-      const sixDaysFromNow = new Date();
-      sixDaysFromNow.setDate(today.getDate() + 6);
-      if (eventDate < today || eventDate > sixDaysFromNow) return null;
-
-      const o1 = parseFloat(odds1);
-      const o2 = parseFloat(odds2);
-      const fav1 = o1 < o2;
-
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.setAttribute('data-sport', getSportType(match));
-      card.innerHTML = `
-        <h2>${match}</h2>
-        <div class="info-row">
-          <div><strong>${team1}:</strong> <span class="${fav1 ? 'favorite' : 'underdog'}">${convertToAmericanOdds(odds1)}</span></div>
-          <div><strong>${team2}:</strong> <span class="${!fav1 ? 'favorite' : 'underdog'}">${convertToAmericanOdds(odds2)}</span></div>
-          <div><strong>Date:</strong> ${date}</div>
-          <div><strong>Time:</strong> ${time}</div>
-        </div>
-        <div class="trash-talk">“${trash}”</div>
-      `;
-      return card;
-    }
-
-    function renderCards(data) {
-      const cards = document.getElementById("cards");
-      cards.innerHTML = "";
-      const sports = new Set();
       data.forEach(row => {
-        if (row.length >= 8) {
-          const card = buildCard(row);
-          if (card) {
-            cards.appendChild(card);
-            sports.add(getSportType(row[0]));
-          }
-        }
+        const sport = detectSport(row[0]);
+        sportSet.add(sport);
+        if (sportFilter.value !== 'all' && sport !== sportFilter.value) return;
+
+        const odds1 = parseOdds(row[5]);
+        const odds2 = parseOdds(row[6]);
+
+        tableBody.innerHTML += `
+          <tr>
+            <td>${row[0]}</td>
+            <td>${row[1]}</td>
+            <td>${row[2]}</td>
+            <td>${row[3]}</td>
+            <td>${row[4]}</td>
+            <td class="${odds1 < odds2 ? 'favorite' : 'underdog'}">${odds1}</td>
+            <td class="${odds2 < odds1 ? 'favorite' : 'underdog'}">${odds2}</td>
+            <td class="trash">"${row[7]}"</td>
+          </tr>
+        `;
       });
-      const dropdown = document.getElementById("sportFilter");
-      dropdown.innerHTML = '<option value="all">All Sports</option>' + [...sports].map(s => `<option value="${s}">${s}</option>`).join('');
+
+      // update dropdown
+      sportFilter.innerHTML = '<option value="all">All Sports</option>';
+      Array.from(sportSet).sort().forEach(s => {
+        sportFilter.innerHTML += `<option value="${s}">${s}</option>`;
+      });
     }
 
-    function handleSearchAndFilter(data) {
-      const input = document.getElementById("searchInput");
-      const filter = document.getElementById("sportFilter");
+    fetch(csvUrl)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split('\n').slice(1).map(r => r.split(','));
+        allRows = rows;
+        populateTable(allRows);
+      });
 
-      function update() {
-        const val = input.value.toLowerCase();
-        const sport = filter.value;
-        const cards = document.querySelectorAll(".card");
-        cards.forEach(card => {
-          const matchesSearch = card.innerText.toLowerCase().includes(val);
-          const matchesSport = sport === "all" || card.getAttribute("data-sport") === sport;
-          card.style.display = matchesSearch && matchesSport ? "block" : "none";
-        });
-      }
-
-      input.addEventListener("input", update);
-      filter.addEventListener("change", update);
-    }
-
-    fetchCSV(CSV_URL).then(data => {
-      renderCards(data);
-      handleSearchAndFilter(data);
-    });
-  </script></body>
+    sportFilter.addEventListener('change', () => populateTable(allRows));
+  </script>
+</body>
 </html>
