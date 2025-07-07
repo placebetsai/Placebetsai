@@ -3,98 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai — AI Trash Talk Sportsbook</title>
+  <title>PlaceBets.ai — AI Sports Picks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://images.unsplash.com/photo-1605733513150-9e2f2f6b4a3f?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
+      font-family: 'Inter', sans-serif;
+      background: url('https://images.unsplash.com/photo-1607932919134-0945a9d1e0c6?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
       background-size: cover;
-      background-color: #000;
       color: #fff;
     }
 
-    header {
-      background: rgba(0, 0, 0, 0.9);
-      text-align: center;
-      padding: 1.5rem;
-      border-bottom: 3px solid #00ff99;
+    .overlay {
+      background-color: rgba(0,0,0,0.85);
+      min-height: 100vh;
+      padding-bottom: 5rem;
     }
 
-    header h1 {
-      font-size: 2.2rem;
+    header {
+      padding: 2rem;
+      text-align: center;
+      background: rgba(0,0,0,0.9);
+      border-bottom: 2px solid #00ff99;
+    }
+
+    h1 {
+      font-size: 2.5rem;
       color: #00ff99;
       margin: 0;
     }
 
+    .sub {
+      color: #ccc;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 2rem auto;
       padding: 1rem;
     }
 
     .search-box {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.8rem;
       font-size: 1rem;
       border-radius: 8px;
       border: none;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.9);
+      border-left: 4px solid #00ff99;
+      border-radius: 10px;
+      padding: 1.25rem;
       margin-bottom: 1.5rem;
-      border-radius: 14px;
-      box-shadow: 0 0 12px #00ff9977;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: scale(1.02);
+      box-shadow: 0 0 12px #00ff9940;
     }
 
     .card h2 {
       font-size: 1.2rem;
-      margin: 0 0 0.5rem;
       color: #ffcc00;
+      margin: 0 0 0.5rem;
+    }
+
+    .teams, .odds {
+      font-size: 1rem;
+      margin: 0.25rem 0;
     }
 
     .odds {
-      margin: 0.5rem 0;
-      color: #00ffcc;
+      color: #00ffff;
     }
 
     .trash {
-      margin-top: 1rem;
       font-style: italic;
       color: #ffcc00;
+      margin-top: 0.75rem;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.95);
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      color: #777;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chat-icon {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #00ff99;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px #00ff99aa;
+      cursor: pointer;
+      z-index: 99;
     }
 
     @media screen and (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
       .card h2 {
         font-size: 1rem;
       }
 
-      .odds {
-        font-size: 0.95rem;
+      .teams, .odds, .trash {
+        font-size: 0.9rem;
       }
 
-      .trash {
+      .search-box {
         font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🏆 PlaceBets.ai</h1>
-    <p style="margin-top:0.5rem; color:#ccc;">AI-powered picks with real trash talk</p>
-  </header>
-  <div class="container">
-    <input class="search-box" type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
-    <div id="cards"></div>
+  <div class="overlay">
+    <header>
+      <h1>🏆 PlaceBets.ai</h1>
+      <p class="sub">AI-powered picks with real trash talk</p>
+    </header>
+
+    <div class="container">
+      <input class="search-box" type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
+      <div id="cards"></div>
+    </div>
+
+    <footer>
+      PlaceBets.ai is for entertainment purposes only. No real money betting is offered or endorsed.
+    </footer>
+  </div>
+
+  <div class="chat-icon" onclick="alert('Chatbot coming soon. The Bookie is warming up.')">
+    💬
   </div>
 
   <script>
@@ -103,8 +158,8 @@
     async function fetchData() {
       const res = await fetch(CSV_URL);
       const text = await res.text();
-      const lines = text.split('\n').slice(1);
-      return lines.map(line => line.split(','));
+      const rows = text.split('\n').slice(1);
+      return rows.map(row => row.split(','));
     }
 
     function renderCards(data) {
@@ -119,7 +174,7 @@
         card.className = 'card';
         card.innerHTML = `
           <h2>${match} — ${date} @ ${time}</h2>
-          <div><strong>${team1}</strong> vs <strong>${team2}</strong></div>
+          <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
           <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
           <div class="trash">${trash}</div>
         `;
