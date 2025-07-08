@@ -199,3 +199,34 @@
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
       .then(res => res.text())
       .then(text => {
+        const rows = text.split("\n").slice(1);
+        const container = document.getElementById("dataContainer");
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if (cols.length < 8) return;
+          const html = `
+            <div class="card">
+              <h3>${cols[0]} — ${cols[1]} @ ${cols[2]}</h3>
+              <strong>${cols[3]}</strong>Odds: ${cols[5]}<br>
+              <strong>${cols[4]}</strong>Odds: ${cols[6]}<br>
+              <em style="color:orange">"${cols[7]}"</em>
+            </div>
+          `;
+          container.innerHTML += html;
+        });
+      });
+
+    // News
+    fetch("https://site.api.espn.com/apis/site/v2/sports/news")
+      .then(res => res.json())
+      .then(data => {
+        const newsList = document.getElementById("newsList");
+        data.articles.slice(0, 5).forEach(item => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="${item.links.web.href}" target="_blank" style="color:khaki">${item.headline}</a>`;
+          newsList.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
