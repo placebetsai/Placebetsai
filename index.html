@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai — Unfiltered AI Sports Predictions</title>
-  <meta name="description" content="AI-powered sports betting predictions with live odds, trash talk, and real-time wrestling and sports news.">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="AI-powered sports predictions with attitude. Live odds, trash talk, and real-time updates.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -16,25 +16,44 @@
       color: #fff;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       min-height: 100vh;
-      padding-bottom: 6rem;
+      padding-bottom: 5rem;
     }
     header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
       background: #000000cc;
     }
     h1 {
-      font-size: 2.6rem;
+      font-size: 2rem;
       color: #00ff99;
       margin: 0;
-      text-shadow: 0 0 8px #00ff99aa;
+      text-shadow: 0 0 10px #00ff99aa;
     }
-    .sub {
-      color: #ccc;
-      font-size: 1.2rem;
-      margin-top: 0.3rem;
+    .tagline { color: #ccc; font-size: 1rem; }
+    .menu-toggle {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #00ff99;
+    }
+    .menu {
+      display: none;
+      position: absolute;
+      right: 1rem;
+      top: 4rem;
+      background: #111;
+      border: 1px solid #444;
+      padding: 1rem;
+      z-index: 99;
+    }
+    .menu a {
+      color: #0ff;
+      text-decoration: none;
+      display: block;
+      margin: 0.5rem 0;
     }
     .news-container {
       padding: 1rem;
@@ -61,7 +80,7 @@
     }
     .search-bar {
       text-align: center;
-      margin: 1rem;
+      margin: 1.5rem 1rem 0;
     }
     .search-bar input {
       padding: 0.6rem;
@@ -85,8 +104,18 @@
       font-size: 1rem;
       margin-bottom: 0.4rem;
     }
-    .teams, .odds, .trash {
-      margin: 0.4rem 0;
+    .teams {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .odds {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #0ff;
+    }
+    .trash {
+      margin-top: 0.5rem;
+      font-style: italic;
     }
     footer {
       background: #000;
@@ -103,8 +132,14 @@
 <body>
   <div class="overlay">
     <header>
-      <h1>🏆 PlaceBets.ai</h1>
-      <p class="sub">Unfiltered AI Sports Predictions</p>
+      <div>
+        <h1>🏆 PlaceBets.ai</h1>
+        <div class="tagline">Unfiltered AI Sports Predictions</div>
+      </div>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <div class="menu" id="menu">
+        <a href="contact.html">Contact Us</a>
+      </div>
     </header>
 
     <div class="news-container">
@@ -120,26 +155,19 @@
   </div>
 
   <footer>
-    Disclaimer: This site provides entertainment only. No betting or gambling is offered. Odds and predictions are for fun and informational use only.
+    Disclaimer: For entertainment only. No real betting offered. © 2025 PlaceBets.ai
   </footer>
 
-  <!-- Botpress Chat -->
   <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
   <script>
     window.botpressWebChat.init({
-      composerPlaceholder: "Ask the Bookie Anything...",
       botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
       hostUrl: "https://cdn.botpress.cloud/webchat/v3",
       messagingUrl: "https://messaging.botpress.cloud",
-      enableConversationDeletion: false,
+      composerPlaceholder: "Ask the Bookie Anything...",
       showPoweredBy: false,
-      containerWidth: "100%",
-      layoutWidth: "100%",
-      botName: "PlaceBets Bot",
-      stylesheet: "https://cdn.botpress.cloud/webchat/v3/themes/default.css",
     });
   </script>
-
   <script>
     const CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
 
@@ -160,9 +188,11 @@
         card.className = 'card';
         card.innerHTML = `
           <h2>${match} — ${date} @ ${time}</h2>
-          <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
-          <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
-          <div class="trash">${trash}</div>
+          <div class="teams">${team1}</div>
+          <div class="odds">Odds: ${odds1}</div>
+          <div class="teams">${team2}</div>
+          <div class="odds">Odds: ${odds2}</div>
+          <div class="trash">"${trash}"</div>
         `;
         container.appendChild(card);
       });
@@ -204,6 +234,11 @@
       });
     }
 
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       fetchData().then(renderCards);
       loadNews();
@@ -212,4 +247,3 @@
   </script>
 </body>
 </html>
-<footer>All rights reserved. Placebets.ai is simply for entertainment purposes. Copyright 2025. </footer>
