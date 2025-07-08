@@ -5,7 +5,7 @@
   <title>PlaceBets.ai</title>
   <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk." />
   <meta name="robots" content="index, follow" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/103/103226.png" type="image/x-icon" />
   <style>
     body {
       margin: 0;
@@ -21,7 +21,6 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: black;
     }
     canvas {
       display: block;
@@ -29,7 +28,7 @@
     header {
       position: sticky;
       top: 0;
-      background: black;
+      background: black url('https://cdn.pixabay.com/photo/2016/11/29/04/00/soccer-1867163_960_720.jpg') no-repeat center center / cover;
       padding: 1rem;
       display: flex;
       justify-content: space-between;
@@ -73,16 +72,15 @@
     .news-section {
       padding: 1rem;
     }
-    .headline {
-      animation: scrollUp 10s linear infinite;
-      margin-bottom: 0.5em;
-    }
-    @keyframes scrollUp {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(-100%); }
+    #newsList {
+      height: 120px;
+      overflow: hidden;
+      position: relative;
     }
     #newsList li {
-      margin: 10px 0;
+      color: khaki;
+      padding: 5px;
+      font-size: 1rem;
     }
     .card {
       background-color: #222;
@@ -113,6 +111,17 @@
       font-weight: bold;
       z-index: 999;
     }
+    .show-more {
+      display: block;
+      margin: auto;
+      padding: 10px;
+      background-color: lime;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -136,6 +145,7 @@
   </div>
   <input type="text" id="searchBox" placeholder="Search match, team, or trash talk..." style="display:block;margin:0 auto;width:90%;padding:10px;border-radius:8px;">
   <div id="dataContainer"></div>
+  <button class="show-more" onclick="toggleMore()">Show More Events</button>
   <footer>
     All rights reserved. PlaceBets.ai is simply for entertainment purposes. © 2025.
   </footer>
@@ -144,8 +154,7 @@
     const toggleMenu = () => {
       const menu = document.getElementById("menu");
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    };// Matrix background animation
-const canvas = document.getElementById("matrixCanvas");
+    };const canvas = document.getElementById("matrixCanvas");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -166,40 +175,52 @@ const draw = () => {
 };
 setInterval(draw, 33);
 
-// Fetch live news
 fetch("https://site.api.espn.com/apis/site/v2/sports/news")
   .then(res => res.json())
   .then(data => {
-    const newsList = document.getElementById("newsList");
-    data.articles.slice(0, 5).forEach(item => {
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="${item.links.web.href}" target="_blank" style="color:khaki">${item.headline}</a>`;
-      newsList.appendChild(li);
-    });
+    const list = document.getElementById("newsList");
+    let i = 0;
+    setInterval(() => {
+      list.innerHTML = '';
+      for (let j = 0; j < 5; j++) {
+        const article = data.articles[(i + j) % data.articles.length];
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${article.links.web.href}" target="_blank">${article.headline}</a>`;
+        list.appendChild(li);
+      }
+      i = (i + 1) % data.articles.length;
+    }, 5000);
   });
 
-// Fetch odds (Replace with actual API key)
-fetch("https://api.the-odds-api.com/v4/sports/upcoming/odds/?regions=us&markets=h2h&apiKey=YOUR_API_KEY_HERE")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("dataContainer");
-    container.innerHTML = "";
-    data.slice(0, 10).forEach(event => {
-      const match = event.teams.join(" vs ");
-      const time = new Date(event.commence_time).toLocaleString();
-      const odds = event.bookmakers[0]?.markets[0]?.outcomes || [];
-      const html = `
-        <div class="card">
-          <h3>${match} — ${time}</h3>
-          ${odds.map(o => `<strong>${o.name}</strong><br>Odds: ${o.price > 0 ? "+" + o.price : o.price}<br>`).join("")}
-          <em class="trash-talk">"Your picks are trash. Mine print cash."</em>
-        </div>
-      `;
-      container.innerHTML += html;
-    });
-  });
+let showAll = false;
+function toggleMore() {
+  showAll = !showAll;
+  fetchOdds();
+}
 
-// Auto-refresh every 3 hours
+const fetchOdds = () => {
+  fetch("https://api.the-odds-api.com/v4/sports/upcoming/odds/?regions=us&markets=h2h&apiKey=8d0c41f98f9db0793853d235f97a6eb9")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("dataContainer");
+      container.innerHTML = "";
+      (showAll ? data : data.slice(0, 10)).forEach(event => {
+        const match = event.teams.join(" vs ");
+        const time = new Date(event.commence_time).toLocaleString();
+        const odds = event.bookmakers[0]?.markets[0]?.outcomes || [];
+        const html = `
+          <div class="card">
+            <h3>${match} — ${time}</h3>
+            ${odds.map(o => `<strong>${o.name}</strong><br>Odds: ${o.price > 0 ? "+" + o.price : o.price}<br>`).join("")}
+            <em class="trash-talk">"Even your grandma bets better than that pick."</em>
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+    });
+};
+
+fetchOdds();
 setTimeout(() => location.reload(), 3 * 60 * 60 * 1000);
 
   </script>
