@@ -50,108 +50,54 @@
       font-size: 1.1rem;
       margin-top: 0.75rem;
     }
-    .news {
-      background: rgba(0, 0, 0, 0.8);
-      border-left: 4px solid #00ffcc;
+    .news-container {
       padding: 1rem;
-      margin: 2rem auto;
-      max-width: 1000px;
-      border-radius: 8px;
-      height: 140px;
+      background: #000;
+    }
+    .news-container h2 {
+      margin-bottom: 0.5rem;
+      color: #00ffee;
+    }
+    #news-feed {
+      height: 110px;
       overflow: hidden;
       position: relative;
     }
-    .news h3 {
-      margin-top: 0;
-      color: #00ffcc;
-    }
-    .news ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
+    #news-feed ul {
       position: absolute;
-      top: 30px;
-      animation: scrollNews 15s linear infinite;
-    }
-    .news li {
-      margin-bottom: 0.75rem;
-    }
-    .news a {
-      color: #ffcc00;
-      text-decoration: none;
-    }
-    .news a:hover {
-      text-decoration: underline;
+      animation: scrollNews 14s linear infinite;
     }
     @keyframes scrollNews {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-100%); }
+      0%   { top: 0; }
+      100% { top: -100%; }
     }
-    .container {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 1rem;
+    .search-bar {
+      text-align: center;
+      margin: 1rem;
     }
-    .search-box {
-      width: 100%;
-      padding: 0.8rem;
+    .search-bar input {
+      padding: 0.6rem;
+      width: 90%;
+      max-width: 500px;
       font-size: 1rem;
-      border-radius: 8px;
+      border-radius: 5px;
       border: none;
-      margin-bottom: 2rem;
     }
     .card {
-      background: rgba(0, 0, 0, 0.9);
-      border-left: 4px solid #00ff99;
+      margin: 1rem auto;
+      max-width: 700px;
+      background: #111;
+      border: 1px solid #444;
       border-radius: 10px;
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 0 12px #00ff9940;
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: scale(1.02);
+      padding: 1rem;
+      box-shadow: 0 0 12px #00ffbb44;
     }
     .card h2 {
-      font-size: 1.2rem;
-      color: #ffcc00;
-      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      color: #ff0;
     }
-    .teams, .odds {
-      font-size: 1rem;
-      margin: 0.25rem 0;
-    }
-    .odds {
-      color: #00ffff;
-    }
-    .trash {
-      font-style: italic;
-      color: #ffcc00;
-      margin-top: 0.75rem;
-    }
-    footer {
-      background: rgba(0, 0, 0, 0.95);
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.85rem;
-      color: #777;
-    }
-    .chat-icon {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #00ff99;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 0 10px #00ff99aa;
-      cursor: pointer;
-      z-index: 99;
+    .teams, .odds, .trash {
+      margin: 0.3rem 0;
     }
   </style>
 </head>
@@ -161,24 +107,21 @@
       <h1>🏆 PlaceBets.ai</h1>
       <p class="sub">Unfiltered AI Sports Predictions</p>
     </header>
-    <div class="news">
-      <h3>Latest Sports & Wrestling News</h3>
-      <ul id="news-feed">
-        <li>Loading news...</li>
-      </ul>
+
+    <div class="news-container">
+      <h2>Latest Sports & Wrestling News</h2>
+      <div id="news-feed"><ul></ul></div>
     </div>
-    <div class="container">
-      <input class="search-box" type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
-      <div id="cards"></div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
     </div>
-    <footer>
-      PlaceBets.ai is for entertainment purposes only. No real money betting is offered or endorsed.
-    </footer>
+
+    <div id="cards"></div>
   </div>
-  <div class="chat-icon" onclick="alert('Chatbot coming soon. The Bookie is warming up.')">💬</div>
 
   <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+    const CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
 
     async function fetchData() {
       const res = await fetch(CSV_URL);
@@ -219,14 +162,14 @@
         'https://www.espn.com/espn/rss/news',
         'https://www.wrestlinginc.com/feed/'
       ];
-      const newsFeed = document.getElementById('news-feed');
+      const newsFeed = document.getElementById('news-feed').querySelector('ul');
       let headlines = [];
 
       for (const feed of feeds) {
         try {
           const res = await fetch(rssProxy + encodeURIComponent(feed));
           const data = await res.json();
-          headlines.push(...data.items.slice(0, 5));
+          headlines.push(...data.items.slice(0, 3));
         } catch (e) {
           console.error('RSS load error', e);
         }
@@ -235,15 +178,18 @@
       newsFeed.innerHTML = '';
       headlines.forEach(item => {
         const li = document.createElement('li');
-        li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        li.style.marginBottom = '0.6rem';
+        li.innerHTML = `<a href="${item.link}" style="color:#ffc;" target="_blank">${item.title}</a>`;
         newsFeed.appendChild(li);
       });
     }
 
-    document.getElementById('searchInput').addEventListener('input', filterCards);
-    fetchData().then(renderCards);
-    loadNews();
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchData().then(renderCards);
+      loadNews();
+      document.getElementById('searchInput').addEventListener('input', filterCards);
+    });
   </script>
 </body>
 </html>
-<footer>All Rights Reserved. Copyright 2025</footer>
+<footer>All rights reserved, copyright 2025</footer>
