@@ -1,176 +1,171 @@
-<!DOCTYPE html><html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unfiltered AI Sports Predictions - Live betting odds, trash talk, and headlines across all sports & wrestling." />
+  <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk." />
+  <meta name="robots" content="index, follow" />
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
       margin: 0;
-      background: #111 url('https://i.imgur.com/74zUNV7.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-    }
-    header {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 1rem;
-      text-align: center;
-      position: relative;
-    }
-    header h1 {
-      font-size: 2rem;
-      color: #00ff88;
-      margin: 0;
-    }
-    header p {
-      margin: 0;
-      font-size: 1rem;
-      color: #ccc;
-    }
-    nav {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    #menu {
-      display: none;
-      position: absolute;
-      top: 3.5rem;
-      right: 1rem;
-      background: #222;
-      border: 1px solid #444;
-      padding: 1rem;
-    }
-    #menu a {
-      color: #00ff88;
-      text-decoration: none;
-      display: block;
-      margin: 0.5rem 0;
-    }
-    .news-ticker {
-      background: #000;
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-      color: cyan;
-    }
-    .news-ticker ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      animation: scrollNews 15s linear infinite;
-    }
-    @keyframes scrollNews {
-      0% {transform: translateY(0);}
-      100% {transform: translateY(-100%);}
-    }
-    .search {
-      text-align: center;
-      margin: 1rem;
-    }
-    .search input {
-      width: 80%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: none;
-    }
-    .card {
-      background: #222;
-      margin: 1rem auto;
-      padding: 1rem;
-      border-radius: 10px;
-      width: 90%;
-      box-shadow: 0 0 10px #00ff88;
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      color: #ff0;
-      margin: 0 0 0.5rem 0;
-    }
-    .card p {
-      margin: 0.25rem 0;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      background: rgba(0,0,0,0.8);
-    }
-    .chatbot-bubble {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      background: #00ff88;
-      color: black;
-      padding: 0.75rem;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      box-shadow: 0 0 10px #00ff88;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🏆 PlaceBets.ai</h1>
-    <p>Unfiltered AI Sports Predictions</p>
-    <nav>
-      <button onclick="toggleMenu()">☰</button>
-      <div id="menu">
-        <a href="contact.html">Contact Us</a>
-      </div>
-    </nav>
-  </header>  <div class="news-ticker">
-    <ul id="news"></ul>
-  </div>  <div class="search">
-    <input type="text" id="searchBox" placeholder="Search match, team, or trash talk...">
-  </div>  <div id="cards"></div>  <footer>
-    All rights reserved. Placebets.ai is simply for entertainment purposes. Copyright 2025.
-  </footer>  <div class="chatbot-bubble">💬
-  </div>  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      overflow-x: hidden;
+    }.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: black;
+}
 
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv')
+canvas {
+  display: block;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background: black;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: lime;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.hamburger {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+nav {
+  display: none;
+  flex-direction: column;
+  background-color: #111;
+  padding: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem 0;
+}
+
+.card {
+  background-color: #222;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px lime;
+}
+
+.card h3 {
+  color: yellow;
+}
+
+.news-section {
+  padding: 1rem;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 1rem;
+  background: #111;
+  color: #ccc;
+}
+
+  </style>
+</head><body>
+  <div class="matrix-bg">
+    <canvas id="matrixCanvas"></canvas>
+  </div>  <header>
+    <div>
+      <div class="logo">🏆 PlaceBets.ai</div>
+      <div class="tagline">Unfiltered AI Sports Predictions</div>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </header>  <nav id="menu">
+    <a href="index.html">Home</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>  <div class="news-section">
+    <h2 style="color:cyan">Latest Sports & Wrestling News</h2>
+    <ul id="newsList"></ul>
+  </div>  <input type="text" id="searchBox" placeholder="Search match, team, or trash talk..." style="display:block;margin:0 auto;width:90%;padding:10px;border-radius:8px;">  <div id="dataContainer"></div>  <footer>
+    All rights reserved. Placebets.ai is simply for entertainment purposes. Copyright 2025.
+  </footer>  <script>
+    const toggleMenu = () => {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    };
+
+    // Matrix background animation
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+    const draw = () => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      drops.forEach((y, i) => {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+      });
+    };
+    setInterval(draw, 33);
+
+    // Load Google Sheet data
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
       .then(res => res.text())
       .then(text => {
-        const rows = text.trim().split('\n');
-        const headers = rows[0].split(',');
-        const data = rows.slice(1).map(row => row.split(','));
-
-        const cardsContainer = document.getElementById('cards');
-        data.forEach(row => {
-          const [match, date, time, team1, team2, odds1, odds2, trash] = row;
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.innerHTML = `
-            <h2>${match} — ${date} @ ${time}</h2>
-            <p><strong>${team1}</strong></p>
-            <p>Odds: ${odds1}</p>
-            <p><strong>${team2}</strong></p>
-            <p>Odds: ${odds2}</p>
-            <p style="color: orange;"><em>"${trash}"</em></p>
+        const rows = text.split("\n").slice(1);
+        const container = document.getElementById("dataContainer");
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if (cols.length < 8) return;
+          const html = `
+            <div class="card">
+              <h3>${cols[0]} — ${cols[1]} @ ${cols[2]}</h3>
+              <strong>${cols[3]}</strong><br>Odds: ${cols[5]}<br>
+              <strong>${cols[4]}</strong><br>Odds: ${cols[6]}<br>
+              <em style="color:orange">"${cols[7]}"</em>
+            </div>
           `;
-          cardsContainer.appendChild(card);
+          container.innerHTML += html;
         });
       });
 
-    fetch('https://site.api.espn.com/apis/site/v2/sports/news')
+    // Fetch live news
+    fetch("https://site.api.espn.com/apis/site/v2/sports/news")
       .then(res => res.json())
       .then(data => {
-        const headlines = data.articles.slice(0, 5).map(a => `<li>${a.headline}</li>`).join('');
-        document.getElementById('news').innerHTML = headlines;
+        const newsList = document.getElementById("newsList");
+        data.articles.slice(0, 5).forEach(item => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="${item.links.web.href}" target="_blank" style="color:khaki">${item.headline}</a>`;
+          newsList.appendChild(li);
+        });
       });
-  </script></body>
-</html>
+  </script></body></html>
