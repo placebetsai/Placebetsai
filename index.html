@@ -6,7 +6,7 @@
   <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk." />
   <meta name="robots" content="index, follow" />
   <title>PlaceBets.ai</title>
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     body {
       margin: 0;
@@ -15,15 +15,20 @@
       color: white;
       overflow-x: hidden;
     }
+
     .matrix-bg {
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/29/Matrix_Digital_rain_animation.gif');
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
       position: fixed;
       top: 0;
       left: 0;
+      z-index: -1;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
     }
-    canvas { display: block; }
 
     header {
       position: sticky;
@@ -35,62 +40,73 @@
       align-items: center;
       z-index: 1000;
     }
+
     .logo {
       font-size: 1.8rem;
       font-weight: bold;
       color: lime;
     }
+
     .tagline {
       font-size: 1rem;
       color: #ccc;
     }
+
     .hamburger {
       font-size: 1.8rem;
       cursor: pointer;
       color: white;
     }
+
     nav {
       display: none;
       flex-direction: column;
       background-color: #111;
       padding: 1rem;
     }
+
     nav a {
       color: white;
       text-decoration: none;
       margin: 0.5rem 0;
     }
 
-    .news-section {
-      padding: 1rem;
+    h2 {
+      color: cyan;
+      text-align: center;
+      margin: 1rem 0 0.5rem;
     }
-    .news-headlines {
-      max-height: 160px;
+
+    #newsList {
+      list-style: none;
+      padding: 0 1rem;
+      max-height: 180px;
       overflow-y: auto;
-      padding-right: 10px;
+      scroll-behavior: smooth;
     }
+
     #newsList li {
       margin-bottom: 0.5rem;
     }
-    #searchBox {
+
+    input {
       display: block;
-      margin: 0 auto;
+      margin: 1rem auto;
       width: 90%;
       padding: 10px;
       border-radius: 8px;
     }
+
     .card {
-      background-color: #222;
+      background-color: #111;
       margin: 1rem;
       padding: 1rem;
       border-radius: 1rem;
       box-shadow: 0 0 10px lime;
     }
-    .card h3 { color: yellow; }
-    .card strong {
-      display: block;
-      font-size: 1.1rem;
-      margin-top: 8px;
+
+    .card h3 {
+      color: yellow;
     }
 
     footer {
@@ -99,33 +115,17 @@
       padding: 1rem;
       background: #111;
       color: #ccc;
+      margin-top: 2rem;
     }
 
-    .chat-bubble {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: lime;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 10px lime;
-      z-index: 999;
-    }
-    .chat-bubble::before {
-      content: "💬";
-      font-size: 24px;
+    /* Chat Bubble Placeholder */
+    .bp-web-widget {
+      z-index: 10000 !important;
     }
   </style>
 </head>
 <body>
-  <div class="matrix-bg">
-    <canvas id="matrixCanvas"></canvas>
-  </div>
+  <div class="matrix-bg"></div>
 
   <header>
     <div>
@@ -140,19 +140,16 @@
     <a href="contact.html">Contact Us</a>
   </nav>
 
-  <div class="news-section">
-    <h2 style="color:cyan">Latest Sports & Wrestling News</h2>
-    <ul id="newsList" class="news-headlines"></ul>
-  </div>
+  <h2>Latest Sports & Wrestling News</h2>
+  <ul id="newsList"></ul>
 
   <input type="text" id="searchBox" placeholder="Search match, team, or trash talk...">
+
   <div id="dataContainer"></div>
 
   <footer>
     All rights reserved. PlaceBets.ai is simply for entertainment purposes. Copyright 2025.
   </footer>
-
-  <div class="chat-bubble" title="Ask the Bookie"></div>
 
   <script>
     const toggleMenu = () => {
@@ -160,31 +157,11 @@
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
     };
 
-    const canvas = document.getElementById("matrixCanvas");
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    const letters = "01";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }).fill(1);
-    const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-      drops.forEach((y, i) => {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, y * fontSize);
-        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-      });
-    };
-    setInterval(draw, 33);
-
+    // Load odds from Google Sheets
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
       .then(res => res.text())
       .then(text => {
-        const rows = text.split("\\n").slice(1);
+        const rows = text.split("\n").slice(1);
         const container = document.getElementById("dataContainer");
         rows.forEach(row => {
           const cols = row.split(",");
@@ -192,8 +169,8 @@
           const html = `
             <div class="card">
               <h3>${cols[0]} — ${cols[1]} @ ${cols[2]}</h3>
-              <strong>${cols[3]}</strong>Odds: ${cols[5]}<br>
-              <strong>${cols[4]}</strong>Odds: ${cols[6]}<br>
+              <strong>${cols[3]}</strong><br>Odds: ${cols[5]}<br>
+              <strong>${cols[4]}</strong><br>Odds: ${cols[6]}<br>
               <em style="color:orange">"${cols[7]}"</em>
             </div>
           `;
@@ -201,16 +178,26 @@
         });
       });
 
+    // Load ESPN headlines
     fetch("https://site.api.espn.com/apis/site/v2/sports/news")
       .then(res => res.json())
       .then(data => {
         const newsList = document.getElementById("newsList");
-        data.articles.slice(0, 10).forEach(item => {
+        data.articles.slice(0, 6).forEach(item => {
           const li = document.createElement("li");
           li.innerHTML = `<a href="${item.links.web.href}" target="_blank" style="color:khaki">${item.headline}</a>`;
           newsList.appendChild(li);
         });
       });
+  </script>
+
+  <!-- Chatbot Embed -->
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
+  <script>
+    window.botpressWebChat.init({
+      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+    });
   </script>
 </body>
 </html>
