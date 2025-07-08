@@ -2,115 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai – Unfiltered AI Sports Predictions</title>
   <link rel="icon" href="/favicon.ico" />
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: black;
+      font-family: Arial, sans-serif;
+      background-color: black;
       color: white;
-      background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-      background-size: cover;
+      background-image: radial-gradient(rgba(0,255,0,0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: bgScroll 40s linear infinite;
     }
+
+    @keyframes bgScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
     header {
       position: sticky;
       top: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
       z-index: 1000;
     }
+
     header h1 {
-      font-size: 28px;
-      color: lime;
+      font-size: 24px;
+      color: #00ff00;
+      margin: 0;
     }
+
     .tagline {
-      font-size: 14px;
+      font-size: 12px;
       color: #aaa;
-      margin-top: -10px;
     }
-    .menu {
-      font-size: 18px;
-    }
+
     .menu a {
-      color: lime;
+      color: #00ff00;
       margin-left: 15px;
       text-decoration: none;
     }
-    .news-section {
+
+    .container {
+      padding: 20px;
+    }
+
+    .event-card {
       background: #111;
-      padding: 10px;
-      font-size: 16px;
-      border-bottom: 1px solid lime;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,255,0,0.2);
     }
-    .news-headlines {
-      height: 28px;
-      overflow: hidden;
-      position: relative;
+
+    .event-card h3 {
+      margin-top: 0;
+      color: #00ffff;
     }
-    .news-headlines div {
-      position: absolute;
-      width: 100%;
-      animation: scrollNews 15s linear infinite;
+
+    .event-info {
+      margin-top: 10px;
     }
-    @keyframes scrollNews {
-      0% { top: 100%; }
-      100% { top: -100%; }
+
+    .event-info div {
+      margin-bottom: 5px;
     }
-    .search-box {
-      margin: 20px;
-      text-align: center;
-    }
-    .search-box input {
-      padding: 10px;
-      width: 60%;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-    }
-    .event-table {
-      width: 95%;
-      margin: auto;
-      border-collapse: collapse;
-      margin-bottom: 60px;
-    }
-    .event-table th, .event-table td {
-      border: 1px solid lime;
-      padding: 10px;
-      text-align: center;
-    }
-    .event-table th {
-      background: #111;
-      color: lime;
-      cursor: pointer;
-    }
-    .event-table tr:hover {
-      background-color: #222;
-    }
-    .trash {
+
+    .trash-talk {
+      margin-top: 10px;
+      color: #ffa500;
       font-style: italic;
-      color: #f39c12;
     }
+
+    .headlines h3 {
+      color: #00ff00;
+    }
+
+    .headlines ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .headlines li {
+      margin-bottom: 5px;
+    }
+
     footer {
       background: #111;
-      color: #888;
-      padding: 10px;
       text-align: center;
-      position: relative;
+      padding: 10px;
+      color: #888;
+      margin-top: 40px;
     }
+
     #botpress-webchat {
-      position: fixed !important;
-      bottom: 20px;
-      right: 20px;
       z-index: 9999;
     }
   </style>
 </head>
 <body>
+
   <header>
     <div>
       <h1>🏆 PlaceBets.ai</h1>
@@ -122,84 +120,20 @@
     </div>
   </header>
 
-  <div class="news-section">
-    <strong>Top News Headlines:</strong>
-    <div class="news-headlines" id="news-headlines"></div>
+  <div class="container headlines">
+    <h3>🗞 Top Headlines</h3>
+    <ul id="headline-list"><li>Loading headlines...</li></ul>
   </div>
 
-  <div class="search-box">
-    <input type="text" id="search" placeholder="Search match or team...">
+  <div class="container" id="events">
+    <p>Loading live events...</p>
   </div>
-
-  <table class="event-table" id="events">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Match</th>
-        <th>Team 1</th>
-        <th>Odds 1</th>
-        <th>Team 2</th>
-        <th>Odds 2</th>
-        <th>Trash Talk</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
   <footer>
     © 2025 PlaceBets.ai – For entertainment only. No real money betting.
   </footer>
 
-  <script>
-    // Load CSV from Google Sheets
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv";
-
-    fetch(CSV_URL)
-      .then(response => response.text())
-      .then(data => {
-        const rows = data.trim().split('\n').slice(1);
-        const table = document.querySelector("#events tbody");
-        rows.forEach(row => {
-          const cols = row.split(',');
-          const [match, date, time, team1, team2, odds1, odds2, trash] = cols;
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${date}</td>
-            <td>${time}</td>
-            <td>${match}</td>
-            <td>${team1}</td>
-            <td>${odds1.startsWith("-") ? odds1 : '+' + odds1}</td>
-            <td>${team2}</td>
-            <td>${odds2.startsWith("-") ? odds2 : '+' + odds2}</td>
-            <td class="trash">${trash}</td>
-          `;
-          table.appendChild(tr);
-        });
-      });
-
-    // Search box filter
-    document.getElementById("search").addEventListener("input", function () {
-      const filter = this.value.toLowerCase();
-      const rows = document.querySelectorAll("#events tbody tr");
-      rows.forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
-      });
-    });
-
-    // News headlines
-    fetch("https://api.sportsdata.io/v4/rss/news?key=demo") // Replace with real sports RSS or API when ready
-      .then(r => r.text())
-      .then(str => {
-        const headlines = str.match(/<title>(.*?)<\/title>/g).map(t => t.replace(/<\/?title>/g, '')).slice(1, 6);
-        document.getElementById("news-headlines").innerHTML = headlines.map(h => `<div>${h}</div>`).join('');
-      })
-      .catch(() => {
-        document.getElementById("news-headlines").innerHTML = `<div>No headlines found.</div>`;
-      });
-  </script>
-
-  <!-- Botpress Embed -->
+  <!-- Botpress Chat -->
   <script src="https://cdn.botpress.cloud/webchat/v3" async></script>
   <script>
     window.botpressWebChat = {
@@ -207,5 +141,71 @@
       botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb"
     };
   </script>
+
+  <!-- Load odds, trash talk, headlines -->
+  <script>
+    const REFRESH_INTERVAL_MS = 3 * 60 * 60 * 1000;
+
+    function loadEvents() {
+      fetch('/api/odds.js')
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('events');
+          container.innerHTML = '';
+          data.forEach(event => {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.innerHTML = `
+              <h3>${event.match}</h3>
+              <div class="event-info">
+                <div><strong>Start:</strong> ${event.date} ${event.time}</div>
+                <div><strong>${event.team1}:</strong> ${event.odds1}</div>
+                <div><strong>${event.team2}:</strong> ${event.odds2}</div>
+                <div class="trash-talk">💬 Generating trash talk...</div>
+              </div>
+            `;
+            container.appendChild(card);
+
+            fetch(`/api/trash.js?match=${encodeURIComponent(event.match)}`)
+              .then(r => r.json())
+              .then(t => {
+                card.querySelector('.trash-talk').innerText = '💬 ' + t.trash;
+              })
+              .catch(() => {
+                card.querySelector('.trash-talk').innerText = '💬 [Could not generate trash talk]';
+              });
+          });
+        })
+        .catch(() => {
+          document.getElementById('events').innerHTML = '<p>Failed to load events.</p>';
+        });
+    }
+
+    function loadHeadlines() {
+      fetch('/api/news.js')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('headline-list');
+          list.innerHTML = '';
+          data.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = '• ' + item.title;
+            list.appendChild(li);
+          });
+        })
+        .catch(() => {
+          document.getElementById('headline-list').innerHTML = '<li>Failed to load headlines.</li>';
+        });
+    }
+
+    // Initial load + auto-refresh every 3 hours
+    loadEvents();
+    loadHeadlines();
+    setInterval(() => {
+      loadEvents();
+      loadHeadlines();
+    }, REFRESH_INTERVAL_MS);
+  </script>
+
 </body>
 </html>
