@@ -6,7 +6,7 @@
   <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk." />
   <meta name="robots" content="index, follow" />
   <title>PlaceBets.ai</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" />
   <style>
     body {
       margin: 0;
@@ -17,17 +17,17 @@
     }
 
     .matrix-bg {
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/29/Matrix_Digital_rain_animation.gif');
-      background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-position: center;
       position: fixed;
       top: 0;
       left: 0;
-      z-index: -1;
       width: 100vw;
       height: 100vh;
+      z-index: -1;
+      background: black;
+    }
+
+    canvas {
+      display: block;
     }
 
     header {
@@ -53,9 +53,8 @@
     }
 
     .hamburger {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: white;
     }
 
     nav {
@@ -71,32 +70,6 @@
       margin: 0.5rem 0;
     }
 
-    h2 {
-      color: cyan;
-      text-align: center;
-      margin: 1rem 0 0.5rem;
-    }
-
-    #newsList {
-      list-style: none;
-      padding: 0 1rem;
-      max-height: 180px;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-
-    #newsList li {
-      margin-bottom: 0.5rem;
-    }
-
-    input {
-      display: block;
-      margin: 1rem auto;
-      width: 90%;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
     .card {
       background-color: #111;
       margin: 1rem;
@@ -109,23 +82,26 @@
       color: yellow;
     }
 
+    #newsList {
+      max-height: 120px;
+      overflow-y: auto;
+      padding-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
     footer {
       text-align: center;
       font-size: 0.8rem;
       padding: 1rem;
       background: #111;
       color: #ccc;
-      margin-top: 2rem;
-    }
-
-    /* Chat Bubble Placeholder */
-    .bp-web-widget {
-      z-index: 10000 !important;
     }
   </style>
 </head>
 <body>
-  <div class="matrix-bg"></div>
+  <div class="matrix-bg">
+    <canvas id="matrixCanvas"></canvas>
+  </div>
 
   <header>
     <div>
@@ -140,10 +116,10 @@
     <a href="contact.html">Contact Us</a>
   </nav>
 
-  <h2>Latest Sports & Wrestling News</h2>
+  <h2 style="color:cyan; padding-left: 1rem;">Latest Sports & Wrestling News</h2>
   <ul id="newsList"></ul>
 
-  <input type="text" id="searchBox" placeholder="Search match, team, or trash talk...">
+  <input type="text" id="searchBox" placeholder="Search match, team, or trash talk..." style="display:block;margin:0 auto;width:90%;padding:10px;border-radius:8px;">
 
   <div id="dataContainer"></div>
 
@@ -151,13 +127,58 @@
     All rights reserved. PlaceBets.ai is simply for entertainment purposes. Copyright 2025.
   </footer>
 
+  <!-- Botpress Chat Bubble -->
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
+  <script>
+    window.botpressWebChat.init({
+      "composerPlaceholder": "Ask the Bookie Anything...",
+      "botConversationDescription": "AI Sportsbook Trash Talk",
+      "botId": "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+      "hostUrl": "https://cdn.botpress.cloud/webchat/v3",
+      "messagingUrl": "https://messaging.botpress.cloud",
+      "clientId": "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+      "enableConversationDeletion": true,
+      "showPoweredBy": false,
+      "className": "webchat",
+      "containerWidth": "100%25",
+      "layoutWidth": "100%25",
+      "hideWidget": false,
+      "showCloseButton": true,
+      "disableAnimations": false,
+      "closeOnEscape": true,
+      "showConversationsButton": false
+    });
+  </script>
+
   <script>
     const toggleMenu = () => {
       const menu = document.getElementById("menu");
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
     };
 
-    // Load odds from Google Sheets
+    // Matrix background animation
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+    const draw = () => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      drops.forEach((y, i) => {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+      });
+    };
+    setInterval(draw, 33);
+
+    // Load odds data from Google Sheets
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
       .then(res => res.text())
       .then(text => {
@@ -178,7 +199,7 @@
         });
       });
 
-    // Load ESPN headlines
+    // ESPN headlines
     fetch("https://site.api.espn.com/apis/site/v2/sports/news")
       .then(res => res.json())
       .then(data => {
@@ -189,15 +210,6 @@
           newsList.appendChild(li);
         });
       });
-  </script>
-
-  <!-- Chatbot Embed -->
-  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
-  <script>
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-    });
   </script>
 </body>
 </html>
