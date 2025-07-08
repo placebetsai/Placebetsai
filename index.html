@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,7 @@
       font-family: Arial, sans-serif;
       background-color: black;
       color: white;
-      background-image: url('https://imgur.com/o9YgKWS.png'); /* Matrix code */
+      background-image: url('https://i.ibb.co/3BhW4bR/matrix-bg.gif'); /* Matrix-style background */
       background-size: cover;
       background-attachment: fixed;
     }
@@ -43,13 +42,21 @@
       cursor: pointer;
     }
     .headlines {
-      max-height: 150px;
-      overflow-y: scroll;
+      height: 150px;
+      overflow: hidden;
       margin: 10px;
       padding: 10px;
       background: rgba(0,0,0,0.7);
       border: 2px solid #00ffcc;
       border-radius: 10px;
+    }
+    .scrolling-text {
+      display: inline-block;
+      animation: scroll-up 15s linear infinite;
+    }
+    @keyframes scroll-up {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
     }
     .search {
       margin: 10px auto;
@@ -97,24 +104,16 @@
     }
   </style>
 </head>
-<body>
-
-<header>
+<body><header>
   <div>
-    <h1>🏆 PlaceBets.ai</h1>
+    <h1><img src="https://i.ibb.co/qR4nLgN/placebetslogo.png" alt="logo" height="30"> PlaceBets.ai</h1>
     <div class="tagline">Unfiltered AI Sports Predictions</div>
   </div>
   <nav>
     <div class="hamburger" onclick="location.href='contact.html'">☰</div>
   </nav>
-</header>
-
-<h2 style="text-align:center; color:cyan;">Top News Headlines</h2>
-<div id="news-headlines" class="headlines">Loading headlines...</div>
-
-<input type="text" class="search" placeholder="Search match, team, or trash talk…">
-
-<div id="events-container">
+</header><h2 style="text-align:center; color:cyan;">Top News Headlines</h2>
+<div id="news-headlines" class="headlines"><div class="scrolling-text" id="news-container">Loading headlines...</div></div><input type="text" class="search" placeholder="Search match, team, or trash talk…"><div id="events-container">
   <div class="card">
     <h3>Yankees vs Red Sox — 2025-07-09 @ 7:00 PM</h3>
     <p><strong>Yankees</strong><br>Odds: +120</p>
@@ -127,34 +126,20 @@
     <p><strong>Cody Rhodes</strong><br>Odds: +140</p>
     <p style="color:orange"><em>"Roman’s still the tribal chief. End of story."</em></p>
   </div>
-</div>
-
-<div style="text-align:center">
+</div><div style="text-align:center">
   <button onclick="showMore()" style="padding:10px 20px; border-radius:10px; background:black; color:white; border:2px solid #0f0; font-weight:bold;">Show More Events</button>
-</div>
-
-<footer>
+</div><footer>
   All rights reserved. PlaceBets.ai is simply for entertainment purposes. © 2025.
-</footer>
-
-<div id="chat-button">🤖 Ask the Bookie Anything</div>
-
-<script>
+</footer><div id="chat-button">🤖 Ask the Bookie Anything</div><script>
 async function loadNews() {
   try {
     const res = await fetch('https://api.allorigins.win/raw?url=https://www.espn.com/espn/rss/news');
     const text = await res.text();
     const items = Array.from(new DOMParser().parseFromString(text, "text/xml").querySelectorAll("item")).slice(0, 10);
-    const container = document.getElementById('news-headlines');
-    container.innerHTML = "";
-    items.forEach(i => {
-      const el = document.createElement("div");
-      el.innerHTML = `• <a href="${i.querySelector("link").textContent}" target="_blank">${i.querySelector("title").textContent}</a>`;
-      el.style.marginBottom = "10px";
-      container.appendChild(el);
-    });
+    const container = document.getElementById('news-container');
+    container.innerHTML = items.map(i => `• <a href="${i.querySelector("link").textContent}" target="_blank">${i.querySelector("title").textContent}</a><br><br>`).join('');
   } catch {
-    document.getElementById("news-headlines").innerText = "Failed to load headlines.";
+    document.getElementById("news-container").innerText = "Failed to load headlines.";
   }
 }
 loadNews();
@@ -162,7 +147,5 @@ loadNews();
 function showMore() {
   alert("More events coming soon…");
 }
-</script>
-
-</body>
+</script></body>
 </html>
