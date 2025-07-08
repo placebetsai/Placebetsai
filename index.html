@@ -1,151 +1,141 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: black;
       color: white;
-      background-image: url('https://i.ibb.co/3BhW4bR/matrix-bg.gif'); /* Matrix-style background */
+      background-color: black;
+      background-image: url('https://placehold.co/1920x1080/000000/00FF00?text=0101010101');
       background-size: cover;
       background-attachment: fixed;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      background: black;
-      z-index: 999;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #0f0;
-    }
-    header h1 {
-      color: #00ff00;
-      margin: 0;
-    }
-    .tagline {
-      font-size: 0.85em;
-      color: #ccc;
-    }
-    nav {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-    .hamburger {
-      font-size: 28px;
-      cursor: pointer;
-    }
-    .headlines {
-      height: 150px;
-      overflow: hidden;
-      margin: 10px;
-      padding: 10px;
-      background: rgba(0,0,0,0.7);
-      border: 2px solid #00ffcc;
-      border-radius: 10px;
-    }
-    .scrolling-text {
-      display: inline-block;
-      animation: scroll-up 15s linear infinite;
-    }
-    @keyframes scroll-up {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(-100%); }
-    }
-    .search {
-      margin: 10px auto;
-      display: block;
-      width: 90%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 1em;
-    }
-    .card {
-      background: #222;
-      border: 2px solid #0f0;
-      margin: 10px;
-      padding: 15px;
-      border-radius: 15px;
-    }
-    .card h3 {
-      color: yellow;
-    }
-    .card p {
-      margin: 5px 0;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 0.8em;
-      border-top: 1px solid #444;
-    }
-    #chat-button {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      background: black;
-      color: white;
-      border: 2px solid #0f0;
-      border-radius: 20px;
-      padding: 10px 15px;
-      z-index: 999;
-      font-weight: bold;
-    }
-    a {
-      color: cyan;
-      text-decoration: none;
-    }
+    }header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 32px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: lime;
+}
+
+.tagline {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.menu {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+.headline-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.headline-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: cyan;
+  margin-bottom: 10px;
+}
+
+.news-ticker {
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.news-ticker ul {
+  position: absolute;
+  width: 100%;
+  animation: scroll-up 15s linear infinite;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.news-ticker li {
+  padding: 5px;
+  font-size: 16px;
+}
+
+@keyframes scroll-up {
+  0% { top: 100%; }
+  100% { top: -100%; }
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: gray;
+  font-size: 12px;
+}
+
+.bot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  border: 2px solid lime;
+  padding: 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  z-index: 1000;
+}
+
   </style>
 </head>
-<body><header>
-  <div>
-    <h1><img src="https://i.ibb.co/qR4nLgN/placebetslogo.png" alt="logo" height="30"> PlaceBets.ai</h1>
-    <div class="tagline">Unfiltered AI Sports Predictions</div>
-  </div>
-  <nav>
-    <div class="hamburger" onclick="location.href='contact.html'">☰</div>
-  </nav>
-</header><h2 style="text-align:center; color:cyan;">Top News Headlines</h2>
-<div id="news-headlines" class="headlines"><div class="scrolling-text" id="news-container">Loading headlines...</div></div><input type="text" class="search" placeholder="Search match, team, or trash talk…"><div id="events-container">
-  <div class="card">
-    <h3>Yankees vs Red Sox — 2025-07-09 @ 7:00 PM</h3>
-    <p><strong>Yankees</strong><br>Odds: +120</p>
-    <p><strong>Red Sox</strong><br>Odds: -130</p>
-    <p style="color:orange"><em>"Yankees gonna smash the Sox tonight!"</em></p>
-  </div>
-  <div class="card">
-    <h3>WWE Smackdown — 2025-07-10 @ 8:00 PM</h3>
-    <p><strong>Roman Reigns</strong><br>Odds: -150</p>
-    <p><strong>Cody Rhodes</strong><br>Odds: +140</p>
-    <p style="color:orange"><em>"Roman’s still the tribal chief. End of story."</em></p>
-  </div>
-</div><div style="text-align:center">
-  <button onclick="showMore()" style="padding:10px 20px; border-radius:10px; background:black; color:white; border:2px solid #0f0; font-weight:bold;">Show More Events</button>
-</div><footer>
-  All rights reserved. PlaceBets.ai is simply for entertainment purposes. © 2025.
-</footer><div id="chat-button">🤖 Ask the Bookie Anything</div><script>
-async function loadNews() {
-  try {
-    const res = await fetch('https://api.allorigins.win/raw?url=https://www.espn.com/espn/rss/news');
-    const text = await res.text();
-    const items = Array.from(new DOMParser().parseFromString(text, "text/xml").querySelectorAll("item")).slice(0, 10);
-    const container = document.getElementById('news-container');
-    container.innerHTML = items.map(i => `• <a href="${i.querySelector("link").textContent}" target="_blank">${i.querySelector("title").textContent}</a><br><br>`).join('');
-  } catch {
-    document.getElementById("news-container").innerText = "Failed to load headlines.";
-  }
-}
-loadNews();
-
-function showMore() {
-  alert("More events coming soon…");
-}
-</script></body>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://em-content.zobj.net/source/microsoft/319/trophy_1f3c6.png" alt="Trophy" />
+      <div>
+        <div class="logo-text">PlaceBets.ai</div>
+        <div class="tagline">Unfiltered AI Sports Predictions</div>
+      </div>
+    </div>
+    <div class="menu">☰</div>
+  </header>  <div class="headline-container">
+    <div class="headline-title">Top Sports and Wrestling News</div>
+    <div class="news-ticker">
+      <ul>
+        <li>Yankees demolish Red Sox in 9th inning walk-off!</li>
+        <li>Roman Reigns retains the title in Smackdown!</li>
+        <li>UFC 303 main event changed after late injury.</li>
+        <li>Summer League heats up with Jazz vs 76ers showdown.</li>
+        <li>NASCAR playoffs begin this weekend.</li>
+      </ul>
+    </div>
+  </div>  <div style="text-align:center; margin: 20px;">
+    <input type="text" placeholder="Search match, team, or trash talk..." style="width:80%; padding:10px; font-size:16px;" />
+  </div>  <div style="text-align:center;">
+    <button style="padding:10px 20px; font-size:16px; background:black; color:lime; border:2px solid lime; border-radius:5px;">Show More Events</button>
+  </div>  <footer>
+    All rights reserved. PlaceBets.ai is simply for entertainment purposes. © 2025.
+  </footer>  <div class="bot-button">🤖 Ask the Bookie Anything</div>
+</body>
 </html>
