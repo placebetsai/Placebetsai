@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://placebets.ai/sitemap.xml
