@@ -65,7 +65,7 @@
     }
     #news-feed ul {
       position: absolute;
-      animation: scrollNews 14s linear infinite;
+      animation: scrollNews 16s linear infinite;
     }
     @keyframes scrollNews {
       0%   { top: 0; }
@@ -126,7 +126,7 @@
     async function fetchData() {
       const res = await fetch(CSV_URL);
       const text = await res.text();
-      const rows = text.split('\\n').slice(1);
+      const rows = text.trim().split('\\n').slice(1);
       return rows.map(row => row.split(','));
     }
 
@@ -192,4 +192,3 @@
   </script>
 </body>
 </html>
-<footer>All rights reserved, copyright 2025</footer>
