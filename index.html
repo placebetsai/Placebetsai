@@ -1,249 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlaceBets.ai — Unfiltered AI Sports Predictions</title>
-  <meta name="description" content="AI-powered sports predictions with attitude. Live odds, trash talk, and real-time updates.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Unfiltered AI Sports Predictions - Live betting odds, trash talk, and headlines across all sports & wrestling." />
+  <title>PlaceBets.ai</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <style>
-    * { box-sizing: border-box; }
     body {
+      font-family: 'Roboto', sans-serif;
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: url('https://images.unsplash.com/photo-1607932919134-0945a9d1e0c6?auto=format&fit=crop&w=1650&q=80') no-repeat center center fixed;
+      background: #111 url('https://i.imgur.com/74zUNV7.jpeg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
     }
-    .overlay {
-      background: rgba(0, 0, 0, 0.88);
-      min-height: 100vh;
-      padding-bottom: 5rem;
-    }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background: #000000cc;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 1rem;
+      text-align: center;
+      position: relative;
     }
-    h1 {
+    header h1 {
       font-size: 2rem;
-      color: #00ff99;
+      color: #00ff88;
       margin: 0;
-      text-shadow: 0 0 10px #00ff99aa;
     }
-    .tagline { color: #ccc; font-size: 1rem; }
-    .menu-toggle {
-      font-size: 1.8rem;
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      color: #ccc;
+    }
+    nav {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: #00ff99;
     }
-    .menu {
+    #menu {
       display: none;
       position: absolute;
+      top: 3.5rem;
       right: 1rem;
-      top: 4rem;
-      background: #111;
+      background: #222;
       border: 1px solid #444;
       padding: 1rem;
-      z-index: 99;
     }
-    .menu a {
-      color: #0ff;
+    #menu a {
+      color: #00ff88;
       text-decoration: none;
       display: block;
       margin: 0.5rem 0;
     }
-    .news-container {
+    .news-ticker {
+      background: #000;
       padding: 1rem;
-      background: #111;
-      border-top: 2px solid #0ff;
+      font-size: 1rem;
+      font-weight: bold;
+      color: cyan;
     }
-    .news-container h2 {
-      color: #00ffee;
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    #news-feed {
-      height: 100px;
-      overflow: hidden;
-      position: relative;
-    }
-    #news-feed ul {
-      position: absolute;
-      animation: scrollNews 14s linear infinite;
+    .news-ticker ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      animation: scrollNews 15s linear infinite;
     }
     @keyframes scrollNews {
-      0% { top: 0; }
-      100% { top: -100%; }
+      0% {transform: translateY(0);}
+      100% {transform: translateY(-100%);}
     }
-    .search-bar {
+    .search {
       text-align: center;
-      margin: 1.5rem 1rem 0;
+      margin: 1rem;
     }
-    .search-bar input {
-      padding: 0.6rem;
-      width: 90%;
-      max-width: 500px;
+    .search input {
+      width: 80%;
+      padding: 0.5rem;
       font-size: 1rem;
       border-radius: 5px;
       border: none;
     }
     .card {
-      background: #111;
+      background: #222;
       margin: 1rem auto;
-      max-width: 700px;
-      border-radius: 10px;
-      border: 1px solid #333;
       padding: 1rem;
-      box-shadow: 0 0 12px #00ff9944;
+      border-radius: 10px;
+      width: 90%;
+      box-shadow: 0 0 10px #00ff88;
     }
     .card h2 {
-      color: #ff0;
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
-    }
-    .teams {
       font-size: 1.1rem;
-      font-weight: bold;
+      color: #ff0;
+      margin: 0 0 0.5rem 0;
     }
-    .odds {
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
-      color: #0ff;
-    }
-    .trash {
-      margin-top: 0.5rem;
-      font-style: italic;
+    .card p {
+      margin: 0.25rem 0;
     }
     footer {
-      background: #000;
-      color: #888;
       text-align: center;
-      font-size: 0.85rem;
       padding: 1rem;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.8);
+    }
+    .chatbot-bubble {
       position: fixed;
-      bottom: 0;
-      width: 100%;
+      bottom: 1rem;
+      right: 1rem;
+      background: #00ff88;
+      color: black;
+      padding: 0.75rem;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px #00ff88;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <header>
-      <div>
-        <h1>🏆 PlaceBets.ai</h1>
-        <div class="tagline">Unfiltered AI Sports Predictions</div>
-      </div>
-      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-      <div class="menu" id="menu">
+  <header>
+    <h1>🏆 PlaceBets.ai</h1>
+    <p>Unfiltered AI Sports Predictions</p>
+    <nav>
+      <button onclick="toggleMenu()">☰</button>
+      <div id="menu">
         <a href="contact.html">Contact Us</a>
       </div>
-    </header>
-
-    <div class="news-container">
-      <h2>Latest Sports & Wrestling News</h2>
-      <div id="news-feed"><ul></ul></div>
-    </div>
-
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
-    </div>
-
-    <div id="cards"></div>
-  </div>
-
-  <footer>
-    Disclaimer: For entertainment only. No real betting offered. © 2025 PlaceBets.ai
-  </footer>
-
-  <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
-  <script>
-    window.botpressWebChat.init({
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3",
-      messagingUrl: "https://messaging.botpress.cloud",
-      composerPlaceholder: "Ask the Bookie Anything...",
-      showPoweredBy: false,
-    });
-  </script>
-  <script>
-    const CSV_URL = 'https://corsproxy.io/?https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
-
-    async function fetchData() {
-      const res = await fetch(CSV_URL);
-      const text = await res.text();
-      const rows = text.trim().split('\n').slice(1);
-      return rows.map(row => row.split(','));
-    }
-
-    function renderCards(data) {
-      const container = document.getElementById('cards');
-      container.innerHTML = '';
-      data.forEach(row => {
-        if (row.length < 8) return;
-        const [match, date, time, team1, team2, odds1, odds2, trash] = row;
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <h2>${match} — ${date} @ ${time}</h2>
-          <div class="teams">${team1}</div>
-          <div class="odds">Odds: ${odds1}</div>
-          <div class="teams">${team2}</div>
-          <div class="odds">Odds: ${odds2}</div>
-          <div class="trash">"${trash}"</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function filterCards() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
-      });
-    }
-
-    async function loadNews() {
-      const rssProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
-      const feeds = [
-        'https://www.espn.com/espn/rss/news',
-        'https://www.wrestlinginc.com/feed/'
-      ];
-      const newsFeed = document.getElementById('news-feed').querySelector('ul');
-      let headlines = [];
-
-      for (const feed of feeds) {
-        try {
-          const res = await fetch(rssProxy + encodeURIComponent(feed));
-          const data = await res.json();
-          headlines.push(...data.items.slice(0, 3));
-        } catch (e) {
-          console.error('RSS error', e);
-        }
-      }
-
-      newsFeed.innerHTML = '';
-      headlines.forEach(item => {
-        const li = document.createElement('li');
-        li.style.marginBottom = '0.6rem';
-        li.innerHTML = `<a href="${item.link}" style="color:#ffc;" target="_blank">${item.title}</a>`;
-        newsFeed.appendChild(li);
-      });
-    }
-
+    </nav>
+  </header>  <div class="news-ticker">
+    <ul id="news"></ul>
+  </div>  <div class="search">
+    <input type="text" id="searchBox" placeholder="Search match, team, or trash talk...">
+  </div>  <div id="cards"></div>  <footer>
+    All rights reserved. Placebets.ai is simply for entertainment purposes. Copyright 2025.
+  </footer>  <div class="chatbot-bubble">💬
+  </div>  <script>
     function toggleMenu() {
       const menu = document.getElementById('menu');
       menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchData().then(renderCards);
-      loadNews();
-      document.getElementById('searchInput').addEventListener('input', filterCards);
-    });
-  </script>
-</body>
+    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv')
+      .then(res => res.text())
+      .then(text => {
+        const rows = text.trim().split('\n');
+        const headers = rows[0].split(',');
+        const data = rows.slice(1).map(row => row.split(','));
+
+        const cardsContainer = document.getElementById('cards');
+        data.forEach(row => {
+          const [match, date, time, team1, team2, odds1, odds2, trash] = row;
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <h2>${match} — ${date} @ ${time}</h2>
+            <p><strong>${team1}</strong></p>
+            <p>Odds: ${odds1}</p>
+            <p><strong>${team2}</strong></p>
+            <p>Odds: ${odds2}</p>
+            <p style="color: orange;"><em>"${trash}"</em></p>
+          `;
+          cardsContainer.appendChild(card);
+        });
+      });
+
+    fetch('https://site.api.espn.com/apis/site/v2/sports/news')
+      .then(res => res.json())
+      .then(data => {
+        const headlines = data.articles.slice(0, 5).map(a => `<li>${a.headline}</li>`).join('');
+        document.getElementById('news').innerHTML = headlines;
+      });
+  </script></body>
 </html>
