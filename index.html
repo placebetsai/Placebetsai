@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
   <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk.">
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     body {
       margin: 0;
@@ -21,11 +20,9 @@
       width: 100vw;
       height: 100vh;
       z-index: -1;
-      background: black;
     }
-    canvas {
-      display: block;
-    }
+    canvas { display: block; }
+
     header {
       position: sticky;
       top: 0;
@@ -36,19 +33,10 @@
       align-items: center;
       z-index: 1000;
     }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: lime;
-    }
-    .tagline {
-      font-size: 1rem;
-      color: #ccc;
-    }
-    .hamburger {
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+    .logo { font-size: 1.8rem; font-weight: bold; color: lime; }
+    .tagline { font-size: 1rem; color: #ccc; }
+    .hamburger { font-size: 1.5rem; cursor: pointer; }
+
     nav {
       display: none;
       flex-direction: column;
@@ -60,15 +48,14 @@
       text-decoration: none;
       margin: 0.5rem 0;
     }
-    .news-section {
-      padding: 1rem;
-    }
+
     .news-title {
       font-size: 1.3rem;
-      font-weight: bold;
       text-align: center;
+      margin-top: 1rem;
       color: cyan;
     }
+
     .news-scroller {
       max-height: 150px;
       overflow-y: auto;
@@ -79,12 +66,14 @@
       border-radius: 10px;
       box-shadow: 0 0 5px lime;
     }
+
     .news-scroller a {
       display: block;
       color: yellow;
       margin: 0.5rem 0;
       text-decoration: none;
     }
+
     .card {
       background-color: #222;
       margin: 1rem;
@@ -92,9 +81,8 @@
       border-radius: 1rem;
       box-shadow: 0 0 10px lime;
     }
-    .card h3 {
-      color: yellow;
-    }
+
+    .card h3 { color: yellow; }
     footer {
       text-align: center;
       font-size: 0.8rem;
@@ -102,12 +90,20 @@
       background: #111;
       color: #ccc;
     }
+
     #searchBox {
       display: block;
       margin: 0 auto;
       width: 90%;
       padding: 10px;
       border-radius: 8px;
+    }
+
+    #showMore {
+      color: cyan;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -121,23 +117,28 @@
     </div>
     <div class="hamburger" onclick="toggleMenu()">☰</div>
   </header>
+
   <nav id="menu">
     <a href="index.html">Home</a>
     <a href="contact.html">Contact Us</a>
   </nav>
 
-  <div class="news-section">
-    <div class="news-title">Top News Headlines</div>
-    <div class="news-scroller" id="newsList">Loading headlines...</div>
-  </div>
+  <div class="news-title">Top News Headlines</div>
+  <div class="news-scroller" id="newsList">Loading headlines...</div>
 
   <input type="text" id="searchBox" placeholder="Search match, team, or trash talk..." />
 
   <div id="dataContainer"></div>
+  <div id="showMore">Show More</div>
 
   <footer>
     All rights reserved. PlaceBets.ai is simply for entertainment purposes. © 2025.
   </footer>
+
+  <!-- Chatbot Placeholder -->
+  <div id="chat-bot" style="position: fixed; bottom: 20px; right: 20px;">
+    🤖 Ask the Bookie Anything
+  </div>
 
   <script>
     const toggleMenu = () => {
@@ -146,7 +147,8 @@
     };
 
     // Matrix background
-    const canvas = document.getElementById("matrixCanvas");
+    const canvas = document.createElement("canvas");
+    document.querySelector(".matrix-bg").appendChild(canvas);
     const ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
@@ -167,33 +169,7 @@
     };
     setInterval(draw, 33);
 
-    // Google Sheet Data (LIVE)
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
-      .then(res => res.text())
-      .then(text => {
-        const rows = text.split("\n").slice(1);
-        const container = document.getElementById("dataContainer");
-        rows.forEach(row => {
-          const cols = row.split(",");
-          if (cols.length < 8) return;
-
-          let odds1 = parseFloat(cols[5]);
-          let odds2 = parseFloat(cols[6]);
-          const formatOdds = val => (val >= 0 ? "+" + val : val);
-
-          const html = `
-            <div class="card">
-              <h3>${cols[0]} — ${cols[1]} @ ${cols[2]}</h3>
-              <strong>${cols[3]}</strong><br>Odds: ${formatOdds(odds1)}<br>
-              <strong>${cols[4]}</strong><br>Odds: ${formatOdds(odds2)}<br>
-              <em style="color:orange">"${cols[7]}"</em>
-            </div>
-          `;
-          container.innerHTML += html;
-        });
-      });
-
-    // Scrollable News Feed (Vertical)
+    // Load Headlines
     fetch("https://site.api.espn.com/apis/site/v2/sports/news")
       .then(res => res.json())
       .then(data => {
@@ -210,6 +186,31 @@
       .catch(() => {
         document.getElementById("newsList").innerText = "News failed to load.";
       });
+
+    // Odds Cards – Static Placeholder (will be live-fed soon)
+    const matches = [
+      { match: "Yankees vs Red Sox", date: "2025-07-09", time: "7:00 PM", team1: "Yankees", odds1: "+120", team2: "Red Sox", odds2: "-130", talk: "Yankees gonna smash the Sox tonight!" },
+      { match: "WWE Smackdown", date: "2025-07-10", time: "8:00 PM", team1: "Roman Reigns", odds1: "-150", team2: "Cody Rhodes", odds2: "+140", talk: "Roman's still the tribal chief. End of story." },
+    ];
+
+    const container = document.getElementById("dataContainer");
+    matches.slice(0, 10).forEach(drawCard);
+    document.getElementById("showMore").onclick = () => {
+      matches.slice(10).forEach(drawCard);
+      document.getElementById("showMore").style.display = "none";
+    };
+
+    function drawCard(match) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${match.match} — ${match.date} @ ${match.time}</h3>
+        <strong>${match.team1}</strong><br>Odds: ${match.odds1}<br>
+        <strong>${match.team2}</strong><br>Odds: ${match.odds2}<br>
+        <em style="color:orange">"${match.talk}"</em>
+      `;
+      container.appendChild(card);
+    }
   </script>
 </body>
 </html>
