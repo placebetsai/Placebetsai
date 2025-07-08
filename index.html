@@ -57,6 +57,9 @@
       margin: 2rem auto;
       max-width: 1000px;
       border-radius: 8px;
+      height: 140px;
+      overflow: hidden;
+      position: relative;
     }
     .news h3 {
       margin-top: 0;
@@ -65,9 +68,13 @@
     .news ul {
       list-style: none;
       padding-left: 0;
+      margin: 0;
+      position: absolute;
+      top: 30px;
+      animation: scrollNews 15s linear infinite;
     }
     .news li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
     .news a {
       color: #ffcc00;
@@ -75,6 +82,10 @@
     }
     .news a:hover {
       text-decoration: underline;
+    }
+    @keyframes scrollNews {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-100%); }
     }
     .container {
       max-width: 1000px;
@@ -165,73 +176,74 @@
     </footer>
   </div>
   <div class="chat-icon" onclick="alert('Chatbot coming soon. The Bookie is warming up.')">💬</div>
+
   <script>
-  const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
 
-  async function fetchData() {
-    const res = await fetch(CSV_URL);
-    const text = await res.text();
-    const rows = text.split('\\n').slice(1);
-    return rows.map(row => row.split(','));
-  }
-
-  function renderCards(data) {
-    const container = document.getElementById('cards');
-    container.innerHTML = '';
-    data.forEach(row => {
-      if (row.length < 8) return;
-      const [match, date, time, team1, team2, odds1, odds2, trash] = row;
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <h2>${match} — ${date} @ ${time}</h2>
-        <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
-        <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
-        <div class="trash">${trash}</div>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  function filterCards() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-      card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
-    });
-  }
-
-  async function loadNews() {
-    const rssProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const feeds = [
-      'https://www.espn.com/espn/rss/news',
-      'https://www.wrestlinginc.com/feed/'
-    ];
-    const newsFeed = document.getElementById('news-feed');
-    let headlines = [];
-
-    for (const feed of feeds) {
-      try {
-        const res = await fetch(rssProxy + encodeURIComponent(feed));
-        const data = await res.json();
-        headlines.push(...data.items.slice(0, 3));
-      } catch (e) {
-        console.error('RSS load error', e);
-      }
+    async function fetchData() {
+      const res = await fetch(CSV_URL);
+      const text = await res.text();
+      const rows = text.split('\\n').slice(1);
+      return rows.map(row => row.split(','));
     }
 
-    newsFeed.innerHTML = '';
-    headlines.slice(0, 5).forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-      newsFeed.appendChild(li);
-    });
-  }
+    function renderCards(data) {
+      const container = document.getElementById('cards');
+      container.innerHTML = '';
+      data.forEach(row => {
+        if (row.length < 8) return;
+        const [match, date, time, team1, team2, odds1, odds2, trash] = row;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h2>${match} — ${date} @ ${time}</h2>
+          <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
+          <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
+          <div class="trash">${trash}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
 
-  document.getElementById('searchInput').addEventListener('input', filterCards);
-  fetchData().then(renderCards);
-  loadNews();
-</script>
+    function filterCards() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
+      });
+    }
+
+    async function loadNews() {
+      const rssProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+      const feeds = [
+        'https://www.espn.com/espn/rss/news',
+        'https://www.wrestlinginc.com/feed/'
+      ];
+      const newsFeed = document.getElementById('news-feed');
+      let headlines = [];
+
+      for (const feed of feeds) {
+        try {
+          const res = await fetch(rssProxy + encodeURIComponent(feed));
+          const data = await res.json();
+          headlines.push(...data.items.slice(0, 5));
+        } catch (e) {
+          console.error('RSS load error', e);
+        }
+      }
+
+      newsFeed.innerHTML = '';
+      headlines.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        newsFeed.appendChild(li);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterCards);
+    fetchData().then(renderCards);
+    loadNews();
+  </script>
 </body>
 </html>
-    
+<footer>All Rights Reserved. Copyright 2025</footer>
