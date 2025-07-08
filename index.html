@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai — Unfiltered AI Sports Predictions</title>
+  <meta name="description" content="AI-powered sports betting predictions, live odds, and bold trash talk. Covers UFC, NFL, NBA, NHL, College, and Wrestling.">
+  <meta name="robots" content="index, follow">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -13,13 +15,11 @@
       background-size: cover;
       color: #fff;
     }
-
     .overlay {
       background-color: rgba(0, 0, 0, 0.85);
       min-height: 100vh;
       padding-bottom: 5rem;
     }
-
     header {
       background: url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1600&q=80') no-repeat center center;
       background-size: cover;
@@ -28,7 +28,6 @@
       position: relative;
       border-bottom: 3px solid #00ff99;
     }
-
     header::before {
       content: '';
       position: absolute;
@@ -36,31 +35,52 @@
       background: rgba(0, 0, 0, 0.75);
       z-index: 0;
     }
-
     header h1, header p {
       position: relative;
       z-index: 1;
     }
-
     h1 {
       font-size: 2.8rem;
       color: #00ff99;
       margin: 0;
       text-shadow: 0 0 12px #00ff99aa;
     }
-
     .sub {
       color: #ccc;
       font-size: 1.1rem;
       margin-top: 0.75rem;
     }
-
+    .news {
+      background: rgba(0, 0, 0, 0.8);
+      border-left: 4px solid #00ffcc;
+      padding: 1rem;
+      margin: 2rem auto;
+      max-width: 1000px;
+      border-radius: 8px;
+    }
+    .news h3 {
+      margin-top: 0;
+      color: #00ffcc;
+    }
+    .news ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .news li {
+      margin-bottom: 0.5rem;
+    }
+    .news a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+    .news a:hover {
+      text-decoration: underline;
+    }
     .container {
       max-width: 1000px;
       margin: 2rem auto;
       padding: 1rem;
     }
-
     .search-box {
       width: 100%;
       padding: 0.8rem;
@@ -69,7 +89,6 @@
       border: none;
       margin-bottom: 2rem;
     }
-
     .card {
       background: rgba(0, 0, 0, 0.9);
       border-left: 4px solid #00ff99;
@@ -79,42 +98,33 @@
       box-shadow: 0 0 12px #00ff9940;
       transition: transform 0.2s ease;
     }
-
     .card:hover {
       transform: scale(1.02);
     }
-
     .card h2 {
       font-size: 1.2rem;
       color: #ffcc00;
       margin: 0 0 0.5rem;
     }
-
     .teams, .odds {
       font-size: 1rem;
       margin: 0.25rem 0;
     }
-
     .odds {
       color: #00ffff;
     }
-
     .trash {
       font-style: italic;
       color: #ffcc00;
       margin-top: 0.75rem;
     }
-
     footer {
       background: rgba(0, 0, 0, 0.95);
       text-align: center;
       padding: 1rem;
       font-size: 0.85rem;
       color: #777;
-      position: relative;
-      z-index: 1;
     }
-
     .chat-icon {
       position: fixed;
       bottom: 1.5rem;
@@ -132,29 +142,6 @@
       cursor: pointer;
       z-index: 99;
     }
-
-    .chat-icon:hover {
-      box-shadow: 0 0 20px #00ff99;
-      transform: scale(1.1);
-    }
-
-    @media screen and (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .card h2 {
-        font-size: 1rem;
-      }
-
-      .teams, .odds, .trash {
-        font-size: 0.9rem;
-      }
-
-      .search-box {
-        font-size: 0.9rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -163,62 +150,88 @@
       <h1>🏆 PlaceBets.ai</h1>
       <p class="sub">Unfiltered AI Sports Predictions</p>
     </header>
-
+    <div class="news">
+      <h3>Latest Sports & Wrestling News</h3>
+      <ul id="news-feed">
+        <li>Loading news...</li>
+      </ul>
+    </div>
     <div class="container">
       <input class="search-box" type="text" id="searchInput" placeholder="Search match, team, or trash talk...">
       <div id="cards"></div>
     </div>
-
     <footer>
       PlaceBets.ai is for entertainment purposes only. No real money betting is offered or endorsed.
     </footer>
   </div>
-
-  <div class="chat-icon" onclick="alert('Chatbot coming soon. The Bookie is warming up.')">
-    💬
-  </div>
-
+  <div class="chat-icon" onclick="alert('Chatbot coming soon. The Bookie is warming up.')">💬</div>
   <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
+  const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv';
 
-    async function fetchData() {
-      const res = await fetch(CSV_URL);
-      const text = await res.text();
-      const rows = text.split('\n').slice(1);
-      return rows.map(row => row.split(','));
+  async function fetchData() {
+    const res = await fetch(CSV_URL);
+    const text = await res.text();
+    const rows = text.split('\\n').slice(1);
+    return rows.map(row => row.split(','));
+  }
+
+  function renderCards(data) {
+    const container = document.getElementById('cards');
+    container.innerHTML = '';
+    data.forEach(row => {
+      if (row.length < 8) return;
+      const [match, date, time, team1, team2, odds1, odds2, trash] = row;
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h2>${match} — ${date} @ ${time}</h2>
+        <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
+        <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
+        <div class="trash">${trash}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function filterCards() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
+    });
+  }
+
+  async function loadNews() {
+    const rssProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    const feeds = [
+      'https://www.espn.com/espn/rss/news',
+      'https://www.wrestlinginc.com/feed/'
+    ];
+    const newsFeed = document.getElementById('news-feed');
+    let headlines = [];
+
+    for (const feed of feeds) {
+      try {
+        const res = await fetch(rssProxy + encodeURIComponent(feed));
+        const data = await res.json();
+        headlines.push(...data.items.slice(0, 3));
+      } catch (e) {
+        console.error('RSS load error', e);
+      }
     }
 
-    function renderCards(data) {
-      const container = document.getElementById('cards');
-      container.innerHTML = '';
+    newsFeed.innerHTML = '';
+    headlines.slice(0, 5).forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+      newsFeed.appendChild(li);
+    });
+  }
 
-      data.forEach(row => {
-        if (row.length < 8) return;
-        const [match, date, time, team1, team2, odds1, odds2, trash] = row;
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <h2>${match} — ${date} @ ${time}</h2>
-          <div class="teams"><strong>${team1}</strong> vs <strong>${team2}</strong></div>
-          <div class="odds">Team 1 Odds: ${odds1} &nbsp; | &nbsp; Team 2 Odds: ${odds2}</div>
-          <div class="trash">${trash}</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function filterCards() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(input) ? '' : 'none';
-      });
-    }
-
-    document.getElementById('searchInput').addEventListener('input', filterCards);
-
-    fetchData().then(renderCards);
-  </script>
+  document.getElementById('searchInput').addEventListener('input', filterCards);
+  fetchData().then(renderCards);
+  loadNews();
+</script>
 </body>
 </html>
+    
