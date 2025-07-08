@@ -1,104 +1,32 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk." />
-  <meta name="robots" content="index, follow" />
   <title>PlaceBets.ai</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="description" content="Unfiltered AI sports predictions with real-time odds and trash talk.">
+  <meta name="robots" content="index, follow" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: black;
-      color: white;
-      overflow-x: hidden;
-    }
-    .matrix-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: black;
-    }
-    canvas {
-      display: block;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      background: black;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: lime;
-    }
-    .tagline {
-      font-size: 1rem;
-      color: #ccc;
-    }
-    .hamburger {
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    nav {
-      display: none;
-      flex-direction: column;
-      background-color: #111;
-      padding: 1rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0.5rem 0;
-    }
-    .card {
-      background-color: #222;
-      margin: 1rem;
-      padding: 1rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px lime;
-    }
-    .card h3 {
-      color: yellow;
-    }
-    .news-ticker {
-      white-space: nowrap;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 10px;
-      background-color: transparent;
-      border-bottom: 1px solid lime;
-    }
-    .scrolling-news a {
-      display: inline-block;
-      color: cyan;
-      text-decoration: none;
-      margin-right: 2rem;
-      font-size: 1rem;
-      white-space: nowrap;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      padding: 1rem;
-      background: #111;
-      color: #ccc;
-    }
+    body { margin:0; font-family:Arial,sans-serif; background:black; color:white; overflow-x:hidden; }
+    .matrix-bg { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; background:black; }
+    canvas{display:block;}
+    header{position:sticky; top:0; background:black; padding:1rem; display:flex; justify-content:space-between; z-index:1000;}
+    .logo{font-size:1.8rem; color:lime;}
+    .tagline{color:#ccc;}
+    .hamburger{font-size:1.5rem; cursor:pointer;}
+    nav{display:none; flex-direction:column; background:#111; padding:1rem;}
+    nav a{color:white; text-decoration:none; margin:0.5rem 0;}
+    .headline-ticker{overflow-x:auto; white-space:nowrap; padding:0.5rem 1rem; border-top:2px solid lime; border-bottom:2px solid lime;}
+    .headline-ticker a{display:inline-block; color:khaki; margin-right:2rem; text-decoration:none; font-weight:bold;}
+    input{display:block; margin:1rem auto; width:90%; padding:10px; border-radius:8px;}
+    .card{background:#222; margin:1rem; padding:1rem; border-radius:1rem; box-shadow:0 0 10px lime;}
+    .card h3{color:yellow;}
+    footer{text-align:center; font-size:0.8rem; padding:1rem; background:#111; color:#ccc;}
   </style>
 </head>
 <body>
-  <div class="matrix-bg">
-    <canvas id="matrixCanvas"></canvas>
-  </div>
+  <div class="matrix-bg"><canvas id="matrixCanvas"></canvas></div>
+
   <header>
     <div>
       <div class="logo">🏆 PlaceBets.ai</div>
@@ -106,88 +34,90 @@
     </div>
     <div class="hamburger" onclick="toggleMenu()">☰</div>
   </header>
+
   <nav id="menu">
     <a href="index.html">Home</a>
     <a href="contact.html">Contact Us</a>
   </nav>
-  <h2 style="color:cyan; padding-left:1rem">Latest Sports & Wrestling News</h2>
-  <div class="news-ticker">
-    <div id="newsScroll" class="scrolling-news"></div>
-  </div>
-  <input type="text" id="searchBox" placeholder="Search match, team, or trash talk..." style="display:block;margin:0 auto;width:90%;padding:10px;border-radius:8px;">
+
+  <div class="headline-ticker" id="headlineTicker">Loading headlines...</div>
+
+  <input type="text" id="searchBox" placeholder="Search match, team, or trash talk...">
+
   <div id="dataContainer"></div>
+
   <footer>
-    All rights reserved. PlaceBets.ai is simply for entertainment purposes. Copyright 2025.
+    All rights reserved. PlaceBets.ai is for entertainment purposes only. © 2025.
   </footer>
+
   <script>
     const toggleMenu = () => {
       const menu = document.getElementById("menu");
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    };// Matrix background animation
-const canvas = document.getElementById("matrixCanvas");
-const ctx = canvas.getContext("2d");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = Array.from({ length: columns }).fill(1);
-const draw = () => {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0F0";
-  ctx.font = fontSize + "px monospace";
-  drops.forEach((y, i) => {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, y * fontSize);
-    drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-  });
-};
-setInterval(draw, 33);
+    };
 
-// Load Google Sheet data
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
-  .then(res => res.text())
-  .then(text => {
-    const rows = text.split("\n").slice(1);
-    const container = document.getElementById("dataContainer");
-    rows.forEach(row => {
-      const cols = row.split(",");
-      if (cols.length < 8) return;
-      const html = `
-        <div class="card">
-          <h3>${cols[0]} — ${cols[1]} @ ${cols[2]}</h3>
-          <strong>${cols[3]}</strong><br>Odds: ${cols[5]}<br>
-          <strong>${cols[4]}</strong><br>Odds: ${cols[6]}<br>
-          <em style="color:orange">"${cols[7]}"</em>
-        </div>
-      `;
-      container.innerHTML += html;
-    });
-  });
+    // Matrix effect
+    const canvas = document.getElementById("matrixCanvas"), ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const fontSize = 14, columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+    setInterval(() => {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      drops.forEach((y, i) => {
+        const text = "01".charAt(Math.floor(Math.random() * 2));
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+      });
+    }, 33);
 
-// Fetch live news headlines from ESPN
-fetch("https://site.api.espn.com/apis/site/v2/sports/news")
-  .then(res => res.json())
-  .then(data => {
-    const newsScroll = document.getElementById("newsScroll");
-    if (!data.articles || data.articles.length === 0) {
-      newsScroll.innerHTML = "No headlines available.";
-      return;
+    // Load and display odds from Google Sheet
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSi4uUn3aZCm7GXgr56bGJfoMreV0VZ5BSyv_CYQ3aKHpdFdGreorYKIORil6Vtg4KnIGTuJS5RbdP4/pub?output=csv")
+      .then(res => res.text())
+      .then(text => {
+        const rows = text.trim().split("\n").slice(1);
+        const container = document.getElementById("dataContainer");
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if (cols.length < 8) return;
+          const [match, date, time, team1, team2, odds1, odds2, trash] = cols;
+          container.innerHTML += `
+            <div class="card">
+              <h3>${match} — ${date} @ ${time}</h3>
+              <strong>${team1}</strong> <br> Odds: ${formatOdds(odds1)} <br>
+              <strong>${team2}</strong> <br> Odds: ${formatOdds(odds2)} <br>
+              <em style="color:orange">"${trash}"</em>
+            </div>
+          `;
+        });
+      });
+
+    function formatOdds(odd) {
+      if (!odd) return "";
+      if (odd.trim().startsWith("+") || odd.trim().startsWith("-")) return odd.trim();
+      const val = parseFloat(odd);
+      return val >= 2 ? `+${Math.round((val - 1) * 100)}` : `-${Math.round(100 / (val - 1))}`;
     }
-    data.articles.slice(0, 6).forEach(item => {
-      const a = document.createElement("a");
-      a.href = item.links.web.href;
-      a.target = "_blank";
-      a.textContent = item.headline;
-      newsScroll.appendChild(a);
-    });
-  })
-  .catch(err => {
-    document.getElementById("newsScroll").innerHTML = "News failed to load.";
-    console.error("News fetch error:", err);
-  });
 
+    // Fetch headlines (ESPN + Wrestling Observer)
+    Promise.all([
+      fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent("https://www.espn.com/espn/rss/news")).then(r => r.text()),
+      fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent("https://www.wrestlingobserver.com/rss/weblog.xml")).then(r => r.text())
+    ]).then(([espn, wrest]) => {
+      const parse = txt => new window.DOMParser().parseFromString(txt, "application/xml");
+      const allItems = [...parse(espn).querySelectorAll("item"), ...parse(wrest).querySelectorAll("item")];
+      const ticker = document.getElementById("headlineTicker");
+      ticker.innerHTML = "";
+      allItems.slice(0, 10).forEach(item => {
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        ticker.innerHTML += `<a href="${link}" target="_blank">${title}</a>`;
+      });
+    }).catch(() => {
+      document.getElementById("headlineTicker").innerText = "News failed to load.";
+    });
   </script>
 </body>
 </html>
