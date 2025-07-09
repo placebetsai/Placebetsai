@@ -15,12 +15,10 @@
       background-size: 40px 40px;
       animation: bgScroll 40s linear infinite;
     }
-
     @keyframes bgScroll {
       0% { background-position: 0 0; }
       100% { background-position: 1000px 1000px; }
     }
-
     header {
       position: sticky;
       top: 0;
@@ -31,28 +29,24 @@
       padding: 10px 20px;
       z-index: 1000;
     }
-
     header h1 {
       font-size: 24px;
       color: #00ff00;
       margin: 0;
     }
-
     .tagline {
       font-size: 12px;
       color: #aaa;
     }
-
     .menu a {
       color: #00ff00;
       margin-left: 15px;
       text-decoration: none;
+      font-weight: bold;
     }
-
     .container {
       padding: 20px;
     }
-
     .event-card {
       background: #111;
       border: 1px solid #00ff00;
@@ -61,39 +55,43 @@
       margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(0,255,0,0.2);
     }
-
     .event-card h3 {
       margin-top: 0;
       color: #00ffff;
     }
-
     .event-info {
       margin-top: 10px;
     }
-
     .event-info div {
       margin-bottom: 5px;
     }
-
     .trash-talk {
       margin-top: 10px;
       color: #ffa500;
       font-style: italic;
     }
-
     .headlines h3 {
       color: #00ff00;
     }
-
     .headlines ul {
       list-style: none;
       padding-left: 0;
     }
-
     .headlines li {
       margin-bottom: 5px;
     }
-
+    .search-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
     footer {
       background: #111;
       text-align: center;
@@ -101,7 +99,6 @@
       color: #888;
       margin-top: 40px;
     }
-
     #botpress-webchat {
       z-index: 9999;
     }
@@ -125,6 +122,10 @@
     <ul id="headline-list"><li>Loading headlines...</li></ul>
   </div>
 
+  <div class="container search-box">
+    <input type="text" id="searchInput" placeholder="Search by team or match..." />
+  </div>
+
   <div class="container" id="events">
     <p>Loading live events...</p>
   </div>
@@ -142,43 +143,49 @@
     };
   </script>
 
-  <!-- Load odds, trash talk, headlines -->
+  <!-- JavaScript: Load odds, trash talk, headlines, search, refresh -->
   <script>
     const REFRESH_INTERVAL_MS = 3 * 60 * 60 * 1000;
+    let cachedEvents = [];
 
     function loadEvents() {
       fetch('/api/odds.js')
         .then(res => res.json())
         .then(data => {
-          const container = document.getElementById('events');
-          container.innerHTML = '';
-          data.forEach(event => {
-            const card = document.createElement('div');
-            card.className = 'event-card';
-            card.innerHTML = `
-              <h3>${event.match}</h3>
-              <div class="event-info">
-                <div><strong>Start:</strong> ${event.date} ${event.time}</div>
-                <div><strong>${event.team1}:</strong> ${event.odds1}</div>
-                <div><strong>${event.team2}:</strong> ${event.odds2}</div>
-                <div class="trash-talk">💬 Generating trash talk...</div>
-              </div>
-            `;
-            container.appendChild(card);
-
-            fetch(`/api/trash.js?match=${encodeURIComponent(event.match)}`)
-              .then(r => r.json())
-              .then(t => {
-                card.querySelector('.trash-talk').innerText = '💬 ' + t.trash;
-              })
-              .catch(() => {
-                card.querySelector('.trash-talk').innerText = '💬 [Could not generate trash talk]';
-              });
-          });
+          cachedEvents = data;
+          renderEvents(data);
         })
         .catch(() => {
           document.getElementById('events').innerHTML = '<p>Failed to load events.</p>';
         });
+    }
+
+    function renderEvents(events) {
+      const container = document.getElementById('events');
+      container.innerHTML = '';
+      events.forEach(event => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.innerHTML = `
+          <h3>${event.match}</h3>
+          <div class="event-info">
+            <div><strong>Start:</strong> ${event.date} ${event.time}</div>
+            <div><strong>${event.team1}:</strong> ${event.odds1}</div>
+            <div><strong>${event.team2}:</strong> ${event.odds2}</div>
+            <div class="trash-talk">💬 Generating trash talk...</div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        fetch(`/api/trash.js?match=${encodeURIComponent(event.match)}`)
+          .then(r => r.json())
+          .then(t => {
+            card.querySelector('.trash-talk').innerText = '💬 ' + t.trash;
+          })
+          .catch(() => {
+            card.querySelector('.trash-talk').innerText = '💬 [Could not generate trash talk]';
+          });
+      });
     }
 
     function loadHeadlines() {
@@ -198,7 +205,16 @@
         });
     }
 
-    // Initial load + auto-refresh every 3 hours
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const filtered = cachedEvents.filter(event =>
+        event.match.toLowerCase().includes(filter) ||
+        event.team1.toLowerCase().includes(filter) ||
+        event.team2.toLowerCase().includes(filter)
+      );
+      renderEvents(filtered);
+    });
+
     loadEvents();
     loadHeadlines();
     setInterval(() => {
