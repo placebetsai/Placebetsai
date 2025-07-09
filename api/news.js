@@ -1,29 +1,18 @@
-import Parser from 'rss-parser';
-const parser = new Parser();
-
+// api/news.js
 export default async function handler(req, res) {
-  const urls = [
-    'https://www.espn.com/espn/rss/news',
-    'https://www.f4wonline.com/rss-feed',
-    'https://www.mmafighting.com/rss/current'
-  ];
-
   try {
-    const allItems = [];
+    const response = await fetch('https://sports.essentiallysports.com/category/wwe/feed/');
+    const xml = await response.text();
 
-    for (const url of urls) {
-      const feed = await parser.parseURL(url);
-      allItems.push(...feed.items.slice(0, 3));
-    }
+    const items = Array.from(xml.matchAll(/<item>(.*?)<\/item>/gs)).slice(0, 10);
+    const news = items.map(item => {
+      const title = item[1].match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] || "No title";
+      const link = item[1].match(/<link>(.*?)<\/link>/)?.[1] || "#";
+      return { title, link };
+    });
 
-    const formatted = allItems.map(item => ({
-      title: item.title,
-      link: item.link
-    }));
-
-    res.status(200).json(formatted);
-  } catch (err) {
-    console.error('RSS ERROR:', err);
-    res.status(500).json({ error: 'Failed to load news' });
+    res.status(200).json(news);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch news.' });
   }
 }
