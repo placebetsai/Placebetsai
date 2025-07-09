@@ -2,25 +2,28 @@ import Parser from 'rss-parser';
 const parser = new Parser();
 
 export default async function handler(req, res) {
-  const feeds = [
+  const urls = [
     'https://www.espn.com/espn/rss/news',
-    'https://news.yahoo.com/rss/sports',
-    'https://www.wwe.com/rss/feed.xml'
+    'https://www.f4wonline.com/rss-feed',
+    'https://www.mmafighting.com/rss/current'
   ];
 
   try {
-    const headlines = [];
+    const allItems = [];
 
-    for (const feed of feeds) {
-      const parsed = await parser.parseURL(feed);
-      parsed.items.slice(0, 5).forEach(item => {
-        headlines.push({ title: item.title });
-      });
+    for (const url of urls) {
+      const feed = await parser.parseURL(url);
+      allItems.push(...feed.items.slice(0, 3));
     }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(headlines.slice(0, 15));
+    const formatted = allItems.map(item => ({
+      title: item.title,
+      link: item.link
+    }));
+
+    res.status(200).json(formatted);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch headlines', details: err.message });
+    console.error('RSS ERROR:', err);
+    res.status(500).json({ error: 'Failed to load news' });
   }
 }
