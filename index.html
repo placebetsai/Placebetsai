@@ -1,136 +1,173 @@
-<!-- index.html FIXED --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai</title>
-  <meta name="description" content="Unfiltered AI Sports Predictions with Real Trash Talk" />
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: black;
-      background-image: url('https://i.imgur.com/O6bIGlU.png');
-      background-size: cover;
-      background-repeat: repeat;
       color: white;
+      background-image: url('https://i.imgur.com/ZfsDIdz.png');
+      background-size: cover;
+      background-attachment: fixed;
     }
+
     header {
-      background-color: #000;
-      color: #00ff00;
-      padding: 1rem;
+      position: sticky;
+      top: 0;
+      background-color: black;
+      padding: 10px;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 999;
     }
+
     header h1 {
+      color: lime;
       margin: 0;
+      font-size: 24px;
     }
-    nav a {
-      color: #00ff00;
-      margin-left: 1rem;
+
+    header nav a {
+      color: lime;
+      margin-left: 20px;
       text-decoration: none;
+      font-weight: bold;
     }
-    #headlines {
-      padding: 1rem;
+
+    .section-title {
+      color: cyan;
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
     }
-    #headlines div {
-      margin-bottom: 5px;
+
+    #news, #odds {
+      margin: 20px;
     }
-    #search {
-      display: block;
-      width: 90%;
-      margin: 1rem auto;
-      padding: 0.75rem;
-      border: 2px solid lime;
-      background-color: black;
-      color: white;
-      font-size: 1rem;
-    }
+
     .event {
-      background: #111;
+      background-color: #111;
       border: 2px solid lime;
+      padding: 15px;
       border-radius: 10px;
-      margin: 1rem;
-      padding: 1rem;
-      box-shadow: 0 0 10px lime;
+      margin-bottom: 15px;
     }
-    .bot-icon {
+
+    .event p {
+      margin: 5px 0;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      margin: 0 auto;
+      display: block;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid lime;
+      border-radius: 5px;
+      background-color: #000;
+      color: white;
+    }
+
+    #bot-icon {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 60px;
-      height: 60px;
-      background: limegreen;
+      background-color: limegreen;
       border-radius: 50%;
-      font-size: 30px;
-      color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 10px;
+      font-size: 32px;
+      z-index: 9999;
       cursor: pointer;
-      z-index: 1000;
     }
+
+    footer {
+      background-color: black;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: gray;
+    }
+
   </style>
 </head>
 <body>
-  <header>
-    <h1>🏆 PlaceBets.ai</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/contact.html">Contact</a>
-    </nav>
-  </header>  <h2 style="text-align:center; color:cyan;">Latest Sports & Wrestling News</h2>
-  <div id="headlines">Loading...</div>  <input type="text" id="search" placeholder="Search match, team, or trash talk...">
-  <div id="events">Loading events...</div>  <div class="bot-icon" onclick="toggleBot()">🤖</div>  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>  <script>
-    window.botpressWebChat.init({
-      configUrl: 'https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json',
-      botId: '539d8fd6-0467-49c5-ba74-367f2e8ec6cb'
-    });
-    function toggleBot() {
-      window.botpressWebChat.sendEvent({ type: 'toggle' });
-    }
-  </script>  <script>
-    async function loadHeadlines() {
-      try {
-        const res = await fetch('/api/news');
-        const data = await res.json();
-        const container = document.getElementById('headlines');
-        container.innerHTML = data.headlines.map(title => `<div>• ${title}</div>`).join('');
-      } catch (e) {
-        document.getElementById('headlines').innerText = 'Failed to load news.';
-      }
-    }
 
-    async function loadOdds() {
-      try {
-        const res = await fetch('/api/odds');
-        const data = await res.json();
-        const container = document.getElementById('events');
-        container.innerHTML = data.map(event => `
-          <div class="event">
-            <strong>${event.sport} – ${event.teams[0]} vs ${event.teams[1]}</strong><br>
-            🕒 ${event.commence}<br>
-            ✅ ${event.teams[0]} Odds: ${event.odds[0]}<br>
-            ✅ ${event.teams[1]} Odds: ${event.odds[1]}<br>
-            <i>"${event.trash || 'No trash talk yet.'}"</i>
-          </div>
-        `).join('');
-      } catch (e) {
-        document.getElementById('events').innerText = 'Failed to load events.';
-      }
-    }
+<header>
+  <h1>🏆 PlaceBets.ai</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+</header>
 
-    document.getElementById('search').addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      document.querySelectorAll('.event').forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+<div id="news">
+  <div class="section-title">Latest Sports & Wrestling News</div>
+  <ul id="news-list"><li>Loading...</li></ul>
+</div>
+
+<input type="text" id="search" placeholder="Search match, team, or trash talk..." />
+
+<div id="odds">
+  <div class="section-title">Upcoming Events</div>
+  <div id="events">Loading events...</div>
+</div>
+
+<div id="bot-icon">🤖</div>
+
+<footer>
+  &copy; 2025 PlaceBets.ai — Unfiltered AI Sports Predictions  
+</footer>
+
+<script>
+  // Load news
+  fetch('/api/news')
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById('news-list');
+      list.innerHTML = '';
+      data.articles.slice(0, 10).forEach(article => {
+        const li = document.createElement('li');
+        li.textContent = article.title;
+        list.appendChild(li);
       });
+    })
+    .catch(() => {
+      document.getElementById('news-list').innerHTML = '<li>Failed to load news.</li>';
     });
 
-    loadHeadlines();
-    loadOdds();
-  </script></body>
+  // Load odds
+  fetch('/api/odds')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('events');
+      container.innerHTML = '';
+      data.events.slice(0, 10).forEach(event => {
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.innerHTML = `
+          <p><strong>${event.sport_title} – ${event.teams[0]} vs ${event.teams[1]}</strong></p>
+          <p>Start: ${new Date(event.commence_time).toLocaleString()}</p>
+          <p>${event.teams[0]} Odds: ${event.bookmakers[0]?.markets[0]?.outcomes[0]?.price ?? 'N/A'}</p>
+          <p>${event.teams[1]} Odds: ${event.bookmakers[0]?.markets[0]?.outcomes[1]?.price ?? 'N/A'}</p>
+        `;
+        container.appendChild(div);
+      });
+    })
+    .catch(() => {
+      document.getElementById('events').textContent = 'Failed to load events.';
+    });
+
+  // Bot icon opens Botpress
+  document.getElementById('bot-icon').addEventListener('click', () => {
+    window.open('https://cdn.botpress.cloud/webchat/v3.0/shareable.html?configUrl=https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json', '_blank');
+  });
+</script>
+
+</body>
 </html>
