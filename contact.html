@@ -2,79 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact Us - PlaceBets.ai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - PlaceBets.ai</title>
   <style>
-    body {
-      background: black;
-      color: #0f0;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-image: url('https://i.imgur.com/mzK5Qgt.gif');
-      background-size: cover;
-      background-attachment: fixed;
-    }
-
-    h1 {
-      color: cyan;
-    }
-
-    form {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-      border: 1px solid lime;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: black;
-      color: lime;
-      border: 1px solid lime;
-      border-radius: 5px;
-    }
-
-    button {
-      background: lime;
-      color: black;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 15px;
-      font-size: 1em;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    a {
-      color: cyan;
-      display: block;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      text-align: center;
-      color: gray;
-      margin-top: 50px;
-    }
+    body { margin: 0; padding: 20px; background: black; color: #00FF00; font-family: 'Roboto', sans-serif; }
+    .logo { font-size: 2em; font-weight: bold; color: #00FF00; text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); background: linear-gradient(to right, rgba(0, 255, 0, 0.2), rgba(255, 215, 0, 0.2)); padding: 10px; border-radius: 8px; }
+    nav { margin: 10px 0; }
+    nav a { margin: 0 15px; color: #00FF00; text-decoration: none; font-weight: bold; }
+    nav a.active { color: #FFD700; border-bottom: 2px solid #FFD700; }
+    form { margin-top: 20px; max-width: 400px; }
+    input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; background: black; color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; }
+    button { width: 100%; padding: 8px; background: #00FF00; color: black; border: none; cursor: pointer; }
+    #status { margin-top: 10px; }
   </style>
 </head>
 <body>
-  <a href="/">← Back to PlaceBets.ai</a>
-  <h1>Contact Us</h1>
-  <form action="https://formsubmit.co/placebetsai@gmail.com" method="POST">
-    <input type="text" name="name" placeholder="Your name" required>
-    <input type="email" name="email" placeholder="Your email" required>
-    <textarea name="message" placeholder="Your message..." rows="6" required></textarea>
-    <button type="submit">Send Message</button>
+  <div class="logo">PlaceBets.ai</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/contact.html" class="active">Contact</a>
+  </nav>
+  <h2>Contact Us</h2>
+  <form id="contact-form">
+    <input id="name" placeholder="Name" required>
+    <input id="email" type="email" placeholder="Email" required>
+    <textarea id="message" placeholder="Message" required></textarea>
+    <button type="submit">Send</button>
   </form>
-
-  <footer>
-    &copy; 2025 PlaceBets.ai — Talk trash, bet smarter.
-  </footer>
+  <p id="status"></p>
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        });
+        if (res.ok) document.getElementById("status").textContent = "Message sent!";
+        else throw new Error("Failed to send");
+      } catch (error) {
+        document.getElementById("status").textContent = "Error sending message.";
+        console.error(error);
+      }
+    });
+  </script>
 </body>
 </html>
