@@ -2,49 +2,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlaceBets.ai</title>
+  <title>🏆 PlaceBets.ai</title>
   <link rel="stylesheet" href="/style.css" />
-  <link rel="icon" href="https://em-content.zobj.net/thumbs/240/apple/354/trophy_1f3c6.png" type="image/png" />
 </head>
 <body>
   <header>
-    <div class="header-logo">
-      <span class="emoji">🏆</span>
-      <span class="logo-text">PlaceBets.ai</span>
-    </div>
-    <nav class="menu">
-      <a href="/index.html">Home</a>
+    <h1><span class="emoji">🏆</span> <span class="logo">PlaceBets.ai</span></h1>
+    <nav>
+      <a href="/">Home</a>
       <a href="/contact.html">Contact</a>
     </nav>
   </header>  <main>
-    <section class="news-section">
+    <section class="headlines">
       <h2>Top News Headlines</h2>
-      <ul id="news-list">
+      <ul id="news">
         <li>Loading headlines...</li>
       </ul>
-    </section><section class="search-bar">
-  <input type="text" id="searchInput" placeholder="Search matches...">
-</section>
+    </section><input type="text" id="search" placeholder="Search matches..." />
 
-<section class="events-section">
+<section class="events">
   <h2>Upcoming Events</h2>
-  <div id="events-container">Loading events...</div>
+  <div id="events">Loading events...</div>
 </section>
 
-  </main>  <div id="chatbot-container"></div>  <footer>
-    <p>&copy; 2025 PlaceBets.ai | For entertainment purposes only</p>
-  </footer>  <script src="/api/odds.js"></script>  <script src="/api/news.js"></script>  <script src="/api/trash.js"></script>  <script>
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const searchTerm = this.value.toLowerCase();
-      document.querySelectorAll('.event-card').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-      });
-    });
-
-    // Inject Botpress
-    window.botpressWebChat = {
-      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-    };
-  </script>  <script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js"></script></body>
+  </main>  <footer>
+    <p>© 2025 PlaceBets.ai | For entertainment purposes only</p>
+  </footer>  <script src="/events.js"></script>  <script src="/headlines.js"></script></body>
 </html>
