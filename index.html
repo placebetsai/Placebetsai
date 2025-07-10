@@ -5,29 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlaceBets.ai</title>
   <style>
-    body { margin: 0; padding: 20px; background: black; color: #00FF00; font-family: 'Roboto', sans-serif; position: relative; }
+    body { margin: 0; padding: 20px; background: black; color: #00FF00; font-family: 'Roboto', sans-serif; position: relative; min-height: 100vh; }
     canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-    .logo { font-size: 2em; font-weight: bold; color: #00FF00; text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); background: linear-gradient(to right, #228B22, #006400); /* Sports field green */ padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); transition: transform 0.3s; }
+    .logo { font-size: 2em; font-weight: bold; color: #00FF00; text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); background: linear-gradient(to right, #228B22, #006400); /* Sports field green */ padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); transition: transform 0.3s; text-align: center; }
     .logo:hover { transform: scale(1.05); }
-    nav { margin: 10px 0; }
+    nav { margin: 10px 0; text-align: center; }
     nav a { margin: 0 15px; color: #00FF00; text-decoration: none; font-weight: bold; transition: color 0.3s; }
     nav a:hover { color: #FFD700; }
     nav a.active { color: #FFD700; border-bottom: 2px solid #FFD700; }
-    .section-title { font-size: 1.5em; margin: 20px 0 10px; text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); }
-    #news-headlines { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; border: 1px solid #00FF00; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); }
+    .section-title { font-size: 1.5em; margin: 20px 0 10px; text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); text-align: center; }
+    #news-headlines { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; border: 1px solid #00FF00; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); background: rgba(0, 0, 0, 0.5); }
     #news-headlines li { margin-bottom: 5px; transition: color 0.3s; }
     #news-headlines li:hover { color: #FFD700; }
     #search { width: 100%; padding: 8px; margin-bottom: 10px; background: rgba(0, 0, 0, 0.8); color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); transition: box-shadow 0.3s; }
     #search:focus { box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4); }
     .event-card { background: rgba(0, 255, 0, 0.1); border: 1px solid #00FF00; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); transition: transform 0.3s; }
     .event-card:hover { transform: scale(1.02); }
-    .trash-talking-bookie { margin-top: 20px; padding: 10px; border: 1px solid #00FF00; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); }
+    .trash-talking-bookie { margin-top: 20px; padding: 10px; border: 1px solid #00FF00; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); background: rgba(0, 0, 0, 0.5); }
     .trash-talking-bookie input { width: 100%; padding: 8px; background: rgba(0, 0, 0, 0.8); color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); transition: box-shadow 0.3s; }
     .trash-talking-bookie input:focus { box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4); }
     .trash-talking-bookie button { width: 100%; padding: 8px; background: #00FF00; color: black; border: none; margin-top: 5px; cursor: pointer; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); transition: background 0.3s; }
     .trash-talking-bookie button:hover { background: #FFD700; }
     #response { margin-top: 10px; color: #FFD700; }
-    footer { margin-top: 20px; text-align: center; font-size: 0.8em; }
+    footer { margin-top: 20px; text-align: center; font-size: 0.8em; color: #00FF00; }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
