@@ -17,9 +17,10 @@ module.exports = async function (context, req) {
     if (apiResponse.ok) {
       const data = await apiResponse.json();
       odds = data.filter(event => new Date(event.commence_time) <= sixDaysFromNow && event.bookmakers.length > 0).map(event => ({
-        home_team: event.home_team,
-        away_team: event.away_team,
-        bookmakers: event.bookmakers
+        event: event.home_team + ' vs ' + event.away_team,
+        date: event.commence_time,
+        odds: event.bookmakers[0].markets[0].outcomes.map(o => ({ source: event.bookmakers[0].title, value: o.price })),
+        bookiePrediction: getBookiePrediction(event.home_team, event.away_team),
       }));
     } else {
       throw new Error('API limit hit, falling back to scraping');
@@ -37,9 +38,10 @@ module.exports = async function (context, req) {
         const teams = $(el).find('.team-name').text().trim();
         const oddsText = $(el).find('.odds-value').text().trim();
         if (teams && oddsText) odds.push({
-          home_team: teams.split(' vs ')[0],
-          away_team: teams.split(' vs ')[1],
-          bookmakers: [{ title: 'Covers', markets: [{ key: 'h2h', outcomes: [{ name: teams.split(' vs ')[0], price: oddsText.split(' | ')[0] }, { name: teams.split(' vs ')[1], price: oddsText.split(' | ')[1] } ] }] }]
+          event: teams,
+          date: new Date().toISOString(),
+          odds: [{ source: 'Covers', value: oddsText }],
+          bookiePrediction: getBookiePrediction(teams.split(' vs ')[0], teams.split(' vs ')[1]),
         });
       });
     } catch (error) {
@@ -50,3 +52,12 @@ module.exports = async function (context, req) {
   cache.put(cacheKey, odds, 5 * 60 * 1000); // Cache for 5 minutes
   context.res.json(odds);
 };
+
+function getBookiePrediction(home, away) {
+  const predictions = [
+    `${home} will crush ${away}, you betting clown!`,
+    `${away}’s got this—${home}’s odds are a joke!`,
+    `Toss a coin, but ${home} might edge it, loser!`,
+  ];
+  return predictions[Math.floor(Math.random() * predictions.length)];
+}
