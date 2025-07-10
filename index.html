@@ -7,147 +7,343 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Courier New', monospace;
-      background-image: url('https://i.imgur.com/FvqjU2R.gif');
+      padding: 0;
+      font-family: monospace;
+      background-color: black;
+      background-image: url("https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif");
       background-size: cover;
-      background-repeat: no-repeat;
       background-attachment: fixed;
-      background-position: center;
-      color: #00ff00;
-      overflow-x: hidden;
+      color: lime;
     }
+
     header {
       background: rgba(0, 0, 0, 0.85);
+      padding: 1rem;
       color: #00ff00;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      font-size: 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 2px solid lime;
     }
-    .logo {
-      font-size: 24px;
+
+    header a {
+      color: #00ff00;
+      margin-left: 1rem;
+      text-decoration: none;
       font-weight: bold;
     }
-    nav a {
-      color: #00ff00;
-      margin-left: 15px;
-      text-decoration: none;
-    }
-    .section {
-      background-color: rgba(0, 0, 0, 0.85);
-      margin: 15px;
-      padding: 15px;
+
+    .headline-section, .events-section {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 1rem;
+      margin: 1rem;
       border-radius: 10px;
     }
-    .headline {
-      color: #00ffff;
-      font-size: 20px;
-      margin-bottom: 10px;
+
+    .headline-section h2,
+    .events-section h2 {
+      color: cyan;
+      border-bottom: 1px solid cyan;
     }
-    .news-item {
-      color: lime;
-      margin-bottom: 5px;
+
+    ul.headlines {
+      list-style-type: disc;
+      padding-left: 1.5rem;
     }
-    .odds-card {
-      margin-bottom: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
+
+    .card {
       border: 1px solid lime;
-      border-radius: 10px;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(0, 0, 0, 0.5);
     }
-    .bot-icon {
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.85);
+      font-size: 0.8rem;
+      color: white;
+    }
+
+    #bot-button {
       position: fixed;
-      bottom: 15px;
-      right: 15px;
-      z-index: 999;
-    }
-    .bot-icon img {
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
+      bottom: 20px;
+      right: 20px;
+      background: none;
+      border: none;
       cursor: pointer;
     }
-    footer {
-      text-align: center;
-      color: #ccc;
-      font-size: 14px;
+
+    #bot-button img {
+      width: 60px;
+      height: 60px;
+    }
+
+    input[type="text"] {
+      width: 100%;
       padding: 10px;
+      margin: 1rem 0;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      background-color: black;
+      color: lime;
     }
   </style>
 </head>
 <body>
+  <header>
+    <div>🏆 <span style="color:#00ff00">PlaceBets.ai</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </header>
 
-<header>
-  <div class="logo">🏆 PlaceBets.ai</div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/contact.html">Contact</a>
-  </nav>
-</header>
+  <main>
+    <section class="headline-section">
+      <h2>Top News Headlines</h2>
+      <ul id="news" class="headlines"><li>Loading headlines...</li></ul>
+    </section>
 
-<div class="section">
-  <div class="headline">Top News Headlines</div>
-  <div id="news"></div>
-</div>
+    <section>
+      <input type="text" placeholder="Search matches..." />
+    </section>
 
-<div class="section">
-  <input type="text" id="search" placeholder="Search matches…" style="width: 100%; padding: 8px; border-radius: 5px; margin-bottom: 10px;" />
-  <div class="headline">Upcoming Events</div>
-  <div id="odds"></div>
-</div>
+    <section class="events-section">
+      <h2>Upcoming Events</h2>
+      <div id="events">Loading...</div>
+    </section>
+  </main>
 
-<footer>
-  © 2025 PlaceBets.ai — Unfiltered AI Sports Predictions
-</footer>
+  <footer class="footer">
+    © 2025 PlaceBets.ai — Unfiltered AI Sports Predictions
+  </footer>
 
-<div class="bot-icon">
-  <iframe src="https://cdn.botpress.cloud/webchat/v3.0/shareable.html?configUrl=https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json" style="width: 60px; height: 60px; border: none; border-radius: 50%;"></iframe>
-</div>
+  <button id="bot-button" onclick="window.open('https://chat.placebets.ai', '_blank')">
+    <img src="https://em-content.zobj.net/thumbs/240/apple/354/robot_1f916.png" alt="Ask the Bookie"/>
+  </button>
 
-<script>
-  async function loadNews() {
-    const res = await fetch('/api/news');
-    const data = await res.json();
-    const container = document.getElementById('news');
-    if (!data || !data.items || data.items.length === 0) {
-      container.innerHTML = '<div class="news-item">No news available.</div>';
-      return;
+  <script>
+    async function loadHeadlines() {
+      const res = await fetch('/api/headlines');
+      const data = await res.json();
+      const newsEl = document.getElementById('news');
+      newsEl.innerHTML = '';
+      if (!data?.length) {
+        newsEl.innerHTML = '<li>No news available.</li>';
+        return;
+      }
+      data.slice(0, 10).forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        newsEl.appendChild(li);
+      });
     }
-    data.items.slice(0, 10).forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'news-item';
-      div.innerHTML = `<a href="${item.link}" target="_blank" style="color: lime;">• ${item.title}</a>`;
-      container.appendChild(div);
-    });
-  }
 
-  async function loadOdds() {
-    const res = await fetch('/api/odds');
-    const data = await res.json();
-    const container = document.getElementById('odds');
-    if (!data || data.length === 0) {
-      container.innerHTML = '<div class="news-item">No events found.</div>';
-      return;
+    async function loadOdds() {
+      const res = await fetch('/api/odds');
+      const data = await res.json();
+      const container = document.getElementById('events');
+      container.innerHTML = '';
+      if (!data?.length) {
+        container.innerText = 'Failed to load events.';
+        return;
+      }
+      data.forEach(event => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const [t1, t2] = event.teams;
+        const [o1, o2] = event.odds;
+        const date = new Date(event.commence_time).toLocaleString();
+        card.innerHTML = `
+          <strong>${event.sport.toUpperCase()}</strong><br/>
+          ${t1}: <strong>${o1 > 0 ? '+' : ''}${o1}</strong><br/>
+          ${t2}: <strong>${o2 > 0 ? '+' : ''}${o2}</strong><br/>
+          Date: ${date}
+        `;
+        container.appendChild(card);
+      });
     }
-    data.slice(0, 10).forEach(event => {
-      const div = document.createElement('div');
-      div.className = 'odds-card';
-      div.innerHTML = `
-        <strong>${event.sport_title}</strong><br/>
-        ${event.teams[0]}: <strong>${event.odds[0] > 0 ? '+' : ''}${event.odds[0]}</strong><br/>
-        ${event.teams[1]}: <strong>${event.odds[1] > 0 ? '+' : ''}${event.odds[1]}</strong><br/>
-        Date: ${new Date(event.commence_time).toLocaleString()}
-      `;
-      container.appendChild(div);
-    });
-  }
 
-  loadNews();
-  loadOdds();
-</script>
+    loadHeadlines();
+    loadOdds();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlaceBets.ai</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: monospace;
+      background-color: black;
+      background-image: url("https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif");
+      background-size: cover;
+      background-attachment: fixed;
+      color: lime;
+    }
 
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 1rem;
+      color: #00ff00;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid lime;
+    }
+
+    header a {
+      color: #00ff00;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .headline-section, .events-section {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 1rem;
+      margin: 1rem;
+      border-radius: 10px;
+    }
+
+    .headline-section h2,
+    .events-section h2 {
+      color: cyan;
+      border-bottom: 1px solid cyan;
+    }
+
+    ul.headlines {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+
+    .card {
+      border: 1px solid lime;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.85);
+      font-size: 0.8rem;
+      color: white;
+    }
+
+    #bot-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    #bot-button img {
+      width: 60px;
+      height: 60px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 1rem 0;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
+      background-color: black;
+      color: lime;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>🏆 <span style="color:#00ff00">PlaceBets.ai</span></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="headline-section">
+      <h2>Top News Headlines</h2>
+      <ul id="news" class="headlines"><li>Loading headlines...</li></ul>
+    </section>
+
+    <section>
+      <input type="text" placeholder="Search matches..." />
+    </section>
+
+    <section class="events-section">
+      <h2>Upcoming Events</h2>
+      <div id="events">Loading...</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2025 PlaceBets.ai — Unfiltered AI Sports Predictions
+  </footer>
+
+  <button id="bot-button" onclick="window.open('https://chat.placebets.ai', '_blank')">
+    <img src="https://em-content.zobj.net/thumbs/240/apple/354/robot_1f916.png" alt="Ask the Bookie"/>
+  </button>
+
+  <script>
+    async function loadHeadlines() {
+      const res = await fetch('/api/headlines');
+      const data = await res.json();
+      const newsEl = document.getElementById('news');
+      newsEl.innerHTML = '';
+      if (!data?.length) {
+        newsEl.innerHTML = '<li>No news available.</li>';
+        return;
+      }
+      data.slice(0, 10).forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        newsEl.appendChild(li);
+      });
+    }
+
+    async function loadOdds() {
+      const res = await fetch('/api/odds');
+      const data = await res.json();
+      const container = document.getElementById('events');
+      container.innerHTML = '';
+      if (!data?.length) {
+        container.innerText = 'Failed to load events.';
+        return;
+      }
+      data.forEach(event => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const [t1, t2] = event.teams;
+        const [o1, o2] = event.odds;
+        const date = new Date(event.commence_time).toLocaleString();
+        card.innerHTML = `
+          <strong>${event.sport.toUpperCase()}</strong><br/>
+          ${t1}: <strong>${o1 > 0 ? '+' : ''}${o1}</strong><br/>
+          ${t2}: <strong>${o2 > 0 ? '+' : ''}${o2}</strong><br/>
+          Date: ${date}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    loadHeadlines();
+    loadOdds();
+  </script>
 </body>
 </html>
