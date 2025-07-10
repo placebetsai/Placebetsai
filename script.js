@@ -91,13 +91,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  chatButton.addEventListener("click", () => {
+  chatButton.addEventListener("click", async () => {
     const input = chatInput.value.toLowerCase();
     if (!input) return;
-    let talk = "What’s your bet? Another flop like your life?";
-    if (input.includes('wrestling')) talk = "That match? Even Vince wouldn’t book that crap!";
-    if (input.includes('bet')) talk = "Your bet’s so weak, it’s like betting on a heel turn in a dark match!";
-    responseP.textContent = talk;
+    responseP.textContent = "Thinking...";
+
+    try {
+      const res = await fetch("https://api.x.ai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + process.env.XAI_API_KEY // Your API key in Vercel
+        },
+        body: JSON.stringify({
+          model: "grok-beta",
+          messages: [
+            { role: "system", content: "You are a trash talking bookie. Respond with relevant sports predictions, reasoning, and sarcastic roasts." },
+            { role: "user", content: input }
+          ],
+          temperature: 0.7,
+          max_tokens: 150
+        })
+      });
+      if (!res.ok) throw new Error('Failed to get response');
+      const data = await res.json();
+      responseP.textContent = data.choices[0].message.content;
+    } catch (error) {
+      responseP.textContent = "Failed to get response. Try again.";
+      console.error(error);
+    }
     chatInput.value = "";
   });
 
