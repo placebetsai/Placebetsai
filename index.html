@@ -17,8 +17,9 @@
     #news-headlines { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; border: 1px solid #00FF00; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); background: rgba(0, 0, 0, 0.5); }
     #news-headlines li { margin-bottom: 5px; transition: color 0.3s; }
     #news-headlines li:hover { color: #FFD700; }
-    #search { width: 100%; padding: 8px; margin-bottom: 10px; background: rgba(0, 0, 0, 0.8); color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); transition: box-shadow 0.3s; }
+    #search { width: 70%; padding: 8px; margin-bottom: 10px; background: rgba(0, 0, 0, 0.8); color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); transition: box-shadow 0.3s; }
     #search:focus { box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4); }
+    .sort-select { width: 28%; padding: 8px; background: rgba(0, 0, 0, 0.8); color: #00FF00; border: 1px solid #00FF00; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); }
     .event-card { background: rgba(0, 255, 0, 0.1); border: 1px solid #00FF00; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); transition: transform 0.3s; }
     .event-card:hover { transform: scale(1.02); }
     .trash-talking-bookie { margin-top: 20px; padding: 10px; border: 1px solid #00FF00; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 255, 0, 0.2); background: rgba(0, 0, 0, 0.5); }
@@ -44,6 +45,10 @@
   </ul>
   <h2 class="section-title">Upcoming Events</h2>
   <input id="search" placeholder="Search matches...">
+  <select id="sort-select" class="sort-select">
+    <option value="date">Sort by Date</option>
+    <option value="odds">Sort by Odds</option>
+  </select>
   <div id="events">
     <div>Loading events...</div>
   </div>
