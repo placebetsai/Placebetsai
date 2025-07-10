@@ -3,102 +3,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="/public/styles.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: black url('/public/matrix-bg.jpg') repeat;
-      background-size: cover;
-      color: white;
-    }
-    header {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header h1 {
-      font-size: 1.5em;
-      color: white;
-    }
-    header nav a {
-      margin-left: 15px;
-      color: #9c8eff;
-      text-decoration: underline;
-      font-size: 1.1em;
-    }
-    main {
-      padding: 20px;
-    }
-    h2 {
-      font-size: 2em;
-      margin-top: 30px;
-    }
-    .search-box {
-      margin: 10px 0 20px;
-    }
-    .search-box input {
-      width: 100%;
-      max-width: 300px;
-      padding: 10px;
-      font-size: 1em;
-    }
-    .event-card {
-      border: 1px solid #0f0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-    .event-card strong {
-      display: block;
-      margin-bottom: 10px;
-    }
-    .bookmaker {
-      margin-bottom: 6px;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #ccc;
-    }
-    #botpress-webchat {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css" />
+  <script defer src="/api/odds.js"></script>
+  <script defer src="/api/trash.js"></script>
+  <script defer src="/api/headlines.js"></script>
+  <script defer src="/api/news.js"></script>
 </head>
 <body>
-  <header>
-    <h1>🏆 <span style="color: white">Place</span><b style="color:#fff">Bets.ai</b></h1>
-    <nav>
+  <header class="sticky-header">
+    <div class="logo">
+      <span class="emoji">🏆</span>
+      <span class="brand">PlaceBets.ai</span>
+    </div>
+    <nav class="nav-links">
       <a href="/">Home</a>
       <a href="/contact.html">Contact</a>
     </nav>
   </header>  <main>
-    <h2 style="color:lime">Top News Headlines</h2>
-    <ul id="news-list"><li>Loading headlines...</li></ul><div class="search-box">
-  <input type="text" id="search" placeholder="Search matches...">
+    <section class="headlines">
+      <h2>Top News Headlines</h2>
+      <ul id="headlines-list">
+        <li>Loading headlines...</li>
+      </ul>
+    </section><div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search matches..." onkeyup="filterMatches()" />
 </div>
 
-<h2 style="color:lime">Upcoming Events</h2>
-<div id="events">Loading events...</div>
+<section class="events">
+  <h2>Upcoming Events</h2>
+  <div id="odds-container">Loading events...</div>
+</section>
 
   </main>  <footer>
-    <p>© 2025 PlaceBets.ai | For entertainment purposes only</p>
-  </footer>  <script src="/api/odds.js"></script>  <script src="/api/headlines.js"></script>  <script src="/api/trash.js"></script>  <script>
+    <p>&copy; 2025 PlaceBets.ai | For entertainment purposes only</p>
+  </footer>  <script>
+    function filterMatches() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const cards = document.querySelectorAll('.event-card');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(filter) ? 'block' : 'none';
+      });
+    }
+  </script>  <!-- Chatbot Embed -->  <script src="https://cdn.botpress.cloud/webchat/v3"></script>  <script>
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
       botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3",
-      extraStylesheet: "/public/bot-style.css"
+      containerWidth: "100%",
+      layoutWidth: "100%",
+      hideWidget: false,
+      disableAnimations: false,
+      enableConversationDeletion: true,
+      showPoweredBy: false,
     });
   </script></body>
 </html>
