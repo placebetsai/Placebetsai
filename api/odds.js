@@ -1,41 +1,22 @@
 export default async function handler(req, res) {
   const apiKey = process.env.ODDS_API_KEY;
-  const region = 'us';
-  const market = 'h2h';
-  const sport = 'upcoming';
-
-  const url = `https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${apiKey}&regions=${region}&markets=${market}`;
+  const url = `https://api.the-odds-api.com/v4/sports/upcoming/odds/?apiKey=${apiKey}&regions=us&markets=h2h`;
 
   try {
     const response = await fetch(url);
+    if (!response.ok) throw new Error("Bad response from Odds API");
+
     const data = await response.json();
+    const parsed = data.slice(0, 10).map(event => ({
+      sport_title: event.sport_title,
+      commence_time: new Date(event.commence_time).toLocaleString(),
+      teams: event.bookmakers[0]?.markets[0]?.outcomes.map(o => o.name) || [],
+      odds: event.bookmakers[0]?.markets[0]?.outcomes.map(o => o.price) || []
+    }));
 
-    const events = data.slice(0, 10).map(game => {
-      const bookmaker = game.bookmakers[0];
-      const outcomes = bookmaker?.markets[0]?.outcomes || [];
-
-      return {
-        match: `${game.home_team} vs ${game.away_team}`,
-        date: new Date(game.commence_time).toLocaleDateString(),
-        time: new Date(game.commence_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        team1: game.home_team,
-        team2: game.away_team,
-        odds1: formatOdds(outcomes.find(o => o.name === game.home_team)?.price),
-        odds2: formatOdds(outcomes.find(o => o.name === game.away_team)?.price),
-        trash: ""
-      };
-    });
-
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(events);
+    res.status(200).json(parsed);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch odds', details: err.message });
-  }
-
-  function formatOdds(decimal) {
-    if (!decimal) return '?';
-    return decimal >= 2
-      ? `+${Math.round((decimal - 1) * 100)}`
-      : `-${Math.round(100 / (decimal - 1))}`;
+    console.error("Odds error:", err.message);
+    res.status(500).json({ error: "Failed to fetch odds." });
   }
 }
