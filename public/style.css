@@ -1,128 +1,62 @@
-body {
-  margin: 0;
-  background-color: black;
-  color: white;
-  font-family: Arial, sans-serif;
-  background-image: url('/public/matrix-bg.jpg');
-  background-size: cover;
-  background-attachment: fixed;
+const searchInput = document.getElementById("search");
+const eventsContainer = document.getElementById("events");
+const headlinesList = document.getElementById("news-headlines");
+
+async function loadOdds() {
+  try {
+    const res = await fetch("https://placebets-api.vercel.app/api/odds");
+    const data = await res.json();
+
+    eventsContainer.innerHTML = "";
+
+    data.forEach(event => {
+      const card = document.createElement("div");
+      card.className = "event-card";
+
+      const title = `<b>${event.home_team} vs ${event.away_team}</b>`;
+      let content = "";
+
+      event.bookmakers.forEach(bm => {
+        const h2h = bm.markets.find(m => m.key === "h2h");
+        if (h2h) {
+          const odds = h2h.outcomes.map(o => `${o.name} ${o.price > 0 ? '+' : ''}${o.price}`).join(" | ");
+          content += `<em>${bm.title}:</em> ${odds}<br/>`;
+        }
+      });
+
+      card.innerHTML = `${title}<br/>${content}`;
+      eventsContainer.appendChild(card);
+    });
+  } catch (e) {
+    eventsContainer.innerHTML = "Failed to load events.";
+    console.error(e);
+  }
 }
 
-.sticky-header {
-  position: sticky;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  z-index: 1000;
-  border-bottom: 1px solid lime;
+async function loadHeadlines() {
+  try {
+    const res = await fetch("https://placebets-api.vercel.app/api/headlines");
+    const data = await res.json();
+    headlinesList.innerHTML = "";
+
+    data.forEach(headline => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${headline.link}" target="_blank">${headline.title}</a>`;
+      headlinesList.appendChild(li);
+    });
+  } catch (err) {
+    console.error(err);
+    headlinesList.innerHTML = "<li>Failed to load headlines.</li>";
+  }
 }
 
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: lime;
-}
+searchInput.addEventListener("input", () => {
+  const cards = document.querySelectorAll(".event-card");
+  const q = searchInput.value.toLowerCase();
+  cards.forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(q) ? "block" : "none";
+  });
+});
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: bold;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-  color: lime;
-}
-
-main {
-  padding: 20px;
-}
-
-h2 {
-  color: lime;
-  margin-top: 40px;
-}
-
-#headlines-list {
-  list-style: none;
-  padding-left: 0;
-}
-
-#headlines-list li {
-  padding: 8px;
-  border-bottom: 1px solid #333;
-}
-
-.search-bar {
-  margin: 20px 0;
-}
-
-.search-bar input {
-  padding: 10px;
-  width: 100%;
-  max-width: 400px;
-  font-size: 1em;
-  border: 2px solid lime;
-  background-color: #111;
-  color: white;
-}
-
-.event-card {
-  border: 1px solid lime;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.event-card strong {
-  font-size: 1.2em;
-  display: block;
-  margin-bottom: 10px;
-  color: #0f0;
-}
-
-.bookmaker {
-  margin-left: 10px;
-  display: block;
-  color: #9c8eff;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  color: gray;
-  margin-top: 40px;
-  font-size: 0.9em;
-}
-
-#botpress-webchat {
-  position: fixed !important;
-  bottom: 15px;
-  right: 15px;
-  z-index: 9999;
-}
-
-
-✅ Your style.css is ready. It includes:
-
-Matrix-style background
-
-Odds spacing per bookmaker
-
-Slick lime-green accent
-
-Sticky header
-
-Chatbot position fixed
-
-Mobile-friendly layout
-
-
-Next: I’ll patch contact.html to send email to placebetsai@gmail.com.
-Say “go” to finish this last piece.
-
+loadOdds();
+loadHeadlines();
