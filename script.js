@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const responseP = document.getElementById("response");
   let allOdds = [];
   let displayedOdds = 10;
+  let sortBy = 'date'; // Default sort
 
   async function loadOdds() {
     try {
@@ -14,9 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error('Failed to fetch odds');
       const data = await res.json();
       allOdds = data;
-      displayOdds(data.slice(0, displayedOdds));
+      sortOdds();
     } catch (e) {
-      eventsContainer.innerHTML = "Failed to load events.";
+      eventsContainer.innerHTML = "Failed to load events. Check console for details.";
       console.error(e);
     }
   }
@@ -34,8 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (err) {
       console.error(err);
-      headlinesList.innerHTML = "Failed to load headlines.";
+      headlinesList.innerHTML = "Failed to load headlines. Check console for details.";
     }
+  }
+
+  function sortOdds() {
+    let sorted = [...allOdds];
+    if (sortBy === 'date') {
+      sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortBy === 'odds') {
+      sorted.sort((a, b) => a.odds[0].value - b.odds[0].value);
+    }
+    displayOdds(sorted.slice(0, displayedOdds));
   }
 
   function displayOdds(odds) {
@@ -43,24 +54,21 @@ document.addEventListener("DOMContentLoaded", () => {
     odds.forEach(event => {
       const card = document.createElement("div");
       card.className = "event-card";
-      const title = `${event.home_team} vs ${event.away_team}`;
+      const title = `${event.event} (${new Date(event.date).toLocaleDateString()})`;
       let content = "";
-      event.bookmakers.forEach(bm => {
-        const h2h = bm.markets.find(m => m.key === "h2h");
-        if (h2h) {
-          const oddsText = h2h.outcomes.map(o => `${o.name} ${o.price > 0 ? '+' : ''}${o.price}`).join(" | ");
-          content += `${bm.title}: ${oddsText}<br>`;
-        }
+      event.odds.forEach(o => {
+        content += `${o.source}: ${o.value}<br>`;
       });
-      card.innerHTML = `<h3>${title}</h3>${content}`;
+      card.innerHTML = `<h3>${title}</h3>${content}<p class="bookie-blurb">${event.bookiePrediction}</p>`;
       eventsContainer.appendChild(card);
     });
     if (allOdds.length > displayedOdds) {
       const showMore = document.createElement("button");
+      showMore.className = "show-more";
       showMore.textContent = "Show More";
       showMore.onclick = () => {
         displayedOdds += 10;
-        displayOdds(allOdds.slice(0, displayedOdds));
+        sortOdds();
       };
       eventsContainer.appendChild(showMore);
     }
@@ -74,6 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Sort dropdown
+  const sortSelect = document.getElementById("sort-select");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+      sortBy = e.target.value;
+      sortOdds();
+    });
+  }
+
   chatButton.addEventListener("click", () => {
     const input = chatInput.value.toLowerCase();
     if (!input) return;
@@ -86,4 +103,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadOdds();
   loadHeadlines();
+
+  // Animated Matrix background
+  const canvas = document.createElement("canvas");
+  canvas.id = "matrix";
+  document.body.insertBefore(canvas, document.body.firstChild);
+  const ctx = canvas.getContext('2d');
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const binary = '01';
+  const fontSize = 10;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({length: columns}, () => 1);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0F0';
+    ctx.font = fontSize + 'px arial';
+    for (let i = 0; i < drops.length; i++) {
+      const text = binary[Math.floor(Math.random() * binary.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 33);
+
+  // Resize canvas on window resize
+  window.addEventListener('resize', () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  });
 });
