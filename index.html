@@ -1,61 +1,43 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="/style.css" />
-  <script defer src="/api/odds.js"></script>
-  <script defer src="/api/trash.js"></script>
-  <script defer src="/api/headlines.js"></script>
-  <script defer src="/api/news.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header class="sticky-header">
-    <div class="logo">
-      <span class="emoji">🏆</span>
-      <span class="brand">PlaceBets.ai</span>
-    </div>
-    <nav class="nav-links">
-      <a href="/">Home</a>
-      <a href="/contact.html">Contact</a>
+  <header>
+    <div class="logo">🏆 <span>Place</span><b>Bets.ai</b></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="contact.html">Contact</a>
     </nav>
-  </header>  <main>
-    <section class="headlines">
-      <h2>Top News Headlines</h2>
-      <ul id="headlines-list">
-        <li>Loading headlines...</li>
-      </ul>
-    </section><div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Search matches..." onkeyup="filterMatches()" />
-</div>
+  </header>
 
-<section class="events">
-  <h2>Upcoming Events</h2>
-  <div id="odds-container">Loading events...</div>
-</section>
+  <main>
+    <h1 class="section-title">Top News Headlines</h1>
+    <ul id="news-headlines">
+      <li>Loading headlines...</li>
+    </ul>
 
-  </main>  <footer>
-    <p>&copy; 2025 PlaceBets.ai | For entertainment purposes only</p>
-  </footer>  <script>
-    function filterMatches() {
-      const input = document.getElementById('searchInput');
-      const filter = input.value.toLowerCase();
-      const cards = document.querySelectorAll('.event-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(filter) ? 'block' : 'none';
-      });
-    }
-  </script>  <!-- Chatbot Embed -->  <script src="https://cdn.botpress.cloud/webchat/v3"></script>  <script>
+    <input type="text" id="search" placeholder="Search matches…" />
+
+    <h1 class="section-title">Upcoming Events</h1>
+    <div id="events">Loading events…</div>
+  </main>
+
+  <footer>
+    <p>© 2025 PlaceBets.ai | For entertainment purposes only</p>
+  </footer>
+
+  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
+  <script>
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
-      containerWidth: "100%",
-      layoutWidth: "100%",
-      hideWidget: false,
-      disableAnimations: false,
-      enableConversationDeletion: true,
-      showPoweredBy: false,
+      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb"
     });
-  </script></body>
+  </script>
+</body>
 </html>
