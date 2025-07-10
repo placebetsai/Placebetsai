@@ -1,13 +1,35 @@
-export default async function handler(req, res) {
+const Parser = require('rss-parser');
+const cache = require('memory-cache');
+
+const parser = new Parser();
+const feeds = [
+  'https://www.espn.com/espn/rss/news',
+  'https://bleacherreport.com/articles/feed',
+  'https://www.wrestlinginc.com/feed/',
+  'https://www.cagesideseats.com/rss',
+  'http://feeds.bbci.co.uk/sport/rss.xml',
+];
+
+module.exports = async function (context, req) {
+  const cacheKey = 'headlines_data';
+  const cached = cache.get(cacheKey);
+  if (cached) return context.res.json(cached);
+
+  let headlines = [];
   try {
-    const response = await fetch("https://rss.app/feeds/4iL7zWgS1x6F1yAJ.json");
-    const data = await response.json();
-
-    const headlines = data.items.slice(0, 10).map((item) => item.title);
-
-    res.status(200).json({ headlines });
+    for (const feedUrl of feeds) {
+      const feed = await parser.parseURL(feedUrl);
+      headlines.push(...feed.items.slice(0, 5).map(item => ({
+        title: item.title,
+        link: item.link,
+        source: feed.title,
+      })));
+    }
+    headlines.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
   } catch (error) {
-    console.error("Failed to fetch headlines:", error);
-    res.status(500).json({ error: "Failed to load news" });
+    console.error(error);
   }
-}
+
+  cache.put(cacheKey, headlines, 15 * 60 * 1000); // Cache for 15 minutes
+  context.res.json(headlines);
+};
