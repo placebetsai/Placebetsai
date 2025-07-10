@@ -1,102 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlaceBets.ai</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="https://em-content.zobj.net/thumbs/160/apple/354/trophy_1f3c6.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="icon" href="https://em-content.zobj.net/thumbs/240/apple/354/trophy_1f3c6.png" type="image/png" />
 </head>
 <body>
   <header>
-    <h1><span class="emoji">🏆</span> PlaceBets.ai</h1>
-    <nav>
-      <a href="/">Home</a>
+    <div class="header-logo">
+      <span class="emoji">🏆</span>
+      <span class="logo-text">PlaceBets.ai</span>
+    </div>
+    <nav class="menu">
+      <a href="/index.html">Home</a>
       <a href="/contact.html">Contact</a>
     </nav>
-  </header>
-
-  <main>
-    <section>
+  </header>  <main>
+    <section class="news-section">
       <h2>Top News Headlines</h2>
       <ul id="news-list">
-        <li>Loading news...</li>
+        <li>Loading headlines...</li>
       </ul>
-    </section>
+    </section><section class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search matches...">
+</section>
 
-    <input type="text" id="searchInput" placeholder="Search matches..." />
+<section class="events-section">
+  <h2>Upcoming Events</h2>
+  <div id="events-container">Loading events...</div>
+</section>
 
-    <section>
-      <h2>Upcoming Events</h2>
-      <div id="events-container">Loading events...</div>
-    </section>
-  </main>
-
-  <footer>
-    © 2025 PlaceBets.ai — Unfiltered AI Sports Predictions
-  </footer>
-
-  <!-- Chatbot -->
-  <div id="bookie-bot-button">
-    🤖
-  </div>
-  <script src="https://cdn.botpress.cloud/webchat/v3"></script>
-  <script>
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
-      botId: "539d8fd6-0467-49c5-ba74-367f2e8ec6cb",
+  </main>  <div id="chatbot-container"></div>  <footer>
+    <p>&copy; 2025 PlaceBets.ai | For entertainment purposes only</p>
+  </footer>  <script src="/api/odds.js"></script>  <script src="/api/news.js"></script>  <script src="/api/trash.js"></script>  <script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const searchTerm = this.value.toLowerCase();
+      document.querySelectorAll('.event-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+      });
     });
-  </script>
 
-  <!-- News Feed Script -->
-  <script>
-    async function loadNews() {
-      try {
-        const res = await fetch("/api/headlines");
-        const { headlines } = await res.json();
-        const list = document.getElementById("news-list");
-        list.innerHTML = "";
-        if (headlines.length === 0) {
-          list.innerHTML = "<li>No news available.</li>";
-          return;
-        }
-        headlines.forEach(title => {
-          const li = document.createElement("li");
-          li.textContent = title;
-          list.appendChild(li);
-        });
-      } catch (err) {
-        document.getElementById("news-list").innerHTML = "<li>Failed to load news.</li>";
-      }
-    }
-    loadNews();
-  </script>
-
-  <!-- Odds Feed Script -->
-  <script>
-    async function loadEvents() {
-      try {
-        const res = await fetch("/api/odds");
-        const events = await res.json();
-        const container = document.getElementById("events-container");
-        container.innerHTML = "";
-        events.forEach(event => {
-          const div = document.createElement("div");
-          div.className = "event-card";
-          div.innerHTML = `
-            <h3>${event.sport}</h3>
-            <p>${event.teams[0]}: <strong>${event.odds[0]}</strong></p>
-            <p>${event.teams[1]}: <strong>${event.odds[1]}</strong></p>
-            <p>Date: ${event.date}</p>
-          `;
-          container.appendChild(div);
-        });
-      } catch (err) {
-        document.getElementById("events-container").innerHTML = "Failed to load events.";
-      }
-    }
-    loadEvents();
-  </script>
-
-</body>
+    // Inject Botpress
+    window.botpressWebChat = {
+      configUrl: "https://files.bpcontent.cloud/2025/07/03/19/20250703190713-ODG9KBZT.json",
+    };
+  </script>  <script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js"></script></body>
 </html>
