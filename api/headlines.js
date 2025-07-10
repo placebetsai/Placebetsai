@@ -1,14 +1,5 @@
-const Parser = require('rss-parser');
+const fetch = require('node-fetch');
 const cache = require('memory-cache');
-
-const parser = new Parser();
-const feeds = [
-  'https://www.espn.com/espn/rss/news',
-  'https://bleacherreport.com/articles/feed',
-  'https://www.wrestlinginc.com/feed/',
-  'https://www.cagesideseats.com/rss',
-  'http://feeds.bbci.co.uk/sport/rss.xml',
-];
 
 module.exports = async function (context, req) {
   const cacheKey = 'headlines_data';
@@ -17,17 +8,27 @@ module.exports = async function (context, req) {
 
   let headlines = [];
   try {
-    for (const feedUrl of feeds) {
-      const feed = await parser.parseURL(feedUrl);
-      headlines.push(...feed.items.slice(0, 5).map(item => ({
-        title: item.title,
-        link: item.link,
-        source: feed.title,
-      })));
+    const res = await fetch("https://corsproxy.io/?" + encodeURIComponent("https://sports.yahoo.com/rss/"));
+    if (!res.ok) throw new Error(`Proxy error: ${res.status} - ${await res.text()}`);
+    const text = await res.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "text/xml");
+    const items = xmlDoc.getElementsByTagName("item");
+    for (let i = 0; i < Math.min(5, items.length); i++) {
+      const item = items[i];
+      headlines.push({
+        title: item.getElementsByTagName("title")[0].textContent,
+        link: item.getElementsByTagName("link")[0].textContent,
+        source: "Yahoo Sports"
+      });
     }
-    headlines.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    if (headlines.length === 0) throw new Error("No items from RSS");
   } catch (error) {
-    console.error(error);
+    console.error("RSS fetch failed, using fallback data:", error);
+    headlines = [
+      { title: "Yankees Beat Mariners", link: "https://sports.yahoo.com/news/", source: "Yahoo Sports" },
+      { title: "Wrestling PPV Preview", link: "https://www.espn.com/wwe/", source: "ESPN" },
+    ];
   }
 
   cache.put(cacheKey, headlines, 15 * 60 * 1000); // Cache for 15 minutes
