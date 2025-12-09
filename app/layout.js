@@ -1,33 +1,34 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import MatrixBackground from "../components/MatrixBackground";
 
 export const metadata = {
-  title: "PlaceBets.ai – Learn Sports Betting Without Going Broke",
+  title: "PlaceBets.ai – Learn Odds, Tools & Strategy",
   description:
-    "Clean, no-BS guide to sports betting. Learn moneylines, spreads, parlays, bankroll management, and what a $100 bet really wins.",
+    "Education-first sports betting hub. Odds calculators, bankroll strategy, +EV betting, and a clean glossary so you stop gambling blind.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="site-root">
-        <canvas id="matrix"></canvas>
-        <MatrixBackground />
-
-        <header className="site-header">
+      <body>
+        <div className="app-shell">
           <Navbar />
-        </header>
-
-        <main>{children}</main>
-
-        <footer className="site-footer">
-          <p>© 2025 PlaceBets.ai – For entertainment & education only.</p>
-          <p>
-            Business or media?{" "}
-            <a href="mailto:info@placebets.ai">info@placebets.ai</a>
-          </p>
-        </footer>
+          <main className="site-main">{children}</main>
+          <footer
+            style={{
+              textAlign: "center",
+              padding: "32px 20px 40px",
+              borderTop: "1px solid #111827",
+              color: "#6b7280",
+              fontSize: "0.8rem",
+            }}
+          >
+            <p>
+              © {new Date().getFullYear()} PlaceBets.ai · Education only ·
+              21+ · No betting offered.
+            </p>
+          </footer>
+        </div>
       </body>
     </html>
   );
