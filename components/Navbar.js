@@ -16,58 +16,60 @@ export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  const toggle = () => setOpen(!open);
+  const close = () => setOpen(false);
+
   return (
-    <nav className="navbar">
+    <header className="navbar">
       <div className="nav-inner">
         {/* LOGO */}
-        <Link href="/" className="logo">
-          PLACEBETS<span className="logo-accent">.AI</span>
+        <Link href="/" className="nav-logo" onClick={close}>
+          PLACEBETS<span>.AI</span>
         </Link>
 
         {/* DESKTOP LINKS */}
-        <div className="nav-links-desktop">
+        <nav className="nav-links">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={
-                pathname === link.href ? "nav-link active-link" : "nav-link"
+                "nav-link" + (pathname === link.href ? " nav-link-active" : "")
               }
             >
               {link.label}
             </Link>
           ))}
-        </div>
+        </nav>
 
         {/* HAMBURGER (MOBILE) */}
         <button
-          className={`hamburger ${open ? "hamburger-open" : ""}`}
-          onClick={() => setOpen(!open)}
+          className="nav-toggle"
+          onClick={toggle}
           aria-label="Toggle navigation"
         >
-          <span className="bar" />
-          <span className="bar" />
-          <span className="bar" />
+          {open ? "✕" : "☰"}
         </button>
       </div>
 
-      {/* MOBILE MENU DROPDOWN */}
+      {/* MOBILE MENU */}
       {open && (
-        <div className="nav-links-mobile">
+        <nav className="nav-mobile">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={
-                pathname === link.href ? "nav-link active-link" : "nav-link"
+                "nav-link nav-link-mobile" +
+                (pathname === link.href ? " nav-link-active" : "")
               }
-              onClick={() => setOpen(false)}
+              onClick={close}
             >
               {link.label}
             </Link>
           ))}
-        </div>
+        </nav>
       )}
-    </nav>
+    </header>
   );
-                }
+}
