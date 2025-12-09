@@ -1,0 +1,109 @@
+export default function LearnBettingPage() {
+  return (
+    <section className="section">
+      <h1 className="section-title">Learn Sports Betting Fundamentals</h1>
+      <p className="section-intro">
+        This is the “read this once and stop betting like a rookie” page. No
+        sales pitch. Just the concepts you actually need to understand.
+      </p>
+
+      <div className="card-grid">
+        <div className="card">
+          <h3>Moneylines</h3>
+          <p className="card-tag">Who wins the game, nothing else</p>
+          <ul className="card-list">
+            <li>
+              <strong>-150</strong>: Bet $150 to win $100. Favorite.
+            </li>
+            <li>
+              <strong>+150</strong>: Bet $100 to win $150. Underdog.
+            </li>
+            <li>
+              Implied probability: <code>prob = risk / (risk + win)</code>.
+            </li>
+          </ul>
+          <p className="card-example">
+            Example: -150 favorite = book saying they should win ~60% of the
+            time.
+          </p>
+        </div>
+
+        <div className="card">
+          <h3>Point spreads</h3>
+          <p className="card-tag">How books balance mismatches</p>
+          <ul className="card-list">
+            <li>
+              <strong>-3.5</strong>: Favorite must win by 4+ points to cash.
+            </li>
+            <li>
+              <strong>+3.5</strong>: Underdog can lose by 3 or less and still
+              cash.
+            </li>
+            <li>Most spreads are priced around -110 each side.</li>
+          </ul>
+          <p className="card-example">
+            Example: -3.5 at -110 = risk $110 to win $100 on a 4+ point win.
+          </p>
+        </div>
+
+        <div className="card">
+          <h3>Totals (over/under)</h3>
+          <p className="card-tag">Betting on combined points</p>
+          <ul className="card-list">
+            <li>Book sets a line: e.g. 47.5 total points.</li>
+            <li>You bet over or under that number.</li>
+            <li>Usually -110 each side unless something is weird.</li>
+          </ul>
+          <p className="card-example">
+            Example: Over 47.5 in an NFL game — you want fireworks, not punts.
+          </p>
+        </div>
+
+        <div className="card">
+          <h3>Parlays</h3>
+          <p className="card-tag">Multiple bets, one big payout</p>
+          <ul className="card-list">
+            <li>Every leg must win or the whole thing dies.</li>
+            <li>Payout multiplies the odds of each leg.</li>
+            <li>Books love parlays because your edge shrinks fast.</li>
+          </ul>
+          <p className="card-example">
+            Example: 3 legs at -110 each ≈ +596 payout, ~14–15% to actually hit.
+          </p>
+        </div>
+
+        <div className="card">
+          <h3>Bankroll strategy</h3>
+          <p className="card-tag">How not to blow up</p>
+          <ul className="card-list">
+            <li>Decide a set bankroll: money you can actually lose.</li>
+            <li>Bet 0.5–2% of that per play.</li>
+            <li>Use units instead of dollar amounts.</li>
+          </ul>
+          <p className="card-example">
+            Example: $2,000 roll = $20 &quot;unit&quot;. Most bets = 1 unit. Strongest
+            conviction = 2 units.
+          </p>
+        </div>
+
+        <div className="card">
+          <h3>Closing line value</h3>
+          <p className="card-tag">The sharpness scoreboard</p>
+          <ul className="card-list">
+            <li>
+              If you bet -2.5 and it closes -4, you beat the market. Good sign.
+            </li>
+            <li>
+              If you bet -2.5 and it closes -1, you probably misread it.
+            </li>
+            <li>Long-term, beating the closing line is more important than wins.</li>
+          </ul>
+          <p className="card-example">
+            Example: Pros obsess over closing line; recs obsess over yesterday&apos;s
+            parlay.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
