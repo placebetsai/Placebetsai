@@ -1,10 +1,11 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import NewsTicker from "../components/NewsTicker";
 
 export const metadata = {
-  title: "PlaceBets.ai – Professional Betting Toolkit",
+  title: "PlaceBets.ai – The Professional Betting Toolkit",
   description:
-    "Advanced sports betting tools, calculators, bankroll management and +EV strategy.",
+    "Advanced sports betting tools, tournament finder, and bankroll management strategies.",
 };
 
 export default function RootLayout({ children }) {
@@ -13,10 +14,18 @@ export default function RootLayout({ children }) {
       <body>
         <div className="app-shell">
           <Navbar />
+          <NewsTicker />
           <main className="site-main">{children}</main>
-          <footer className="site-footer">
-            © {new Date().getFullYear()} PlaceBets.ai · Education only · 21+ ·
-            No betting offered.
+          <footer
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              borderTop: "1px solid #111827",
+              color: "#4b5563",
+              fontSize: "0.8rem",
+            }}
+          >
+            <p>© {new Date().getFullYear()} PlaceBets.ai · Educational Use Only · 21+</p>
           </footer>
         </div>
       </body>
