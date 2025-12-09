@@ -1,164 +1,37 @@
 :root {
   --bg-dark: #050608;
-  --bg-panel: #060a10;
-  --bg-card: #0b1018;
-  --bg-card-hover: #121827;
-
-  --primary: #00e676;
-  --primary-glow: rgba(0, 230, 118, 0.18);
-  --accent: #2979ff;
-  --danger: #ff1744;
-
-  --text-main: #f9fbff;
-  --text-muted: #9ba3b5;
-
-  --border-subtle: #111827;
-  --border-strong: #1f2937;
-
-  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
+  --primary: #00e676; /* Neon Green */
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+  --border-color: #1f2937;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: radial-gradient(circle at top, #0b1320 0, #020308 55%);
+  background-color: var(--bg-dark);
   color: var(--text-main);
-  font-family: var(--font-main);
-  -webkit-font-smoothing: antialiased;
+  font-family: system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
-/* kill default blue links */
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
-a:hover {
-  text-decoration: none;
-}
+/* APP SHELL */
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.site-main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 100px 20px 40px; }
 
-/* ---------- APP SHELL ---------- */
-
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.site-main {
-  flex: 1;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 96px 20px 40px; /* room for navbar */
-}
-
-/* ---------- TYPOGRAPHY ---------- */
-
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  margin-bottom: 20px;
-  line-height: 1.1;
-}
-
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 15px;
-}
-
-h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-p {
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 18px;
-  font-size: 1.02rem;
-}
-
-.highlight {
-  color: var(--primary);
-}
-
-/* ---------- BUTTONS ---------- */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.18s ease-out;
-  font-size: 0.95rem;
-  border: none;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: #020617;
-  box-shadow: 0 0 25px var(--primary-glow);
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 0 35px var(--primary-glow);
-}
-
-/* generic ghost button */
-.btn-ghost {
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb;
-  border: 1px solid var(--border-subtle);
-}
-
-.btn-ghost:hover {
-  border-color: var(--primary);
-}
-
-/* STRONGER ghost buttons just for sportsbook cards */
-.book-card .btn-ghost {
-  background: #020617;
-  color: #f9fafb;
-  border: 1px solid #16a34a;
-  box-shadow: 0 0 20px rgba(22, 163, 74, 0.2);
-}
-
-.book-card .btn-ghost:hover {
-  background: #022c22;
-  border-color: #22c55e;
-}
-
-/* ---------- NAVBAR FIXED (with mobile menu) ---------- */
+/* --------------------------------------------------------- */
+/* NAVBAR STYLES (THE FIX)                                   */
+/* --------------------------------------------------------- */
 
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 70px;
-  background: rgba(5, 6, 8, 0.9);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #1f2937;
-  z-index: 100;
+  background-color: #050608; /* Solid dark color base */
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
 }
 
 .navbar-container {
@@ -172,255 +45,116 @@ p {
 }
 
 /* LOGO */
-.logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -1px;
-}
-
-.logo-accent {
-  color: #00e676;
-}
+.logo { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
+.logo-accent { color: var(--primary); }
 
 /* DESKTOP LINKS */
-.desktop-links {
-  display: flex;
-  gap: 30px;
-}
+.desktop-links { display: flex; gap: 30px; }
+.nav-link { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; transition: 0.2s; }
+.nav-link:hover, .nav-link.active { color: #fff; }
 
-.nav-link {
-  color: #888;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: 0.2s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: #fff;
-}
-
-/* HAMBURGER BUTTON */
-
+/* HAMBURGER BUTTON (Reset & Custom) */
 .hamburger {
-  display: none; /* hidden on desktop */
+  display: none; /* Hidden on desktop */
   flex-direction: column;
   justify-content: space-between;
   width: 30px;
-  height: 21px;
-  background: transparent; /* no white box */
-  border: none;
+  height: 22px;
+  background: transparent !important; /* Force transparent background */
+  border: none !important; /* Remove white border */
   padding: 0;
   cursor: pointer;
-  z-index: 101;
+  z-index: 1001; /* Above the menu */
 }
 
 .bar {
   width: 100%;
-  height: 3px;
+  height: 3px; /* Thicker lines */
   background-color: #fff;
-  border-radius: 3px;
-  transition: 0.3s;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  transform-origin: left;
 }
 
-/* Hamburger animation */
-.hamburger.open .bar:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-  background-color: #00e676;
-}
+/* Hamburger Animation */
+.hamburger.open .bar:nth-child(1) { transform: rotate(45deg); background-color: var(--primary); }
+.hamburger.open .bar:nth-child(2) { opacity: 0; }
+.hamburger.open .bar:nth-child(3) { transform: rotate(-45deg); background-color: var(--primary); }
 
-.hamburger.open .bar:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.open .bar:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-  background-color: #00e676;
-}
-
-/* MOBILE MENU OVERLAY – make it fully opaque and solid */
+/* MOBILE MENU OVERLAY */
 .mobile-menu {
   position: fixed;
-  top: 70px;
+  top: 70px; /* Starts exactly below navbar */
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at top, #020617 0, #000000 55%);
-  padding: 40px 20px;
+  width: 100%;
+  height: calc(100vh - 70px); /* Covers rest of screen */
+  background-color: #050608; /* SOLID BLACK - NO TRANSPARENCY */
   display: flex;
   flex-direction: column;
+  padding: 30px 20px;
   gap: 20px;
-  transform: translateX(100%);
+  transform: translateX(100%); /* Hidden off-screen */
   transition: transform 0.3s ease-in-out;
-  z-index: 99;
+  z-index: 999;
 }
 
 .mobile-menu.open {
-  transform: translateX(0);
+  transform: translateX(0); /* Slide in */
 }
 
 .mobile-link {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #9ca3af;
-  border-bottom: 1px solid #1f2937;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 15px;
 }
 
-.mobile-link.active {
-  color: #00e676;
-  border-color: #00e676;
-}
+.mobile-link.active { color: var(--primary); border-color: var(--primary); }
 
-/* ---------- CARDS & GRIDS ---------- */
-
-.page-wrap {
-  width: 100%;
-}
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
-}
-
-.card {
-  background: radial-gradient(circle at top left, #111827 0, #020617 55%);
-  border-radius: 20px;
-  border: 1px solid var(--border-subtle);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.18s ease-out, border-color 0.18s ease-out,
-    box-shadow 0.18s ease-out, background 0.18s ease-out;
-}
-
-.card:hover {
-  border-color: rgba(16, 185, 129, 0.6);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.9);
-  transform: translateY(-3px);
-}
-
-/* sportsbook cards */
-
-.book-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-top: 3px solid var(--border-subtle);
-  min-height: 190px;
-}
-
-.book-card.featured {
-  border-top-color: var(--primary);
-  background: linear-gradient(
-    140deg,
-    rgba(16, 185, 129, 0.28) 0%,
-    #020617 45%,
-    #020617 100%
-  );
-}
-
-.bonus-text {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #f9fafb;
-  margin: 6px 0 10px;
-}
-
-/* ---------- UTILS ---------- */
-
-.text-center {
-  text-align: center;
-}
-
-.mt-2 {
-  margin-top: 16px;
-}
-
-.mt-4 {
-  margin-top: 40px;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  color: #9ca3af;
-}
-
-.pill.green {
-  background: rgba(16, 185, 129, 0.16);
-  border-color: rgba(16, 185, 129, 0.5);
-  color: var(--primary);
-}
-
-/* calculator wrapper */
-
-.calc-box {
-  max-width: 600px;
-  margin: 0 auto;
-  background: rgba(15, 23, 42, 0.96);
-  border-radius: 20px;
-  border: 1px solid var(--border-strong);
-  padding: 28px;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-  color: #9ca3af;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-  background: #020617;
-  color: #e5e7eb;
-  font-size: 1rem;
-  font-family: monospace;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-/* ---------- RESPONSIVE ---------- */
-
+/* RESPONSIVE TRIGGER */
 @media (max-width: 768px) {
-  .site-main {
-    padding-top: 88px;
-  }
+  .desktop-links { display: none; }
+  .hamburger { display: flex; }
+}
 
-  h1 {
-    font-size: 2.15rem;
-  }
+/* --------------------------------------------------------- */
+/* REST OF SITE STYLES                                       */
+/* --------------------------------------------------------- */
 
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
+h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+h2 { font-size: 1.8rem; margin-bottom: 15px; }
+p { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+.text-center { text-align: center; }
 
-  .desktop-links {
-    display: none; /* hide desktop nav */
-  }
+/* Buttons */
+.btn {
+  display: inline-block; padding: 12px 28px; border-radius: 999px;
+  font-weight: 600; text-align: center; border: none; cursor: pointer;
+}
+.btn-primary { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0,230,118,0.3); }
+.btn-ghost { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--border-color); }
 
-  .hamburger {
-    display: flex; /* show hamburger */
-  }
+/* Cards & Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.card { background: #0b1018; border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; }
+
+/* Book Cards */
+.book-card { display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid var(--border-color); }
+.book-card.featured { border-color: var(--primary); background: linear-gradient(180deg, rgba(0,230,118,0.1) 0%, #0b1018 100%); }
+.bonus-text { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 10px 0; }
+.pill { padding: 4px 10px; font-size: 0.75rem; border-radius: 20px; background: #222; color: #888; display: inline-block; margin-bottom: 8px; }
+.pill.green { background: rgba(0,230,118,0.15); color: var(--primary); }
+
+/* Calculator */
+.calc-box { max-width: 600px; margin: 0 auto; background: #0b1018; border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; }
+.input-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; }
+.input-group input { width: 100%; padding: 12px; background: #050608; border: 1px solid var(--border-color); color: #fff; border-radius: 8px; font-size: 1rem; }
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .site-main { padding-top: 90px; }
 }
