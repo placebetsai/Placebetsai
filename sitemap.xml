@@ -1,1 +1,21 @@
-Sitemap: https://placebets.ai/sitemap.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://placebets.ai/</loc>
+  </url>
+  <url>
+    <loc>https://placebets.ai/learn-betting</loc>
+  </url>
+  <url>
+    <loc>https://placebets.ai/calculators</loc>
+  </url>
+  <url>
+    <loc>https://placebets.ai/glossary</loc>
+  </url>
+  <url>
+    <loc>https://placebets.ai/bankroll</loc>
+  </url>
+  <url>
+    <loc>https://placebets.ai/contact</loc>
+  </url>
+</urlset>
