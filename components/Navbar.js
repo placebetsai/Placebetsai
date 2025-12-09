@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -15,17 +16,19 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Close menu when a link is clicked
   const closeMenu = () => setIsOpen(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        
         {/* LOGO */}
         <Link href="/" className="logo" onClick={closeMenu}>
           PLACEBETS<span className="logo-accent">.AI</span>
         </Link>
 
-        {/* DESKTOP LINKS */}
+        {/* DESKTOP LINKS (Hidden on Mobile) */}
         <div className="desktop-links">
           {LINKS.map((link) => (
             <Link
@@ -39,10 +42,10 @@ export default function Navbar() {
         </div>
 
         {/* HAMBURGER BUTTON */}
-        <button
-          className={`hamburger ${isOpen ? "open" : ""}`}
+        <button 
+          className={`hamburger ${isOpen ? "open" : ""}`} 
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Menu"
+          aria-label="Toggle Menu"
         >
           <span className="bar"></span>
           <span className="bar"></span>
@@ -50,7 +53,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE MENU OVERLAY */}
+      {/* MOBILE MENU (Solid Overlay) */}
       <div className={`mobile-menu ${isOpen ? "open" : ""}`}>
         {LINKS.map((link) => (
           <Link
@@ -65,4 +68,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-              }
+}
