@@ -22,13 +22,13 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
 
         <footer className="site-footer">
-          <p>© 2025 PlaceBets.ai – Learn first, bet second.</p>
+          <p>© 2025 PlaceBets.ai – For entertainment & education only.</p>
           <p>
-            Questions or business stuff?{" "}
+            Business or media?{" "}
             <a href="mailto:info@placebets.ai">info@placebets.ai</a>
           </p>
         </footer>
       </body>
     </html>
   );
-    }
+}
