@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const links = [
+const LINKS = [
   { href: "/", label: "Home" },
   { href: "/calculators", label: "Tools" },
   { href: "/ev-betting", label: "+EV Strategy" },
@@ -12,24 +12,40 @@ const links = [
   { href: "/glossary", label: "Glossary" },
 ];
 
+function useLockBodyScroll(isOpen) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const toggle = () => setOpen(!open);
-  const close = () => setOpen(false);
+  useLockBodyScroll(open);
+
+  const handleNavClick = () => {
+    setOpen(false);
+  };
 
   return (
-    <header className="navbar">
-      <div className="nav-inner">
+    <nav className="navbar">
+      <div className="navbar-inner">
         {/* LOGO */}
-        <Link href="/" className="nav-logo" onClick={close}>
-          PLACEBETS<span>.AI</span>
+        <Link href="/" className="navbar-brand" onClick={handleNavClick}>
+          PLACEBETS<span className="navbar-brand-accent">.AI</span>
         </Link>
 
         {/* DESKTOP LINKS */}
-        <nav className="nav-links">
-          {links.map((link) => (
+        <div className="nav-links">
+          {LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -40,36 +56,37 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-        </nav>
+        </div>
 
-        {/* HAMBURGER (MOBILE) */}
+        {/* HAMBURGER BUTTON (MOBILE) */}
         <button
-          className="nav-toggle"
-          onClick={toggle}
-          aria-label="Toggle navigation"
+          type="button"
+          className={"hamburger" + (open ? " hamburger-open" : "")}
+          aria-label="Toggle navigation menu"
+          onClick={() => setOpen((prev) => !prev)}
         >
-          {open ? "✕" : "☰"}
+          <span />
+          <span />
+          <span />
         </button>
       </div>
 
-      {/* MOBILE MENU */}
-      {open && (
-        <nav className="nav-mobile">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={
-                "nav-link nav-link-mobile" +
-                (pathname === link.href ? " nav-link-active" : "")
-              }
-              onClick={close}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      )}
-    </header>
+      {/* MOBILE DROPDOWN */}
+      <div className={"mobile-menu" + (open ? " mobile-menu-show" : "")}>
+        {LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={
+              "mobile-nav-link" +
+              (pathname === link.href ? " mobile-nav-link-active" : "")
+            }
+            onClick={handleNavClick}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 }
