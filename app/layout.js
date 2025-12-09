@@ -1,11 +1,10 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import NewsTicker from "../components/NewsTicker";
 
 export const metadata = {
   title: "PlaceBets.ai – The Professional Betting Toolkit",
   description:
-    "Advanced sports betting tools, tournament finder, and bankroll management strategies.",
+    "Advanced sports betting tools, +EV calculators, bankroll management, and live tournaments.",
 };
 
 export default function RootLayout({ children }) {
@@ -14,14 +13,13 @@ export default function RootLayout({ children }) {
       <body>
         <div className="app-shell">
           <Navbar />
-          <NewsTicker />
           <main className="site-main">{children}</main>
           <footer
             style={{
               textAlign: "center",
               padding: "40px",
               borderTop: "1px solid #111827",
-              color: "#4b5563",
+              color: "#6b7280",
               fontSize: "0.8rem",
             }}
           >
