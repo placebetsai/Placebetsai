@@ -59,7 +59,8 @@ export default function TournamentsPage() {
     if (upcomingOnly) {
       list = list.filter((t) => {
         const d = new Date(t.date);
-        return !isNaN(d) && d > new Date();
+        if (Number.isNaN(d.getTime())) return true;
+        return d >= new Date();
       });
     }
 
@@ -67,7 +68,7 @@ export default function TournamentsPage() {
       if (sortBy === "date") {
         const da = new Date(a.date);
         const db = new Date(b.date);
-        if (isNaN(da) || isNaN(db)) return 0;
+        if (Number.isNaN(da.getTime()) || Number.isNaN(db.getTime())) return 0;
         return da - db; // soonest first
       }
       if (sortBy === "name") {
@@ -95,8 +96,8 @@ export default function TournamentsPage() {
       <section style={{ marginBottom: "24px" }}>
         <h1>Live Tournaments & Events</h1>
         <p>
-          Poker, slots, blackjack, and baccarat events worth traveling for. Always confirm
-          details on the official site before you punt your bankroll, champ.
+          Poker, slots, blackjack, and baccarat events worth traveling for. Always
+          confirm details on the official site before you book flights.
         </p>
         {loading && (
           <p style={{ color: "#9ca3af" }}>Loading tournaments…</p>
@@ -252,7 +253,7 @@ export default function TournamentsPage() {
                     fontSize: "0.9rem",
                   }}
                 >
-                  {t.date}
+                  {t.date || "Dates TBA"}
                 </span>
                 <span
                   style={{
@@ -260,7 +261,7 @@ export default function TournamentsPage() {
                     fontSize: "0.9rem",
                   }}
                 >
-                  {t.location}
+                  {t.location || "Location TBA"}
                 </span>
               </div>
 
@@ -280,7 +281,7 @@ export default function TournamentsPage() {
                   marginBottom: "10px",
                 }}
               >
-                {t.casino}
+                {t.casino || ""}
               </p>
 
               <div
@@ -297,7 +298,9 @@ export default function TournamentsPage() {
                 >
                   {GAME_LABELS[t.gameType] || "Tournament"}
                 </span>
-                <span className="pill">Buy-in: {t.buyin}</span>
+                {t.buyin && (
+                  <span className="pill">Buy-in: {t.buyin}</span>
+                )}
                 <span className="pill green">
                   {t.guarantee || "Prize Pool TBA"}
                 </span>
@@ -334,7 +337,7 @@ export default function TournamentsPage() {
 
         {!loading && filtered.length === 0 && (
           <p style={{ color: "#9ca3af" }}>
-            No tournaments match your filters. Loosen the search, champ.
+            No tournaments match your filters. Loosen the search.
           </p>
         )}
       </section>
@@ -351,4 +354,4 @@ export default function TournamentsPage() {
       )}
     </div>
   );
-  }
+               }
