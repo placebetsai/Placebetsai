@@ -1,42 +1,25 @@
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: 999px;
-  font-weight: 600;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-  text-decoration: none;
-}
+import "./globals.css";
+import Navbar from "../components/Navbar";
 
-/* Green primary button */
-.btn-primary {
-  background: var(--primary);
-  color: #000;
-  box-shadow: 0 0 20px rgba(0,230,118,0.30);
-}
+export const metadata = {
+  title: "PlaceBets.ai – Professional Betting Toolkit",
+  description:
+    "Advanced sports betting tools, calculators, bankroll management and +EV strategy.",
+};
 
-/* Desktop hover */
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(0,230,118,0.50);
-}
-
-/* Mobile / touch press */
-.btn-primary:active {
-  transform: scale(0.96);
-  box-shadow: 0 0 10px rgba(0,230,118,0.20);
-}
-
-/* Ghost button (for learning buttons only) */
-.btn-ghost {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid #333;
-}
-
-.btn-ghost:active {
-  transform: scale(0.96);
-  background: rgba(255,255,255,0.2);
-}
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <div className="app-shell">
+          <Navbar />
+          <main className="site-main">{children}</main>
+          <footer className="site-footer">
+            © {new Date().getFullYear()} PlaceBets.ai · Education only · 21+ ·
+            No betting offered.
+          </footer>
+        </div>
+      </body>
+    </html>
+  );
+              }
