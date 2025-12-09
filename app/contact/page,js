@@ -1,0 +1,61 @@
+export default function ContactPage() {
+  return (
+    <section className="section">
+      <h1 className="section-title">Contact & Collabs</h1>
+      <p className="section-intro">
+        No VIP picks. No &quot;locks of the year&quot;. If you&apos;re here, it&apos;s probably
+        for partnerships, media, or to yell about how your parlay died by one leg.
+      </p>
+
+      <div className="contact-grid">
+        <div className="contact-card">
+          <h3 style={{ marginTop: 0, marginBottom: "0.7rem" }}>
+            Drop a message
+          </h3>
+          <p style={{ fontSize: "0.9rem", color: "#9ca3af", marginBottom: "0.8rem" }}>
+            This form opens your email client and sends directly to{" "}
+            <strong>info@placebets.ai</strong>. No spam list, no auto-responder.
+          </p>
+          <form
+            action="mailto:info@placebets.ai"
+            method="POST"
+            encType="text/plain"
+          >
+            <label>Your name</label>
+            <input name="name" placeholder="Sharp, square, or somewhere in between" />
+            <label>Your email</label>
+            <input name="email" placeholder="you@example.com" />
+            <label>Message</label>
+            <textarea
+              name="message"
+              placeholder="Sponsorships, tools, media, or general sports betting therapy."
+            />
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ marginTop: "0.9rem" }}
+            >
+              Open email & send →
+            </button>
+          </form>
+        </div>
+
+        <div className="contact-side">
+          <h3 style={{ marginTop: 0, marginBottom: "0.7rem" }}>
+            What we actually care about
+          </h3>
+          <ul className="card-list" style={{ marginBottom: "0.8rem" }}>
+            <li>Sportsbooks or tools that want honest education content.</li>
+            <li>Media looking for a plain-English explainer on odds.</li>
+            <li>Builders who want to plug real education into their apps.</li>
+          </ul>
+          <p style={{ fontSize: "0.85rem", color: "#9ca3af" }}>
+            We don&apos;t sell picks. We don&apos;t run a book. PlaceBets.ai is for
+            people who want to understand the game under the hood, not chase
+            screenshots.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
