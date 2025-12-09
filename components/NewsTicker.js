@@ -1,11 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+const FALLBACK_NEWS = [
+  {
+    id: 1,
+    title: "Live odds move fast – always shop the best number.",
+    url: "https://www.actionnetwork.com",
+    source: "Action Network",
+  },
+  {
+    id: 2,
+    title: "Bankroll management matters more than any one bet.",
+    url: "https://www.espn.com",
+    source: "ESPN",
+  },
+];
 
 export default function NewsTicker() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(FALLBACK_NEWS);
   const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -13,14 +27,12 @@ export default function NewsTicker() {
         const res = await fetch("/api/news");
         if (!res.ok) throw new Error("Network error");
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data) && data.length) {
           setItems(data);
-        } else {
-          setErrorMsg("Live news unavailable.");
         }
       } catch (err) {
-        console.error("News ticker error:", err);
-        setErrorMsg("Live news unavailable.");
+        console.error("Failed to load news:", err);
+        // keep fallback
       } finally {
         setLoading(false);
       }
@@ -28,48 +40,34 @@ export default function NewsTicker() {
     load();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="news-ticker-wrapper">
-        <div className="news-ticker-inner">
-          <span className="news-label">LIVE FEED</span>
-          <span className="news-status">Loading latest headlines…</span>
-        </div>
-      </div>
-    );
-  }
+  // duplicate the list so the track loops smoothly
+  const trackItems = useMemo(() => {
+    const base = items.slice(0, 15);
+    return [...base, ...base];
+  }, [items]);
 
-  if (!items.length) {
-    return (
-      <div className="news-ticker-wrapper">
-        <div className="news-ticker-inner">
-          <span className="news-label">LIVE FEED</span>
-          <span className="news-status">{errorMsg || "No headlines available."}</span>
-        </div>
-      </div>
-    );
-  }
-
-  // Duplicate items to create seamless loop
-  const loopItems = [...items, ...items];
+  if (!items.length) return null;
 
   return (
     <div className="news-ticker-wrapper">
       <div className="news-ticker-inner">
-        <span className="news-label">LIVE FEED</span>
-        <div className="news-ticker-viewport">
-          <div className="news-ticker-track">
-            {loopItems.map((item, idx) => (
-              <a
-                key={idx}
-                href={item.link}
-                target="_blank"
-                rel="noreferrer"
-                className="news-item"
-              >
-                <span className="news-source">{item.source}</span>
-                <span className="news-title"> {item.title}</span>
-              </a>
+        <span className="news-label">
+          {loading ? "Loading News…" : "Live Betting News"}
+        </span>
+        <div className="news-ticker">
+          <div className="news-track">
+            {trackItems.map((item, idx) => (
+              <span key={`${item.id}-${idx}`} className="news-item">
+                <a
+                  className="news-link"
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {item.source ? `${item.source}: ` : ""}
+                  {item.title}
+                </a>
+              </span>
             ))}
           </div>
         </div>
