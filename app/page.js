@@ -1,121 +1,151 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <>
-      <section className="hero">
-        <div className="hero-pill">
-          <span>SPORTS BETTING SCHOOL</span>
-          <span>NO GURU COURSES</span>
-        </div>
+    <div>
+      {/* HERO */}
+      <section
+        style={{
+          maxWidth: 800,
+          margin: "0 auto 64px",
+          textAlign: "center",
+        }}
+      >
+        <div className="pill green">BETA 2.0 · EDUCATION ONLY</div>
         <h1>
-          Learn how sports betting actually works{" "}
-          <span className="hero-gradient">
-            before the book buries you.
-          </span>
+          Stop gambling.
+          <br />
+          <span className="highlight">Start betting like a pro.</span>
         </h1>
-        <p className="hero-sub">
-          PlaceBets.ai is the neon chalkboard that finally explains odds,
-          parlays, spreads, and bankroll management like you talk to your boys:
-          honest, a little rude, and focused on not going broke.
+        <p>
+          The house wins because you guess. The pros win because they{" "}
+          <strong>understand odds, value, and bankroll.</strong> This site
+          gives you the tools.
         </p>
-
-        <div className="hero-actions">
-          <a href="/learn-betting" className="btn btn-primary">
-            Start with the basics →
-          </a>
-          <a href="/calculators" className="btn btn-outline">
-            What does a $100 bet win? →
-          </a>
-        </div>
-
-        <p className="hero-note">
-          No picks to sell. No “locks of the decade”. Just the math and mindset
-          the books hope you never learn.
-        </p>
-      </section>
-
-      <section className="section">
-        <h2 className="section-title">What you&apos;ll learn here</h2>
-        <p className="section-intro">
-          If you understand these four things, you&apos;re already ahead of 90%
-          of bettors screaming at their TV on Sunday.
-        </p>
-
-        <div className="card-grid">
-          <div className="card">
-            <h3>Moneylines, spreads & totals</h3>
-            <p className="card-tag">Odds decoded</p>
-            <ul className="card-list">
-              <li>Why -150 is not &quot;safe&quot; and +250 is not &quot;lottery&quot;.</li>
-              <li>How spreads are really just point handicaps.</li>
-              <li>What books imply about win probability.</li>
-            </ul>
-            <p className="card-example">
-              Example: -110 on both sides = book quietly taking a cut from every
-              drunk argument.
-            </p>
-          </div>
-
-          <div className="card">
-            <h3>Parlays & same-game traps</h3>
-            <p className="card-tag">High risk, shiny buttons</p>
-            <ul className="card-list">
-              <li>How books stack edge against you with every leg.</li>
-              <li>When parlays actually make sense (rare, but real).</li>
-              <li>How to calculate real expected value.</li>
-            </ul>
-            <p className="card-example">
-              Example: 3-leg +500 parlay that “should hit” actually pays you like
-              a clown.
-            </p>
-          </div>
-
-          <div className="card">
-            <h3>Bankroll & tilt defense</h3>
-            <p className="card-tag">Staying in the game</p>
-            <ul className="card-list">
-              <li>How big your bet size should actually be.</li>
-              <li>Why chasing losses nukes solid strategy.</li>
-              <li>Simple stop-loss rules to avoid rage deposits.</li>
-            </ul>
-            <p className="card-example">
-              Example: 1–2% of bankroll per bet keeps you alive through cold
-              streaks.
-            </p>
-          </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 16,
+            marginTop: 26,
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/calculators" className="btn btn-primary">
+            Open Odds Calculator
+          </Link>
+          <Link href="/ev-betting" className="btn btn-ghost">
+            Learn +EV Strategy
+          </Link>
         </div>
       </section>
 
-      <section className="section">
-        <h2 className="section-title">What does a $100 bet really win?</h2>
-        <p className="section-intro">
-          Before you fire off your next “sure thing”, know exactly what the
-          payout is and what chance the odds say you really have.
+      {/* AFFILIATE / BOOKS GRID */}
+      <section className="mt-4">
+        <h2 className="text-center" style={{ textAlign: "center" }}>
+          Verified Sportsbooks (Coming Soon)
+        </h2>
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "0.9rem",
+          }}
+        >
+          When you’re ready to bet for real, always grab the biggest signup
+          bonus you can.
         </p>
-        <div className="card-grid">
-          <div className="card">
-            <h3>$100 at -110</h3>
-            <p className="card-tag">Standard spread/total price</p>
-            <p className="card-example">
-              Risk $110 to win $100. Implied chance: ~52.4% just to break even.
-            </p>
+
+        <div className="grid-3" style={{ marginTop: 28 }}>
+          <div className="card book-card featured">
+            <div>
+              <div className="pill green">TOP PICK</div>
+              <h3>DraftKings</h3>
+              <p className="bonus-text">Bet $5, Get $200 Bonus Bets*</p>
+              <p>Clean app, deep markets, great live betting.</p>
+            </div>
+            <a
+              href="#"
+              className="btn btn-primary"
+              style={{ width: "100%", marginTop: 18 }}
+            >
+              Claim DraftKings Offer →
+            </a>
           </div>
-          <div className="card">
-            <h3>$100 at +200</h3>
-            <p className="card-tag">Plus-money underdog</p>
-            <p className="card-example">
-              Risk $100 to win $200. Implied chance: ~33.3% — not &quot;longshot&quot;,
-              just math.
-            </p>
+
+          <div className="card book-card">
+            <div>
+              <div className="pill">POPULAR</div>
+              <h3>FanDuel</h3>
+              <p className="bonus-text">$150 in Bonus Bets*</p>
+              <p>Same Game Parlays king. Great for casual bettors.</p>
+            </div>
+            <a
+              href="#"
+              className="btn btn-ghost"
+              style={{ width: "100%", marginTop: 18 }}
+            >
+              Claim FanDuel Offer →
+            </a>
           </div>
-          <div className="card">
-            <h3>$100 3-leg parlay</h3>
-            <p className="card-tag">Three -110 legs</p>
-            <p className="card-example">
-              Roughly +596. A $100 bet returns ~$696. Implied chance: under 15%.
-            </p>
+
+          <div className="card book-card">
+            <div>
+              <div className="pill">HIGH LIMITS</div>
+              <h3>BetMGM</h3>
+              <p className="bonus-text">Up to $1,500 Back*</p>
+              <p>Good for bigger bettors and reward programs.</p>
+            </div>
+            <a
+              href="#"
+              className="btn btn-ghost"
+              style={{ width: "100%", marginTop: 18 }}
+            >
+              Claim BetMGM Offer →
+            </a>
           </div>
         </div>
+
+        <p
+          style={{
+            marginTop: 16,
+            fontSize: "0.75rem",
+            color: "#6b7280",
+            textAlign: "center",
+          }}
+        >
+          *Promo examples only. Offers vary by state. Always check the book’s
+          terms.
+        </p>
       </section>
-    </>
+
+      {/* FEATURE CARDS */}
+      <section className="mt-4" style={{ paddingTop: 52 }}>
+        <div className="grid-3">
+          <Link href="/calculators" className="card">
+            <h3>🧮 Odds & Payout Calculator</h3>
+            <p>
+              Plug in American odds and your stake to see profit, total payout,
+              and implied probability instantly.
+            </p>
+          </Link>
+
+          <Link href="/bankroll" className="card">
+            <h3>🛡️ Bankroll Management</h3>
+            <p>
+              How much should you bet per game? Learn units, the 1% rule, and
+              how not to torch your roll in one bad Sunday.
+            </p>
+          </Link>
+
+          <Link href="/glossary" className="card">
+            <h3>📖 Betting Glossary</h3>
+            <p>
+              Vig, handle, steam, chalk. Learn the language so you’re not the
+              dumbest money at the window.
+            </p>
+          </Link>
+        </div>
+      </section>
+    </div>
   );
-            }
+                }
