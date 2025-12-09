@@ -16,19 +16,18 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Close menu when a link is clicked
+  const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        
         {/* LOGO */}
         <Link href="/" className="logo" onClick={closeMenu}>
           PLACEBETS<span className="logo-accent">.AI</span>
         </Link>
 
-        {/* DESKTOP LINKS (Hidden on Mobile) */}
+        {/* DESKTOP LINKS */}
         <div className="desktop-links">
           {LINKS.map((link) => (
             <Link
@@ -41,19 +40,19 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* HAMBURGER BUTTON */}
-        <button 
-          className={`hamburger ${isOpen ? "open" : ""}`} 
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Menu"
+        {/* HAMBURGER */}
+        <button
+          className={`hamburger ${isOpen ? "open" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Menu"
         >
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
         </button>
       </div>
 
-      {/* MOBILE MENU (Solid Overlay) */}
+      {/* MOBILE MENU */}
       <div className={`mobile-menu ${isOpen ? "open" : ""}`}>
         {LINKS.map((link) => (
           <Link
