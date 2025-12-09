@@ -1,105 +1,78 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 0; // no cache – always fresh
+export const revalidate = 0; // always fresh on the server
 
-// We use multiple feeds and normalize them
-const FEEDS = [
+// Fallback headlines in case ESPN endpoint dies
+const FALLBACK_NEWS = [
   {
-    url: "https://www.espn.com/espn/rss/news",
-    base: "https://www.espn.com",
+    id: 1,
+    title: "Line moves and sharp action across NFL, NBA, and college hoops.",
+    url: "https://www.espn.com",
     source: "ESPN",
   },
   {
-    url: "https://www.sportsnet.ca/feed/",
-    base: "https://www.sportsnet.ca",
-    source: "Sportsnet",
+    id: 2,
+    title: "How pros manage bankroll on long losing streaks.",
+    url: "https://www.actionnetwork.com",
+    source: "Action Network",
   },
   {
-    url: "https://www.legalsportsreport.com/feed/",
-    base: "https://www.legalsportsreport.com",
-    source: "Legal Sports Report",
+    id: 3,
+    title: "Live odds shifts after star injuries shake up futures markets.",
+    url: "https://www.espn.com",
+    source: "ESPN",
   },
 ];
 
-function decodeEntities(str) {
-  if (!str) return "";
-  return str
-    .replace(/&amp;/g, "&")
-    .replace(/&apos;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
-
-// Parse a single RSS XML string into [{title, link, source}]
-function parseRss(xml, source, baseUrl) {
-  const items = [];
-  const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
-  let match;
-
-  while ((match = itemRegex.exec(xml)) !== null) {
-    const itemXml = match[1];
-
-    const titleMatch = itemXml.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>|<title>([\s\S]*?)<\/title>/i);
-    let rawTitle = titleMatch ? (titleMatch[1] || titleMatch[2]) : "";
-    let title = decodeEntities(rawTitle.trim());
-
-    const linkMatch = itemXml.match(/<link>([\s\S]*?)<\/link>/i);
-    let rawLink = linkMatch ? linkMatch[1].trim() : "";
-    let link = decodeEntities(rawLink);
-
-    // If link is relative like "/nba/story/...", prefix with feed base
-    if (link.startsWith("/") && baseUrl) {
-      link = baseUrl.replace(/\/+$/, "") + link;
-    }
-
-    // Filter junk
-    if (!title || !link) continue;
-
-    items.push({
-      title,
-      link,
-      source,
-    });
+function normalizeUrl(raw) {
+  if (!raw) return "";
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+  // ESPN-style relative links -> make them absolute
+  if (raw.startsWith("/")) {
+    return `https://www.espn.com${raw}`;
   }
-
-  return items;
-}
-
-async function fetchFeed(feed) {
-  try {
-    const res = await fetch(feed.url, {
-      // Force fresh on each request
-      cache: "no-store",
-      headers: {
-        "User-Agent": "PlaceBets.ai News Fetcher",
-      },
-    });
-
-    if (!res.ok) throw new Error(`Bad status: ${res.status}`);
-    const xml = await res.text();
-    return parseRss(xml, feed.source, feed.base);
-  } catch (err) {
-    console.error("News feed error:", feed.url, err.message);
-    return [];
-  }
+  return `https://${raw}`;
 }
 
 export async function GET() {
-  const results = await Promise.all(FEEDS.map((f) => fetchFeed(f)));
-  let allItems = results.flat();
+  try {
+    const res = await fetch(
+      "https://site.api.espn.com/apis/site/v2/sports/news",
+      {
+        cache: "no-store",
+      }
+    );
 
-  // Remove duplicates by title
-  const seen = new Set();
-  allItems = allItems.filter((item) => {
-    const key = item.title.toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+    if (!res.ok) throw new Error("Bad status from ESPN");
 
-  // Limit to top 30
-  allItems = allItems.slice(0, 30);
+    const data = await res.json();
+    const articles = Array.isArray(data.articles) ? data.articles : [];
 
-  return NextResponse.json(allItems);
+    const items = articles.slice(0, 20).map((article, idx) => {
+      const url =
+        normalizeUrl(
+          article?.links?.web?.href ||
+            article?.links?.api?.news?.href ||
+            ""
+        ) || "https://www.espn.com";
+
+      return {
+        id: article.id || idx,
+        title: article.headline || article.description || "ESPN headline",
+        url,
+        source: "ESPN",
+      };
+    });
+
+    const filtered = items.filter((i) => i.title && i.url);
+
+    if (!filtered.length) {
+      return NextResponse.json(FALLBACK_NEWS);
+    }
+
+    return NextResponse.json(filtered);
+  } catch (err) {
+    console.error("News API error:", err);
+    return NextResponse.json(FALLBACK_NEWS);
+  }
 }
