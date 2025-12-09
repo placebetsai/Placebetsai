@@ -1,106 +1,418 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [tournaments, setTournaments] = useState([]);
+  const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [notice, setNotice] = useState("");
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch("/api/tournaments");
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : [];
+        const upcoming = list.filter((t) => {
+          const d = new Date(t.date);
+          return !isNaN(d) && d > new Date();
+        });
+        const useList = upcoming.length > 0 ? upcoming : list;
+        setTournaments(useList.slice(0, 6));
+        if (upcoming.length === 0) {
+          setNotice("No upcoming tournaments found – showing recent ones.");
+        }
+      } catch (err) {
+        console.error("Failed to load tournaments:", err);
+        setNotice("Live tournaments feed unavailable – showing backup data.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    if (!tournaments.length) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % tournaments.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [tournaments]);
+
+  const hasTournaments = tournaments && tournaments.length > 0;
+  const t = hasTournaments ? tournaments[current] : null;
+
+  const goNext = () => {
+    if (!hasTournaments) return;
+    setCurrent((prev) => (prev + 1) % tournaments.length);
+  };
+
+  const goPrev = () => {
+    if (!hasTournaments) return;
+    setCurrent((prev) => (prev === 0 ? tournaments.length - 1 : prev - 1));
+  };
+
   return (
     <div className="page-wrap">
-      
-      {/* HERO SECTION */}
-      <section className="text-center" style={{ marginBottom: '80px', maxWidth: '800px', margin: '0 auto 80px' }}>
-        <div className="pill green">BETA 2.0 • EDUCATION ONLY</div>
+      {/* HERO */}
+      <section
+        className="text-center"
+        style={{
+          marginBottom: "40px",
+          maxWidth: "800px",
+          margin: "0 auto 40px",
+        }}
+      >
+        <div className="pill green">BETA 2.0 LIVE</div>
         <h1>
-          Stop gambling.<br />
-          <span className="highlight">Start betting like a pro.</span>
+          Stop Gambling.
+          <br />
+          <span className="highlight">Start Investing.</span>
         </h1>
         <p>
-          The house wins because you guess. The pros win because they understand odds, value, and bankroll. 
-          This site gives you the tools.
+          The house wins because you guess. The pros win because they calculate.
+          Build an edge with tools, bankroll strategy, and live tournament info.
         </p>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '30px' }}>
-          <Link href="/calculators" className="btn btn-primary">Open Odds Calculator</Link>
-          <Link href="/ev-betting" className="btn btn-ghost">Learn +EV Strategy</Link>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "15px",
+            marginTop: "30px",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/calculators" className="btn btn-primary">
+            Open Calculators
+          </Link>
+          <Link href="/tournaments" className="btn btn-ghost">
+            View Tournaments
+          </Link>
         </div>
       </section>
 
-      {/* SPORTSBOOK GRID */}
+      {/* TOURNAMENT CAROUSEL */}
+      <section style={{ marginBottom: "40px" }}>
+        {loading && (
+          <p style={{ marginBottom: "10px", color: "#9ca3af" }}>
+            Loading live tournaments…
+          </p>
+        )}
+        {!loading && notice && (
+          <p style={{ marginBottom: "10px", color: "#facc15" }}>{notice}</p>
+        )}
+
+        {hasTournaments ? (
+          <div
+            style={{
+              position: "relative",
+              borderRadius: "24px",
+              overflow: "hidden",
+              border: "1px solid #1f2937",
+              background: "#020617",
+              minHeight: "340px",
+            }}
+          >
+            {/* BG image */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${t.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                filter: "brightness(1)",
+              }}
+            />
+
+            {/* CONTENT */}
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                padding: "24px 22px 20px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                minHeight: "340px",
+              }}
+            >
+              <div style={{ maxWidth: "780px" }}>
+                <div
+                  className="pill green"
+                  style={{ marginBottom: "10px", fontSize: "0.7rem" }}
+                >
+                  LIVE TOURNAMENT SPOTLIGHT ·{" "}
+                  {t.gameType?.toUpperCase() || "GAME"}
+                </div>
+                <h2
+                  style={{
+                    fontSize: "2rem",
+                    lineHeight: 1.15,
+                    marginBottom: "8px",
+                    textShadow: "0 4px 18px rgba(0,0,0,0.9)",
+                  }}
+                >
+                  {t.name}
+                </h2>
+                <p
+                  style={{
+                    color: "#e5e7eb",
+                    fontSize: "0.95rem",
+                    marginBottom: "10px",
+                    fontWeight: 500,
+                    textShadow: "0 2px 6px rgba(0,0,0,0.8)",
+                  }}
+                >
+                  {(t.date || "Dates TBA") +
+                    " · " +
+                    (t.location || "Location TBA")}
+                </p>
+                <p
+                  style={{
+                    color: "#9ca3af",
+                    fontSize: "0.9rem",
+                    marginBottom: "14px",
+                    maxWidth: "680px",
+                  }}
+                >
+                  {t.description}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "10px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  <span
+                    className="pill"
+                    style={{ background: "#020617", color: "#e5e7eb" }}
+                  >
+                    Buy-in: {t.buyin}
+                  </span>
+                  <span className="pill green">
+                    {t.guarantee || "Prize Pool TBA"}
+                  </span>
+                  {t.casino && <span className="pill">{t.casino}</span>}
+                </div>
+                <a
+                  href={t.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-primary"
+                >
+                  Official Event Page →
+                </a>
+              </div>
+
+              {/* controls */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "16px",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    color: "#9ca3af",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  Showing{" "}
+                  <span style={{ color: "#e5e7eb" }}>
+                    {current + 1} / {tournaments.length}
+                  </span>{" "}
+                  · Auto-rotating every few seconds.
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "6px",
+                      alignItems: "center",
+                    }}
+                  >
+                    {tournaments.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrent(idx)}
+                        style={{
+                          width: idx === current ? 18 : 8,
+                          height: 8,
+                          borderRadius: 999,
+                          border: "none",
+                          cursor: "pointer",
+                          background:
+                            idx === current
+                              ? "linear-gradient(90deg, #22c55e, #38bdf8)"
+                              : "#4b5563",
+                          transition: "all 0.18s ease",
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      onClick={goPrev}
+                      className="btn-ghost"
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "999px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      ← Prev
+                    </button>
+                    <button
+                      onClick={goNext}
+                      className="btn-ghost"
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "999px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          !loading && (
+            <div
+              style={{
+                padding: "24px 20px",
+                borderRadius: "18px",
+                border: "1px solid #1f2937",
+                background: "#020617",
+                marginBottom: "40px",
+              }}
+            >
+              <h2 style={{ marginBottom: "8px" }}>No tournaments found</h2>
+              <p style={{ color: "#9ca3af", marginBottom: 0 }}>
+                Check your <code>/api/tournaments</code> endpoint or try again
+                later.
+              </p>
+            </div>
+          )
+        )}
+      </section>
+
+      {/* VERIFIED SPORTSBOOKS */}
       <section className="mt-4">
-        <h2 className="text-center" style={{ marginBottom: '10px' }}>Verified Sportsbooks</h2>
-        <p className="text-center" style={{ fontSize: '0.9rem' }}>
-          When you're ready to bet for real, always grab the biggest signup bonus you can.
+        <h2 className="text-center" style={{ marginBottom: "10px" }}>
+          Verified Sportsbooks
+        </h2>
+        <p className="text-center" style={{ fontSize: "0.9rem" }}>
+          Secure the highest signup bonuses available today.
         </p>
 
-        <div className="grid-3" style={{ marginTop: '30px' }}>
-
-          {/* DRAFTKINGS */}
+        <div className="grid-3" style={{ marginTop: "30px" }}>
           <div className="card book-card featured">
             <div>
-              <div className="pill green">TOP PICK</div>
+              <div className="pill green">RECOMMENDED</div>
               <h3>DraftKings</h3>
-              <p className="bonus-text">Bet $5, Get $200 Bonus Bets*</p>
-              <p style={{ fontSize: '0.9rem' }}>Best UI for live betting and player props.</p>
+              <p className="bonus-text">Bet $5, Get $200</p>
+              <p style={{ fontSize: "0.9rem" }}>
+                Best UI for live betting and player props.
+              </p>
             </div>
-            <a href="#" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
-              Claim DraftKings Offer →
+            <a
+              href="#"
+              className="btn btn-primary"
+              style={{ width: "100%", marginTop: "20px" }}
+            >
+              Claim Offer →
             </a>
           </div>
 
-          {/* FANDUEL */}
           <div className="card book-card">
             <div>
-              <div className="pill">Parlay King</div>
+              <div className="pill">POPULAR</div>
               <h3>FanDuel</h3>
-              <p className="bonus-text">$150 in Bonus Bets*</p>
-              <p style={{ fontSize: '0.9rem' }}>Known for Same Game Parlays and slick mobile app.</p>
+              <p className="bonus-text">$150 Bonus Bets</p>
+              <p style={{ fontSize: "0.9rem" }}>
+                Market leader for Same Game Parlays (SGP).
+              </p>
             </div>
-            <a href="#" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
-              Claim FanDuel Offer →
+            <a
+              href="#"
+              className="btn btn-primary"
+              style={{ width: "100%", marginTop: "20px" }}
+            >
+              Claim Offer →
             </a>
           </div>
 
-          {/* BETMGM */}
           <div className="card book-card">
             <div>
-              <div className="pill">High Limits</div>
+              <div className="pill">HIGH LIMITS</div>
               <h3>BetMGM</h3>
-              <p className="bonus-text">Up to $1,500 Paid Back if You Lose*</p>
-              <p style={{ fontSize: '0.9rem' }}>Good for bigger bettors and VIP rewards.</p>
+              <p className="bonus-text">$1,500 Paid Back</p>
+              <p style={{ fontSize: "0.9rem" }}>
+                Great for large wagers and rewards points.
+              </p>
             </div>
-            <a href="#" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
-              Claim BetMGM Offer →
+            <a
+              href="#"
+              className="btn btn-primary"
+              style={{ width: "100%", marginTop: "20px" }}
+            >
+              Claim Offer →
             </a>
           </div>
-
         </div>
       </section>
 
-      {/* EDUCATION CARDS */}
-      <section className="mt-4" style={{ paddingTop: '60px', borderTop: '1px solid #1f2937' }}>
+      {/* EDUCATIONAL FEATURES */}
+      <section
+        className="mt-4"
+        style={{ paddingTop: "60px", borderTop: "1px solid #1f2937" }}
+      >
         <div className="grid-3">
-
           <Link href="/ev-betting" className="card">
             <h3>📈 +EV Betting</h3>
             <p>
-              Understand Expected Value — the only mathematical way to beat the book long-term.
+              Understand Expected Value. The only mathematical way to beat the
+              book over time.
             </p>
           </Link>
 
           <Link href="/bankroll" className="card">
             <h3>🛡️ Bankroll Mgmt</h3>
             <p>
-              Learn units, the 1% rule, and how not to torch your roll in one bad Sunday.
+              Calculate unit sizes. Protect your capital from variance and tilt.
             </p>
           </Link>
 
           <Link href="/glossary" className="card">
-            <h3>📖 Betting Glossary</h3>
+            <h3>📖 The Dictionary</h3>
             <p>
-              Vig, handle, steam, chalk. Learn the language so you’re not the dumbest money at the window.
+              Don&apos;t look like a rookie. Learn the slang: Juice, Vig,
+              Handle, Steam.
             </p>
           </Link>
-
         </div>
       </section>
-
     </div>
   );
-        }
+                        }
