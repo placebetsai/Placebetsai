@@ -1,61 +1,126 @@
+"use client";
+
+import { useState } from "react";
+
 export default function ContactPage() {
-  return (
-    <section className="section">
-      <h1 className="section-title">Contact & Collabs</h1>
-      <p className="section-intro">
-        No VIP picks. No &quot;locks of the year&quot;. If you&apos;re here, it&apos;s probably
-        for partnerships, media, or to yell about how your parlay died by one leg.
-      </p>
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [error, setError] = useState("");
 
-      <div className="contact-grid">
-        <div className="contact-card">
-          <h3 style={{ marginTop: 0, marginBottom: "0.7rem" }}>
-            Drop a message
-          </h3>
-          <p style={{ fontSize: "0.9rem", color: "#9ca3af", marginBottom: "0.8rem" }}>
-            This form opens your email client and sends directly to{" "}
-            <strong>info@placebets.ai</strong>. No spam list, no auto-responder.
-          </p>
-          <form
-            action="mailto:info@placebets.ai"
-            method="POST"
-            encType="text/plain"
-          >
-            <label>Your name</label>
-            <input name="name" placeholder="Sharp, square, or somewhere in between" />
-            <label>Your email</label>
-            <input name="email" placeholder="you@example.com" />
-            <label>Message</label>
-            <textarea
-              name="message"
-              placeholder="Sponsorships, tools, media, or general sports betting therapy."
-            />
-            <button
-              type="submit"
-              className="btn btn-primary"
-              style={{ marginTop: "0.9rem" }}
-            >
-              Open email & send →
-            </button>
-          </form>
-        </div>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("sending");
+    setError("");
 
-        <div className="contact-side">
-          <h3 style={{ marginTop: 0, marginBottom: "0.7rem" }}>
-            What we actually care about
-          </h3>
-          <ul className="card-list" style={{ marginBottom: "0.8rem" }}>
-            <li>Sportsbooks or tools that want honest education content.</li>
-            <li>Media looking for a plain-English explainer on odds.</li>
-            <li>Builders who want to plug real education into their apps.</li>
-          </ul>
-          <p style={{ fontSize: "0.85rem", color: "#9ca3af" }}>
-            We don&apos;t sell picks. We don&apos;t run a book. PlaceBets.ai is for
-            people who want to understand the game under the hood, not chase
-            screenshots.
+    const form = new FormData(e.currentTarget);
+    const payload = {
+      name: form.get("name"),
+      email: form.get("email"),
+      message: form.get("message"),
+      website: form.get("website") || "", // honeypot
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Request failed");
+      }
+
+      setStatus("sent");
+      e.currentTarget.reset();
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Try again later.");
+      setStatus("error");
+    }
+  }
+
+  if (status === "sent") {
+    return (
+      <div style={{ maxWidth: 700, margin: "0 auto" }}>
+        <h1>Message submitted.</h1>
+        <div className="contact-success">
+          <p>
+            Got it. If it&apos;s serious, we&apos;ll read it between slates.
           </p>
         </div>
       </div>
-    </section>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: 700, margin: "0 auto" }}>
+      <h1>Contact</h1>
+      <p>
+        Partnerships, data deals, or real opportunities only.  
+        <span style={{ color: "#6b7280" }}>
+          {" "}
+          No picks, no DMs asking &quot;who you like tonight&quot;.
+        </span>
+      </p>
+
+      <form onSubmit={handleSubmit} style={{ marginTop: 24 }}>
+        {/* honeypot, hidden */}
+        <input
+          type="text"
+          name="website"
+          autoComplete="off"
+          tabIndex={-1}
+          style={{ position: "absolute", left: "-9999px", height: 0, width: 0 }}
+        />
+
+        <div className="input-group">
+          <label>Name</label>
+          <input name="name" required placeholder="Your name" />
+        </div>
+
+        <div className="input-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="you@email.com"
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Message</label>
+          <textarea
+            name="message"
+            required
+            rows={6}
+            placeholder="Tell us what you want to do with PlaceBets.ai"
+            style={{
+              width: "100%",
+              padding: 12,
+              background: "#020617",
+              borderRadius: 10,
+              border: "1px solid #111827",
+              color: "#e5e7eb",
+              fontSize: "0.98rem",
+            }}
+          />
+        </div>
+
+        {error && (
+          <p style={{ color: "#f97373", fontSize: "0.85rem", marginBottom: 12 }}>
+            {error}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={status === "sending"}
+        >
+          {status === "sending" ? "Sending…" : "Submit"}
+        </button>
+      </form>
+    </div>
   );
 }
