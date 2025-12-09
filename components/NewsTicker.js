@@ -32,7 +32,6 @@ export default function NewsTicker() {
         }
       } catch (err) {
         console.error("Failed to load news:", err);
-        // keep fallback
       } finally {
         setLoading(false);
       }
@@ -40,9 +39,9 @@ export default function NewsTicker() {
     load();
   }, []);
 
-  // duplicate the list so the track loops smoothly
+  // duplicate items so the ticker loops
   const trackItems = useMemo(() => {
-    const base = items.slice(0, 15);
+    const base = items.slice(0, 20);
     return [...base, ...base];
   }, [items]);
 
@@ -50,10 +49,10 @@ export default function NewsTicker() {
 
   return (
     <div className="news-ticker-wrapper">
+      <div className="news-label-pill">
+        {loading ? "Loading Betting News…" : "Live Betting News"}
+      </div>
       <div className="news-ticker-inner">
-        <span className="news-label">
-          {loading ? "Loading News…" : "Live Betting News"}
-        </span>
         <div className="news-ticker">
           <div className="news-track">
             {trackItems.map((item, idx) => (
@@ -74,4 +73,4 @@ export default function NewsTicker() {
       </div>
     </div>
   );
-}
+                    }
