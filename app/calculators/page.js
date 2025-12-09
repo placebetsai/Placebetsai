@@ -3,177 +3,143 @@
 import { useState } from "react";
 
 export default function CalculatorsPage() {
-  const [mlOdds, setMlOdds] = useState("");
-  const [mlStake, setMlStake] = useState("");
-  const [mlResult, setMlResult] = useState("");
+  const [odds, setOdds] = useState("-110");
+  const [stake, setStake] = useState("100");
 
-  const [parlayOdds, setParlayOdds] = useState(["", "", ""]);
-  const [parlayStake, setParlayStake] = useState("");
-  const [parlayResult, setParlayResult] = useState("");
+  const parsedOdds = parseFloat(odds || "0");
+  const parsedStake = parseFloat(stake || "0");
 
-  function calcMoneyline() {
-    const o = parseFloat(mlOdds);
-    const s = parseFloat(mlStake);
-    if (isNaN(o) || isNaN(s) || s <= 0) {
-      setMlResult("Enter a real number for odds and stake.");
-      return;
-    }
+  let profit = 0;
+  let implied = 0;
 
-    let win = 0;
-    if (o > 0) {
-      win = (o / 100) * s;
-    } else {
-      win = (100 / Math.abs(o)) * s;
-    }
-    const payout = s + win;
-
-    const implied =
-      o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
-
-    setMlResult(
-      `Risk $${s.toFixed(2)} to win $${win.toFixed(
-        2
-      )}. Total return: $${payout.toFixed(
-        2
-      )}. Implied chance: ${(implied * 100).toFixed(1)}%.`
-    );
+  if (parsedOdds > 0) {
+    profit = parsedStake * (parsedOdds / 100);
+    implied = 100 / (parsedOdds + 100);
+  } else if (parsedOdds < 0) {
+    profit = parsedStake * (100 / Math.abs(parsedOdds));
+    implied = Math.abs(parsedOdds) / (Math.abs(parsedOdds) + 100);
   }
 
-  function calcParlay() {
-    const s = parseFloat(parlayStake);
-    if (isNaN(s) || s <= 0) {
-      setParlayResult("Enter a real stake amount.");
-      return;
-    }
-
-    const parsed = parlayOdds
-      .map((o) => parseFloat(o))
-      .filter((o) => !isNaN(o));
-
-    if (parsed.length === 0) {
-      setParlayResult("Enter at least one valid set of odds.");
-      return;
-    }
-
-    let multiplier = 1;
-    parsed.forEach((o) => {
-      if (o > 0) {
-        multiplier *= 1 + o / 100;
-      } else {
-        multiplier *= 1 + 100 / Math.abs(o);
-      }
-    });
-
-    const payout = s * multiplier;
-    const win = payout - s;
-    setParlayResult(
-      `If every leg hits, your $${s.toFixed(2)} returns $${payout.toFixed(
-        2
-      )} (profit $${win.toFixed(2)}).`
-    );
-  }
+  const totalPayout = parsedStake + profit;
+  const impliedPct = implied * 100;
 
   return (
-    <section className="section">
-      <h1 className="section-title">Betting Calculators</h1>
-      <p className="section-intro">
-        Type in your odds and stake, and stop guessing what your “$100 bet”
-        actually pays. No logins, no ads covering the numbers.
+    <div>
+      <h1 className="text-center">Betting Calculator</h1>
+      <p className="text-center">
+        Convert American odds into profit, total payout, and implied
+        probability so you know what you&apos;re really betting into.
       </p>
 
-      <div className="card-grid">
-        <div className="card calc-card">
-          <h3>Moneyline payout</h3>
-          <p className="card-tag">Single bet</p>
-          <label>American odds (e.g. -150 or +200)</label>
-          <input
-            value={mlOdds}
-            onChange={(e) => setMlOdds(e.target.value)}
-            placeholder="-150"
-          />
-          <label>Stake amount ($)</label>
-          <input
-            value={mlStake}
-            onChange={(e) => setMlStake(e.target.value)}
-            placeholder="100"
-          />
-          <button
-            className="btn btn-primary small"
-            style={{ marginTop: "0.7rem" }}
-            onClick={calcMoneyline}
-          >
-            Calculate
-          </button>
-          {mlResult && <div className="calc-result">{mlResult}</div>}
-          <p className="calc-footnote">
-            Positive odds (e.g. +200) show how much profit you win on $100
-            stake. Negative odds (e.g. -150) show how much you risk to win $100.
-          </p>
+      <div className="calc-box mt-4">
+        <div className="grid-2" style={{ marginBottom: 22 }}>
+          <div className="input-group">
+            <label>American Odds (+/-)</label>
+            <input
+              type="number"
+              value={odds}
+              onChange={(e) => setOdds(e.target.value)}
+              placeholder="-110"
+            />
+          </div>
+          <div className="input-group">
+            <label>Stake / Wager ($)</label>
+            <input
+              type="number"
+              value={stake}
+              onChange={(e) => setStake(e.target.value)}
+              placeholder="100"
+            />
+          </div>
         </div>
 
-        <div className="card calc-card">
-          <h3>Parlay payout</h3>
-          <p className="card-tag">Up to 3 legs</p>
-          <label>Leg 1 odds</label>
-          <input
-            value={parlayOdds[0]}
-            onChange={(e) =>
-              setParlayOdds([e.target.value, parlayOdds[1], parlayOdds[2]])
-            }
-            placeholder="-110"
-          />
-          <label>Leg 2 odds (optional)</label>
-          <input
-            value={parlayOdds[1]}
-            onChange={(e) =>
-              setParlayOdds([parlayOdds[0], e.target.value, parlayOdds[2]])
-            }
-            placeholder="-110"
-          />
-          <label>Leg 3 odds (optional)</label>
-          <input
-            value={parlayOdds[2]}
-            onChange={(e) =>
-              setParlayOdds([parlayOdds[0], parlayOdds[1], e.target.value])
-            }
-            placeholder="+200"
-          />
-          <label>Stake amount ($)</label>
-          <input
-            value={parlayStake}
-            onChange={(e) => setParlayStake(e.target.value)}
-            placeholder="50"
-          />
-          <button
-            className="btn btn-primary small"
-            style={{ marginTop: "0.7rem" }}
-            onClick={calcParlay}
+        <div
+          style={{
+            background: "#020617",
+            borderRadius: 16,
+            padding: 22,
+            border: "1px solid #1f2937",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
           >
-            Calculate
-          </button>
-          {parlayResult && <div className="calc-result">{parlayResult}</div>}
-          <p className="calc-footnote">
-            This ignores boosts and limits. It&apos;s here to show you how wild
-            the risk/reward really is when you stack too many legs.
-          </p>
-        </div>
+            <span style={{ color: "#9ca3af" }}>Potential Profit</span>
+            <span style={{ fontWeight: 700, fontSize: "1.2rem" }}>
+              ${profit.toFixed(2)}
+            </span>
+          </div>
 
-        <div className="card">
-          <h3>Quick reference</h3>
-          <p className="card-tag">Common moneyline odds</p>
-          <ul className="card-list">
-            <li>-110 ≈ 52.4% implied chance</li>
-            <li>-150 ≈ 60.0%</li>
-            <li>+100 = 50.0%</li>
-            <li>+200 ≈ 33.3%</li>
-            <li>+300 ≈ 25.0%</li>
-          </ul>
-          <p className="card-example">
-            If you&apos;re constantly betting long shots with implied chances
-            under 20%… don&apos;t be shocked when they lose 4 times in a row.
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
+          >
+            <span style={{ color: "#9ca3af" }}>Total Payout</span>
+            <span
+              style={{
+                fontWeight: 700,
+                fontSize: "1.2rem",
+                color: "#22c55e",
+              }}
+            >
+              ${totalPayout.toFixed(2)}
+            </span>
+          </div>
+
+          <div
+            style={{
+              height: 1,
+              background: "#111827",
+              margin: "14px 0",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ color: "#9ca3af" }}>Implied Probability</span>
+            <span style={{ fontWeight: 700, color: "#38bdf8" }}>
+              {isFinite(impliedPct) ? impliedPct.toFixed(2) + "%" : "—"}
+            </span>
+          </div>
+
+          <p
+            style={{
+              fontSize: "0.8rem",
+              marginTop: 10,
+              marginBottom: 0,
+            }}
+          >
+            You need to win this bet more than{" "}
+            <span style={{ color: "#e5e7eb" }}>
+              {isFinite(impliedPct) ? impliedPct.toFixed(2) + "%" : "—"}
+            </span>{" "}
+            of the time to be profitable long-term at these odds.
+          </p>
+
+          <p
+            style={{
+              fontSize: "0.75rem",
+              marginTop: 10,
+              color: "#6b7280",
+            }}
+          >
+            Want to test this on a real book? Try DraftKings, FanDuel, or
+            BetMGM (always hunt for the best line).
           </p>
         </div>
       </div>
-    </section>
+    </div>
   );
               }
