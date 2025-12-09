@@ -63,6 +63,7 @@ body::before {
   max-width: 1200px;
   margin: 0 auto;
   padding: 100px 20px 40px;
+  overflow-x: hidden;
 }
 
 /* ============================
@@ -102,7 +103,7 @@ p {
   color: var(--primary);
 }
 
-/* links shouldn’t be ugly blue underlined */
+/* links */
 a {
   color: inherit;
   text-decoration: none;
@@ -314,10 +315,9 @@ a:hover {
   left: 0;
   right: 0;
   height: 70px;
-  background: rgba(3, 7, 18, 0.96);
-  backdrop-filter: blur(16px);
+  background-color: #020617 !important; /* FORCE solid dark */
   border-bottom: 1px solid #1f2937;
-  z-index: 100;
+  z-index: 9999;
 }
 
 .navbar-container {
@@ -327,7 +327,8 @@ a:hover {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 40px; /* space between logo and links */
 }
 
 /* logo */
@@ -336,6 +337,7 @@ a:hover {
   font-weight: 800;
   letter-spacing: -0.08em;
   color: #f9fafb;
+  z-index: 10001;
 }
 
 .logo-accent {
@@ -345,7 +347,7 @@ a:hover {
 /* desktop links */
 .desktop-links {
   display: flex;
-  gap: 28px;
+  gap: 24px;
 }
 
 .nav-link {
@@ -380,21 +382,22 @@ a:hover {
 
 /* hamburger button */
 .hamburger {
+  margin-left: auto;
   display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 30px;
-  height: 21px;
-  background: transparent; /* no white box */
+  height: 20px;
+  background: transparent !important; /* no white box */
   border: none;
   padding: 0;
   cursor: pointer;
-  z-index: 101;
+  z-index: 10001;
 }
 
 .bar {
   width: 100%;
-  height: 3px;
+  height: 2px;
   background-color: #f9fafb;
   border-radius: 999px;
   transition: 0.25s ease;
@@ -413,21 +416,22 @@ a:hover {
   background-color: var(--primary);
 }
 
-/* mobile menu overlay */
+/* mobile menu overlay – solid */
 .mobile-menu {
   position: fixed;
   top: 70px;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #020617; /* solid dark, not transparent */
-  padding: 36px 22px;
+  background-color: #020617 !important; /* absolutely solid */
+  padding: 30px 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
   transform: translateX(100%);
   transition: transform 0.25s ease-in-out;
-  z-index: 99;
+  z-index: 9998;
+  overflow-y: auto;
 }
 
 .mobile-menu.open {
@@ -448,74 +452,51 @@ a:hover {
 }
 
 /* ============================
-   NEWS TICKER
+   NEWS TICKER STYLES
    ============================ */
 
 .news-ticker-wrapper {
   margin-top: 24px;
-  border-radius: 18px;
+  border-radius: 12px;
   border: 1px solid #1f2937;
-  background: rgba(15, 23, 42, 0.98);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.85);
-  overflow: hidden;
-  padding: 10px 16px 14px;
+  background: rgba(15, 23, 42, 0.85);
+  padding: 12px 14px;
+  margin-bottom: 30px;
 }
 
-/* pill ABOVE the ticker */
 .news-label-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   padding: 4px 12px;
   border-radius: 999px;
   font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #fbbf24;
-  background: rgba(24, 24, 27, 0.9);
-  border: 1px solid #fbbf24;
+  background: #f59e0b;
+  color: #000;
+  letter-spacing: 0.12em;
   margin-bottom: 8px;
 }
 
 .news-ticker-inner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.news-ticker {
-  position: relative;
   overflow: hidden;
-  flex: 1;
+  white-space: nowrap;
+  position: relative;
 }
 
-/* scrolling row */
 .news-track {
-  display: inline-flex;
-  align-items: center;
-  gap: 32px;
+  display: inline-block;
   white-space: nowrap;
-  animation: ticker-scroll 22s linear infinite; /* slower */
+  animation: news-scroll 22s linear infinite;
 }
 
 .news-item {
   display: inline-block;
-  white-space: nowrap; /* prevent wrapping */
-  font-size: 0.85rem;
+  margin-right: 40px;
+  font-size: 0.9rem;
   color: #e5e7eb;
 }
 
-.news-link {
-  color: #a5b4fc;
-  text-decoration: none;
-}
-
-.news-link:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--primary);
-}
-
-@keyframes ticker-scroll {
+@keyframes news-scroll {
   0% {
     transform: translateX(0);
   }
@@ -554,4 +535,18 @@ a:hover {
   .grid-3 {
     grid-template-columns: 1fr;
   }
-                     }
+
+  /* tighten hero typography */
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  .navbar-container {
+    padding: 0 16px;
+    gap: 16px;
+  }
+}
