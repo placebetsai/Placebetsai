@@ -18,17 +18,21 @@ export default function HomePage() {
         if (!res.ok) throw new Error("Network error");
         const data = await res.json();
         const list = Array.isArray(data) ? data : [];
-        // Filter to upcoming only
-        const upcoming = list.filter((t) => new Date(t.date) > new Date());
-        const finalList =
-          upcoming.length > 0 ? upcoming.slice(0, 6) : list.slice(0, 6);
-        setTournaments(finalList);
-        if (upcoming.length === 0) {
+        const now = new Date();
+
+        const upcoming = list.filter((t) => new Date(t.date) > now);
+        const display = (upcoming.length ? upcoming : list).slice(0, 6);
+
+        setTournaments(display);
+
+        if (!upcoming.length) {
           setNotice("No upcoming tournaments found – showing recent ones.");
         }
       } catch (err) {
         console.error("Failed to load tournaments:", err);
-        setNotice("Live tournaments feed unavailable – showing backup data.");
+        setNotice(
+          "Live tournaments feed unavailable – showing backup data."
+        );
       } finally {
         setLoading(false);
       }
@@ -45,8 +49,8 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, [tournaments]);
 
-  const hasTournaments = tournaments && tournaments.length > 0;
-  const t = hasTournaments ? tournaments[current] : null;
+  const hasTournaments = tournaments.length > 0;
+  const currentTournament = hasTournaments ? tournaments[current] : null;
 
   const goNext = () => {
     if (!hasTournaments) return;
@@ -62,11 +66,11 @@ export default function HomePage() {
 
   return (
     <div className="page-wrap">
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section
         className="text-center"
         style={{
-          marginBottom: "24px",
+          marginBottom: "40px",
           maxWidth: "800px",
           margin: "0 auto 24px",
         }}
@@ -78,8 +82,9 @@ export default function HomePage() {
           <span className="highlight">Start Investing.</span>
         </h1>
         <p>
-          The house wins because you guess. The pros win because they calculate.
-          Build an edge with tools, bankroll strategy, and live tournament info.
+          The house wins because you guess. The pros win because they
+          calculate. Build an edge with tools, bankroll strategy, and live
+          tournament info.
         </p>
         <div
           style={{
@@ -99,7 +104,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWS TICKER – directly under View Tournaments */}
+      {/* NEWS TICKER – just under the hero buttons */}
       <NewsTicker />
 
       {/* TOURNAMENT CAROUSEL */}
@@ -115,7 +120,7 @@ export default function HomePage() {
           </p>
         )}
 
-        {hasTournaments ? (
+        {hasTournaments && currentTournament ? (
           <div
             style={{
               position: "relative",
@@ -126,21 +131,18 @@ export default function HomePage() {
               minHeight: "340px",
             }}
           >
-            {/* BG image */}
+            {/* background image */}
             <div
               style={{
                 position: "absolute",
                 inset: 0,
-                backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${
-                  t.image
-                })`,
+                backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${currentTournament.image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                filter: "brightness(1)",
               }}
             />
 
-            {/* CONTENT */}
+            {/* content */}
             <div
               style={{
                 position: "relative",
@@ -158,7 +160,9 @@ export default function HomePage() {
                   style={{ marginBottom: "10px", fontSize: "0.7rem" }}
                 >
                   LIVE TOURNAMENT SPOTLIGHT ·{" "}
-                  {t.gameType?.toUpperCase() || "GAME"}
+                  {currentTournament.gameType
+                    ? currentTournament.gameType.toUpperCase()
+                    : "GAME"}
                 </div>
                 <h2
                   style={{
@@ -168,7 +172,7 @@ export default function HomePage() {
                     textShadow: "0 4px 18px rgba(0,0,0,0.9)",
                   }}
                 >
-                  {t.name}
+                  {currentTournament.name}
                 </h2>
                 <p
                   style={{
@@ -179,9 +183,8 @@ export default function HomePage() {
                     textShadow: "0 2px 6px rgba(0,0,0,0.8)",
                   }}
                 >
-                  {(t.date || "Dates TBA") +
-                    " · " +
-                    (t.location || "Location TBA")}
+                  {(currentTournament.date || "Dates TBA") + " · " +
+                    (currentTournament.location || "Location TBA")}
                 </p>
                 <p
                   style={{
@@ -191,7 +194,7 @@ export default function HomePage() {
                     maxWidth: "680px",
                   }}
                 >
-                  {t.description}
+                  {currentTournament.description}
                 </p>
                 <div
                   style={{
@@ -205,15 +208,17 @@ export default function HomePage() {
                     className="pill"
                     style={{ background: "#020617", color: "#e5e7eb" }}
                   >
-                    Buy-in: {t.buyin}
+                    Buy-in: {currentTournament.buyin}
                   </span>
                   <span className="pill green">
-                    {t.guarantee || "Prize Pool TBA"}
+                    {currentTournament.guarantee || "Prize Pool TBA"}
                   </span>
-                  {t.casino && <span className="pill">{t.casino}</span>}
+                  {currentTournament.casino && (
+                    <span className="pill">{currentTournament.casino}</span>
+                  )}
                 </div>
                 <a
-                  href={t.link}
+                  href={currentTournament.link}
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-primary"
@@ -234,10 +239,7 @@ export default function HomePage() {
                 }}
               >
                 <div
-                  style={{
-                    color: "#9ca3af",
-                    fontSize: "0.8rem",
-                  }}
+                  style={{ color: "#9ca3af", fontSize: "0.8rem" }}
                 >
                   Showing{" "}
                   <span style={{ color: "#e5e7eb" }}>
@@ -245,7 +247,6 @@ export default function HomePage() {
                   </span>{" "}
                   · Auto-rotating every few seconds.
                 </div>
-
                 <div
                   style={{
                     display: "flex",
@@ -320,8 +321,8 @@ export default function HomePage() {
             >
               <h2 style={{ marginBottom: "8px" }}>No tournaments found</h2>
               <p style={{ color: "#9ca3af", marginBottom: 0 }}>
-                Check your <code>/api/tournaments</code> endpoint or try again
-                later.
+                Check your <code>/api/tournaments</code> endpoint or try
+                again later.
               </p>
             </div>
           )
@@ -403,15 +404,16 @@ export default function HomePage() {
           <Link href="/ev-betting" className="card">
             <h3>📈 +EV Betting</h3>
             <p>
-              Understand Expected Value. The only mathematical way to beat the
-              book over time.
+              Understand Expected Value. The only mathematical way to beat
+              the book over time.
             </p>
           </Link>
 
           <Link href="/bankroll" className="card">
             <h3>🛡️ Bankroll Mgmt</h3>
             <p>
-              Calculate unit sizes. Protect your capital from variance and tilt.
+              Calculate unit sizes. Protect your capital from variance and
+              tilt.
             </p>
           </Link>
 
