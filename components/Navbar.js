@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/calculators", label: "Tools" },
   { href: "/ev-betting", label: "+EV Strategy" },
   { href: "/bankroll", label: "Bankroll" },
+  { href: "/tournaments", label: "Tournaments" },
   { href: "/glossary", label: "Glossary" },
 ];
 
@@ -16,7 +17,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
   return (
@@ -43,12 +43,12 @@ export default function Navbar() {
         {/* HAMBURGER */}
         <button
           className={`hamburger ${isOpen ? "open" : ""}`}
-          onClick={toggleMenu}
+          onClick={() => setIsOpen(!isOpen)}
           aria-label="Menu"
         >
-          <span className="bar" />
-          <span className="bar" />
-          <span className="bar" />
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
         </button>
       </div>
 
