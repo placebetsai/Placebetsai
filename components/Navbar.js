@@ -1,8 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -14,67 +13,56 @@ const LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Prevent scrolling when menu is open
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [open]);
+  const closeMenu = () => setIsOpen(false);
 
   return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-inner">
-          {/* LOGO */}
-          <Link href="/" className="navbar-brand" onClick={() => setOpen(false)}>
-            PLACEBETS<span className="navbar-brand-accent">.AI</span>
-          </Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        {/* LOGO */}
+        <Link href="/" className="logo" onClick={closeMenu}>
+          PLACEBETS<span className="logo-accent">.AI</span>
+        </Link>
 
-          {/* DESKTOP LINKS (Hidden on Mobile) */}
-          <div className="nav-links">
-            {LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`nav-link ${pathname === link.href ? "nav-link-active" : ""}`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* HAMBURGER BUTTON (Visible on Mobile) */}
-          <button
-            className={`hamburger ${open ? "hamburger-open" : ""}`}
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-          >
-            <span className="line-1"></span>
-            <span className="line-2"></span>
-            <span className="line-3"></span>
-          </button>
-        </div>
-      </nav>
-
-      {/* MOBILE FULLSCREEN MENU */}
-      <div className={`mobile-menu ${open ? "mobile-menu-open" : ""}`}>
-        <div className="mobile-links-container">
+        {/* DESKTOP LINKS */}
+        <div className="desktop-links">
           {LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`mobile-link ${pathname === link.href ? "mobile-link-active" : ""}`}
-              onClick={() => setOpen(false)}
+              className={`nav-link ${pathname === link.href ? "active" : ""}`}
             >
               {link.label}
             </Link>
           ))}
         </div>
+
+        {/* HAMBURGER BUTTON */}
+        <button
+          className={`hamburger ${isOpen ? "open" : ""}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Menu"
+        >
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
       </div>
-    </>
+
+      {/* MOBILE MENU OVERLAY */}
+      <div className={`mobile-menu ${isOpen ? "open" : ""}`}>
+        {LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`mobile-link ${pathname === link.href ? "active" : ""}`}
+            onClick={closeMenu}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
-}
+              }
