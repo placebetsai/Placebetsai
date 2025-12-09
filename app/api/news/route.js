@@ -1,65 +1,105 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 0; // no static cache
+export const revalidate = 0; // no cache – always fresh
 
-// very simple RSS item parser
-function parseRSSItems(xml, sourceLabel) {
+// We use multiple feeds and normalize them
+const FEEDS = [
+  {
+    url: "https://www.espn.com/espn/rss/news",
+    base: "https://www.espn.com",
+    source: "ESPN",
+  },
+  {
+    url: "https://www.sportsnet.ca/feed/",
+    base: "https://www.sportsnet.ca",
+    source: "Sportsnet",
+  },
+  {
+    url: "https://www.legalsportsreport.com/feed/",
+    base: "https://www.legalsportsreport.com",
+    source: "Legal Sports Report",
+  },
+];
+
+function decodeEntities(str) {
+  if (!str) return "";
+  return str
+    .replace(/&amp;/g, "&")
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+// Parse a single RSS XML string into [{title, link, source}]
+function parseRss(xml, source, baseUrl) {
   const items = [];
-  const itemRegex = /<item[\s\S]*?<\/item>/gi;
-  const titleRegex = /<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>|<title>([\s\S]*?)<\/title>/i;
-  const linkRegex = /<link>([\s\S]*?)<\/link>/i;
+  const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
+  let match;
 
-  const matches = xml.match(itemRegex) || [];
-  for (const raw of matches.slice(0, 10)) {
-    const tMatch = raw.match(titleRegex);
-    const lMatch = raw.match(linkRegex);
-    const title = (tMatch && (tMatch[1] || tMatch[2] || "")).trim();
-    const link = (lMatch && lMatch[1] ? lMatch[1].trim() : "").replace(/\s+/g, "");
+  while ((match = itemRegex.exec(xml)) !== null) {
+    const itemXml = match[1];
+
+    const titleMatch = itemXml.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>|<title>([\s\S]*?)<\/title>/i);
+    let rawTitle = titleMatch ? (titleMatch[1] || titleMatch[2]) : "";
+    let title = decodeEntities(rawTitle.trim());
+
+    const linkMatch = itemXml.match(/<link>([\s\S]*?)<\/link>/i);
+    let rawLink = linkMatch ? linkMatch[1].trim() : "";
+    let link = decodeEntities(rawLink);
+
+    // If link is relative like "/nba/story/...", prefix with feed base
+    if (link.startsWith("/") && baseUrl) {
+      link = baseUrl.replace(/\/+$/, "") + link;
+    }
+
+    // Filter junk
     if (!title || !link) continue;
+
     items.push({
       title,
       link,
-      source: sourceLabel,
+      source,
     });
   }
+
   return items;
 }
 
+async function fetchFeed(feed) {
+  try {
+    const res = await fetch(feed.url, {
+      // Force fresh on each request
+      cache: "no-store",
+      headers: {
+        "User-Agent": "PlaceBets.ai News Fetcher",
+      },
+    });
+
+    if (!res.ok) throw new Error(`Bad status: ${res.status}`);
+    const xml = await res.text();
+    return parseRss(xml, feed.source, feed.base);
+  } catch (err) {
+    console.error("News feed error:", feed.url, err.message);
+    return [];
+  }
+}
+
 export async function GET() {
-  const feeds = [
-    {
-      url: "https://www.espn.com/espn/rss/news",
-      label: "ESPN",
-    },
-    {
-      url: "https://www.legalsportsreport.com/feed/",
-      label: "LegalSportsReport",
-    },
-  ];
+  const results = await Promise.all(FEEDS.map((f) => fetchFeed(f)));
+  let allItems = results.flat();
 
-  let allItems = [];
-
-  for (const feed of feeds) {
-    try {
-      const res = await fetch(feed.url, { cache: "no-store" });
-      if (!res.ok) continue;
-      const xml = await res.text();
-      const parsed = parseRSSItems(xml, feed.label);
-      allItems = allItems.concat(parsed);
-    } catch (e) {
-      console.error("News feed error:", feed.url, e);
-    }
-  }
-
-  // simple de-dupe by title
+  // Remove duplicates by title
   const seen = new Set();
-  const unique = [];
-  for (const item of allItems) {
+  allItems = allItems.filter((item) => {
     const key = item.title.toLowerCase();
-    if (seen.has(key)) continue;
+    if (seen.has(key)) return false;
     seen.add(key);
-    unique.push(item);
-  }
+    return true;
+  });
 
-  return NextResponse.json(unique.slice(0, 25));
+  // Limit to top 30
+  allItems = allItems.slice(0, 30);
+
+  return NextResponse.json(allItems);
 }
