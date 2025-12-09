@@ -2,23 +2,21 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 
 export const metadata = {
-  title: "PlaceBets.ai – The Professional Betting Toolkit",
+  title: "PlaceBets.ai – Professional Betting Toolkit",
   description:
-    "Advanced sports betting tools, EV+ calculators, and bankroll management strategies.",
+    "Advanced sports betting tools, calculators, bankroll management and +EV strategy.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="app-body">
+      <body>
         <div className="app-shell">
           <Navbar />
           <main className="site-main">{children}</main>
           <footer className="site-footer">
-            <p>
-              © {new Date().getFullYear()} PlaceBets.ai · Education only · 21+ ·
-              No betting offered.
-            </p>
+            © {new Date().getFullYear()} PlaceBets.ai · Education only · 21+ ·
+            No betting offered.
           </footer>
         </div>
       </body>
