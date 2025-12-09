@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import NewsTicker from "../components/NewsTicker";
 
 export default function HomePage() {
   const [tournaments, setTournaments] = useState([]);
@@ -9,6 +10,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState("");
 
+  // load tournaments from API
   useEffect(() => {
     async function load() {
       try {
@@ -16,12 +18,11 @@ export default function HomePage() {
         if (!res.ok) throw new Error("Network error");
         const data = await res.json();
         const list = Array.isArray(data) ? data : [];
-        const upcoming = list.filter((t) => {
-          const d = new Date(t.date);
-          return !isNaN(d) && d > new Date();
-        });
-        const useList = upcoming.length > 0 ? upcoming : list;
-        setTournaments(useList.slice(0, 6));
+        // Filter to upcoming only
+        const upcoming = list.filter((t) => new Date(t.date) > new Date());
+        const finalList =
+          upcoming.length > 0 ? upcoming.slice(0, 6) : list.slice(0, 6);
+        setTournaments(finalList);
         if (upcoming.length === 0) {
           setNotice("No upcoming tournaments found – showing recent ones.");
         }
@@ -35,6 +36,7 @@ export default function HomePage() {
     load();
   }, []);
 
+  // auto-rotate carousel
   useEffect(() => {
     if (!tournaments.length) return;
     const timer = setInterval(() => {
@@ -53,7 +55,9 @@ export default function HomePage() {
 
   const goPrev = () => {
     if (!hasTournaments) return;
-    setCurrent((prev) => (prev === 0 ? tournaments.length - 1 : prev - 1));
+    setCurrent((prev) =>
+      prev === 0 ? tournaments.length - 1 : prev - 1
+    );
   };
 
   return (
@@ -62,9 +66,9 @@ export default function HomePage() {
       <section
         className="text-center"
         style={{
-          marginBottom: "40px",
+          marginBottom: "24px",
           maxWidth: "800px",
-          margin: "0 auto 40px",
+          margin: "0 auto 24px",
         }}
       >
         <div className="pill green">BETA 2.0 LIVE</div>
@@ -95,6 +99,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* NEWS TICKER – directly under View Tournaments */}
+      <NewsTicker />
+
       {/* TOURNAMENT CAROUSEL */}
       <section style={{ marginBottom: "40px" }}>
         {loading && (
@@ -103,7 +110,9 @@ export default function HomePage() {
           </p>
         )}
         {!loading && notice && (
-          <p style={{ marginBottom: "10px", color: "#facc15" }}>{notice}</p>
+          <p style={{ marginBottom: "10px", color: "#facc15" }}>
+            {notice}
+          </p>
         )}
 
         {hasTournaments ? (
@@ -122,7 +131,9 @@ export default function HomePage() {
               style={{
                 position: "absolute",
                 inset: 0,
-                backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${t.image})`,
+                backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${
+                  t.image
+                })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 filter: "brightness(1)",
@@ -415,4 +426,4 @@ export default function HomePage() {
       </section>
     </div>
   );
-                        }
+          }
