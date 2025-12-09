@@ -5,72 +5,58 @@ import { useEffect, useMemo, useState } from "react";
 const FALLBACK_NEWS = [
   {
     id: 1,
-    title: "Live odds move fast – always shop the best number.",
-    url: "https://www.actionnetwork.com",
-    source: "Action Network",
+    title: "Live odds shift fast – always shop the best number.",
+    url: "#",
   },
   {
     id: 2,
-    title: "Bankroll management matters more than any one bet.",
-    url: "https://www.espn.com",
-    source: "ESPN",
+    title: "Don’t chase losses. Stick to your bankroll strategy.",
+    url: "#",
+  },
+  {
+    id: 3,
+    title: "Books are rolling out fresh bonuses for new users.",
+    url: "#",
   },
 ];
 
 export default function NewsTicker() {
   const [items, setItems] = useState(FALLBACK_NEWS);
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch("/api/news");
-        if (!res.ok) throw new Error("Network error");
-        const data = await res.json();
-        if (Array.isArray(data) && data.length) {
-          setItems(data);
-        }
-      } catch (err) {
-        console.error("Failed to load news:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
+    setMounted(true);
+    // later: fetch real RSS / API here, then setItems(...)
   }, []);
 
-  // duplicate items so the ticker loops
-  const trackItems = useMemo(() => {
-    const base = items.slice(0, 20);
-    return [...base, ...base];
-  }, [items]);
+  const trackItems = useMemo(
+    () => [...items, ...items, ...items],
+    [items]
+  );
 
-  if (!items.length) return null;
+  if (!mounted) return null;
 
   return (
     <div className="news-ticker-wrapper">
-      <div className="news-label-pill">
-        {loading ? "Loading Betting News…" : "Live Betting News"}
-      </div>
+      <div className="news-label-pill">Live Betting News</div>
       <div className="news-ticker-inner">
-        <div className="news-ticker">
-          <div className="news-track">
-            {trackItems.map((item, idx) => (
-              <span key={`${item.id}-${idx}`} className="news-item">
-                <a
-                  className="news-link"
-                  href={item.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {item.source ? `${item.source}: ` : ""}
-                  {item.title}
-                </a>
+        <div className="news-track">
+          {trackItems.map((item, idx) => (
+            <span key={`${item.id}-${idx}`} className="news-item">
+              <span
+                style={{
+                  color: "#22c55e",
+                  marginRight: "8px",
+                  fontWeight: 700,
+                }}
+              >
+                •
               </span>
-            ))}
-          </div>
+              {item.title}
+            </span>
+          ))}
         </div>
       </div>
     </div>
   );
-                    }
+}
