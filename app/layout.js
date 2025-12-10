@@ -1,14 +1,55 @@
-// app/layout.js
 import "./globals.css";
 import Navbar from "../components/Navbar";
 
+const siteUrl = "https://placebets.ai";
+
+const siteTitle = "PlaceBets.ai – Stop Gambling. Start Investing.";
+const siteDescription =
+  "Professional betting toolkit with +EV calculators, bankroll strategy, and live tournament intel. Stop gambling. Start investing.";
+
+const ogImage = "https://placebets.ai/og-image.png"; // swap to your real OG image
+
 export const metadata = {
-  title: "PlaceBets.ai – The Professional Betting Toolkit",
-  description:
-    "Advanced sports betting tools, EV+ calculators, and bankroll management strategies.",
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
+  alternates: {
+    canonical: "/", // avoids duplicate preview URLs from Vercel
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "PlaceBets.ai",
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteTitle,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImage],
+  },
 };
 
-// 👇 THIS is what tells phones to render it as mobile, not zoomed-out desktop
 export const viewport = {
   width: "device-width",
   initialScale: 1,
