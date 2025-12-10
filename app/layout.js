@@ -9,6 +9,8 @@ export const metadata = {
   },
   description:
     "Advanced sports betting tools, EV+ calculators, bankroll management strategies, and live tournament intel for sharp, data-driven players.",
+  
+  // ---------- OPEN GRAPH ----------
   openGraph: {
     title: "PlaceBets.ai – The Professional Betting Toolkit",
     description:
@@ -26,6 +28,8 @@ export const metadata = {
       },
     ],
   },
+
+  // ---------- TWITTER ----------
   twitter: {
     card: "summary_large_image",
     title: "PlaceBets.ai – The Professional Betting Toolkit",
@@ -33,8 +37,17 @@ export const metadata = {
       "Tools and analytics for disciplined, data-driven bettors. Not a sportsbook. Not gambling advice.",
     images: ["/Screenshot_20251210_115432_Grok.jpg"],
   },
+
+  // ---------- CANONICAL ----------
   alternates: {
     canonical: "https://placebets.ai",
+  },
+
+  // ---------- FAVICON INSERTION (THIS IS WHAT YOU WANTED) ----------
+  icons: {
+    icon: "/grok_1765395775037.jpg",         // you said DO NOT rename it
+    shortcut: "/grok_1765395775037.jpg",
+    apple: "/grok_1765395775037.jpg",
   },
 };
 
@@ -85,6 +98,7 @@ export default function RootLayout({ children }) {
         <div className="app-shell">
           <Navbar />
           <main className="site-main">{children}</main>
+
           <footer
             style={{
               textAlign: "center",
@@ -105,9 +119,9 @@ export default function RootLayout({ children }) {
               }}
             >
               <div>
-                © {new Date().getFullYear()} PlaceBets.ai · Educational Use
-                Only · 21+
+                © {new Date().getFullYear()} PlaceBets.ai · Educational Use Only · 21+
               </div>
+
               <div
                 style={{
                   display: "flex",
@@ -117,17 +131,13 @@ export default function RootLayout({ children }) {
                   fontSize: "0.85rem",
                 }}
               >
-                <a href="/about" style={{ color: "#e5e7eb" }}>
-                  About
-                </a>
+                <a href="/about" style={{ color: "#e5e7eb" }}>About</a>
                 <span style={{ opacity: 0.4 }}>•</span>
-                <a href="/terms" style={{ color: "#e5e7eb" }}>
-                  Terms
-                </a>
+
+                <a href="/terms" style={{ color: "#e5e7eb" }}>Terms</a>
                 <span style={{ opacity: 0.4 }}>•</span>
-                <a href="/privacy" style={{ color: "#e5e7eb" }}>
-                  Privacy
-                </a>
+
+                <a href="/privacy" style={{ color: "#e5e7eb" }}>Privacy</a>
               </div>
             </div>
           </footer>
@@ -135,4 +145,4 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-                }
+}
