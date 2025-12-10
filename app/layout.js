@@ -17,12 +17,21 @@ export const metadata = {
     siteName: "PlaceBets.ai",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/Screenshot_20251210_115432_Grok.jpg",
+        width: 1365,
+        height: 768,
+        alt: "PlaceBets.ai – Precision tools for professional bettors: calculate, strategize, win.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "PlaceBets.ai – The Professional Betting Toolkit",
     description:
       "Tools and analytics for disciplined, data-driven bettors. Not a sportsbook. Not gambling advice.",
+    images: ["/Screenshot_20251210_115432_Grok.jpg"],
   },
   alternates: {
     canonical: "https://placebets.ai",
@@ -47,6 +56,7 @@ export default function RootLayout({ children }) {
         name: "PlaceBets.ai",
         description:
           "Advanced sports betting tools, EV+ calculators, bankroll management strategies, and live tournament intel.",
+        inLanguage: "en-US",
         publisher: {
           "@id": "https://placebets.ai/#organization",
         },
@@ -56,7 +66,7 @@ export default function RootLayout({ children }) {
         "@id": "https://placebets.ai/#organization",
         name: "PlaceBets.ai",
         url: "https://placebets.ai",
-        logo: "https://placebets.ai/icon-512.png",
+        logo: "https://placebets.ai/Screenshot_20251210_115432_Grok.jpg",
       },
     ],
   };
@@ -125,4 +135,4 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-                  }
+                }
