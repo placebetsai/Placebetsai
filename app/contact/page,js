@@ -3,122 +3,89 @@
 import { useState } from "react";
 
 export default function ContactPage() {
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
-  const [error, setError] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | submitting | submitted | error
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setStatus("sending");
-    setError("");
+  const handleSubmit = () => {
+    setStatus("submitting");
+    // Fake delay for UX (FormSubmit handles real submit)
+    setTimeout(() => setStatus("submitted"), 1000);
+  };
 
-    const form = new FormData(e.currentTarget);
-    const payload = {
-      name: form.get("name"),
-      email: form.get("email"),
-      message: form.get("message"),
-      website: form.get("website") || "", // honeypot
-    };
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Request failed");
-      }
-
-      setStatus("sent");
-      e.currentTarget.reset();
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Try again later.");
-      setStatus("error");
-    }
-  }
-
-  if (status === "sent") {
+  if (status === "submitted") {
     return (
-      <div style={{ maxWidth: 700, margin: "0 auto" }}>
-        <h1>Message submitted.</h1>
-        <div className="contact-success">
-          <p>
-            Got it. If it&apos;s serious, we&apos;ll read it between slates.
-          </p>
-        </div>
+      <div className="max-w-2xl mx-auto p-8 text-center">
+        <h1 className="text-3xl font-bold mb-4">Form Successfully Submitted</h1>
+        <p className="text-lg text-slate-300">
+          Got it. We'll hit you back if it's legit.
+        </p>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: "0 auto" }}>
-      <h1>Contact</h1>
-      <p>
-        Partnerships, data deals, or real opportunities only.  
-        <span style={{ color: "#6b7280" }}>
-          {" "}
-          No picks, no DMs asking &quot;who you like tonight&quot;.
-        </span>
+    <div className="max-w-2xl mx-auto p-8">
+      <h1 className="text-4xl font-bold mb-4">Contact</h1>
+      <p className="text-lg mb-8 text-slate-300">
+        Partnerships, data deals, or real opportunities only. No picks, no "who you like tonight".
       </p>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: 24 }}>
-        {/* honeypot, hidden */}
-        <input
-          type="text"
-          name="website"
-          autoComplete="off"
-          tabIndex={-1}
-          style={{ position: "absolute", left: "-9999px", height: 0, width: 0 }}
-        />
+      <form
+        action="https://formsubmit.co/info@placebets.ai"  // ← Your email here—secret send
+        method="POST"
+        onSubmit={handleSubmit}
+        className="space-y-6"
+      >
+        {/* Disable captcha (optional, removes their page) */}
+        <input type="text" name="_captcha" value="false" style={{display: "none"}} />
 
-        <div className="input-group">
-          <label>Name</label>
-          <input name="name" required placeholder="Your name" />
+        {/* Custom success redirect (optional—to your thank you or same page) */}
+        <input type="hidden" name="_next" value="https://placebets.ai/contact?success=1" />
+
+        {/* Honeypot spam block */}
+        <input type="text" name="_honey" style={{display: "none"}} />
+
+        {/* Block bots */}
+        <input type="checkbox" name="_botcheck" style={{display: "none"}} />
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Name</label>
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Your name"
+            className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500"
+          />
         </div>
 
-        <div className="input-group">
-          <label>Email</label>
+        <div>
+          <label className="block text-sm font-medium mb-2">Email</label>
           <input
             type="email"
             name="email"
             required
             placeholder="you@email.com"
+            className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500"
           />
         </div>
 
-        <div className="input-group">
-          <label>Message</label>
+        <div>
+          <label className="block text-sm font-medium mb-2">Message</label>
           <textarea
             name="message"
             required
             rows={6}
             placeholder="Tell us what you want to do with PlaceBets.ai"
-            style={{
-              width: "100%",
-              padding: 12,
-              background: "#020617",
-              borderRadius: 10,
-              border: "1px solid #111827",
-              color: "#e5e7eb",
-              fontSize: "0.98rem",
-            }}
+            className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500"
           />
         </div>
 
-        {error && (
-          <p style={{ color: "#f97373", fontSize: "0.85rem", marginBottom: 12 }}>
-            {error}
-          </p>
-        )}
-
         <button
           type="submit"
-          className="btn btn-primary"
-          disabled={status === "sending"}
+          disabled={status === "submitting"}
+          className="w-full py-3 bg-cyan-500 text-black font-bold rounded-lg hover:bg-cyan-400 disabled:opacity-50"
         >
-          {status === "sending" ? "Sending…" : "Submit"}
+          {status === "submitting" ? "Sending..." : "Submit"}
         </button>
       </form>
     </div>
