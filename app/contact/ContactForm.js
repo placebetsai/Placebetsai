@@ -1,91 +1,91 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from 'next/navigation';
 
 export default function ContactForm() {
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState("idle");
+  const isSuccess = searchParams.get('success') === 'true';
 
-  useEffect(() => {
-    if (searchParams.get("success") === "1") {
-      setStatus("submitted");
-    }
-  }, [searchParams]);
-
-  const handleSubmit = () => {
-    setStatus("submitting");
-  };
-
-  if (status === "submitted") {
+  if (isSuccess) {
     return (
-      <div className="text-center mt-10">
-        <h2 className="text-4xl font-bold mb-6">Form Successfully Submitted</h2>
-        <p className="text-xl text-slate-300">
-          Got it. We'll review and reply if it's serious.
+      <div className="bg-emerald-900/20 border border-emerald-500/50 rounded-lg p-8 text-center">
+        <h3 className="text-2xl font-bold text-emerald-400 mb-2">Message Received</h3>
+        <p className="text-slate-300">
+          We'll be in touch if the numbers make sense.
         </p>
+        <a 
+          href="/" 
+          className="inline-block mt-6 text-emerald-400 hover:text-emerald-300 underline underline-offset-4"
+        >
+          Return to Dashboard
+        </a>
       </div>
     );
   }
 
   return (
-    <form
-      action="https://formsubmit.co/info@placebets.ai"
-      method="POST"
-      onSubmit={handleSubmit}
-      className="space-y-8"
+    <form 
+      action="https://formsubmit.co/info@placebets.ai" 
+      method="POST" 
+      className="space-y-6"
     >
-      <input type="hidden" name="_next" value="https://placebets.ai/contact?success=1" />
+      {/* FormSubmit Configuration */}
+      <input type="hidden" name="_next" value="https://placebets.ai/contact?success=true" />
+      <input type="hidden" name="_subject" value="New Inquiry - PlaceBets.ai" />
       <input type="hidden" name="_captcha" value="false" />
-      <input type="text" name="_honey" style={{ display: "none" }} />
-      <input type="hidden" name="_autoresponse" value="Thanks for reaching out. We'll get back if it's a fit." />
-      <input type="hidden" name="_subject" value="New Contact from PlaceBets.ai" />
+      <input type="hidden" name="_template" value="table" />
 
+      {/* Name */}
       <div>
-        <label className="block text-base font-medium text-slate-300 mb-3">
-          Name
+        <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2">
+          Name / Organization
         </label>
         <input
           type="text"
           name="name"
+          id="name"
           required
-          placeholder="Your name"
-          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
+          className="appearance-none w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+          placeholder="Who are you?"
         />
       </div>
 
+      {/* Email */}
       <div>
-        <label className="block text-base font-medium text-slate-300 mb-3">
+        <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">
           Email
         </label>
         <input
           type="email"
           name="email"
+          id="email"
           required
-          placeholder="you@email.com"
-          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
+          className="appearance-none w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+          placeholder="contact@example.com"
         />
       </div>
 
+      {/* Message */}
       <div>
-        <label className="block text-base font-medium text-slate-300 mb-3">
-          Message
+        <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2">
+          Proposal
         </label>
         <textarea
           name="message"
+          id="message"
+          rows="5"
           required
-          rows={8}
-          placeholder="Tell us what you want to do with PlaceBets.ai"
-          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow resize-none"
-        />
+          className="appearance-none w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+          placeholder="Brief, high-value communication."
+        ></textarea>
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
-        disabled={status === "submitting"}
-        className="w-full py-5 bg-cyan-500 text-black font-bold rounded-xl hover:bg-cyan-400 disabled:opacity-70 transition-shadow shadow-lg hover:shadow-cyan-500/30 text-xl uppercase tracking-wide"
+        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-emerald-500/20 transition-all duration-200 transform hover:-translate-y-0.5"
       >
-        {status === "submitting" ? "Sending..." : "Submit"}
+        Send Securely
       </button>
     </form>
   );
