@@ -1,7 +1,7 @@
 {
   "name": "PlaceBets.ai",
   "short_name": "PlaceBets",
-  "description": "Professional betting toolkit with EV+ calculators, bankroll management, and live tournament intel for disciplined players.",
+  "description": "Professional betting toolkit.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#020617",
