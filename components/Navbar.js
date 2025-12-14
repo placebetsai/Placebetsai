@@ -14,7 +14,7 @@ const LINKS = [
   { href: "/about", label: "About" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
-  { href: "/contact", label: "Contact" },  // ← Added this, cocksucker
+  { href: "/contact", label: "Contact" },  // Contact in nav (desktop & mobile)
 ];
 
 export default function Navbar() {
