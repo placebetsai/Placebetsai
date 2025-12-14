@@ -5,9 +5,8 @@ import { useSearchParams } from "next/navigation";
 
 export default function ContactPage() {
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState("idle"); // idle | submitting | submitted
+  const [status, setStatus] = useState("idle");
 
-  // Detect success redirect
   useEffect(() => {
     if (searchParams.get("success") === "1") {
       setStatus("submitted");
@@ -37,24 +36,15 @@ export default function ContactPage() {
       </p>
 
       <form
-        action="https://formsubmit.co/info@placebets.ai"  // Secret send to your email
+        action="https://formsubmit.co/info@placebets.ai"
         method="POST"
         onSubmit={handleSubmit}
         className="space-y-6"
       >
-        {/* Redirect back to this page on success */}
         <input type="hidden" name="_next" value="https://placebets.ai/contact?success=1" />
-
-        {/* Disable their thank you/captcha page */}
         <input type="hidden" name="_captcha" value="false" />
-
-        {/* Honeypot spam protection */}
         <input type="text" name="_honey" style={{ display: "none" }} />
-
-        {/* Auto-reply email (optional - sends copy to submitter) */}
         <input type="hidden" name="_autoresponse" value="Thanks for reaching out. We'll get back if it's a fit." />
-
-        {/* Subject line for your inbox */}
         <input type="hidden" name="_subject" value="New Contact from PlaceBets.ai" />
 
         <div>
