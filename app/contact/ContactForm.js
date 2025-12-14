@@ -50,7 +50,7 @@ export default function ContactForm() {
           name="name"
           required
           placeholder="Your name"
-          className="w-full px-6 py-4 bg-slate-900/80 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
+          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
         />
       </div>
 
@@ -63,7 +63,7 @@ export default function ContactForm() {
           name="email"
           required
           placeholder="you@email.com"
-          className="w-full px-6 py-4 bg-slate-900/80 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
+          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow"
         />
       </div>
 
@@ -76,7 +76,7 @@ export default function ContactForm() {
           required
           rows={8}
           placeholder="Tell us what you want to do with PlaceBets.ai"
-          className="w-full px-6 py-4 bg-slate-900/80 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow resize-none"
+          className="w-full px-6 py-4 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 appearance-none focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 transition-shadow resize-none"
         />
       </div>
 
