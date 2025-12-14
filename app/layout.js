@@ -36,8 +36,7 @@ export const metadata = {
   alternates: {
     canonical: "https://placebets.ai",
   },
-  // 👇 NEW: PWA + favicon support
-  manifest: "/manifest.json",
+  // Removed manifest: "/manifest.json" — this was breaking build because manifest.json has invalid JS code
   icons: {
     icon: "/grok_1765395775037.jpg",
     shortcut: "/grok_1765395775037.jpg",
