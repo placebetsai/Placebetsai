@@ -1,54 +1,61 @@
+import React from 'react';
+
 export const metadata = {
   title: 'Contact | PlaceBets.ai',
-  description: 'Partnerships and data inquiries.',
+  description: 'Professional inquiries and partnerships.',
 };
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      
-      {/* Main Card Container */}
+    <div className="min-h-screen w-full bg-[#020617] flex items-center justify-center p-4">
+      {/* Container with glow effect */}
       <div className="relative w-full max-w-lg group">
         
-        {/* Glowing Gradient Background Effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+        {/* Animated Gradient Glow Behind Card */}
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
         
-        {/* The Card Content */}
+        {/* Main Card */}
         <div className="relative bg-slate-950 border border-slate-800 rounded-xl p-8 shadow-2xl">
           
-          {/* Header Section */}
+          {/* Header */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
-              Contact <span className="text-emerald-400">PlaceBets</span>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2">
+              Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Us</span>
             </h1>
-            <div className="h-1 w-20 bg-emerald-500 mx-auto rounded-full"></div>
+            <p className="text-slate-400 text-sm font-medium tracking-wide uppercase">
+              PlaceBets.ai Corporate
+            </p>
           </div>
 
-          {/* Description Text */}
-          <div className="space-y-6 text-slate-300 text-center leading-relaxed">
-            <p>
+          {/* Divider */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-10"></div>
+
+          {/* Content */}
+          <div className="space-y-8 text-center">
+            <p className="text-slate-300 text-lg leading-relaxed">
               We are building the ultimate toolkit for disciplined players. 
-              Our focus is on EV+ calculators, bankroll management, and live tournament intel.
+              <span className="block mt-2 text-slate-400 text-base">
+                Partnerships, data integration, and platform inquiries only.
+              </span>
             </p>
-            <p className="text-sm text-slate-400 border-t border-slate-800 pt-6">
-              For partnerships, data integration deals, or platform inquiries, 
-              please reach out directly.
+
+            {/* The Money Button */}
+            <div className="pt-4">
+              <a 
+                href="mailto:info@placebets.ai"
+                className="group relative inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-emerald-600 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600 hover:bg-emerald-500 hover:shadow-[0_0_20px_-5px_rgba(16,185,129,0.5)]"
+              >
+                <svg className="w-5 h-5 mr-2 -ml-1 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                info@placebets.ai
+              </a>
+            </div>
+
+            <p className="text-xs text-slate-600 mt-6">
+              * No picks provided. Serious business only.
             </p>
           </div>
-
-          {/* Email Button Area */}
-          <div className="mt-10">
-            <a 
-              href="mailto:info@placebets.ai"
-              className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-emerald-500/20 transform hover:-translate-y-0.5"
-            >
-              info@placebets.ai
-            </a>
-            <p className="mt-4 text-xs text-center text-slate-500 uppercase tracking-widest">
-              Serious Inquiries Only
-            </p>
-          </div>
-
         </div>
       </div>
     </div>
