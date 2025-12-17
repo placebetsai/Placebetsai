@@ -3,8 +3,12 @@ import SEO from "../components/SEO";
 import Link from "next/link";
 import DecisionWizard from "../components/DecisionWizard";
 import NewsTicker from "../components/NewsTicker";
+// --- NEW IMPORTS ---
+import TradeHero from "../components/TradeHero"; 
+import { getTradeOfTheMonth } from "../lib/tradeAi"; 
 
-export default function HomePage() {
+// 1. ACCEPT THE DATA
+export default function HomePage({ tradeData }) {
   return (
     <Layout>
       <SEO />
@@ -74,13 +78,16 @@ export default function HomePage() {
 
           </div>
         </div>
+        
+        {/* --- NEW SECTION: TRADE OF THE MONTH --- */}
+        <TradeHero trade={tradeData} />
 
         {/* --- SECTION 2: DECISION WIZARD --- */}
         <section>
            <DecisionWizard />
         </section>
 
-        {/* --- SECTION 3: HIGH INCOME PATHS (This was missing!) --- */}
+        {/* --- SECTION 3: HIGH INCOME PATHS --- */}
         <section className="section">
           <h2 className="section-title text-3xl mb-8">High-Income Paths (No Degree)</h2>
 
@@ -132,4 +139,17 @@ export default function HomePage() {
       </div>
     </Layout>
   );
+}
+
+// 2. DATA FETCHING AND ISR (The auto-refresh mechanism)
+export async function getStaticProps() {
+  const tradeData = await getTradeOfTheMonth();
+
+  return {
+    props: {
+      tradeData,
+    },
+    // The page regenerates the 'Trade of the Month' in the background every 24 hours (86400 seconds).
+    revalidate: 86400, 
+  };
 }
