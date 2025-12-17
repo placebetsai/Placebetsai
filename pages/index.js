@@ -5,7 +5,7 @@ import DecisionWizard from "../components/DecisionWizard";
 import NewsTicker from "../components/NewsTicker";
 import dynamic from 'next/dynamic';
 
-// Matches your GitHub screenshot: TradeHero.js
+// Matches your GitHub screenshot exactly: TradeHero.js
 const TradeHero = dynamic(() => 
   import("../components/TradeHero").catch(() => () => null)
 );
@@ -22,7 +22,7 @@ export default function HomePage({ tradeData }) {
         </div>
 
         <div className="space-y-6">
-          {/* --- HERO SECTION --- */}
+          {/* --- SECTION 1: HERO --- */}
           <section className="hero">
             <p className="eyebrow text-slate-400 mb-4">YOU DON'T HAVE TO SIGN YOUR LIFE AWAY</p>
 
@@ -46,7 +46,7 @@ export default function HomePage({ tradeData }) {
             </div>
           </section>
 
-          {/* --- STATS ROW (RESTORED STYLING) --- */}
+          {/* --- RESTORED STATS BOXES --- */}
           <div className="grid md:grid-cols-2 gap-4">
             {/* THE "TRAP" BOX */}
             <div className="group p-6 rounded-2xl bg-slate-900/80 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] hover:border-red-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center items-center text-center gap-4">
@@ -76,21 +76,20 @@ export default function HomePage({ tradeData }) {
           </div>
         </div>
 
-        {/* TRADE OF THE MONTH SECTION */}
+        {/* --- TRADE OF THE MONTH SECTION --- */}
         {tradeData && <TradeHero trade={tradeData} />}
 
         <section>
            <DecisionWizard />
         </section>
 
-        {/* HIGH INCOME PATHS SECTION */}
+        {/* --- HIGH INCOME PATHS --- */}
         <section className="section">
           <h2 className="section-title text-3xl mb-8">High-Income Paths (No Degree)</h2>
-
           <div className="path-grid grid md:grid-cols-3 gap-6">
             <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
               <h3 className="text-xl font-bold mb-2 text-white">Tech & Cyber</h3>
-              <p className="text-sm text-slate-400 mb-4">Cloud, cybersecurity, IT support. Remote-friendly, high demand.</p>
+              <p className="text-sm text-slate-400 mb-4">Cloud, cybersecurity, IT support.</p>
               <Link href="/cheat-sheets" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
                 View Tech Cheat Sheet →
               </Link>
@@ -98,7 +97,7 @@ export default function HomePage({ tradeData }) {
 
             <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
               <h3 className="text-xl font-bold mb-2 text-white">Skilled Trades</h3>
-              <p className="text-sm text-slate-400 mb-4">HVAC, electrician, welding. Paid apprenticeships = earn while you learn.</p>
+              <p className="text-sm text-slate-400 mb-4">HVAC, electrician, welding.</p>
               <Link href="/trade-schools" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
                 Trade School Breakdown →
               </Link>
@@ -106,7 +105,7 @@ export default function HomePage({ tradeData }) {
 
             <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
               <h3 className="text-xl font-bold mb-2 text-white">Gov & Civil Service</h3>
-              <p className="text-sm text-slate-400 mb-4">Federal, state, and city jobs. Many don't require degrees, just exams.</p>
+              <p className="text-sm text-slate-400 mb-4">Jobs that don't require degrees.</p>
               <Link href="/civil-service" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
                 Civil Service Guide →
               </Link>
@@ -121,7 +120,7 @@ export default function HomePage({ tradeData }) {
 
 export async function getStaticProps() {
   try {
-    // UPDATED TO MATCH YOUR SCREENSHOT: tradeAI.js (Capital AI)
+    // FIX: Match filename from screenshot (tradeAI.js)
     const { getTradeOfTheMonth } = require("../lib/tradeAI");
     const tradeData = await getTradeOfTheMonth();
     return {
@@ -129,6 +128,7 @@ export async function getStaticProps() {
       revalidate: 86400, 
     };
   } catch (error) {
+    console.error("Trade loading failed:", error);
     return {
       props: { tradeData: null },
       revalidate: 60, 
