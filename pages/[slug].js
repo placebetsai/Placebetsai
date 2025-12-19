@@ -5,13 +5,17 @@ export async function getServerSideProps({ params }) {
   const { slug } = params;
   const apiKey = process.env.COLLEGE_SCORECARD_API_KEY;
 
-  if (!apiKey) {
-    return { props: { school: null } };
-  }
+  if (!apiKey) return { props: { school: null } };
 
-  // FIXED: Fetch by OPEID (unique ID)
+  // Convert slug to name (e.g., "florida-state-university" -> "Florida State University")
+  const nameSearch = slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
+  // Search without quotes for partial match
   const res = await fetch(
-    `https://api.data.gov/ed/collegescorecard/v1/schools.json?api_key=${apiKey}&school.opeid=${slug}&per_page=1`
+    `https://api.data.gov/ed/collegescorecard/v1/schools.json?api_key=${apiKey}&school.name=${encodeURIComponent(nameSearch)}&per_page=1`
   );
   const data = await res.json();
   const school = data.results?.[0] || null;
