@@ -1,3 +1,4 @@
+// pages/rank-your-school.js
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
@@ -8,7 +9,6 @@ export default function RankYourSchool() {
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Auto-search on load so the page isn't empty
   useEffect(() => {
     fetchSchools("University");
   }, []);
@@ -39,60 +39,61 @@ export default function RankYourSchool() {
         description="Search the government database to see the real cost, debt, and earnings for any college in America."
       />
       
-      <section className="page-section text-center">
-        <p className="hero-eyebrow">THE REAL NUMBERS</p>
-        <h1 className="hero-title">Search the official government database</h1>
-        <p className="hero-subtitle max-w-2xl mx-auto">
-          See the real cost, average debt, and alumni earnings.
-        </p>
-      </section>
+      <section className="site-main">
+        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center", paddingTop: "2rem" }}>
+          <h1 className="hero-title">Is your school a <span className="accent">scam?</span></h1>
+          <p className="hero-subtitle" style={{ margin: "0 auto 2rem" }}>
+            Search the official government database. See the real cost, average debt, and alumni earnings.
+          </p>
 
-      <section className="page-section">
-        <div className="max-w-3xl mx-auto">
-          <form onSubmit={handleSearch} className="flex gap-4 mb-12">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4 mb-8">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Harvard, Stanford, your local state school..."
-              className="flex-1 px-6 py-4 rounded-full bg-slate-900 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+              className="flex-1 p-4 bg-gray-800 border border-gray-700 rounded-lg text-white"
             />
-            <button type="submit" className="px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold">
+            <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-8 rounded-lg">
               Search
             </button>
           </form>
 
           {loading ? (
-            <p className="text-center text-xl">Loading...</p>
-          ) : schools.length === 0 ? (
-            <p className="text-center text-xl">No results. Try a different search.</p>
-          ) : (
-            <div className="space-y-6">
-              {schools.map((school) => (
-                <div key={school.id} className="bg-slate-900 p-6 rounded-xl border border-slate-700">
-                  <Link href={`/college/${school.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                    <a className="text-2xl font-bold text-blue-400 hover:text-blue-300">
-                      {school.name}
-                    </a>
+            <p className="text-center text-gray-400">Loading...</p>
+          ) : schools.length > 0 ? (
+            <div style={{ display: "grid", gap: "1rem" }}>
+              {schools.map((school) => {
+                const slug = school.name
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-|-$/g, '');
+                return (
+                  <Link key={school.id} href={`/college/${slug}`} className="path-card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", background: "#1e293b", padding: "1rem", borderRadius: "0.5rem" }}>
+                    <div>
+                      <h3 style={{ margin: 0, color: "white", fontSize: "1.2rem" }}>{school.name}</h3>
+                      <p style={{ margin: 0, color: "#9ca3af", fontSize: "0.9rem" }}>{school.city}, {school.state}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: "2rem", textAlign: "right" }}>
+                      <div>
+                        <div style={{ fontSize: "0.8rem", color: "#9ca3af", textTransform: "uppercase" }}>Avg Cost</div>
+                        <div style={{ fontWeight: "bold", color: "#e5e7eb" }}>{school.cost}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "0.8rem", color: "#9ca3af", textTransform: "uppercase" }}>Avg Debt</div>
+                        <div style={{ fontWeight: "bold", color: "#f87171" }}>{school.debt}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "0.8rem", color: "#9ca3af", textTransform: "uppercase" }}>Earnings</div>
+                        <div style={{ fontWeight: "bold", color: "#4ade80" }}>{school.earnings}</div>
+                      </div>
+                    </div>
                   </Link>
-                  <p className="text-slate-400 mb-4">{school.city}, {school.state}</p>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-slate-400 uppercase text-sm">Avg Cost</p>
-                      <p className="text-2xl font-bold">{school.cost}</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 uppercase text-sm">Avg Debt</p>
-                      <p className="text-2xl font-bold text-red-400">{school.debt}</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 uppercase text-sm">Earnings</p>
-                      <p className="text-2xl font-bold text-green-400">{school.earnings}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
+          ) : (
+            <p className="text-center text-gray-400">No results. Try searching again.</p>
           )}
         </div>
       </section>
