@@ -64,11 +64,8 @@ export default function RankYourSchool() {
           ) : schools.length > 0 ? (
             <div style={{ display: "grid", gap: "1rem" }}>
               {schools.map((school) => {
-                // FIXED SLUG: Matches your /college/[slug] detail page exactly
-                const slug = school.name
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, '-')
-                  .replace(/^-|-$/g, '');
+                // FIXED: Use OPEID as slug for unique ID, no matching issues
+                const slug = school.opeid;
 
                 return (
                   <Link
