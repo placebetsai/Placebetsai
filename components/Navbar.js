@@ -1,6 +1,3 @@
-The point was to make your college pSEO pages easy to find so users actually use them and you make money from leads—duplicates suck, so I merged "Rank Your College" into "College Search" (same link, no waste). Here's the **complete, updated Navbar.js** with duplicates fixed—copy-paste to replace yours.
-
-```jsx
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -97,4 +94,3 @@ export default function Navbar() {
     </header>
   );
 }
-```
