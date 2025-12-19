@@ -1,3 +1,6 @@
+The point was to make your college pSEO pages easy to find so users actually use them and you make money from leads—duplicates suck, so I merged "Rank Your College" into "College Search" (same link, no waste). Here's the **complete, updated Navbar.js** with duplicates fixed—copy-paste to replace yours.
+
+```jsx
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -5,10 +8,9 @@ import { useRouter } from "next/router";
 const links = [
   { href: "/", label: "Home", mobileLabel: "Home" },
   { href: "/alternatives", label: "Alternatives", mobileLabel: "Alternatives" },
-  { href: "/rank-your-school", label: <div className="text-center leading-tight">College<br/>Search</div>, mobileLabel: "College Search" },
   { href: "/debt-calculator", label: <div className="text-center leading-tight">Debt<br/>Calculator</div>, mobileLabel: "Debt Calculator" },
   { href: "/cheat-sheets", label: <div className="text-center leading-tight">Cheat<br/>Sheets</div>, mobileLabel: "Cheat Sheets" },
-  { href: "/rank-your-school", label: <div className="text-center leading-tight">Rank<br/>Your<br/>College</div>, mobileLabel: "Rank Your College" },
+  { href: "/rank-your-school", label: <div className="text-center leading-tight">College<br/>Search</div>, mobileLabel: "College Search" },
   {
     href: "/liberal-vs-conservative",
     label: (
@@ -20,8 +22,8 @@ const links = [
     ),
     mobileLabel: "Conservative or Liberal"
   },
-  { href: "/trade-schools", label: <div className="text-center leading-tight">Trade<br/>School</div>, mobileLabel: "Trade Schools" },
-  { href: "/civil-service", label: <div className="text-center leading-tight">Civil<br/>Service</div>, mobileLabel: "Civil Service" },
+  { href: "/trade-schools", label: <div className="text-center leading-tight">Trade<br/>School</div>, mobileLabel: "Trade School" },
+  { href: "/civil-service", label: <div className="text-center leading-tight">Gov<br/>Jobs</div>, mobileLabel: "Gov Jobs" },
   { href: "/contact", label: "Contact", mobileLabel: "Contact" },
 ];
 
@@ -73,7 +75,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* MOBILE MENU OVERLAY */}
       <nav 
         className={`lg:hidden fixed top-0 left-0 w-full h-screen bg-slate-950 flex flex-col items-center justify-center gap-8 transition-all duration-300 ease-in-out ${
           open ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
@@ -87,7 +89,6 @@ export default function Navbar() {
             className={`text-2xl font-bold ${
               router.pathname === link.href ? "text-yellow-400" : "text-slate-300"
             }`}
-            onClick={() => setOpen(false)}
           >
             {link.mobileLabel}
           </Link>
@@ -96,3 +97,4 @@ export default function Navbar() {
     </header>
   );
 }
+```
