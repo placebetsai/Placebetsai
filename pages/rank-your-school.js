@@ -10,7 +10,7 @@ export default function RankYourSchool() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchSchools("University"); // Auto-loads schools
+    fetchSchools("University"); // Auto-loads schools on page load
   }, []);
 
   const fetchSchools = async (searchTerm) => {
@@ -64,8 +64,11 @@ export default function RankYourSchool() {
           ) : schools.length > 0 ? (
             <div style={{ display: "grid", gap: "1rem" }}>
               {schools.map((school) => {
-                // FIXED: Use OPEID as slug for unique ID, no matching issues
-                const slug = school.opeid;
+                // Generate slug that matches your detail page
+                const slug = school.name
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-|-$/g, '');
 
                 return (
                   <Link
