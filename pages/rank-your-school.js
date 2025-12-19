@@ -10,7 +10,7 @@ export default function RankYourSchool() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchSchools("University"); // Auto-loads some schools on page load
+    fetchSchools("University"); // Auto-loads some schools
   }, []);
 
   const fetchSchools = async (searchTerm) => {
@@ -64,7 +64,7 @@ export default function RankYourSchool() {
           ) : schools.length > 0 ? (
             <div style={{ display: "grid", gap: "1rem" }}>
               {schools.map((school) => {
-                // Generate clean slug that matches your detail page
+                // Generate slug that matches your /college/[slug] detail page
                 const slug = school.name
                   .toLowerCase()
                   .replace(/[^a-z0-9]+/g, '-')
@@ -74,7 +74,6 @@ export default function RankYourSchool() {
                   <Link
                     key={school.id}
                     href={`/college/${slug}`}
-                    className="path-card"
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
