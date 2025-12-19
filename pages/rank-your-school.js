@@ -10,7 +10,7 @@ export default function RankYourSchool() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchSchools("University");
+    fetchSchools("University"); // Auto-loads some schools on page load
   }, []);
 
   const fetchSchools = async (searchTerm) => {
@@ -52,7 +52,7 @@ export default function RankYourSchool() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Harvard, Stanford, your local state school..."
-              className="flex-1 p-4 bg-gray-800 border border-gray-700 rounded-lg text-white"
+              className="flex-1 p-4 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
             <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-8 rounded-lg">
               Search
@@ -60,16 +60,34 @@ export default function RankYourSchool() {
           </form>
 
           {loading ? (
-            <p className="text-center text-gray-400">Loading...</p>
+            <p className="text-center text-gray-400 text-xl">Loading schools...</p>
           ) : schools.length > 0 ? (
             <div style={{ display: "grid", gap: "1rem" }}>
               {schools.map((school) => {
+                // Generate clean slug that matches your detail page
                 const slug = school.name
                   .toLowerCase()
                   .replace(/[^a-z0-9]+/g, '-')
                   .replace(/^-|-$/g, '');
+
                 return (
-                  <Link key={school.id} href={`/college/${slug}`} className="path-card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", background: "#1e293b", padding: "1rem", borderRadius: "0.5rem" }}>
+                  <Link
+                    key={school.id}
+                    href={`/college/${slug}`}
+                    className="path-card"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "1rem",
+                      background: "#1e293b",
+                      padding: "1rem",
+                      borderRadius: "0.5rem",
+                      cursor: "pointer",
+                      transition: "background 0.2s"
+                    }}
+                  >
                     <div>
                       <h3 style={{ margin: 0, color: "white", fontSize: "1.2rem" }}>{school.name}</h3>
                       <p style={{ margin: 0, color: "#9ca3af", fontSize: "0.9rem" }}>{school.city}, {school.state}</p>
@@ -93,7 +111,9 @@ export default function RankYourSchool() {
               })}
             </div>
           ) : (
-            <p className="text-center text-gray-400">No results. Try searching again.</p>
+            <p className="text-center text-gray-400 text-xl">
+              No results found. Try searching for a school name.
+            </p>
           )}
         </div>
       </section>
