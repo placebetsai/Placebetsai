@@ -9,9 +9,9 @@ export async function getServerSideProps({ params }) {
     return { props: { school: null } };
   }
 
-  const nameSearch = slug.replace(/-/g, ' ');
+  // FIXED: Fetch by OPEID (unique ID)
   const res = await fetch(
-    `https://api.data.gov/ed/collegescorecard/v1/schools.json?api_key=${apiKey}&school.name=${encodeURIComponent(nameSearch)}&per_page=1`
+    `https://api.data.gov/ed/collegescorecard/v1/schools.json?api_key=${apiKey}&school.opeid=${slug}&per_page=1`
   );
   const data = await res.json();
   const school = data.results?.[0] || null;
