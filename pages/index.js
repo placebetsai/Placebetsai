@@ -16,22 +16,26 @@ export default function HomePage({ tradeData }) {
       <SEO />
 
       <div className="max-w-6xl mx-auto px-4 pt-6 pb-16 space-y-12">
+
         <div className="w-full">
           <NewsTicker />
         </div>
 
         <div className="space-y-6">
-          {/* --- SECTION 1: HERO (EXACT ORIGINAL) --- */}
+          {/* --- SECTION 1: HERO --- */}
           <section className="hero">
             <p className="eyebrow text-slate-400 mb-4">YOU DON'T HAVE TO SIGN YOUR LIFE AWAY</p>
+
             <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
               College is <span className="text-sky-400">Optional</span>.<br />
               Debt is <span className="text-red-500">Not</span>.
             </h1>
+
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
               Before you borrow <span className="text-white font-bold">$50k–$150k</span>, run the numbers.
               Compare trades, tech careers, apprenticeships, and real alternatives.
             </p>
+
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/alternatives" className="px-8 py-4 rounded-full bg-white text-slate-900 font-bold text-lg hover:bg-sky-50 transition-colors">
                 Explore Alternatives
@@ -42,7 +46,7 @@ export default function HomePage({ tradeData }) {
             </div>
           </section>
 
-          {/* --- RESTORED STATS BOXES (EXACT ORIGINAL) --- */}
+          {/* --- RESTORED STATS BOXES --- */}
           <div className="grid md:grid-cols-2 gap-4">
             {/* THE "TRAP" BOX */}
             <div className="group p-6 rounded-2xl bg-slate-900/80 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] hover:border-red-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center items-center text-center gap-4">
@@ -56,6 +60,7 @@ export default function HomePage({ tradeData }) {
                 <div className="text-xs uppercase tracking-widest text-slate-500 font-bold">Time in Class</div>
               </div>
             </div>
+
             {/* THE "ESCAPE" BOX */}
             <div className="group p-6 rounded-2xl bg-slate-900/80 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:border-emerald-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center items-center text-center gap-4">
               <div>
@@ -69,54 +74,45 @@ export default function HomePage({ tradeData }) {
               </div>
             </div>
           </div>
-
-          {/* --- NEW COLLEGE SEARCH CTA (ADDED HERE, AFTER STATS) --- */}
-          <div className="text-center py-12 bg-slate-900 rounded-xl border border-slate-700">
-            <h2 className="text-3xl font-bold text-yellow-400 mb-4">Search Any College</h2>
-            <p className="text-xl text-slate-300 mb-6">See real debt, earnings, and if it's a scam – no bullshit.</p>
-            <Link href="/rank-your-school">
-              <a className="inline-block px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xl rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all">
-                Search Colleges Now →
-              </a>
-            </Link>
-          </div>
-
-          {/* --- TRADE OF THE MONTH SECTION (EXACT ORIGINAL) --- */}
-          {tradeData && <TradeHero trade={tradeData} />}
-
-          {/* --- DECISION WIZARD (EXACT ORIGINAL) --- */}
-          <section>
-            <DecisionWizard />
-          </section>
-
-          {/* --- HIGH INCOME PATHS (EXACT ORIGINAL) --- */}
-          <section className="section">
-            <h2 className="section-title text-3xl mb-8">High-Income Paths (No Degree)</h2>
-            <div className="path-grid grid md:grid-cols-3 gap-6">
-              <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
-                <h3 className="text-xl font-bold mb-2 text-white">Tech & Cyber</h3>
-                <p className="text-sm text-slate-400 mb-4">Cloud, cybersecurity, IT support.</p>
-                <Link href="/cheat-sheets" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
-                  View Tech Cheat Sheet →
-                </Link>
-              </div>
-              <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
-                <h3 className="text-xl font-bold mb-2 text-white">Skilled Trades</h3>
-                <p className="text-sm text-slate-400 mb-4">HVAC, electrician, welding.</p>
-                <Link href="/trade-schools" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
-                  Trade School Breakdown →
-                </Link>
-              </div>
-              <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
-                <h3 className="text-xl font-bold mb-2 text-white">Gov & Civil Service</h3>
-                <p className="text-sm text-slate-400 mb-4">Jobs that don't require degrees.</p>
-                <Link href="/civil-service" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
-                  Civil Service Guide →
-                </Link>
-              </div>
-            </div>
-          </section>
         </div>
+
+        {/* --- TRADE OF THE MONTH SECTION --- */}
+        {tradeData && <TradeHero trade={tradeData} />}
+
+        <section>
+           <DecisionWizard />
+        </section>
+
+        {/* --- HIGH INCOME PATHS --- */}
+        <section className="section">
+          <h2 className="section-title text-3xl mb-8">High-Income Paths (No Degree)</h2>
+          <div className="path-grid grid md:grid-cols-3 gap-6">
+            <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
+              <h3 className="text-xl font-bold mb-2 text-white">Tech & Cyber</h3>
+              <p className="text-sm text-slate-400 mb-4">Cloud, cybersecurity, IT support.</p>
+              <Link href="/cheat-sheets" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
+                View Tech Cheat Sheet →
+              </Link>
+            </div>
+
+            <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
+              <h3 className="text-xl font-bold mb-2 text-white">Skilled Trades</h3>
+              <p className="text-sm text-slate-400 mb-4">HVAC, electrician, welding.</p>
+              <Link href="/trade-schools" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
+                Trade School Breakdown →
+              </Link>
+            </div>
+
+            <div className="glow-card p-6 bg-slate-900 border border-slate-700 rounded-xl group">
+              <h3 className="text-xl font-bold mb-2 text-white">Gov & Civil Service</h3>
+              <p className="text-sm text-slate-400 mb-4">Jobs that don't require degrees.</p>
+              <Link href="/civil-service" className="text-sky-400 group-hover:translate-x-1 transition-transform inline-block">
+                Civil Service Guide →
+              </Link>
+            </div>
+          </div>
+        </section>
+
       </div>
     </Layout>
   );
@@ -129,13 +125,13 @@ export async function getStaticProps() {
     const tradeData = await getTradeOfTheMonth();
     return {
       props: { tradeData: tradeData || null },
-      revalidate: 86400,
+      revalidate: 86400, 
     };
   } catch (error) {
     console.error("Trade loading failed:", error);
     return {
       props: { tradeData: null },
-      revalidate: 60,
+      revalidate: 60, 
     };
   }
 }
