@@ -63,9 +63,7 @@ export default function RootLayout({ children }) {
         description:
           "Advanced sports betting tools, EV+ calculators, bankroll management strategies, and live tournament intel.",
         inLanguage: "en-US",
-        publisher: {
-          "@id": "https://placebets.ai/#organization",
-        },
+        publisher: { "@id": "https://placebets.ai/#organization" },
       },
       {
         "@type": "Organization",
@@ -80,21 +78,22 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ AdSense loader (global) */}
-        <Script
-          async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7215975042937417"
-          crossOrigin="anonymous"
-        />
-
         {/* JSON-LD structured data for SEO */}
         <script
           type="application/ld+json"
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+
+        {/* Google AdSense loader */}
+        <Script
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7215975042937417"
+          crossOrigin="anonymous"
+        />
       </head>
+
       <body>
         <div className="app-shell">
           <Navbar />
@@ -119,8 +118,7 @@ export default function RootLayout({ children }) {
               }}
             >
               <div>
-                © {new Date().getFullYear()} PlaceBets.ai · Educational Use
-                Only · 21+
+                © {new Date().getFullYear()} PlaceBets.ai · Educational Use Only · 21+
               </div>
               <div
                 style={{
