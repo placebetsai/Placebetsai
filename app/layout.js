@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import Script from "next/script";
 
 export const metadata = {
   metadataBase: new URL("https://placebets.ai"),
@@ -36,7 +37,6 @@ export const metadata = {
   alternates: {
     canonical: "https://placebets.ai",
   },
-  // Removed manifest: "/manifest.json" — this was breaking build because manifest.json has invalid JS code
   icons: {
     icon: "/grok_1765395775037.jpg",
     shortcut: "/grok_1765395775037.jpg",
@@ -80,6 +80,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* ✅ AdSense loader (global) */}
+        <Script
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7215975042937417"
+          crossOrigin="anonymous"
+        />
+
         {/* JSON-LD structured data for SEO */}
         <script
           type="application/ld+json"
