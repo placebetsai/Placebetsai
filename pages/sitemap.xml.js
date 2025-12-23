@@ -2,7 +2,7 @@
 export async function getServerSideProps({ res }) {
   const siteUrl = "https://ihatecollege.com";
 
-  // Your static money pages
+  // Static "money" pages (safe)
   const staticPaths = [
     "",
     "/alternatives",
@@ -12,64 +12,91 @@ export async function getServerSideProps({ res }) {
     "/rank-your-school",
     "/civil-service",
     "/liberal-vs-conservative",
-    "/contact"
+    "/contact",
   ];
 
-  // Fetch all college slugs from Scorecard API
+  // IMPORTANT: dynamic generation from external API is fragile on serverless.
+  // We’ll make it robust: cap pages, add timeouts, and never throw.
   const apiKey = process.env.COLLEGE_SCORECARD_API_KEY;
-  let collegePaths = [];
+
+  const collegePaths = [];
+  const MAX_PAGES = 60;          // 60 * 100 = 6000 schools max
+  const PER_PAGE = 100;
+  const TIMEOUT_MS = 8000;
 
   if (apiKey) {
-    let page = 1;
-    let hasMore = true;
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
-    while (hasMore) {
-      const response = await fetch(
-        `https://api.data.gov/ed/collegescorecard/v1/schools.json?api_key=${apiKey}&per_page=100&page=${page}&fields=school.name`
-      );
-      const data = await response.json();
+      try {
+        const url =
+          `https://api.data.gov/ed/collegescorecard/v1/schools.json` +
+          `?api_key=${encodeURIComponent(apiKey)}` +
+          `&per_page=${PER_PAGE}` +
+          `&page=${page}` +
+          `&fields=school.name`;
 
-      if (!data.results || data.results.length === 0) {
-        hasMore = false;
-        break;
-      }
+        const response = await fetch(url, {
+          signal: controller.signal,
+          headers: { "User-Agent": "ihatecollege-sitemap/1.0" },
+        });
 
-      // Generate slugs for each school
-      data.results.forEach(school => {
-        const name = school['school.name'];
-        const slug = name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-|-$/g, '');
-        if (slug) {
-          collegePaths.push(`/college/${slug}`);
+        // If API fails, stop gracefully (never 500 your sitemap)
+        if (!response.ok) break;
+
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          break;
         }
-      });
 
-      page++;
+        if (!data?.results?.length) break;
+
+        for (const school of data.results) {
+          const name = school?.["school.name"];
+          if (!name || typeof name !== "string") continue;
+
+          const slug = name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+
+          if (slug) collegePaths.push(`/college/${slug}`);
+        }
+      } catch {
+        // Abort / network error / anything else -> stop, but do not crash
+        break;
+      } finally {
+        clearTimeout(t);
+      }
     }
   }
 
-  // Combine static + dynamic
   const allPaths = [...staticPaths, ...collegePaths];
 
-  // Generate XML
+  const now = new Date().toISOString();
   const xmlUrls = allPaths
-    .map(path => `
-      <url>
-        <loc>${siteUrl}${path}</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
-        <changefreq>${path === "" ? "daily" : "weekly"}</changefreq>
-        <priority>${path === "" ? "1.0" : "0.8"}</priority>
-      </url>`)
+    .map(
+      (path) => `
+  <url>
+    <loc>${siteUrl}${path}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>${path === "" ? "daily" : "weekly"}</changefreq>
+    <priority>${path === "" ? "1.0" : "0.8"}</priority>
+  </url>`
+    )
     .join("");
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${xmlUrls}
-</urlset>`.trim();
+</urlset>`;
 
+  // Cache so Google/Vercel isn’t hammering this endpoint
   res.setHeader("Content-Type", "application/xml");
+  res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate=86400"); // 6h CDN cache
   res.write(sitemap);
   res.end();
 
