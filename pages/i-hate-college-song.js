@@ -8,7 +8,9 @@ export default function IHateCollegeSongPage() {
     <Layout>
       <SEO />
       <Head>
-        <title>“I Hate College” (Song) — Why the Phrase Went Viral | IHateCollege.com</title>
+        <title>
+          “I Hate College” (Song) — Why the Phrase Went Viral | IHateCollege.com
+        </title>
         <meta
           name="description"
           content="People search 'I Hate College' for the song, but the phrase is bigger than music. Why it resonates, what it really means, and what to do if college isn't working."
@@ -38,10 +40,10 @@ export default function IHateCollegeSongPage() {
           </h1>
 
           <p className="text-slate-300 text-lg leading-relaxed mt-5 max-w-3xl">
-            A lot of people land here looking for the “I Hate College” song —
-            totally fair. But the reason this phrase keeps trending is deeper than
-            music: it reflects frustration with debt, pressure, and the feeling
-            that college may not be worth it.
+            A lot of people land here looking for the “I Hate College” song. But
+            the reason this phrase keeps trending is deeper than music: it
+            reflects frustration with debt, pressure, and the feeling that
+            college may not be worth it.
           </p>
 
           {/* CTA buttons */}
@@ -104,7 +106,7 @@ export default function IHateCollegeSongPage() {
           {/* WHAT TO DO BOX */}
           <section className="p-6 rounded-2xl bg-slate-900/70 border border-emerald-500/30 shadow-[0_0_18px_rgba(16,185,129,0.12)]">
             <h2 className="text-xl font-black text-white mb-3">
-              If you hate college, do this next
+              What actually helps
             </h2>
             <p className="text-slate-300 leading-relaxed mb-4">
               Don’t guess. Pick a path, run the numbers, and commit to a plan.
@@ -146,30 +148,21 @@ export default function IHateCollegeSongPage() {
           </section>
         </div>
 
-        {/* Bottom CTA */}
-        <section className="mt-10 p-7 rounded-3xl bg-slate-900/60 border border-slate-700 text-center">
-          <h3 className="text-2xl font-black text-white mb-2">
-            Want me to build the next 3 pages so Google actually ranks you?
-          </h3>
-          <p className="text-slate-300 max-w-2xl mx-auto">
-            The bridge page is step 1. Ranking happens when you publish the 3 intent pages that
-            match what people search next.
-          </p>
-          <div className="mt-5 flex flex-col sm:flex-row justify-center gap-3">
-            <Link
-              href="/alternatives"
-              className="px-7 py-3 rounded-full bg-white text-slate-900 font-bold hover:bg-sky-50 transition-colors"
-            >
-              Keep reading
-            </Link>
-            <Link
-              href="/"
-              className="px-7 py-3 rounded-full border border-slate-600 text-white font-bold hover:border-white transition-colors"
-            >
-              Back to homepage
-            </Link>
-          </div>
-        </section>
+        {/* CLEAN BOTTOM LINKS (NO QUESTIONS) */}
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href="/alternatives"
+            className="px-7 py-3 rounded-full bg-white text-slate-900 font-bold hover:bg-sky-50 transition-colors text-center"
+          >
+            Explore alternatives
+          </Link>
+          <Link
+            href="/"
+            className="px-7 py-3 rounded-full border border-slate-600 text-white font-bold hover:border-white transition-colors text-center"
+          >
+            Back to homepage
+          </Link>
+        </div>
       </div>
     </Layout>
   );
