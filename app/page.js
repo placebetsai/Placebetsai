@@ -33,7 +33,7 @@ export default function HomePage() {
     "@type": "Organization",
     name: "PlaceBets.ai",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`, // swap when you have a real logo asset
+    logo: `${SITE_URL}/logo.png`,
   };
 
   // Load tournaments for the hero carousel
@@ -46,8 +46,7 @@ export default function HomePage() {
         const list = Array.isArray(data) ? data : [];
 
         const upcoming = list.filter((t) => new Date(t.date) > new Date());
-        const chosen =
-          upcoming.length > 0 ? upcoming.slice(0, 6) : list.slice(0, 6);
+        const chosen = upcoming.length > 0 ? upcoming.slice(0, 6) : list.slice(0, 6);
 
         setTournaments(chosen);
 
@@ -56,9 +55,7 @@ export default function HomePage() {
         }
       } catch (err) {
         console.error("Failed to load tournaments:", err);
-        setNotice(
-          "Live tournaments feed unavailable – showing backup data from the API."
-        );
+        setNotice("Live tournaments feed unavailable – showing backup data from the API.");
       } finally {
         setLoading(false);
       }
@@ -125,9 +122,8 @@ export default function HomePage() {
             <span className="highlight">Start Investing.</span>
           </h1>
           <p>
-            The house wins because you guess. The pros win because they
-            calculate. Build an edge with tools, bankroll strategy, and live
-            tournament info.
+            The house wins because you guess. The pros win because they calculate. Build an edge
+            with tools, bankroll strategy, and live tournament info.
           </p>
           <div
             style={{
@@ -174,9 +170,7 @@ export default function HomePage() {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${
-                    t.image
-                  })`,
+                  backgroundImage: `linear-gradient(to top, rgba(3,7,18,0.96) 10%, transparent 70%), url(${t?.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -199,8 +193,7 @@ export default function HomePage() {
                     className="pill green"
                     style={{ marginBottom: "10px", fontSize: "0.7rem" }}
                   >
-                    LIVE TOURNAMENT SPOTLIGHT ·{" "}
-                    {t.gameType?.toUpperCase() || "GAME"}
+                    LIVE TOURNAMENT SPOTLIGHT · {t?.gameType?.toUpperCase() || "GAME"}
                   </div>
                   <h2
                     style={{
@@ -210,7 +203,7 @@ export default function HomePage() {
                       textShadow: "0 4px 18px rgba(0, 0, 0, 0.9)",
                     }}
                   >
-                    {t.name}
+                    {t?.name}
                   </h2>
                   <p
                     style={{
@@ -221,9 +214,7 @@ export default function HomePage() {
                       textShadow: "0 2px 6px rgba(0, 0, 0, 0.8)",
                     }}
                   >
-                    {(t.date || "Dates TBA") +
-                      " · " +
-                      (t.location || "Location TBA")}
+                    {(t?.date || "Dates TBA") + " · " + (t?.location || "Location TBA")}
                   </p>
                   <p
                     style={{
@@ -233,7 +224,7 @@ export default function HomePage() {
                       maxWidth: "680px",
                     }}
                   >
-                    {t.description}
+                    {t?.description}
                   </p>
                   <div
                     style={{
@@ -247,21 +238,21 @@ export default function HomePage() {
                       className="pill"
                       style={{ background: "#020617", color: "#e5e7eb" }}
                     >
-                      Buy-in: {t.buyin}
+                      Buy-in: {t?.buyin}
                     </span>
-                    <span className="pill green">
-                      {t.guarantee || "Prize Pool TBA"}
-                    </span>
-                    {t.casino && <span className="pill">{t.casino}</span>}
+                    <span className="pill green">{t?.guarantee || "Prize Pool TBA"}</span>
+                    {t?.casino && <span className="pill">{t.casino}</span>}
                   </div>
-                  <a
-                    href={t.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary"
-                  >
-                    Official Event Page →
-                  </a>
+                  {t?.link ? (
+                    <a
+                      href={t.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-primary"
+                    >
+                      Official Event Page →
+                    </a>
+                  ) : null}
                 </div>
 
                 {/* Carousel controls */}
@@ -283,20 +274,8 @@ export default function HomePage() {
                     · Auto-rotating every few seconds.
                   </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "6px",
-                        alignItems: "center",
-                      }}
-                    >
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
                       {tournaments.map((_, idx) => (
                         <button
                           key={idx}
@@ -313,6 +292,7 @@ export default function HomePage() {
                                 : "#4b5563",
                             transition: "all 0.18s ease",
                           }}
+                          aria-label={`Go to slide ${idx + 1}`}
                         />
                       ))}
                     </div>
@@ -357,8 +337,7 @@ export default function HomePage() {
               >
                 <h2 style={{ marginBottom: "8px" }}>No tournaments found</h2>
                 <p style={{ color: "#9ca3af", marginBottom: 0 }}>
-                  Check your <code>/api/tournaments</code> endpoint or try again
-                  later.
+                  Check your <code>/api/tournaments</code> endpoint or try again later.
                 </p>
               </div>
             )
@@ -443,29 +422,108 @@ export default function HomePage() {
             <Link href="/ev-betting" className="card">
               <h3>📈 +EV Betting</h3>
               <p>
-                Understand Expected Value. The only mathematical way to beat the
-                book over time.
+                Understand Expected Value. The only mathematical way to beat the book over time.
               </p>
             </Link>
 
             <Link href="/bankroll" className="card">
               <h3>🛡️ Bankroll Mgmt</h3>
               <p>
-                Calculate unit sizes. Protect your capital from variance and
-                tilt.
+                Calculate unit sizes. Protect your capital from variance and tilt.
               </p>
             </Link>
 
             <Link href="/glossary" className="card">
               <h3>📖 The Dictionary</h3>
-              <p>
-                Don&apos;t look like a rookie. Learn the slang: Juice, Vig,
-                Handle, Steam.
-              </p>
+              <p>Don&apos;t look like a rookie. Learn the slang: Juice, Vig, Handle, Steam.</p>
             </Link>
           </div>
         </section>
+
+        {/* ✅ ADSENSE FIX: REAL CONTENT BLOCK */}
+        <section style={{ maxWidth: "900px", margin: "70px auto 0", padding: "0 20px" }}>
+          <div
+            style={{
+              border: "1px solid #1f2937",
+              background: "#020617",
+              borderRadius: "18px",
+              padding: "24px 20px",
+            }}
+          >
+            <h2 style={{ marginBottom: "10px" }}>AI Sports Betting Analysis & Market Insights</h2>
+
+            <p style={{ color: "#e5e7eb", lineHeight: 1.7 }}>
+              PlaceBets.ai is an independent sports analysis platform built to help people
+              understand betting markets — not chase “locks.” We analyze odds data, market movement,
+              and historical patterns to explain how lines are priced and why they shift.
+            </p>
+
+            <p style={{ color: "#9ca3af", lineHeight: 1.7 }}>
+              Our tools focus on expected value (+EV), bankroll management, and decision-making under
+              uncertainty. Sports are unpredictable — injuries, variance, and randomness are real —
+              so nothing on this site should be treated as guaranteed outcomes.
+            </p>
+
+            <p style={{ color: "#9ca3af", lineHeight: 1.7, marginBottom: 0 }}>
+              This site is for educational and entertainment purposes only. If you choose to bet,
+              do it responsibly and only where legal in your jurisdiction.
+            </p>
+          </div>
+        </section>
+
+        {/* ✅ FOOTER TRUST LINKS (CRAWLABLE) */}
+        <footer
+          style={{
+            marginTop: "70px",
+            padding: "26px 20px",
+            borderTop: "1px solid #1f2937",
+            background: "rgba(2,6,23,0.7)",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "1000px",
+              margin: "0 auto",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "14px",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ color: "#9ca3af", fontSize: "0.9rem" }}>
+              © {new Date().getFullYear()} PlaceBets.ai — Educational analysis only.
+            </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+              <Link href="/about" style={{ color: "#e5e7eb", textDecoration: "underline" }}>
+                About
+              </Link>
+              <Link
+                href="/how-predictions-work"
+                style={{ color: "#e5e7eb", textDecoration: "underline" }}
+              >
+                How Predictions Work
+              </Link>
+              <Link
+                href="/responsible-gambling"
+                style={{ color: "#e5e7eb", textDecoration: "underline" }}
+              >
+                Responsible Gambling
+              </Link>
+              <Link href="/contact" style={{ color: "#e5e7eb", textDecoration: "underline" }}>
+                Contact
+              </Link>
+              <Link href="/privacy" style={{ color: "#e5e7eb", textDecoration: "underline" }}>
+                Privacy
+              </Link>
+              <Link href="/terms" style={{ color: "#e5e7eb", textDecoration: "underline" }}>
+                Terms
+              </Link>
+            </div>
+          </div>
+        </footer>
       </div>
     </>
   );
-                  }
+}
