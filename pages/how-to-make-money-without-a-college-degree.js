@@ -102,6 +102,19 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
           </p>
         </div>
 
+        {/* Author bio */}
+        <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-black text-lg shrink-0">
+            MW
+          </div>
+          <div>
+            <div className="font-bold text-white text-sm">Marcus Webb</div>
+            <div className="text-slate-400 text-xs leading-relaxed">
+              Marcus dropped out of a finance degree at 19, taught himself to code, and built a six-figure freelance dev career by 23. He now writes about non-traditional career paths and runs workshops for young people entering the workforce without degrees.
+            </div>
+          </div>
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-slate-900 border border-sky-500/30 rounded-xl p-4 text-center">
@@ -118,7 +131,7 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
           </div>
         </div>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Intro section */}
         <section className="mb-10">
@@ -197,14 +210,14 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
                 </div>
                 {/* Insert ad after paths 2, 4, 6 */}
                 {(i === 1 || i === 3 || i === 5) && (
-                  <AdUnit slot="2951831702" />
+                  <AdUnit slot="6600722153" />
                 )}
               </div>
             ))}
           </div>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Section: How to pick */}
         <section className="mb-10">
@@ -298,7 +311,7 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Section: Freelancing */}
         <section className="mb-10">
@@ -369,7 +382,7 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
           </ul>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Section: The mindset */}
         <section className="mb-10">
@@ -422,7 +435,7 @@ export default function HowToMakeMoneyWithoutCollegeDegree() {
           </ol>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* CTA */}
         <div className="grid md:grid-cols-3 gap-4 mb-10">

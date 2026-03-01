@@ -1,7 +1,7 @@
 // components/AdUnit.js
 import { useEffect } from "react";
 
-export default function AdUnit({ slot, format = "auto", style = {} }) {
+export default function AdUnit({ slot = "6600722153", format = "auto", style = {} }) {
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});

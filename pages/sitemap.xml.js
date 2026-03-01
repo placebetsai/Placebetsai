@@ -13,6 +13,9 @@ export async function getServerSideProps({ res }) {
     "/civil-service",
     "/liberal-vs-conservative",
     "/contact",
+    "/is-college-worth-it-2025",
+    "/trade-school-vs-college-salary-2025",
+    "/how-to-make-money-without-a-college-degree",
   ];
 
   // IMPORTANT: dynamic generation from external API is fragile on serverless.

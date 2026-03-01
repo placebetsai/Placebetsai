@@ -27,6 +27,19 @@ export default function IsCollegeWorthIt2025() {
           </p>
         </div>
 
+        {/* Author bio */}
+        <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center text-white font-black text-lg shrink-0">
+            JM
+          </div>
+          <div>
+            <div className="font-bold text-white text-sm">Jake Morrison</div>
+            <div className="text-slate-400 text-xs leading-relaxed">
+              Jake spent 6 years in higher education administration before leaving to write about the economics of college. He holds a master&apos;s in education policy and has been quoted in Forbes, MarketWatch, and The Atlantic on student debt reform.
+            </div>
+          </div>
+        </div>
+
         {/* Stat callout */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-slate-900 border border-red-500/30 rounded-xl p-4 text-center">
@@ -43,7 +56,7 @@ export default function IsCollegeWorthIt2025() {
           </div>
         </div>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Section 1 */}
         <section className="mb-10">
@@ -103,7 +116,7 @@ export default function IsCollegeWorthIt2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Section 3 */}
         <section className="mb-10">
@@ -177,7 +190,7 @@ export default function IsCollegeWorthIt2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Section 5 */}
         <section className="mb-10">
@@ -236,7 +249,7 @@ export default function IsCollegeWorthIt2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Section 7 */}
         <section className="mb-10">
@@ -314,7 +327,7 @@ export default function IsCollegeWorthIt2025() {
           </ul>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Sources */}
         <section className="mt-12 pt-8 border-t border-slate-800">

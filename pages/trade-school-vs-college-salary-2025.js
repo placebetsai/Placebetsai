@@ -36,6 +36,19 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </p>
         </div>
 
+        {/* Author bio */}
+        <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white font-black text-lg shrink-0">
+            SC
+          </div>
+          <div>
+            <div className="font-bold text-white text-sm">Sarah Chen</div>
+            <div className="text-slate-400 text-xs leading-relaxed">
+              Sarah is a labor economist and career strategist who left a corporate consulting role to start an apprenticeship placement nonprofit. She&apos;s spent the last four years tracking trade wages and advising high schoolers on alternatives to four-year degrees.
+            </div>
+          </div>
+        </div>
+
         {/* Stat callout */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-4 text-center">
@@ -52,7 +65,7 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </div>
         </div>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Section 1 */}
         <section className="mb-10">
@@ -123,7 +136,7 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Salary table */}
         <section className="mb-10">
@@ -202,7 +215,7 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* Section 4 */}
         <section className="mb-10">
@@ -264,7 +277,7 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" format="rectangle" />
+        <AdUnit slot="6600722153" format="rectangle" />
 
         {/* Section 6 */}
         <section className="mb-10">
@@ -319,7 +332,7 @@ export default function TradeSchoolVsCollegeSalary2025() {
           </p>
         </section>
 
-        <AdUnit slot="2951831702" />
+        <AdUnit slot="6600722153" />
 
         {/* CTA links */}
         <div className="grid md:grid-cols-2 gap-4 mb-10">
