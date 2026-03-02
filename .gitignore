@@ -19,6 +19,9 @@ tiktok-videos/*.mp4
 tiktok-queue/*.mp4
 cookies.txt
 
+# twitter token cache
+.twitter_tokens.json
+
 # misc
 .DS_Store
 *.pem

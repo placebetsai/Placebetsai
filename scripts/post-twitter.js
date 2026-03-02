@@ -8,23 +8,48 @@
 require("dotenv").config({ path: require("path").join(__dirname, "../.env") });
 const Anthropic = require("@anthropic-ai/sdk");
 const { TwitterApi } = require("twitter-api-v2");
+const fs = require("fs");
+const path = require("path");
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-// Use OAuth 2.0 user token if available, fall back to OAuth 1.0a
-function getTwitterClient() {
-  if (process.env.X_OAUTH2_TOKEN) {
-    return new TwitterApi(process.env.X_OAUTH2_TOKEN);
-  }
-  return new TwitterApi({
-    appKey: process.env.X_API_KEY,
-    appSecret: process.env.X_API_SECRET,
-    accessToken: process.env.X_ACCESS_TOKEN,
-    accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
-  });
+const TOKEN_CACHE = path.join(__dirname, "../.twitter_tokens.json");
+
+function loadCachedTokens() {
+  try {
+    if (fs.existsSync(TOKEN_CACHE)) {
+      return JSON.parse(fs.readFileSync(TOKEN_CACHE, "utf8"));
+    }
+  } catch {}
+  return null;
 }
 
-const twitter = getTwitterClient();
+function saveTokens(accessToken, refreshToken) {
+  fs.writeFileSync(TOKEN_CACHE, JSON.stringify({ accessToken, refreshToken }, null, 2));
+}
+
+async function getRefreshedTwitterClient() {
+  const cached = loadCachedTokens();
+  const refreshToken = cached?.refreshToken || process.env.X_OAUTH2_REFRESH_TOKEN;
+
+  if (!refreshToken) {
+    console.error("ERROR: No refresh token available");
+    process.exit(1);
+  }
+
+  console.log("  Refreshing OAuth 2.0 access token...");
+  const appClient = new TwitterApi({
+    clientId: process.env.X_CLIENT_ID,
+    clientSecret: process.env.X_CLIENT_SECRET,
+  });
+
+  const { accessToken, refreshToken: newRefreshToken } = await appClient.refreshOAuth2Token(refreshToken);
+  saveTokens(accessToken, newRefreshToken);
+  console.log("  Token refreshed and saved.");
+  return new TwitterApi(accessToken);
+}
+
+let twitter;
 
 const TWEET_STYLES = [
   "stat-based shocking fact",
@@ -87,6 +112,13 @@ async function run() {
 
   if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === "your-anthropic-key-here") {
     console.error("ERROR: ANTHROPIC_API_KEY not set");
+    process.exit(1);
+  }
+
+  try {
+    twitter = await getRefreshedTwitterClient();
+  } catch (err) {
+    console.error("Failed to refresh Twitter token:", err.message);
     process.exit(1);
   }
 
