@@ -23,6 +23,10 @@ export default function CollegeRankings() {
   const [searched, setSearched] = useState(false);
   const [sortBy, setSortBy] = useState("name");
 
+  useEffect(() => {
+    fetchSchools("University");
+  }, []);
+
   const fetchSchools = async (searchTerm) => {
     setLoading(true);
     setSearched(true);
@@ -195,11 +199,7 @@ export default function CollegeRankings() {
             <p className="text-slate-400 text-xl mb-2">No results found.</p>
             <p className="text-slate-500 text-sm">Try a shorter name or different spelling.</p>
           </div>
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-slate-500">Enter a school name above to see the data.</p>
-          </div>
-        )}
+        ) : null}
 
         <div className="mt-8">
           <AdUnit slot="6600722153" />
