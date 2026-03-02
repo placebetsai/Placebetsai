@@ -11,12 +11,20 @@ const { TwitterApi } = require("twitter-api-v2");
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const twitter = new TwitterApi({
-  appKey: process.env.X_API_KEY,
-  appSecret: process.env.X_API_SECRET,
-  accessToken: process.env.X_ACCESS_TOKEN,
-  accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
-});
+// Use OAuth 2.0 user token if available, fall back to OAuth 1.0a
+function getTwitterClient() {
+  if (process.env.X_OAUTH2_TOKEN) {
+    return new TwitterApi(process.env.X_OAUTH2_TOKEN);
+  }
+  return new TwitterApi({
+    appKey: process.env.X_API_KEY,
+    appSecret: process.env.X_API_SECRET,
+    accessToken: process.env.X_ACCESS_TOKEN,
+    accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
+  });
+}
+
+const twitter = getTwitterClient();
 
 const TWEET_STYLES = [
   "stat-based shocking fact",
