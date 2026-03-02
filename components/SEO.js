@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 const SITE_URL = "https://ihatecollege.com";
-const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;  // Upload your red no-cap logo resized to 1200x630 in /public
+const DEFAULT_IMAGE = `${SITE_URL}/social-card.png`;
 
 export default function SEO({
   title = "IHateCollege.com - Skip Debt, Stack Cash 2025",
@@ -35,7 +35,7 @@ export default function SEO({
       <meta name="twitter:title" content={title} />  // Fixed: Missing before, causes blank previews
       <meta name="twitter:description" content={description} />  // Fixed: Essential for X cards
       <meta name="twitter:image" content={image} />
-      <meta name="twitter:site" content="@yourXhandle" />  // Add your X handle if you have one, e.g., @placebetsai
+      <meta name="twitter:site" content="@ihatecollege4u" />
 
       {/* Schema for rich snippets - boosts SEO */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

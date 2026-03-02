@@ -6,13 +6,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* Google AdSense */}
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7215975042937417"
-            crossOrigin="anonymous"
-          />
-        </Head>
+  </Head>
         <body>
           <Main />
           <NextScript />

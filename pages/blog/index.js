@@ -1,57 +1,12 @@
+import fs from "fs";
+import path from "path";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 import AdUnit from "../../components/AdUnit";
 import Link from "next/link";
 
-const ARTICLES = [
-  {
-    slug: "student-loan-debt-crisis-2025",
-    title: "Student Loan Debt Crisis 2025: The Numbers Are Getting Worse",
-    description: "1.77 trillion dollars in outstanding student debt. Here's who it's hurting, what the data shows, and what borrowers are actually doing about it.",
-    date: "2025-12-01",
-    author: "Jake Morrison",
-    tag: "Student Debt",
-  },
-  {
-    slug: "electrician-salary-2025",
-    title: "Electrician Salary 2025: What Electricians Really Make by State",
-    description: "Master electricians in some states are clearing $120k+. No degree required. Here's the full BLS breakdown and how to get there fast.",
-    date: "2025-12-02",
-    author: "Ryan Kowalski",
-    tag: "Trades",
-  },
-  {
-    slug: "apprenticeship-programs-near-me-2025",
-    title: "Best Apprenticeship Programs 2025: Get Paid While You Learn",
-    description: "Registered apprenticeships pay an average of $70k. Here's how to find them, what trades pay the most, and how to apply.",
-    date: "2025-12-03",
-    author: "Danielle Torres",
-    tag: "Apprenticeships",
-  },
-  {
-    slug: "google-career-certificates-worth-it",
-    title: "Are Google Career Certificates Worth It in 2025?",
-    description: "Google IT, Cybersecurity, Data Analytics — all under $300. Are employers actually hiring cert holders? We ran the numbers.",
-    date: "2025-12-04",
-    author: "Marcus Webb",
-    tag: "Certifications",
-  },
-  {
-    slug: "plumber-vs-lawyer-salary",
-    title: "Plumber vs Lawyer: Who Actually Earns More Over a Lifetime?",
-    description: "After student loans, bar exams, and years of associate pay — the numbers might surprise you. Real lifetime earnings compared.",
-    date: "2025-12-05",
-    author: "Sarah Chen",
-    tag: "Salary Comparison",
-  },
-  {
-    slug: "community-college-vs-university",
-    title: "Community College vs University: The 2025 Cost Breakdown",
-    description: "Community college grads end up in similar jobs but with a fraction of the debt. Here's when it makes sense and when it doesn't.",
-    date: "2025-12-06",
-    author: "Jake Morrison",
-    tag: "College Alternatives",
-  },
+// Root-level pages that appear in the blog feed (not under /blog/)
+const ROOT_ARTICLES = [
   {
     slug: "/is-college-worth-it-2025",
     title: "Is College Worth It in 2025? The Real ROI Data",
@@ -91,9 +46,53 @@ const TAG_COLORS = {
   "College ROI": "bg-orange-900/50 text-orange-300 border-orange-700",
   "Salary": "bg-blue-900/50 text-blue-300 border-blue-700",
   "No Degree": "bg-pink-900/50 text-pink-300 border-pink-700",
+  "Career Paths": "bg-slate-700/50 text-slate-300 border-slate-500",
 };
 
-export default function BlogIndex() {
+export async function getStaticProps() {
+  const blogDir = path.join(process.cwd(), "pages", "blog");
+  let blogArticles = [];
+
+  try {
+    const files = fs.readdirSync(blogDir).filter(
+      (f) => f.endsWith(".js") && f !== "index.js"
+    );
+
+    for (const file of files) {
+      const slug = file.replace(".js", "");
+      const content = fs.readFileSync(path.join(blogDir, file), "utf8");
+
+      // Extract metadata via regex from generated JSX
+      const titleMatch = content.match(/title="((?:[^"\\]|\\.)*)"/);
+      const descMatch = content.match(/description="((?:[^"\\]|\\.)*)"/);
+      const dateMatch = content.match(/Blog[^·]*·\s*(\d{4}-\d{2}-\d{2})/);
+      const authorMatch = content.match(/<div className="font-bold text-white text-sm">([^<]+)<\/div>/);
+
+      blogArticles.push({
+        slug,
+        title: titleMatch ? titleMatch[1].replace(/\\"/g, '"') : slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        description: descMatch ? descMatch[1].replace(/\\"/g, '"') : "Read the full article on IHateCollege.com.",
+        date: dateMatch ? dateMatch[1] : "2025-12-01",
+        author: authorMatch ? authorMatch[1].trim() : "Staff Writer",
+        tag: "Career Paths",
+      });
+    }
+
+    // Sort newest first
+    blogArticles.sort((a, b) => b.date.localeCompare(a.date));
+  } catch (e) {
+    console.error("Error reading blog directory:", e.message);
+  }
+
+  return {
+    props: { blogArticles },
+    revalidate: 60,
+  };
+}
+
+export default function BlogIndex({ blogArticles = [] }) {
+  const allArticles = [...blogArticles, ...ROOT_ARTICLES];
+
   return (
     <Layout>
       <SEO
@@ -116,7 +115,7 @@ export default function BlogIndex() {
         <AdUnit slot="6600722153" />
 
         <div className="mt-10 space-y-6">
-          {ARTICLES.map((article) => {
+          {allArticles.map((article) => {
             const href = article.rootPage ? article.slug : `/blog/${article.slug}`;
             const tagColor = TAG_COLORS[article.tag] || "bg-slate-800 text-slate-300 border-slate-600";
             return (
@@ -151,7 +150,7 @@ export default function BlogIndex() {
         <div className="mt-12 p-6 rounded-2xl bg-slate-900 border border-sky-500/30 text-center">
           <h3 className="text-xl font-black text-white mb-2">New articles published daily</h3>
           <p className="text-slate-400 text-sm mb-4">
-            We publish 3 data-driven articles every morning. Bookmark this page or follow on Twitter.
+            We publish 3 data-driven articles every morning. Bookmark this page or follow on X.
           </p>
           <a
             href="https://twitter.com/ihatecollege4u"
