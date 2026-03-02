@@ -8,6 +8,8 @@ export async function getServerSideProps({ res }) {
   // Core static pages
   const staticPaths = [
     "",
+    "/college-rankings",
+    "/jobs",
     "/alternatives",
     "/trade-schools",
     "/cheat-sheets",
@@ -16,13 +18,11 @@ export async function getServerSideProps({ res }) {
     "/civil-service",
     "/liberal-vs-conservative",
     "/contact",
+    "/about",
+    "/blog",
     "/is-college-worth-it-2025",
     "/trade-school-vs-college-salary-2025",
     "/how-to-make-money-without-a-college-degree",
-    "/blog/coding-bootcamp-worth-it-2025",
-    "/blog/highest-paying-trade-jobs-2025",
-    "/blog/college-major-with-best-roi",
-    "/blog",
   ];
 
   // Auto-discover all blog articles from the filesystem
