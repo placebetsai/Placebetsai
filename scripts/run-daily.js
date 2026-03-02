@@ -18,9 +18,10 @@ const { fork } = require("child_process");
 const path = require("path");
 
 const SCRIPTS = {
-  articles: path.join(__dirname, "generate-articles.js"),
-  twitter: path.join(__dirname, "post-twitter.js"),
-  tiktok: path.join(__dirname, "generate-tiktok.js"),
+  articles:  path.join(__dirname, "generate-articles.js"),
+  twitter:   path.join(__dirname, "post-twitter.js"),
+  tiktok:    path.join(__dirname, "generate-tiktok.js"),
+  substack:  path.join(__dirname, "post-substack.js"),
 };
 
 function runScript(name, scriptPath) {
@@ -64,6 +65,10 @@ async function runAll() {
   // 3. Generate TikTok script + upload videos
   await delay(5 * 1000);
   await runScript("generate-tiktok", SCRIPTS.tiktok);
+
+  // 4. Post wrestling articles to Substack (mondaynightwrestling.com)
+  await delay(5 * 1000);
+  await runScript("substack-wrestling", SCRIPTS.substack);
 
   console.log(`\n[${timestamp()}] DAILY RUN COMPLETE`);
   console.log("=".repeat(50));
