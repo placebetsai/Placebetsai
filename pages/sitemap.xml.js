@@ -1,8 +1,11 @@
 // pages/sitemap.xml.js
+import fs from "fs";
+import path from "path";
+
 export async function getServerSideProps({ res }) {
   const siteUrl = "https://ihatecollege.com";
 
-  // Static "money" pages (safe)
+  // Core static pages
   const staticPaths = [
     "",
     "/alternatives",
@@ -16,14 +19,24 @@ export async function getServerSideProps({ res }) {
     "/is-college-worth-it-2025",
     "/trade-school-vs-college-salary-2025",
     "/how-to-make-money-without-a-college-degree",
+    "/blog/coding-bootcamp-worth-it-2025",
+    "/blog/highest-paying-trade-jobs-2025",
+    "/blog/college-major-with-best-roi",
     "/blog",
-    "/blog/student-loan-debt-crisis-2025",
-    "/blog/plumber-vs-lawyer-salary",
-    "/blog/community-college-vs-university",
-    "/blog/apprenticeship-programs-near-me-2025",
-    "/blog/google-career-certificates-worth-it",
-    "/blog/electrician-salary-2025",
   ];
+
+  // Auto-discover all blog articles from the filesystem
+  try {
+    const blogDir = path.join(process.cwd(), "pages", "blog");
+    const blogFiles = fs.readdirSync(blogDir).filter(
+      (f) => f.endsWith(".js") && f !== "index.js"
+    );
+    for (const file of blogFiles) {
+      staticPaths.push(`/blog/${file.replace(".js", "")}`);
+    }
+  } catch {
+    // fallback — no crash
+  }
 
   // IMPORTANT: dynamic generation from external API is fragile on serverless.
   // We’ll make it robust: cap pages, add timeouts, and never throw.
