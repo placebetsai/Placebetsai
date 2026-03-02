@@ -5,15 +5,24 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "automate": "node scripts/run-daily.js",
+    "automate:now": "node scripts/run-daily.js --now",
+    "gen:articles": "node scripts/generate-articles.js",
+    "gen:tweets": "node scripts/post-twitter.js",
+    "gen:tiktok": "node scripts/generate-tiktok.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "next": "14.2.3",
+    "node-cron": "^3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "rss-parser": "^3.13.0",
     "swr": "^2.2.0",
-    "rss-parser": "^3.13.0"
+    "twitter-api-v2": "^1.17.0"
   },
   "devDependencies": {
     "autoprefixer": "10.4.14",
