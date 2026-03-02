@@ -7,6 +7,7 @@ const links = [
   { href: "/college-rankings", label: <div className="text-center leading-tight">College<br/>Rankings</div>, mobileLabel: "College Rankings" },
   { href: "/rank-your-school", label: <div className="text-center leading-tight">Rate Your<br/>College</div>, mobileLabel: "Rate Your College" },
   { href: "/jobs", label: "Jobs", mobileLabel: "Jobs Board" },
+  { href: "/job-board", label: <div className="text-center leading-tight">Job<br/>Board</div>, mobileLabel: "Post a Job" },
   { href: "/alternatives", label: "Alternatives", mobileLabel: "Alternatives" },
   { href: "/debt-calculator", label: <div className="text-center leading-tight">Debt<br/>Calc</div>, mobileLabel: "Debt Calculator" },
   { href: "/cheat-sheets", label: <div className="text-center leading-tight">Cheat<br/>Sheets</div>, mobileLabel: "Cheat Sheets" },

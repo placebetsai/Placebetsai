@@ -17,6 +17,8 @@ export async function getServerSideProps({ res }) {
     "/rank-your-school",
     "/civil-service",
     "/liberal-vs-conservative",
+    "/job-board",
+    "/job-board/post",
     "/contact",
     "/about",
     "/blog",
