@@ -40,6 +40,66 @@ const TOPIC_POOL = [
   { keyword: "free online courses that get you hired", angle: "Coursera MIT AWS Google certs" },
   { keyword: "skilled trades shortage America", angle: "why tradespeople are in demand" },
   { keyword: "civil service jobs no degree required", angle: "government jobs with no degree" },
+  // Trades & Apprenticeships
+  { keyword: "welder salary 2025", angle: "pipeline vs structural welding earnings" },
+  { keyword: "how to become an electrician without college", angle: "step-by-step apprenticeship guide" },
+  { keyword: "plumber apprenticeship how to start", angle: "unions, pay, and timeline" },
+  { keyword: "CDL truck driver salary 2025", angle: "OTR vs local vs regional earnings" },
+  { keyword: "lineman apprenticeship salary", angle: "IBEW pay scale and career path" },
+  { keyword: "pipe fitter salary 2025", angle: "industrial vs commercial pipefitting earnings" },
+  { keyword: "ironworker apprenticeship", angle: "structural steel careers and union pay" },
+  { keyword: "boilermaker apprenticeship pay", angle: "boilermaker career outlook and salary" },
+  { keyword: "sheet metal worker salary", angle: "HVAC sheet metal vs aerospace pay" },
+  { keyword: "millwright trade school salary", angle: "industrial millwright career path" },
+  { keyword: "solar panel installer salary 2025", angle: "clean energy trades growth and pay" },
+  { keyword: "wind turbine technician salary", angle: "fastest growing trade job in America" },
+  { keyword: "fiber optic technician salary", angle: "telecom trade career path" },
+  { keyword: "elevator mechanic salary", angle: "highest paid trade in America" },
+  { keyword: "union vs non-union trade jobs", angle: "benefits, pay, and job security compared" },
+  { keyword: "construction manager no degree", angle: "paths from trade to management" },
+  { keyword: "offshore oil rig jobs no degree", angle: "roughneck salary and schedule" },
+  // Tech & Certs
+  { keyword: "cybersecurity certifications worth it 2025", angle: "CompTIA Security+ vs CEH vs CISSP ROI" },
+  { keyword: "AWS certification salary 2025", angle: "cloud engineer pay without a degree" },
+  { keyword: "CompTIA A+ certification jobs", angle: "IT helpdesk to sysadmin path" },
+  { keyword: "network administrator no degree", angle: "certs that replace a CS degree" },
+  { keyword: "IT helpdesk salary no degree", angle: "entry point to six-figure tech" },
+  { keyword: "project management certification PMP salary", angle: "PMP vs MBA ROI" },
+  { keyword: "drone pilot license salary 2025", angle: "FAA Part 107 commercial drone jobs" },
+  { keyword: "freelance web developer income no degree", angle: "self-taught dev earning data" },
+  { keyword: "social media manager salary no degree", angle: "how to break into digital marketing" },
+  { keyword: "copywriter salary without degree", angle: "freelance vs agency copywriting income" },
+  // Bad Degrees
+  { keyword: "is a business degree worth it", angle: "ROI data for business majors" },
+  { keyword: "computer science degree worth it 2025", angle: "CS degree vs self-taught vs bootcamp" },
+  { keyword: "psychology degree jobs and salary", angle: "what psychology grads actually earn" },
+  { keyword: "communications degree worth it", angle: "job outcomes and salary data" },
+  { keyword: "art degree salary vs debt", angle: "worst ROI degrees by the numbers" },
+  { keyword: "philosophy degree jobs 2025", angle: "what you can actually do with it" },
+  { keyword: "sociology degree salary", angle: "earning outcomes for social science majors" },
+  { keyword: "for-profit college scams 2025", angle: "list of predatory colleges and settlements" },
+  { keyword: "college dropout rate 2025", angle: "who drops out and why the data shows" },
+  // Government & Emergency
+  { keyword: "firefighter salary 2025", angle: "firefighter pay by state and overtime" },
+  { keyword: "police officer salary vs college degree", angle: "law enforcement pay and career path" },
+  { keyword: "paramedic salary no degree required", angle: "EMT to paramedic career path and pay" },
+  { keyword: "postal service jobs no degree", angle: "USPS salary, benefits, and retirement" },
+  { keyword: "federal government jobs no degree required", angle: "GS pay scale entry-level paths" },
+  // Side Hustles & Alternative Income
+  { keyword: "real estate license vs degree salary", angle: "agent vs broker income without college" },
+  { keyword: "insurance agent salary no degree", angle: "life insurance career income potential" },
+  { keyword: "notary public income side hustle", angle: "loan signing agent earnings" },
+  { keyword: "landscaping business owner income", angle: "trades entrepreneurship earnings" },
+  { keyword: "plumbing business owner salary", angle: "how much plumbers make owning a business" },
+  { keyword: "military vs college which is better", angle: "GI Bill, salary, and career outcomes compared" },
+  { keyword: "gap year instead of college", angle: "what gap years actually do for careers" },
+  { keyword: "income share agreement vs student loans", angle: "ISA programs and how they compare" },
+  { keyword: "online degree worth it 2025", angle: "employer acceptance and salary outcomes" },
+  { keyword: "aviation mechanic school salary", angle: "FAA A&P mechanic career and pay" },
+  { keyword: "dental hygienist school no degree", angle: "two-year program earnings breakdown" },
+  { keyword: "medical coding certification salary", angle: "remote healthcare jobs without a degree" },
+  { keyword: "pharmacy technician no degree", angle: "certification path and earning potential" },
+  { keyword: "nuclear power plant technician salary", angle: "highest paying no-degree energy job" },
 ];
 
 // Pick 3 topics we haven't used recently
@@ -139,7 +199,21 @@ function buildPageJsx(article, topic, author) {
     )
     .join("\n");
 
-  return `import Layout from "../../components/Layout";
+  const articleSchema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "${article.h1.replace(/"/g, "&quot;")}",
+    "description": "${article.metaDescription.replace(/"/g, "&quot;")}",
+    "datePublished": "${article.publishDate}",
+    "dateModified": "${article.publishDate}",
+    "author": { "@type": "Person", "name": "${author.name}" },
+    "publisher": { "@type": "Organization", "name": "IHateCollege.com", "url": "https://ihatecollege.com" },
+    "url": "https://ihatecollege.com/blog/${slug}",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ihatecollege.com/blog/${slug}" }
+  });
+
+  return `import Head from "next/head";
+import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 import AdUnit from "../../components/AdUnit";
 import Link from "next/link";
@@ -147,6 +221,9 @@ import Link from "next/link";
 export default function BlogPost() {
   return (
     <Layout>
+      <Head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: \`${articleSchema.replace(/`/g, "\\`")}\` }} />
+      </Head>
       <SEO
         title="${article.title.replace(/"/g, '\\"')}"
         description="${article.metaDescription.replace(/"/g, '\\"')}"
