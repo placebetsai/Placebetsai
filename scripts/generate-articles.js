@@ -104,15 +104,25 @@ Requirements:
 
   const message = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
-    max_tokens: 4096,
+    max_tokens: 8096,
     messages: [{ role: "user", content: prompt }],
   });
 
   const text = message.content[0].text;
-  // Extract JSON from response
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error("No JSON in response");
-  return JSON.parse(jsonMatch[0]);
+  // Extract JSON — strip markdown code fences if present
+  const stripped = text.replace(/```(?:json)?\n?/g, "").trim();
+  const jsonMatch = stripped.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error("No JSON in response: " + text.slice(0, 200));
+  // Fix truncated JSON by ensuring it ends properly
+  let jsonStr = jsonMatch[0];
+  try {
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    // Attempt to close truncated JSON
+    const depth = (jsonStr.match(/\{/g) || []).length - (jsonStr.match(/\}/g) || []).length;
+    jsonStr += "}".repeat(Math.max(0, depth));
+    return JSON.parse(jsonStr);
+  }
 }
 
 function buildPageJsx(article, topic, author) {
