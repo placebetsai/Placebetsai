@@ -229,7 +229,7 @@ function commitAndPush(slugs) {
       { cwd: ROOT }
     );
     execSync("git push origin restore-good", { cwd: ROOT });
-    execSync("git push origin restore-good:main", { cwd: ROOT });
+    execSync("git push origin restore-good:main --force", { cwd: ROOT });
     console.log("  Committed and pushed to GitHub");
   } catch (e) {
     console.error("  Git error:", e.message);
