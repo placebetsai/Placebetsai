@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import Link from "next/link";
@@ -6,6 +7,94 @@ import NewsTicker from "../components/NewsTicker";
 import AdUnit from "../components/AdUnit";
 import EmailCapture from "../components/EmailCapture";
 import dynamic from "next/dynamic";
+
+const HOT_JOBS = [
+  { title: "Software Developer", category: "Tech", salaryLow: 75000, salaryHigh: 140000, time: "6–12 months", color: "text-sky-400 bg-sky-900/30 border-sky-700" },
+  { title: "Electrician", category: "Trades", salaryLow: 65000, salaryHigh: 110000, time: "Paid apprenticeship", color: "text-amber-400 bg-amber-900/30 border-amber-700" },
+  { title: "Wind Turbine Tech", category: "Trades", salaryLow: 65000, salaryHigh: 105000, time: "2 years", color: "text-amber-400 bg-amber-900/30 border-amber-700" },
+  { title: "Air Traffic Controller", category: "Government", salaryLow: 85000, salaryHigh: 140000, time: "FAA Academy (paid)", color: "text-violet-400 bg-violet-900/30 border-violet-700" },
+  { title: "Cybersecurity Analyst", category: "Tech", salaryLow: 80000, salaryHigh: 130000, time: "6–9 months", color: "text-sky-400 bg-sky-900/30 border-sky-700" },
+  { title: "Real Estate Agent", category: "Business", salaryLow: 50000, salaryHigh: 150000, time: "1–3 months (license)", color: "text-emerald-400 bg-emerald-900/30 border-emerald-700" },
+];
+
+function CollegeLookupPreview() {
+  const [query, setQuery] = useState("");
+  const [schools, setSchools] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const inputRef = useRef(null);
+
+  useEffect(() => { fetchSchools("University"); }, []);
+
+  const fetchSchools = async (term) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/college-rankings?search=${encodeURIComponent(term)}`);
+      const data = await res.json();
+      setSchools((data.results || []).slice(0, 5));
+    } catch { setSchools([]); }
+    finally { setLoading(false); }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim()) fetchSchools(query);
+  };
+
+  return (
+    <section className="rounded-2xl bg-slate-900 border border-slate-700 overflow-hidden">
+      <div className="px-6 pt-6 pb-4 border-b border-slate-800">
+        <p className="text-xs uppercase tracking-widest text-red-400 font-bold mb-1">GOVERNMENT DATA · NO SPIN</p>
+        <h2 className="text-2xl font-black text-white mb-1">Is Your College a Debt Trap?</h2>
+        <p className="text-slate-400 text-sm mb-4">Real cost, avg debt, and what grads earn 10 years later.</p>
+        <form onSubmit={handleSubmit} className="flex gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search any college..."
+            className="flex-1 px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
+          <button type="submit" className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-sm transition-colors">
+            Look It Up
+          </button>
+        </form>
+      </div>
+
+      <div className="divide-y divide-slate-800">
+        {loading ? (
+          <div className="flex items-center justify-center py-10 gap-3">
+            <div className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-slate-400 text-sm">Pulling government data...</span>
+          </div>
+        ) : schools.length === 0 ? (
+          <div className="text-center py-8 text-slate-500 text-sm">No results. Try a different name.</div>
+        ) : schools.map((s) => {
+          const slug = s.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          return (
+            <Link key={s.id} href={`/college/${slug}`} className="flex items-center justify-between gap-4 px-6 py-3 hover:bg-slate-800/50 transition-colors group">
+              <div>
+                <div className="text-white font-semibold text-sm group-hover:text-sky-400 transition-colors">{s.name}</div>
+                <div className="text-slate-500 text-xs">{s.city}, {s.state}</div>
+              </div>
+              <div className="flex gap-5 shrink-0 text-right">
+                <div><div className="text-[10px] text-slate-500 uppercase">Cost/yr</div><div className="text-xs font-bold text-white">{s.cost}</div></div>
+                <div><div className="text-[10px] text-slate-500 uppercase">Debt</div><div className="text-xs font-bold text-red-400">{s.debt}</div></div>
+                <div><div className="text-[10px] text-slate-500 uppercase">10yr Earn</div><div className="text-xs font-bold text-green-400">{s.earnings}</div></div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="px-6 py-4 border-t border-slate-800 text-center">
+        <Link href="/college-rankings" className="text-sm font-bold text-sky-400 hover:underline">
+          Browse all college rankings →
+        </Link>
+      </div>
+    </section>
+  );
+}
 
 // Matches your GitHub screenshot exactly: TradeHero.js
 const TradeHero = dynamic(() =>
@@ -126,6 +215,37 @@ export default function HomePage({ tradeData }) {
             </div>
           </div>
         </div>
+
+        {/* --- COLLEGE LOOKUP PREVIEW --- */}
+        <CollegeLookupPreview />
+
+        {/* --- JOBS TEASER --- */}
+        <section>
+          <div className="flex items-center justify-between mb-5">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-emerald-400 font-bold mb-1">NO DEGREE REQUIRED</p>
+              <h2 className="text-2xl font-black text-white">Jobs That Pay Without College</h2>
+            </div>
+            <Link href="/jobs" className="text-sm font-bold text-sky-400 hover:underline shrink-0">
+              Browse all jobs →
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {HOT_JOBS.map((job) => (
+              <Link key={job.title} href="/jobs"
+                className="flex flex-col justify-between p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 transition-all group">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div className="text-white font-bold text-sm group-hover:text-emerald-400 transition-colors leading-snug">{job.title}</div>
+                  <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full border ${job.color}`}>{job.category}</span>
+                </div>
+                <div className="flex items-end justify-between mt-2">
+                  <div className="text-emerald-400 font-black text-sm">${(job.salaryLow/1000).toFixed(0)}k–${(job.salaryHigh/1000).toFixed(0)}k</div>
+                  <div className="text-slate-500 text-xs">{job.time}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {/* --- TRADE OF THE MONTH SECTION --- */}
         {tradeData && <TradeHero trade={tradeData} />}
