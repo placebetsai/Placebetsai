@@ -18,139 +18,135 @@ export default function RatingForm() {
       const res = await fetch("/api/submit-rating", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          school,
-          city,
-          state,
-          debtScore,
-          mentalHealthScore,
-          comment,
-        }),
+        body: JSON.stringify({ school, city, state, debtScore, mentalHealthScore, comment }),
       });
 
       if (!res.ok) throw new Error("Request failed");
 
-      setStatus("✅ Thanks. Your experience is logged.");
-      setSchool("");
-      setCity("");
-      setState("");
-      setDebtScore(5);
-      setMentalHealthScore(5);
-      setComment("");
-    } catch (err) {
-      setStatus("❌ Something broke. Try again in a bit.");
+      setStatus("success");
+      setSchool(""); setCity(""); setState("");
+      setDebtScore(5); setMentalHealthScore(5); setComment("");
+    } catch {
+      setStatus("error");
     }
   };
 
+  const inputClass = "mt-1 w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition text-sm";
+  const labelClass = "block text-sm font-semibold text-slate-300";
+
+  const debtColor = debtScore >= 8 ? "#f87171" : debtScore >= 5 ? "#fbbf24" : "#4ade80";
+  const mhColor = mentalHealthScore >= 8 ? "#f87171" : mentalHealthScore >= 5 ? "#fbbf24" : "#4ade80";
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        marginTop: "1rem",
-        display: "grid",
-        gap: "0.75rem",
-        maxWidth: 700,
-      }}
-    >
-      <p style={{ fontSize: "0.95rem", opacity: 0.9 }}>
-        Start simple: tell us where you went and how bad the{" "}
-        <strong>debt + mental health tradeoff</strong> really was.
+    <form onSubmit={handleSubmit} className="space-y-5 mt-2">
+      <p className="text-slate-400 text-sm">
+        Tell incoming students what the brochure won't —{" "}
+        <span className="text-white font-semibold">debt load, mental health, worth it or not.</span>{" "}
+        No login. Anonymous.
       </p>
 
-      <div className="form-row">
-        <label className="form-label">
-          School name
-          <input
-            className="form-input"
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
-            placeholder="Example: Generic State University"
-            required
-          />
+      {/* School name */}
+      <div>
+        <label className={labelClass}>
+          School Name <span className="text-red-500">*</span>
         </label>
+        <input
+          className={inputClass}
+          value={school}
+          onChange={(e) => setSchool(e.target.value)}
+          placeholder="e.g. Florida State University"
+          required
+        />
       </div>
 
-      <div
-        className="form-row"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr",
-          gap: "0.75rem",
-        }}
-      >
-        <label className="form-label">
-          City
+      {/* City + State */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>City</label>
           <input
-            className="form-input"
+            className={inputClass}
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="City"
+            placeholder="Tallahassee"
           />
-        </label>
-        <label className="form-label">
-          State
+        </div>
+        <div>
+          <label className={labelClass}>State</label>
           <input
-            className="form-input"
+            className={inputClass}
             value={state}
             onChange={(e) => setState(e.target.value)}
-            placeholder="FL, TX, CA…"
+            placeholder="FL"
+            maxLength={2}
           />
-        </label>
+        </div>
       </div>
 
-      <div
-        className="form-row"
-        style={{ display: "grid", gap: "0.75rem" }}
-      >
-        <label className="form-label">
-          Debt pain (1 = chill, 10 = nightmare)
-          <input
-            type="range"
-            min="1"
-            max="10"
-            value={debtScore}
-            onChange={(e) => setDebtScore(Number(e.target.value))}
-          />
-          <span style={{ fontSize: "0.85rem" }}>
-            Current: {debtScore}/10
-          </span>
-        </label>
-
-        <label className="form-label">
-          Mental-health hit (1 = fine, 10 = meltdown)
-          <input
-            type="range"
-            min="1"
-            max="10"
-            value={mentalHealthScore}
-            onChange={(e) => setMentalHealthScore(Number(e.target.value))}
-          />
-          <span style={{ fontSize: "0.85rem" }}>
-            Current: {mentalHealthScore}/10
-          </span>
-        </label>
+      {/* Debt Score */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <label className={labelClass}>Debt Pain Level</label>
+          <span className="text-lg font-black" style={{ color: debtColor }}>{debtScore}/10</span>
+        </div>
+        <p className="text-xs text-slate-500 mb-2">1 = barely felt it · 10 = destroyed my life</p>
+        <input
+          type="range" min="1" max="10"
+          value={debtScore}
+          onChange={(e) => setDebtScore(Number(e.target.value))}
+          className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-700 accent-red-500"
+        />
+        <div className="flex justify-between text-xs text-slate-600 mt-1">
+          <span>1 — No problem</span><span>10 — Nightmare</span>
+        </div>
       </div>
 
-      <label className="form-label">
-        What students should know (optional)
+      {/* Mental Health Score */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <label className={labelClass}>Mental Health Impact</label>
+          <span className="text-lg font-black" style={{ color: mhColor }}>{mentalHealthScore}/10</span>
+        </div>
+        <p className="text-xs text-slate-500 mb-2">1 = thrived · 10 = full meltdown</p>
+        <input
+          type="range" min="1" max="10"
+          value={mentalHealthScore}
+          onChange={(e) => setMentalHealthScore(Number(e.target.value))}
+          className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-700 accent-red-500"
+        />
+        <div className="flex justify-between text-xs text-slate-600 mt-1">
+          <span>1 — Thrived</span><span>10 — Meltdown</span>
+        </div>
+      </div>
+
+      {/* Comment */}
+      <div>
+        <label className={labelClass}>What students should know <span className="text-slate-500 font-normal">(optional)</span></label>
         <textarea
-          className="form-input"
+          className={inputClass}
           rows={4}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Dorms? Professors? Admin? Any bait-and-switch?"
+          placeholder="Dorms? Professors? Hidden fees? Any bait-and-switch? Be specific."
         />
-      </label>
+      </div>
 
-      <button className="primary-btn" type="submit">
-        Submit your rank
+      <button
+        type="submit"
+        className="w-full py-4 px-6 bg-red-600 hover:bg-red-500 text-white font-black text-lg rounded-xl transition-all duration-200 shadow-lg shadow-red-900/40 active:scale-95"
+      >
+        Submit My Rating
       </button>
 
-      {status && (
-        <p style={{ fontSize: "0.85rem", marginTop: "0.25rem" }}>
-          {status}
-        </p>
+      {status === "success" && (
+        <div className="p-4 rounded-lg bg-green-900/40 border border-green-500/40 text-green-400 text-sm font-semibold text-center">
+          ✅ Rating submitted. Thanks for keeping it real.
+        </div>
+      )}
+      {status === "error" && (
+        <div className="p-4 rounded-lg bg-red-900/40 border border-red-500/40 text-red-400 text-sm font-semibold text-center">
+          ❌ Something went wrong. Try again in a bit.
+        </div>
       )}
     </form>
   );
-        }
+}

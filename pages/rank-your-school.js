@@ -13,6 +13,11 @@ export default function RankYourSchool() {
 
   useEffect(() => {
     fetchSchools("University");
+    // Auto-scroll to rating form after a short delay
+    setTimeout(() => {
+      const el = document.getElementById("rate-form");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 600);
   }, []);
 
   const fetchSchools = async (searchTerm) => {
@@ -120,12 +125,14 @@ export default function RankYourSchool() {
       </div>
 
       {/* RATING FORM */}
-      <section style={{ maxWidth: "860px", margin: "0 auto", padding: "1rem 1rem 4rem" }}>
-        <div className="p-6 rounded-2xl bg-slate-900 border border-red-500/30">
-          <h2 className="text-3xl font-black text-white mb-1">Rate Your School</h2>
-          <p className="text-slate-400 mb-6">
-            Went there? Tell incoming students the truth — debt load, mental health, worth it or not.
-            No login. No BS. Anonymous.
+      <section id="rate-form" style={{ maxWidth: "860px", margin: "0 auto", padding: "1rem 1rem 4rem" }}>
+        <div className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-red-500/40 shadow-xl shadow-red-950/30">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="text-3xl">🔥</span>
+            <h2 className="text-3xl font-black text-white">Rate Your School</h2>
+          </div>
+          <p className="text-slate-400 mb-6 text-sm">
+            Went there? Tell incoming students the truth. No login. No BS. 100% anonymous.
           </p>
           <RatingForm />
         </div>
