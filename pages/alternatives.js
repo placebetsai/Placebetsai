@@ -1,6 +1,8 @@
 // pages/alternatives.js
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
+import AdUnit from "../components/AdUnit";
+import EmailCapture from "../components/EmailCapture";
 
 export default function AlternativesPage() {
   return (
@@ -137,6 +139,14 @@ export default function AlternativesPage() {
             Run debt calculator
           </a>
         </div>
+      </section>
+
+      <section className="page-section max-w-2xl mx-auto">
+        <AdUnit slot="6600722153" />
+      </section>
+
+      <section className="page-section max-w-2xl mx-auto">
+        <EmailCapture />
       </section>
     </Layout>
   );

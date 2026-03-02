@@ -1,6 +1,8 @@
 // pages/debt-calculator.js
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
+import AdUnit from "../components/AdUnit";
+import EmailCapture from "../components/EmailCapture";
 import { useState } from "react";
 
 export default function DebtCalculator() {
@@ -89,6 +91,14 @@ export default function DebtCalculator() {
           </div>
         </div>
       </section>
+
+      <section className="page-section max-w-xl mx-auto">
+        <AdUnit slot="6600722153" />
+      </section>
+
+      <section className="page-section max-w-xl mx-auto">
+        <EmailCapture />
+      </section>
     </Layout>
   );
-            }
+}

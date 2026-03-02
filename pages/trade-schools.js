@@ -1,4 +1,6 @@
 import Layout from "../components/Layout";
+import AdUnit from "../components/AdUnit";
+import EmailCapture from "../components/EmailCapture";
 
 export default function TradeSchoolsPage() {
   return (
@@ -96,6 +98,14 @@ export default function TradeSchoolsPage() {
         <a href="/contact" className="btn btn-primary mt-4">
           Ask which trade is best
         </a>
+      </section>
+
+      <section className="section max-w-2xl mx-auto">
+        <AdUnit slot="6600722153" />
+      </section>
+
+      <section className="section max-w-2xl mx-auto">
+        <EmailCapture />
       </section>
 
     </Layout>

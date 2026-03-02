@@ -3,6 +3,8 @@ import SEO from "../components/SEO";
 import Link from "next/link";
 import DecisionWizard from "../components/DecisionWizard";
 import NewsTicker from "../components/NewsTicker";
+import AdUnit from "../components/AdUnit";
+import EmailCapture from "../components/EmailCapture";
 import dynamic from "next/dynamic";
 
 // Matches your GitHub screenshot exactly: TradeHero.js
@@ -182,7 +184,42 @@ export default function HomePage({ tradeData }) {
             </div>
           </div>
         </section>
+
+        {/* --- LATEST FROM THE BLOG --- */}
+        <section className="section">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-black text-white">Latest Articles</h2>
+            <Link href="/blog" className="text-sky-400 text-sm font-bold hover:underline">
+              View all →
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {[
+              { href: "/blog/electrician-salary-2025", tag: "Trades", title: "Electrician Salary 2025: What They Really Make by State", color: "text-amber-400" },
+              { href: "/blog/student-loan-debt-crisis-2025", tag: "Student Debt", title: "Student Loan Debt Crisis 2025: The Numbers Are Getting Worse", color: "text-red-400" },
+              { href: "/blog/google-career-certificates-worth-it", tag: "Certifications", title: "Are Google Career Certificates Worth It in 2025?", color: "text-emerald-400" },
+            ].map((a) => (
+              <Link key={a.href} href={a.href} className="block group">
+                <div className="p-5 rounded-xl bg-slate-900/80 border border-slate-700 hover:border-sky-500/50 transition-all h-full">
+                  <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${a.color}`}>{a.tag}</p>
+                  <h3 className="text-sm font-bold text-white group-hover:text-sky-400 transition-colors leading-snug">
+                    {a.title}
+                  </h3>
+                  <div className="mt-3 text-sky-400 text-xs font-bold group-hover:translate-x-1 transition-transform inline-block">
+                    Read →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* --- AD UNIT --- */}
+        <AdUnit slot="6600722153" />
       </div>
+
+      {/* --- EMAIL CAPTURE BANNER --- */}
+      <EmailCapture variant="banner" />
     </Layout>
   );
 }

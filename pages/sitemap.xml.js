@@ -16,6 +16,7 @@ export async function getServerSideProps({ res }) {
     "/is-college-worth-it-2025",
     "/trade-school-vs-college-salary-2025",
     "/how-to-make-money-without-a-college-degree",
+    "/blog",
     "/blog/student-loan-debt-crisis-2025",
     "/blog/plumber-vs-lawyer-salary",
     "/blog/community-college-vs-university",
