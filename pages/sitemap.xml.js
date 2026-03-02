@@ -16,6 +16,9 @@ export async function getServerSideProps({ res }) {
     "/is-college-worth-it-2025",
     "/trade-school-vs-college-salary-2025",
     "/how-to-make-money-without-a-college-degree",
+    "/blog/apprenticeship-programs-near-me-2025",
+    "/blog/google-career-certificates-worth-it",
+    "/blog/electrician-salary-2025",
   ];
 
   // IMPORTANT: dynamic generation from external API is fragile on serverless.
