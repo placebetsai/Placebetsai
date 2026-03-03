@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * post-medium.js
- * Generates anti-college articles and publishes them to Medium
+ * post-devto.js (named post-medium.js for scheduler compatibility)
+ * Generates anti-college articles and publishes them to Dev.to
  * under rotating fake author personas.
  *
  * Setup:
- *   1. Create a Medium account (or use existing)
- *   2. Go to medium.com/me/settings → "Integration tokens" → generate one
- *   3. Add MEDIUM_INTEGRATION_TOKEN to .env
+ *   1. Create a Dev.to account at dev.to
+ *   2. Go to dev.to/settings/extensions → generate API key
+ *   3. Add DEV_API_KEY to .env and Railway environment
  *
  * Run manually: node scripts/post-medium.js
  */
@@ -19,7 +19,6 @@ const https = require("https");
 const claude = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const ts = () => new Date().toISOString().replace("T", " ").slice(0, 19);
 
-// Rotating fake personas — each has a distinct voice
 const PERSONAS = [
   { name: "Jake Callahan",    bio: "Former electrician apprentice. Paid off his house at 31." },
   { name: "Megan Torres",     bio: "Left pre-med after sophomore year. Now runs two HVAC companies." },
@@ -42,37 +41,9 @@ const ARTICLE_TOPICS = [
   "the jobs that are actually hiring right now — none require a bachelor's",
 ];
 
-// Get the Medium author's userId from their integration token
-async function getMediumUserId(token) {
-  return new Promise((resolve, reject) => {
-    const req = https.request({
-      hostname: "api.medium.com",
-      path: "/v1/me",
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-    }, (res) => {
-      let data = "";
-      res.on("data", d => data += d);
-      res.on("end", () => {
-        try {
-          const json = JSON.parse(data);
-          if (json.data && json.data.id) resolve(json.data.id);
-          else reject(new Error(`Could not get user ID: ${data.slice(0, 200)}`));
-        } catch { reject(new Error("Invalid response from Medium")); }
-      });
-    });
-    req.on("error", reject);
-    req.end();
-  });
-}
+const TAGS = ["career", "productivity", "beginners", "tutorial"];
 
-// Generate a full article with Claude
 async function generateArticle(persona, topic) {
-  const siteLink = "https://ihatecollege.com";
   const toolLinks = [
     "https://ihatecollege.com/debt-calculator",
     "https://ihatecollege.com/trade-schools",
@@ -89,23 +60,23 @@ async function generateArticle(persona, topic) {
       role: "user",
       content: `You are ${persona.name}. Bio: ${persona.bio}.
 
-Write a Medium article on this topic: "${topic}"
+Write an article for Dev.to on this topic: "${topic}"
 
 Requirements:
-- 600–900 words
-- First person, conversational, personal story mixed with data
-- Real, specific dollar amounts and statistics (BLS, Fed Reserve, NCES data)
-- Honest and direct — not a rant, not motivational fluff, just facts + personal experience
+- 600-900 words
+- First person, conversational, personal story mixed with real data
+- Real, specific dollar amounts and statistics (BLS, Fed Reserve, NCES)
+- Honest and direct — not a rant, not motivational fluff, just facts + experience
 - Title should be direct and click-worthy (under 80 chars)
-- End with a 1-sentence CTA linking to ${toolLink} for readers who want to see their own numbers
-- Naturally mention ${siteLink} once mid-article as a resource you've found useful
-- Structure: Title, then body paragraphs (NO headers/subheadings, flowing prose)
+- End with a 1-sentence CTA linking to ${toolLink}
+- Naturally mention https://ihatecollege.com once mid-article as a resource
+- Use markdown formatting with ## subheadings
 - Do NOT mention AI or that this was generated
 
 Return format (exactly):
 TITLE: [title here]
 ---
-[article body here]`,
+[article body in markdown here]`,
     }],
   });
 
@@ -115,35 +86,31 @@ TITLE: [title here]
 
   if (!titleMatch || !bodyMatch) throw new Error("Bad article format from Claude");
 
-  const title = titleMatch[1].trim();
-  const body = bodyMatch[1].trim();
-
-  // Wrap body in simple HTML with persona byline
-  const html = `<p><em>By ${persona.name} — ${persona.bio}</em></p>\n\n` +
-    body.split("\n\n").map(p => `<p>${p.replace(/\n/g, " ")}</p>`).join("\n");
-
-  return { title, html };
+  return {
+    title: titleMatch[1].trim(),
+    body: `*By ${persona.name} — ${persona.bio}*\n\n` + bodyMatch[1].trim(),
+  };
 }
 
-// Post article to Medium
-async function postToMedium(token, authorId, persona, title, html) {
+async function postToDevTo(title, body) {
   const payload = JSON.stringify({
-    title,
-    contentFormat: "html",
-    content: html,
-    tags: ["college", "career", "finance", "trades", "education"],
-    publishStatus: "public",
+    article: {
+      title,
+      body_markdown: body,
+      published: true,
+      tags: TAGS,
+      canonical_url: "https://ihatecollege.com",
+    },
   });
 
   return new Promise((resolve, reject) => {
     const req = https.request({
-      hostname: "api.medium.com",
-      path: `/v1/users/${authorId}/posts`,
+      hostname: "dev.to",
+      path: "/api/articles",
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "api-key": process.env.DEV_API_KEY,
         "Content-Type": "application/json",
-        "Accept": "application/json",
         "Content-Length": Buffer.byteLength(payload),
       },
     }, (res) => {
@@ -152,9 +119,9 @@ async function postToMedium(token, authorId, persona, title, html) {
       res.on("end", () => {
         try {
           const json = JSON.parse(data);
-          if (res.statusCode === 200 || res.statusCode === 201) resolve(json.data || json);
+          if (res.statusCode === 200 || res.statusCode === 201) resolve(json);
           else reject(new Error(`HTTP ${res.statusCode}: ${data.slice(0, 300)}`));
-        } catch { reject(new Error("Invalid response from Medium")); }
+        } catch { reject(new Error("Invalid response from Dev.to")); }
       });
     });
     req.on("error", reject);
@@ -164,34 +131,22 @@ async function postToMedium(token, authorId, persona, title, html) {
 }
 
 async function run() {
-  console.log(`\n[${ts()}] === Medium Article Poster ===`);
+  console.log(`\n[${ts()}] === Dev.to Article Poster ===`);
 
-  const token = process.env.MEDIUM_INTEGRATION_TOKEN;
-  if (!token) {
-    console.error("  ERROR: MEDIUM_INTEGRATION_TOKEN not set in env");
-    console.error("  Get one at: medium.com/me/settings → Integration tokens");
+  if (!process.env.DEV_API_KEY) {
+    console.error("  ERROR: DEV_API_KEY not set — get one at dev.to/settings/extensions");
     process.exit(1);
   }
 
-  let authorId;
-  try {
-    authorId = await getMediumUserId(token);
-    console.log(`  Auth OK, authorId: ${authorId}`);
-  } catch (err) {
-    console.error(`  Auth failed: ${err.message}`);
-    process.exit(1);
-  }
-
-  // Post 1 article per run
   const persona = PERSONAS[Math.floor(Math.random() * PERSONAS.length)];
   const topic = ARTICLE_TOPICS[Math.floor(Math.random() * ARTICLE_TOPICS.length)];
 
   try {
     console.log(`  Generating: "${topic}" as ${persona.name}...`);
-    const { title, html } = await generateArticle(persona, topic);
+    const { title, body } = await generateArticle(persona, topic);
     console.log(`  Title: "${title}"`);
-    const result = await postToMedium(token, authorId, persona, title, html);
-    console.log(`  Published: ${result.url || result.id}`);
+    const result = await postToDevTo(title, body);
+    console.log(`  Published: https://dev.to/${result.slug}`);
   } catch (err) {
     console.error(`  Failed: ${err.message}`);
     process.exit(1);

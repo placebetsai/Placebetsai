@@ -84,14 +84,7 @@ cron.schedule("0 10 * * *", () => {
   runScript("tiktok", SCRIPTS.tiktok).catch(console.error);
 }, { timezone: TZ });
 
-// ── YouTube community posts: 9 AM and 4 PM ────────────────────────────────────
-cron.schedule("0 9 * * *", () => {
-  runScript("youtube-morning", SCRIPTS.youtube).catch(console.error);
-}, { timezone: TZ });
-
-cron.schedule("0 16 * * *", () => {
-  runScript("youtube-afternoon", SCRIPTS.youtube).catch(console.error);
-}, { timezone: TZ });
+// YouTube community posts disabled — requires Google app verification for restricted scopes
 
 // ── Medium articles: 11 AM and 3 PM (1 each = 2 articles/day) ────────────────
 cron.schedule("0 11 * * *", () => {
@@ -107,7 +100,6 @@ console.log("  Articles:  6:00 AM + 1:00 PM (5 each = 10/day)");
 console.log("  Tweets:    Every hour 8 AM–10 PM (1-2 each = ~15-25/day)");
 console.log("  Wrestling: 8:00 AM + 7:00 PM (4 each = 8/day)");
 console.log("  TikTok:    10:00 AM");
-console.log("  YouTube:   9:00 AM + 4:00 PM community posts");
 console.log("  Medium:    11:00 AM + 3:00 PM articles (2/day)\n");
 
 // ── Run immediately if --now flag ─────────────────────────────────────────────
