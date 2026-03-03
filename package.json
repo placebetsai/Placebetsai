@@ -5,12 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node start.js",
     "automate": "node scripts/run-daily.js",
     "automate:now": "node scripts/run-daily.js --now",
     "gen:articles": "node scripts/generate-articles.js",
     "gen:tweets": "node scripts/post-twitter.js",
-    "gen:tiktok": "node scripts/generate-tiktok.js"
+    "gen:tiktok": "node scripts/generate-tiktok.js",
+    "gen:youtube": "node scripts/post-youtube.js",
+    "diagnose": "node scripts/diagnose.js",
+    "youtube:auth": "node scripts/youtube-auth.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",

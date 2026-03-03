@@ -26,6 +26,7 @@ const SCRIPTS = {
   twitter:  path.join(__dirname, "post-twitter.js"),
   tiktok:   path.join(__dirname, "generate-tiktok.js"),
   substack: path.join(__dirname, "post-substack.js"),
+  youtube:  path.join(__dirname, "post-youtube.js"),
 };
 
 const ts = () => new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -74,11 +75,21 @@ cron.schedule("0 10 * * *", () => {
   runScript("tiktok", SCRIPTS.tiktok).catch(console.error);
 }, { timezone: TZ });
 
+// ── YouTube community posts: 9 AM and 4 PM ────────────────────────────────────
+cron.schedule("0 9 * * *", () => {
+  runScript("youtube-morning", SCRIPTS.youtube).catch(console.error);
+}, { timezone: TZ });
+
+cron.schedule("0 16 * * *", () => {
+  runScript("youtube-afternoon", SCRIPTS.youtube).catch(console.error);
+}, { timezone: TZ });
+
 console.log(`[${ts()}] Scheduler started (TZ: ${TZ})`);
 console.log("  Articles:  6:00 AM + 1:00 PM (5 each = 10/day)");
 console.log("  Tweets:    Every hour 8 AM–10 PM (1-2 each = ~15-25/day)");
 console.log("  Wrestling: 8:00 AM + 7:00 PM (4 each = 8/day)");
-console.log("  TikTok:    10:00 AM\n");
+console.log("  TikTok:    10:00 AM");
+console.log("  YouTube:   9:00 AM + 4:00 PM community posts\n");
 
 // ── Run immediately if --now flag ─────────────────────────────────────────────
 if (process.argv.includes("--now")) {

@@ -153,24 +153,22 @@ export default function CollegePage({ school, error }) {
         <div className="bg-gray-800 p-10 rounded-xl mb-12 text-center">
           <h2 className="text-3xl font-bold mb-6">Escape the Debt Trap</h2>
           <p className="text-xl text-gray-300 mb-8">
-            Free scholarship matches or refinance loans.
+            Find free scholarships or explore no-degree career paths.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <a
-              href="https://www.edvisors.com/?ref=YOUR_ID"
+              href="https://studentaid.gov/understand-aid/types/scholarships"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-5 px-10 rounded-lg"
             >
-              Find Scholarships
+              Find Scholarships (Free)
             </a>
             <a
-              href="https://www.sofi.com/ref/XXXXX"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/alternatives"
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-10 rounded-lg"
             >
-              Refinance Loans
+              Skip College Entirely →
             </a>
           </div>
         </div>

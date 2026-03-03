@@ -51,7 +51,7 @@ const FEATURED = [
     location: "Phoenix, AZ", state: "Arizona", category: "Government", sector: "Municipal",
     salary_min: 52000, salary_max: 90000,
     description: "No degree required. Respond to fires, medical emergencies, and rescue operations. Full training at Fire Academy. Union job with pension, healthcare, and overtime regularly pushing total comp past $100k.",
-    apply_url: "https://www.phoenix.gov/pfd/recruitment",
+    apply_url: "https://www.usajobs.gov/Search/Results?k=firefighter",
     image: "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -59,7 +59,7 @@ const FEATURED = [
     location: "Nationwide", state: "Nationwide", category: "Government", sector: "Federal",
     salary_min: 85000, salary_max: 140000,
     description: "One of the highest-paying government jobs with no degree required. FAA trains you at their academy in Oklahoma City — fully paid. High stress, extraordinary pay, federal benefits.",
-    apply_url: "https://www.faa.gov/jobs/aviation_careers/air_traffic",
+    apply_url: "https://www.usajobs.gov/Search/Results?k=air+traffic+controller",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -67,7 +67,7 @@ const FEATURED = [
     location: "TX · AZ · CA · NM", state: "Texas", category: "Government", sector: "Federal",
     salary_min: 55000, salary_max: 95000,
     description: "Federal law enforcement. No college degree required. Paid training at Border Patrol Academy in Artesia, NM. Retirement at 50, federal pension, full benefits. Thousands of openings.",
-    apply_url: "https://www.cbp.gov/careers/border-patrol",
+    apply_url: "https://www.cbp.gov/careers/frontline-careers/bpa",
     image: "https://images.unsplash.com/photo-1575089776834-ead55d821104?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -75,7 +75,7 @@ const FEATURED = [
     location: "Nationwide — All 50 States", state: "Nationwide", category: "Government", sector: "Law Enforcement",
     salary_min: 50000, salary_max: 100000,
     description: "Most police departments require only a high school diploma or GED. Paid academy training, union protection, pension at 20 years, overtime, and hazard pay. Starting salaries often include housing and uniform allowances.",
-    apply_url: "https://www.usajobs.gov",
+    apply_url: "https://www.usajobs.gov/Search/Results?k=police+officer",
     image: "https://images.unsplash.com/photo-1617817546271-6e3c6f9413e6?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -83,7 +83,7 @@ const FEATURED = [
     location: "Nationwide — All 50 States", state: "Nationwide", category: "Government", sector: "Federal",
     salary_min: 45000, salary_max: 72000,
     description: "Federal job with pension, full benefits, and job security. No degree required — just a valid driver's license. USPS is one of the largest employers in the U.S. and hires constantly across every state.",
-    apply_url: "https://about.usps.com/careers",
+    apply_url: "https://careers.usps.com/",
     image: "https://images.unsplash.com/photo-1568598035424-7070b67317d2?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -91,7 +91,7 @@ const FEATURED = [
     location: "Nationwide — Local Unions Available", state: "Nationwide", category: "Trades", sector: "Trades",
     salary_min: 45000, salary_max: 110000,
     description: "Earn while you learn. IBEW apprenticeships are fully paid — no tuition, no debt. 5-year program leads to journeyman license. Union wages, full benefits, overtime. Journeymen commonly earn $80k–$110k.",
-    apply_url: "https://www.ibew.org/Tools-and-Resources/Find-Your-Local",
+    apply_url: "https://www.ibewjatc.org/",
     image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=400&fit=crop&auto=format",
   },
   {
@@ -115,7 +115,7 @@ const FEATURED = [
     location: "Nationwide — National Parks", state: "Nationwide", category: "Government", sector: "Federal",
     salary_min: 42000, salary_max: 68000,
     description: "Work in the most beautiful places in the country. No 4-year degree required for many positions — experience counts. Law enforcement rangers carry a badge and firearm. Interpretive rangers lead tours and programs.",
-    apply_url: "https://www.usajobs.gov",
+    apply_url: "https://www.usajobs.gov/Search/Results?k=park+ranger",
     image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&auto=format",
   },
 ];
