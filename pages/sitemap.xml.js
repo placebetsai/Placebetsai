@@ -21,6 +21,8 @@ export async function getServerSideProps({ res }) {
     "/job-board/post",
     "/contact",
     "/about",
+    "/advertise",
+    "/press",
     "/blog",
     "/is-college-worth-it-2025",
     "/trade-school-vs-college-salary-2025",
