@@ -270,7 +270,9 @@ function PostForm({ onSuccess }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 export default function JobBoard() {
-  const [view, setView]         = useState("browse"); // 'browse' | 'post' | 'success'
+  const [view, setView]         = useState(
+    typeof window !== "undefined" && window.location.hash === "#post" ? "post" : "browse"
+  ); // 'browse' | 'post' | 'success'
   const [q, setQ]               = useState("");
   const [search, setSearch]     = useState("");
   const [category, setCategory] = useState("All");
@@ -331,29 +333,41 @@ export default function JobBoard() {
       />
 
       {/* ── HEADER ── */}
-      <div className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 py-10">
+      <div className="relative overflow-hidden bg-slate-900 border-b border-slate-800">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/3 w-96 h-64 bg-sky-500/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-1/4 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-5xl mx-auto px-4 py-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-2">No degree required</p>
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
-            Find a Job.<br className="sm:hidden" /> Skip the Debt.
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
+            Find a Job. Skip the Debt.
           </h1>
-          <p className="text-slate-400 mb-8 max-w-xl">
-            Federal jobs, law enforcement, skilled trades, tech — real careers that pay well without a 4-year degree.
+          <p className="text-slate-400 mb-8 max-w-xl text-sm sm:text-base">
+            Federal jobs, law enforcement, skilled trades, and tech — careers that pay well without a 4-year degree.
           </p>
 
-          {/* Tab toggle */}
-          <div className="flex gap-1 p-1 bg-slate-800 rounded-xl w-fit mb-8">
+          {/* Find / Post toggle — prominent */}
+          <div className="grid sm:grid-cols-2 gap-3 mb-8 max-w-lg">
             <button onClick={() => setView("browse")}
-              className={`px-5 py-2 rounded-lg text-sm font-black transition-all ${view === "browse" ? "bg-white text-slate-900" : "text-slate-400 hover:text-white"}`}>
-              Browse Jobs
+              className={`flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-black text-sm transition-all ${
+                view === "browse"
+                  ? "bg-sky-600 text-white shadow-lg shadow-sky-900/40"
+                  : "bg-slate-800 border border-slate-700 text-slate-300 hover:border-sky-600 hover:text-white"
+              }`}>
+              🔍 Browse Jobs
             </button>
             <button onClick={() => setView("post")}
-              className={`px-5 py-2 rounded-lg text-sm font-black transition-all ${view === "post" || view === "success" ? "bg-white text-slate-900" : "text-slate-400 hover:text-white"}`}>
-              Post a Job — Free
+              className={`flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-black text-sm transition-all ${
+                view === "post" || view === "success"
+                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
+                  : "bg-slate-800 border border-slate-700 text-slate-300 hover:border-emerald-600 hover:text-white"
+              }`}>
+              📢 Post a Job — Free
             </button>
           </div>
 
-          {/* Search + State — only show in browse mode */}
+          {/* Search + State — browse mode only */}
           {view === "browse" && (
             <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
               <input
