@@ -42,7 +42,7 @@ export default function SEO({
 }) {
   const router = useRouter();
   const canonical = `${SITE_URL}${router.asPath.split("?")[0]}`;
-  const defaultKeywords = "skip college 2025, college alternatives, trade school vs college, no degree jobs, student debt, ihatecollege";
+  const defaultKeywords = "college alternatives, is college worth it, trade school vs college, no degree jobs, student debt, ihatecollege";
 
   return (
     <Head>

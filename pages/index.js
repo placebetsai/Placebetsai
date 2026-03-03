@@ -2,30 +2,12 @@ import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import Link from "next/link";
-import NewsTicker from "../components/NewsTicker";
 import AdUnit from "../components/AdUnit";
 import EmailCapture from "../components/EmailCapture";
 
-// ── Featured jobs shown on homepage ──────────────────────────────────────────
-const FEATURED_JOBS = [
-  { title: "Software Developer",     category: "Tech",     lo: 75,  hi: 140, time: "6–12 months",          color: "sky" },
-  { title: "Electrician",            category: "Trades",   lo: 65,  hi: 110, time: "Paid apprenticeship",   color: "amber" },
-  { title: "Wind Turbine Tech",      category: "Trades",   lo: 65,  hi: 105, time: "2 years",               color: "amber" },
-  { title: "Air Traffic Controller", category: "Gov",      lo: 85,  hi: 140, time: "FAA Academy (paid)",    color: "violet" },
-  { title: "Cybersecurity Analyst",  category: "Tech",     lo: 80,  hi: 130, time: "6–9 months",            color: "sky" },
-  { title: "Real Estate Agent",      category: "Business", lo: 50,  hi: 150, time: "1–3 mo (license)",      color: "emerald" },
-];
-
-const JOB_COLORS = {
-  sky:     "text-sky-400 bg-sky-900/30 border-sky-700/50",
-  amber:   "text-amber-400 bg-amber-900/30 border-amber-700/50",
-  violet:  "text-violet-400 bg-violet-900/30 border-violet-700/50",
-  emerald: "text-emerald-400 bg-emerald-900/30 border-emerald-700/50",
-};
-
 // ── College lookup widget ─────────────────────────────────────────────────────
 function CollegeLookup() {
-  const [query, setQuery]   = useState("");
+  const [query, setQuery] = useState("");
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +18,7 @@ function CollegeLookup() {
     try {
       const r = await fetch(`/api/college-rankings?search=${encodeURIComponent(term)}`);
       const d = await r.json();
-      setSchools((d.results || []).slice(0, 5));
+      setSchools((d.results || []).slice(0, 6));
     } catch {
       setSchools([]);
     } finally {
@@ -46,73 +28,55 @@ function CollegeLookup() {
 
   return (
     <section aria-labelledby="lookup-heading" className="rounded-2xl overflow-hidden border border-slate-700 bg-slate-900">
-      {/* header + search */}
       <div className="px-5 pt-5 pb-4 border-b border-slate-800">
-        <p className="text-[11px] uppercase tracking-widest text-red-400 font-bold mb-1">GOVERNMENT DATA · NO SPIN</p>
-        <h2 id="lookup-heading" className="text-xl md:text-2xl font-black text-white mb-1">
-          Is Your College a Debt Trap?
-        </h2>
-        <p className="text-slate-400 text-sm mb-3">
-          Real cost, avg debt, and grad earnings — straight from the U.S. Dept. of Education.
-        </p>
-        <form
-          onSubmit={(e) => { e.preventDefault(); if (query.trim()) load(query); }}
-          className="flex gap-2"
-          role="search"
-        >
+        <p className="text-[11px] uppercase tracking-widest text-red-400 font-bold mb-1">U.S. Department of Education · Real Data</p>
+        <h2 id="lookup-heading" className="text-2xl font-black text-white mb-1">Is Your College Worth the Debt?</h2>
+        <p className="text-slate-400 text-sm mb-4">Real cost, average debt, and graduate earnings for 6,000+ schools.</p>
+        <form onSubmit={(e) => { e.preventDefault(); if (query.trim()) load(query); }} className="flex gap-2" role="search">
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search any college..."
+            placeholder="Search any college or university..."
             aria-label="Search colleges by name"
-            className="flex-1 min-w-0 px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-600 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
-          <button
-            type="submit"
-            className="px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
-          >
+          <button type="submit" className="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-sm transition-colors whitespace-nowrap">
             Look It Up
           </button>
         </form>
       </div>
 
-      {/* results */}
       {loading ? (
-        <div className="flex items-center justify-center gap-3 py-8">
-          <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-          <span className="text-slate-400 text-sm">Pulling government data…</span>
+        <div className="flex items-center justify-center gap-3 py-10">
+          <div className="w-4 h-4 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
+          <span className="text-slate-400 text-sm">Loading data…</span>
         </div>
       ) : schools.length === 0 ? (
-        <p className="text-center py-8 text-slate-500 text-sm">No results. Try a different name.</p>
+        <p className="text-center py-10 text-slate-500 text-sm">No results. Try a different name.</p>
       ) : (
         <ul className="divide-y divide-slate-800">
           {schools.map((s) => {
             const slug = s.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
             return (
               <li key={s.id}>
-                <Link
-                  href={`/college/${slug}`}
-                  className="flex items-center justify-between gap-3 px-5 py-3 hover:bg-slate-800/50 transition-colors group"
-                >
+                <Link href={`/college/${slug}`} className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-slate-800/60 transition-colors group">
                   <div className="min-w-0">
-                    <div className="text-white font-semibold text-sm group-hover:text-sky-400 transition-colors truncate">
-                      {s.name}
-                    </div>
+                    <div className="text-white font-semibold text-sm group-hover:text-sky-400 transition-colors truncate">{s.name}</div>
                     <div className="text-slate-500 text-xs">{s.city}, {s.state}</div>
                   </div>
-                  <div className="flex gap-4 shrink-0 text-right">
+                  <div className="flex gap-5 shrink-0 text-right">
                     <div>
                       <div className="text-[10px] text-slate-500 uppercase tracking-wide">Cost/yr</div>
                       <div className="text-xs font-bold text-white">{s.cost}</div>
                     </div>
                     <div>
-                      <div className="text-[10px] text-slate-500 uppercase tracking-wide">Debt</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wide">Avg Debt</div>
                       <div className="text-xs font-bold text-red-400">{s.debt}</div>
                     </div>
                     <div className="hidden sm:block">
-                      <div className="text-[10px] text-slate-500 uppercase tracking-wide">10yr Earn</div>
-                      <div className="text-xs font-bold text-green-400">{s.earnings}</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wide">10yr Earnings</div>
+                      <div className="text-xs font-bold text-emerald-400">{s.earnings}</div>
                     </div>
                   </div>
                 </Link>
@@ -122,12 +86,9 @@ function CollegeLookup() {
         </ul>
       )}
 
-      {/* footer row */}
-      <div className="px-5 py-3 border-t border-slate-800 flex items-center justify-between gap-3 flex-wrap">
+      <div className="px-5 py-3 border-t border-slate-800 flex items-center justify-between flex-wrap gap-3">
         <span className="text-xs text-slate-500">Source: U.S. Dept. of Education College Scorecard</span>
-        <Link href="/college-rankings" className="text-xs font-bold text-sky-400 hover:underline shrink-0">
-          Browse all rankings →
-        </Link>
+        <Link href="/college-rankings" className="text-xs font-bold text-sky-400 hover:underline">View full rankings →</Link>
       </div>
     </section>
   );
@@ -138,219 +99,175 @@ export default function HomePage() {
   return (
     <Layout>
       <SEO
-        title="IHateCollege.com — Skip Debt, Stack Cash 2026"
-        description="College is optional. Debt isn't. Real alternatives to a 4-year degree: trades, tech certs, apprenticeships, and careers that pay without loans."
-        keywords="skip college 2026, college alternatives, trade school vs college, no degree jobs, student debt, ihatecollege"
+        title="IHateCollege.com — College Alternatives, Debt Data & No-Degree Careers"
+        description="Is college worth the debt? Compare 6,000+ schools by cost vs. earnings. Explore trade schools, tech certifications, and high-paying careers that don't require a 4-year degree."
+        keywords="college alternatives, is college worth it, student debt, trade school vs college, no degree jobs, high paying careers without degree"
         schema={{
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "IHateCollege.com",
           "url": "https://ihatecollege.com",
-          "description": "Real alternatives to a 4-year degree — trades, certs, and careers that pay without student loans.",
+          "description": "Compare college costs vs. earnings and explore alternatives to a 4-year degree.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ihatecollege.com/college-rankings?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
         }}
       />
 
-      {/* NEWS TICKER */}
-      <div className="max-w-6xl mx-auto px-4 pt-4">
-        <NewsTicker />
-      </div>
-
+      {/* Impact verification */}
       <p style={{ display: "none" }}>Impact-Site-Verification: 7a99b8bc-6d3b-4c9c-9f76-ce1301771cc1</p>
 
-      <div className="max-w-6xl mx-auto px-4 pt-10 pb-20 space-y-14">
+      <div className="max-w-5xl mx-auto px-4 pt-14 pb-24 space-y-16">
 
-        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        {/* ── HERO ── */}
         <section className="text-center max-w-3xl mx-auto" aria-labelledby="hero-heading">
-          <p className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-4">
-            YOU DON&apos;T HAVE TO SIGN YOUR LIFE AWAY
-          </p>
-          <h1
-            id="hero-heading"
-            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-5 leading-[1.05]"
-          >
+          <p className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-5">The truth they don&apos;t tell you at orientation</p>
+          <h1 id="hero-heading" className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 leading-[1.0]">
             College is <span className="text-sky-400">Optional</span>.<br />
             Debt is <span className="text-red-500">Not</span>.
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Before you borrow <span className="text-white font-bold">$50k–$150k</span>, run the
-            numbers. Trades, tech certs, and apprenticeships that actually pay.
+          <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
+            The average grad leaves with <strong className="text-white">$37,000 in debt</strong> and a job that doesn&apos;t require their degree.
+            There&apos;s a better way.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <Link
-              href="/alternatives"
-              className="px-7 py-3.5 rounded-full bg-white text-slate-900 font-black text-base hover:bg-sky-50 transition-colors"
-            >
-              Explore Alternatives
+            <Link href="/college-rankings" className="px-8 py-4 rounded-full bg-white text-slate-900 font-black text-base hover:bg-sky-50 transition-colors">
+              Is My School Worth It?
             </Link>
-            <Link
-              href="/debt-calculator"
-              className="px-7 py-3.5 rounded-full border border-slate-600 text-white font-black text-base hover:border-white transition-colors"
-            >
-              See the Real Cost
+            <Link href="/alternatives" className="px-8 py-4 rounded-full border border-slate-600 text-white font-black text-base hover:border-white transition-colors">
+              Show Me Alternatives
             </Link>
           </div>
         </section>
 
-        {/* ── STATS STRIP ──────────────────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-3 text-center" role="region" aria-label="Key statistics about college debt">
+        {/* ── STATS ── */}
+        <div className="grid grid-cols-3 gap-3 text-center" role="region" aria-label="College debt statistics">
           {[
-            { num: "$37k+",  label: "Avg Student Debt",      color: "text-red-400" },
-            { num: "44%",    label: "Grads Underemployed",   color: "text-yellow-400" },
-            { num: "$100k+", label: "Trades Can Pay",        color: "text-emerald-400" },
+            { num: "$37,338", label: "Average student debt at graduation", color: "text-red-400" },
+            { num: "44%",     label: "College grads underemployed",        color: "text-yellow-400" },
+            { num: "$100k+",  label: "What skilled trades can pay",         color: "text-emerald-400" },
           ].map(({ num, label, color }) => (
-            <div key={label} className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className={`text-2xl md:text-3xl font-black ${color}`}>{num}</div>
-              <div className="text-[11px] md:text-xs text-slate-500 mt-0.5 leading-tight">{label}</div>
+            <div key={label} className="p-4 sm:p-6 rounded-2xl bg-slate-900 border border-slate-800">
+              <div className={`text-2xl sm:text-3xl font-black ${color} mb-1`}>{num}</div>
+              <div className="text-xs text-slate-500 leading-tight">{label}</div>
             </div>
           ))}
         </div>
 
-        {/* ── COLLEGE LOOKUP ───────────────────────────────────────────── */}
+        {/* ── COLLEGE LOOKUP ── */}
         <CollegeLookup />
 
-        {/* ── JOBS TEASER ──────────────────────────────────────────────── */}
-        <section aria-labelledby="jobs-heading">
-          <div className="flex items-end justify-between mb-5 flex-wrap gap-3">
-            <div>
-              <p className="text-[11px] uppercase tracking-widest text-emerald-400 font-bold mb-1">NO DEGREE REQUIRED</p>
-              <h2 id="jobs-heading" className="text-2xl font-black text-white">Jobs That Pay Without College</h2>
-            </div>
-            <div className="flex gap-3">
-              <Link href="/job-board/post" className="text-sm font-bold text-emerald-400 hover:underline">
-                Post a job →
-              </Link>
-              <Link href="/jobs" className="text-sm font-bold text-sky-400 hover:underline">
-                Browse all →
-              </Link>
-            </div>
+        {/* ── 3 PATHS ── */}
+        <section aria-labelledby="paths-heading">
+          <div className="mb-8 text-center">
+            <p className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-2">Skip the debt, keep the income</p>
+            <h2 id="paths-heading" className="text-3xl font-black text-white">3 Paths That Pay Without a Degree</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {FEATURED_JOBS.map((j) => (
-              <Link
-                key={j.title}
-                href="/jobs"
-                className="flex flex-col justify-between p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 transition-all group"
-              >
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <h3 className="text-white font-bold text-sm group-hover:text-emerald-400 transition-colors leading-snug">
-                    {j.title}
-                  </h3>
-                  <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full border ${JOB_COLORS[j.color]}`}>
-                    {j.category}
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="text-emerald-400 font-black text-sm">${j.lo}k–${j.hi}k</span>
-                  <span className="text-slate-500 text-xs">{j.time}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ── AFFILIATE MONETIZATION ───────────────────────────────────── */}
-        {/*
-          TODO: Replace href="#" below with your affiliate links.
-          Recommended programs (high CPA):
-            1. Credible student loan refi  → credible.com/partners      ($200–400/lead)
-            2. SoFi student loans          → sofi.com/affiliates        ($100–150/lead)
-            3. Coursera / Google certs     → coursera.org/affiliates    ($45/sale)
-            4. UTI / TradeSchools.net      → tradeschools.net/partners  (per lead)
-        */}
-        <section aria-label="Sponsored resources" className="grid sm:grid-cols-3 gap-3">
-          <a
-            href="#"
-            rel="noopener sponsored"
-            target="_blank"
-            className="flex flex-col gap-2 p-5 rounded-xl bg-slate-900 border border-sky-700/30 hover:border-sky-500/60 transition-all group"
-          >
-            <p className="text-[10px] uppercase tracking-widest text-sky-400 font-bold">Sponsored</p>
-            <p className="text-white font-black text-base leading-snug group-hover:text-sky-300 transition-colors">
-              Refinance Your Student Debt
-            </p>
-            <p className="text-slate-400 text-xs leading-relaxed">
-              Compare rates and cut your monthly payment. Takes 2 minutes.
-            </p>
-            <p className="text-sky-400 text-xs font-bold mt-auto">Check your rate →</p>
-          </a>
-          <a
-            href="#"
-            rel="noopener sponsored"
-            target="_blank"
-            className="flex flex-col gap-2 p-5 rounded-xl bg-slate-900 border border-emerald-700/30 hover:border-emerald-500/60 transition-all group"
-          >
-            <p className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Sponsored</p>
-            <p className="text-white font-black text-base leading-snug group-hover:text-emerald-300 transition-colors">
-              Get Tech Certified in 6 Months
-            </p>
-            <p className="text-slate-400 text-xs leading-relaxed">
-              Google, AWS, CompTIA certs. No degree. Jobs that actually hire.
-            </p>
-            <p className="text-emerald-400 text-xs font-bold mt-auto">Explore programs →</p>
-          </a>
-          <a
-            href="#"
-            rel="noopener sponsored"
-            target="_blank"
-            className="flex flex-col gap-2 p-5 rounded-xl bg-slate-900 border border-amber-700/30 hover:border-amber-500/60 transition-all group"
-          >
-            <p className="text-[10px] uppercase tracking-widest text-amber-400 font-bold">Sponsored</p>
-            <p className="text-white font-black text-base leading-snug group-hover:text-amber-300 transition-colors">
-              Find a Trade School Near You
-            </p>
-            <p className="text-slate-400 text-xs leading-relaxed">
-              Electrician, HVAC, welding programs. Paid apprenticeships available.
-            </p>
-            <p className="text-amber-400 text-xs font-bold mt-auto">Browse trade schools →</p>
-          </a>
-        </section>
-
-        {/* ── LATEST ARTICLES ──────────────────────────────────────────── */}
-        <section aria-labelledby="blog-heading">
-          <div className="flex items-center justify-between mb-5">
-            <h2 id="blog-heading" className="text-2xl font-black text-white">Latest Articles</h2>
-            <Link href="/blog" className="text-sm font-bold text-sky-400 hover:underline">View all →</Link>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-3 gap-4">
             {[
               {
-                href: "/blog/electrician-salary-2025",
-                tag: "Trades", color: "text-amber-400",
-                title: "Electrician Salary 2025: What They Really Make by State",
+                href: "/trade-schools",
+                label: "Skilled Trades",
+                eyebrow: "Electrician · HVAC · Plumbing · Welding",
+                salary: "$65k – $110k",
+                time: "Paid apprenticeship",
+                color: "text-amber-400",
+                border: "hover:border-amber-500/50",
+                dot: "bg-amber-400",
               },
               {
-                href: "/blog/student-loan-debt-crisis-2025",
-                tag: "Student Debt", color: "text-red-400",
-                title: "Student Loan Debt Crisis 2025: The Numbers Are Getting Worse",
+                href: "/alternatives",
+                label: "Tech Certifications",
+                eyebrow: "Google · AWS · CompTIA · Cybersecurity",
+                salary: "$75k – $130k",
+                time: "6–12 month programs",
+                color: "text-sky-400",
+                border: "hover:border-sky-500/50",
+                dot: "bg-sky-400",
               },
               {
-                href: "/blog/google-career-certificates-worth-it",
-                tag: "Certs", color: "text-emerald-400",
-                title: "Are Google Career Certificates Worth It in 2025?",
+                href: "/civil-service",
+                label: "Government Jobs",
+                eyebrow: "USPS · Parks · FAA · Law Enforcement",
+                salary: "$50k – $140k",
+                time: "Benefits + pension",
+                color: "text-violet-400",
+                border: "hover:border-violet-500/50",
+                dot: "bg-violet-400",
               },
-            ].map((a) => (
-              <Link key={a.href} href={a.href} className="block group">
-                <article className="p-5 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-500/40 transition-all h-full flex flex-col">
-                  <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${a.color}`}>{a.tag}</p>
-                  <h3 className="text-sm font-bold text-white group-hover:text-sky-400 transition-colors leading-snug flex-1">
-                    {a.title}
-                  </h3>
-                  <p className="text-sky-400 text-xs font-bold mt-3 group-hover:translate-x-1 transition-transform inline-block">
-                    Read →
-                  </p>
-                </article>
+            ].map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                className={`group flex flex-col justify-between p-6 rounded-2xl bg-slate-900 border border-slate-800 ${p.border} transition-all`}
+              >
+                <div>
+                  <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${p.color}`}>{p.eyebrow}</p>
+                  <h3 className={`text-xl font-black text-white mb-4 group-hover:${p.color} transition-colors`}>{p.label}</h3>
+                </div>
+                <div className="flex items-end justify-between">
+                  <div>
+                    <div className={`text-2xl font-black ${p.color}`}>{p.salary}</div>
+                    <div className="text-slate-500 text-xs mt-0.5">{p.time}</div>
+                  </div>
+                  <span className={`text-xs font-bold ${p.color} group-hover:translate-x-1 transition-transform inline-block`}>
+                    Explore →
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
         </section>
 
-        {/* ── AD ───────────────────────────────────────────────────────── */}
+        {/* ── AD ── */}
         <AdUnit slot="6600722153" />
+
+        {/* ── JOB BOARD CTA ── */}
+        <section className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-sky-500/20 p-8 sm:p-10 text-center">
+          <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">No degree required</p>
+          <h2 className="text-3xl font-black text-white mb-3">Find a Job That Doesn&apos;t Need Your Diploma</h2>
+          <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+            Federal jobs, law enforcement, skilled trades, and tech — filter by state, sector, and salary.
+            Real listings. No resume padding needed.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/job-board" className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-black rounded-xl transition-colors">
+              Browse Jobs by State →
+            </Link>
+            <Link href="/job-board" className="px-8 py-4 border border-slate-600 hover:border-white text-white font-black rounded-xl transition-colors">
+              Post a Job — Free
+            </Link>
+          </div>
+        </section>
+
+        {/* ── TOOLS ── */}
+        <section aria-labelledby="tools-heading">
+          <h2 id="tools-heading" className="text-2xl font-black text-white mb-5">Free Tools</h2>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {[
+              { href: "/debt-calculator", label: "Student Debt Calculator", desc: "See exactly what $30k, $60k, or $100k in loans will actually cost you monthly." },
+              { href: "/college-rankings", label: "College ROI Rankings", desc: "Every U.S. college ranked by debt-to-earnings ratio using federal data." },
+              { href: "/rank-your-school", label: "Rate Your College", desc: "Look up any school's real cost, average debt, and what grads actually earn." },
+              { href: "/alternatives", label: "College Alternatives", desc: "Bootcamps, apprenticeships, certifications — paths that pay without loans." },
+            ].map((t) => (
+              <Link key={t.href} href={t.href} className="group flex items-start gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-sky-500/40 transition-all">
+                <div className="w-2 h-2 rounded-full bg-sky-400 mt-2 shrink-0" />
+                <div>
+                  <h3 className="text-white font-black mb-1 group-hover:text-sky-400 transition-colors">{t.label}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{t.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
 
       </div>
 
-      {/* ── EMAIL CAPTURE ────────────────────────────────────────────── */}
+      {/* ── EMAIL ── */}
       <EmailCapture variant="banner" />
+
     </Layout>
   );
 }
