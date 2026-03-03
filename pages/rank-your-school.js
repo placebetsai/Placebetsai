@@ -1,143 +1,147 @@
 // pages/rank-your-school.js
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import RatingForm from "../components/RatingForm";
 import AdUnit from "../components/AdUnit";
 import Link from "next/link";
 
-export default function RankYourSchool() {
+function CollegeDataSearch() {
   const [query, setQuery] = useState("");
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
 
-  useEffect(() => {
-    fetchSchools("University");
-    // Auto-scroll to rating form after a short delay
-    setTimeout(() => {
-      const el = document.getElementById("rate-form");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 600);
-  }, []);
-
-  const fetchSchools = async (searchTerm) => {
+  const fetchSchools = async (term) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/college-rankings?search=${encodeURIComponent(searchTerm)}`);
+      const res = await fetch(`/api/college-rankings?search=${encodeURIComponent(term)}`);
       const data = await res.json();
       setSchools(data.results || []);
-    } catch (error) {
-      console.error("Search failed:", error);
+    } catch {
+      setSchools([]);
     } finally {
       setLoading(false);
+      setSearched(true);
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-    fetchSchools(query);
-  };
+  return (
+    <div>
+      <form
+        onSubmit={(e) => { e.preventDefault(); if (query.trim()) fetchSchools(query); }}
+        className="flex gap-2 mb-4"
+      >
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search any college — Harvard, FSU, community college..."
+          className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+        />
+        <button
+          type="submit"
+          className="px-5 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-sm transition-colors whitespace-nowrap"
+        >
+          Look It Up
+        </button>
+      </form>
 
+      {loading && (
+        <div className="flex items-center gap-2 py-6 justify-center text-slate-400 text-sm">
+          <div className="w-4 h-4 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
+          Loading…
+        </div>
+      )}
+
+      {!loading && searched && schools.length === 0 && (
+        <p className="text-center text-slate-500 text-sm py-4">No results. Try a different name.</p>
+      )}
+
+      {!loading && schools.length > 0 && (
+        <div className="divide-y divide-slate-800 rounded-xl overflow-hidden border border-slate-800">
+          {schools.map((school) => {
+            const slug = school.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+            return (
+              <Link
+                key={school.id}
+                href={`/college/${slug}`}
+                className="flex items-center justify-between gap-4 px-4 py-3 bg-slate-900 hover:bg-slate-800/80 transition-colors group"
+              >
+                <div className="min-w-0">
+                  <div className="text-white font-semibold text-sm group-hover:text-sky-400 transition-colors truncate">{school.name}</div>
+                  <div className="text-slate-500 text-xs">{school.city}, {school.state}</div>
+                </div>
+                <div className="flex gap-4 shrink-0 text-right">
+                  <div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wide">Cost/yr</div>
+                    <div className="text-xs font-bold text-white">{school.cost}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wide">Avg Debt</div>
+                    <div className="text-xs font-bold text-red-400">{school.debt}</div>
+                  </div>
+                  <div className="hidden sm:block">
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wide">10yr Earn</div>
+                    <div className="text-xs font-bold text-emerald-400">{school.earnings}</div>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function RateMySchool() {
   return (
     <Layout>
       <SEO
-        title="Rank Your College | Real Debt & Earnings Data + Student Reviews"
-        description="Search real government data on cost, debt, and earnings for any college. Then submit your own rating and tell students what they won't find in the brochure."
+        title="Rate My School | Real Student Reviews + Debt Data | IHateCollege.com"
+        description="Rate your college anonymously. Tell incoming students the truth about debt, mental health, and whether it was worth it."
       />
 
-      {/* HERO */}
-      <section className="site-main">
-        <div style={{ maxWidth: "860px", margin: "0 auto", textAlign: "center", paddingTop: "2rem" }}>
-          <h1 className="hero-title">Is your school a <span className="accent">scam?</span></h1>
-          <p className="hero-subtitle" style={{ margin: "0 auto 2rem" }}>
-            Search real government data — cost, average debt, and what graduates actually earn.
-            Then tell other students what the brochure won't.
+      <div className="max-w-2xl mx-auto px-4 py-10">
+
+        {/* ── RATING FORM — top and center ──────────────────────────── */}
+        <div className="mb-3 text-center">
+          <p className="text-xs font-bold tracking-widest text-red-400 uppercase mb-2">Anonymous · No Login · 100% Real</p>
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-3 leading-tight">
+            Rate My School 🔥
+          </h1>
+          <p className="text-slate-400 text-base">
+            Went there? Tell the next generation what the brochure won&apos;t.
           </p>
         </div>
-      </section>
 
-      {/* GOVERNMENT DATA SEARCH */}
-      <section style={{ maxWidth: "860px", margin: "0 auto", padding: "0 1rem 3rem" }}>
-        <h2 className="text-2xl font-black text-white mb-2">Search Government Data</h2>
-        <p className="text-slate-400 text-sm mb-4">Official numbers from the U.S. Department of Education. Click any school for full details.</p>
-
-        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4 mb-6">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Harvard, Florida State, your local community college..."
-            className="flex-1 p-4 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-          <button type="submit" className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-8 rounded-lg">
-            Search
-          </button>
-        </form>
-
-        {loading ? (
-          <p className="text-center text-gray-400 text-xl">Loading...</p>
-        ) : schools.length > 0 ? (
-          <div style={{ display: "grid", gap: "0.75rem" }}>
-            {schools.map((school) => {
-              const slug = school.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-              return (
-                <Link
-                  key={school.id}
-                  href={`/college/${slug}`}
-                  className="path-card hover:bg-gray-700 transition-all duration-300"
-                  style={{
-                    display: "flex", justifyContent: "space-between", alignItems: "center",
-                    flexWrap: "wrap", gap: "1rem", background: "#1e293b",
-                    padding: "1rem", borderRadius: "0.5rem", cursor: "pointer",
-                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                  }}
-                >
-                  <div>
-                    <h3 style={{ margin: 0, color: "white", fontSize: "1.1rem" }}>{school.name}</h3>
-                    <p style={{ margin: 0, color: "#9ca3af", fontSize: "0.85rem" }}>{school.city}, {school.state}</p>
-                  </div>
-                  <div style={{ display: "flex", gap: "1.5rem", textAlign: "right" }}>
-                    <div>
-                      <div style={{ fontSize: "0.75rem", color: "#9ca3af", textTransform: "uppercase" }}>Avg Cost/yr</div>
-                      <div style={{ fontWeight: "bold", color: "#e5e7eb" }}>{school.cost}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "0.75rem", color: "#9ca3af", textTransform: "uppercase" }}>Avg Debt</div>
-                      <div style={{ fontWeight: "bold", color: "#f87171" }}>{school.debt}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "0.75rem", color: "#9ca3af", textTransform: "uppercase" }}>10yr Earnings</div>
-                      <div style={{ fontWeight: "bold", color: "#4ade80" }}>{school.earnings}</div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="text-center text-gray-400">No results. Try a different name.</p>
-        )}
-      </section>
-
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "0 1rem" }}>
-        <AdUnit slot="6600722153" />
-      </div>
-
-      {/* RATING FORM */}
-      <section id="rate-form" style={{ maxWidth: "860px", margin: "0 auto", padding: "1rem 1rem 4rem" }}>
-        <div className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-red-500/40 shadow-xl shadow-red-950/30">
-          <div className="flex items-center gap-3 mb-1">
-            <span className="text-3xl">🔥</span>
-            <h2 className="text-3xl font-black text-white">Rate Your School</h2>
-          </div>
-          <p className="text-slate-400 mb-6 text-sm">
-            Went there? Tell incoming students the truth. No login. No BS. 100% anonymous.
-          </p>
+        <div className="bg-slate-900 border border-red-500/30 rounded-2xl p-6 sm:p-8 shadow-xl shadow-red-950/20 mb-10">
           <RatingForm />
         </div>
-      </section>
 
+        {/* ── DIVIDER ───────────────────────────────────────────────── */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="flex-1 h-px bg-slate-800" />
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Also Look Up Real Numbers</span>
+          <div className="flex-1 h-px bg-slate-800" />
+        </div>
+
+        {/* ── GOV DATA SEARCH — below the fold ──────────────────────── */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-lg">🎓</span>
+            <h2 className="text-xl font-black text-white">Is It Worth the Debt?</h2>
+          </div>
+          <p className="text-slate-500 text-xs mb-4">
+            Official cost, average debt, and 10-year earnings from the U.S. Dept. of Education.
+          </p>
+          <CollegeDataSearch />
+        </div>
+
+        <AdUnit slot="6600722153" />
+
+      </div>
     </Layout>
   );
 }
