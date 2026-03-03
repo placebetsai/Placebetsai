@@ -155,6 +155,8 @@ export default function HomePage() {
         <NewsTicker />
       </div>
 
+      <p style={{ display: "none" }}>Impact-Site-Verification: 7a99b8bc-6d3b-4c9c-9f76-ce1301771cc1</p>
+
       <div className="max-w-6xl mx-auto px-4 pt-10 pb-20 space-y-14">
 
         {/* ── HERO ─────────────────────────────────────────────────────── */}
