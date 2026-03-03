@@ -84,6 +84,11 @@ export default function Advertise() {
           Our audience is high-intent — they're researching student loans, trade schools, certifications,
           and careers. If your product helps them, we want to work with you.
         </p>
+        <div className="mt-8">
+          <a href="/media-kit" target="_blank" rel="noreferrer" className="inline-block px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-black rounded-xl transition-colors">
+            ↓ Download Media Kit (PDF)
+          </a>
+        </div>
       </div>
 
       {/* Stats Strip */}

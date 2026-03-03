@@ -43,7 +43,10 @@ export default function About() {
           make smarter decisions about education — using real data, not admissions office spin.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
-          <Link href="/advertise" className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-black rounded-xl transition-colors">
+          <a href="/media-kit" target="_blank" rel="noreferrer" className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-black rounded-xl transition-colors">
+            ↓ Download Media Kit (PDF)
+          </a>
+          <Link href="/advertise" className="px-6 py-3 border border-slate-600 hover:border-white text-white font-black rounded-xl transition-colors">
             Advertise With Us
           </Link>
           <a href="mailto:contact@ihatecollege.com" className="px-6 py-3 border border-slate-600 hover:border-white text-white font-black rounded-xl transition-colors">
