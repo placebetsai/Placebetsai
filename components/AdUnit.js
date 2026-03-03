@@ -9,10 +9,10 @@ export default function AdUnit({ slot = "6600722153", format = "auto", style = {
   }, []);
 
   return (
-    <div className="my-8 flex justify-center">
+    <div className="my-8 w-full overflow-hidden">
       <ins
         className="adsbygoogle"
-        style={{ display: "block", minHeight: 90, ...style }}
+        style={{ display: "block", width: "100%", ...style }}
         data-ad-client="ca-pub-7215975042937417"
         data-ad-slot={slot}
         data-ad-format={format}
