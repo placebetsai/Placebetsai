@@ -102,7 +102,50 @@ const TOPIC_POOL = [
   { keyword: "nuclear power plant technician salary", angle: "highest paying no-degree energy job" },
 ];
 
-// Pick 3 topics we haven't used recently
+// Hero image by topic keyword
+const HERO_IMAGES = {
+  electric:   "photo-1621905251918-48416bd8575a",
+  lineman:    "photo-1621905251918-48416bd8575a",
+  hvac:       "photo-1504328345606-18bbc8c9d7d1",
+  plumb:      "photo-1558618666-fcd25c85cd64",
+  weld:       "photo-1504328345606-18bbc8c9d7d1",
+  truck:      "photo-1601584115197-04ecc0da31d7",
+  cdl:        "photo-1601584115197-04ecc0da31d7",
+  construct:  "photo-1504307651254-35680f356dfd",
+  solar:      "photo-1509391366360-2e959784a276",
+  wind:       "photo-1466611653911-95081537e5b7",
+  cyber:      "photo-1550751827-4bd374c3f58b",
+  tech:       "photo-1587440871875-191322ee64b0",
+  code:       "photo-1587440871875-191322ee64b0",
+  aws:        "photo-1587440871875-191322ee64b0",
+  police:     "photo-1617817546271-6e3c6f9413e6",
+  fire:       "photo-1582139329536-e7284fece509",
+  military:   "photo-1541447271487-09612b3f49f7",
+  government: "photo-1541614101331-1a5a3a194e92",
+  federal:    "photo-1541614101331-1a5a3a194e92",
+  postal:     "photo-1568598035424-7070b67317d2",
+  healthcare: "photo-1581595219315-a187dd40c322",
+  medical:    "photo-1581595219315-a187dd40c322",
+  real.estate:"photo-1560518883-ce09059eeffa",
+  money:      "photo-1579621970563-ebec7560ff3e",
+  debt:       "photo-1579621970563-ebec7560ff3e",
+  salary:     "photo-1579621970563-ebec7560ff3e",
+  college:    "photo-1523050854058-8df90110c9f1",
+  degree:     "photo-1523050854058-8df90110c9f1",
+  trade:      "photo-1621905251918-48416bd8575a",
+};
+
+function getHeroImage(keyword) {
+  const kw = keyword.toLowerCase();
+  for (const [k, id] of Object.entries(HERO_IMAGES)) {
+    if (kw.includes(k)) {
+      return `https://images.unsplash.com/${id}?w=1200&h=500&fit=crop&auto=format`;
+    }
+  }
+  return `https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format`;
+}
+
+// Pick 5 topics we haven't used recently
 function pickTopics() {
   const usedFile = path.join(ROOT, ".used-topics.json");
   let used = [];
@@ -110,9 +153,9 @@ function pickTopics() {
     try { used = JSON.parse(fs.readFileSync(usedFile, "utf8")); } catch {}
   }
   const available = TOPIC_POOL.filter((t) => !used.includes(t.keyword));
-  const pool = available.length >= 3 ? available : TOPIC_POOL; // reset if exhausted
-  const picked = pool.slice(0, 3);
-  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-20);
+  const pool = available.length >= 5 ? available : TOPIC_POOL; // reset if exhausted
+  const picked = pool.slice(0, 5);
+  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-30);
   fs.writeFileSync(usedFile, JSON.stringify(newUsed, null, 2));
   return picked;
 }
@@ -187,6 +230,7 @@ Requirements:
 
 function buildPageJsx(article, topic, author) {
   const slug = slugify(topic.keyword);
+  const heroImage = getHeroImage(topic.keyword);
   const sectionsJsx = article.sections
     .map(
       (s, i) => `
@@ -234,9 +278,17 @@ export default function BlogPost() {
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
             Blog &middot; ${article.publishDate}
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             ${article.h1.replace(/"/g, '\\"')}
           </h1>
+          <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
+            <img
+              src="${heroImage}"
+              alt="${article.h1.replace(/"/g, '\\"')}"
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
         </div>
 
         {/* Author bio */}
@@ -350,7 +402,7 @@ async function run() {
     commitAndPush(slugs);
   }
 
-  console.log(`\nDone. Generated ${slugs.length}/3 articles.`);
+  console.log(`\nDone. Generated ${slugs.length}/5 articles.`);
 }
 
 run().catch(console.error);

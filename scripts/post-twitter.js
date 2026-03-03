@@ -1,62 +1,33 @@
 #!/usr/bin/env node
 /**
  * post-twitter.js
- * Generates 5 anti-college tweets per day using Anthropic API and
- * posts them via X API v2 with OAuth 1.0a, spaced 90 minutes apart.
+ * Generates 1-2 anti-college tweets per run using Claude and posts them
+ * via Twitter API v2 with OAuth 1.0a (never expires, survives redeploys).
+ * Called by run-daily.js every hour from 8 AM to 10 PM = ~15 tweets/day.
  */
 
 require("dotenv").config({ path: require("path").join(__dirname, "../.env") });
 const Anthropic = require("@anthropic-ai/sdk");
 const { TwitterApi } = require("twitter-api-v2");
-const fs = require("fs");
-const path = require("path");
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const claude = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const TOKEN_CACHE = path.join(__dirname, "../.twitter_tokens.json");
-
-function loadCachedTokens() {
-  try {
-    if (fs.existsSync(TOKEN_CACHE)) {
-      return JSON.parse(fs.readFileSync(TOKEN_CACHE, "utf8"));
-    }
-  } catch {}
-  return null;
-}
-
-function saveTokens(accessToken, refreshToken) {
-  fs.writeFileSync(TOKEN_CACHE, JSON.stringify({ accessToken, refreshToken }, null, 2));
-}
-
-async function getRefreshedTwitterClient() {
-  const cached = loadCachedTokens();
-  const refreshToken = cached?.refreshToken || process.env.X_OAUTH2_REFRESH_TOKEN;
-
-  if (!refreshToken) {
-    console.error("ERROR: No refresh token available");
-    process.exit(1);
-  }
-
-  console.log("  Refreshing OAuth 2.0 access token...");
-  const appClient = new TwitterApi({
-    clientId: process.env.X_CLIENT_ID,
-    clientSecret: process.env.X_CLIENT_SECRET,
-  });
-
-  const { accessToken, refreshToken: newRefreshToken } = await appClient.refreshOAuth2Token(refreshToken);
-  saveTokens(accessToken, newRefreshToken);
-  console.log("  Token refreshed and saved.");
-  return new TwitterApi(accessToken);
-}
-
-let twitter;
+// OAuth 1.0a — never expires, works across Railway redeploys
+const twitter = new TwitterApi({
+  appKey:      process.env.X_API_KEY,
+  appSecret:   process.env.X_API_SECRET,
+  accessToken: process.env.X_ACCESS_TOKEN,
+  accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
+});
 
 const TWEET_STYLES = [
-  "stat-based shocking fact",
-  "hot take / contrarian opinion",
-  "comparison (trade school vs college)",
-  "motivational for people who skipped college",
-  "question that makes people think",
+  "shocking stat about student debt or underemployment — cite a source like BLS, Fed, or Gallup",
+  "hot take comparing trade school vs college outcomes",
+  "motivational for someone who chose a trade or cert over college",
+  "question that makes college grads question their ROI",
+  "story-style: a specific no-degree career path with real numbers",
+  "myth-busting: something people believe about college that data disproves",
+  "comparison of two paths: one with degree, one without — who wins financially?",
 ];
 
 const SITE_LINKS = [
@@ -64,94 +35,74 @@ const SITE_LINKS = [
   "https://ihatecollege.com/trade-schools",
   "https://ihatecollege.com/alternatives",
   "https://ihatecollege.com/debt-calculator",
-  "https://ihatecollege.com/cheat-sheets",
+  "https://ihatecollege.com/college-rankings",
+  "https://ihatecollege.com/job-board",
+  "https://ihatecollege.com/civil-service",
 ];
 
-async function generateTweets() {
-  console.log("  Generating 5 tweets via Anthropic...");
+async function generateTweets(count = 2) {
+  const styles = TWEET_STYLES.sort(() => Math.random() - 0.5).slice(0, count);
 
-  const prompt = `You run the Twitter account @ihatecollege4u. Generate exactly 5 tweets about the following styles in order:
-${TWEET_STYLES.map((s, i) => `${i + 1}. ${s}`).join("\n")}
+  const prompt = `You run @ihatecollege4u on X (Twitter). Generate exactly ${count} tweets, one for each style below:
+${styles.map((s, i) => `${i + 1}. ${s}`).join("\n")}
 
 Rules:
-- Each tweet must be under 250 characters (leaving room for a link)
-- Use real statistics where relevant (BLS data, Gallup, etc.)
-- Be direct, punchy, slightly edgy but not mean-spirited
-- No emojis unless it really adds punch (max 1-2 per tweet)
-- Do NOT include hashtags (they hurt reach in 2025)
-- Do NOT include URLs (we'll add them programmatically)
+- Each tweet max 240 characters (we add a link after)
+- Use real, specific numbers and statistics
+- Direct, punchy, slightly provocative — not preachy
+- No hashtags (they kill reach)
+- No emojis (optional, max 1 if it really helps)
+- No URLs (added programmatically)
 
-Return a JSON array of exactly 5 strings, e.g.:
-["tweet 1", "tweet 2", "tweet 3", "tweet 4", "tweet 5"]`;
+Return a JSON array of exactly ${count} strings:
+["tweet one", "tweet two"]`;
 
-  const message = await client.messages.create({
+  const msg = await claude.messages.create({
     model: "claude-haiku-4-5-20251001",
-    max_tokens: 1024,
+    max_tokens: 512,
     messages: [{ role: "user", content: prompt }],
   });
 
-  const text = message.content[0].text;
-  const jsonMatch = text.match(/\[[\s\S]*\]/);
-  if (!jsonMatch) throw new Error("No JSON array in response");
-  const tweets = JSON.parse(jsonMatch[0]);
-  if (!Array.isArray(tweets) || tweets.length !== 5) {
-    throw new Error(`Expected 5 tweets, got ${tweets?.length}`);
-  }
-  return tweets;
-}
-
-async function postTweet(text, linkUrl) {
-  const fullText = `${text}\n\n${linkUrl}`;
-  const result = await twitter.v2.tweet(fullText);
-  return result.data.id;
+  const match = msg.content[0].text.match(/\[[\s\S]*\]/);
+  if (!match) throw new Error("No JSON array in response");
+  const tweets = JSON.parse(match[0]);
+  if (!Array.isArray(tweets)) throw new Error("Response is not an array");
+  return tweets.slice(0, count);
 }
 
 async function run() {
-  console.log("\n=== Twitter Poster ===");
-  console.log(`Date: ${new Date().toISOString()}\n`);
+  const ts = () => new Date().toISOString().replace("T", " ").slice(0, 19);
+  console.log(`\n[${ts()}] === Twitter Poster ===`);
 
-  if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === "your-anthropic-key-here") {
-    console.error("ERROR: ANTHROPIC_API_KEY not set");
-    process.exit(1);
+  const required = ["ANTHROPIC_API_KEY", "X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"];
+  for (const key of required) {
+    if (!process.env[key]) { console.error(`ERROR: ${key} not set`); process.exit(1); }
   }
 
-  try {
-    twitter = await getRefreshedTwitterClient();
-  } catch (err) {
-    console.error("Failed to refresh Twitter token:", err.message);
-    process.exit(1);
-  }
-
+  const count = Math.random() < 0.5 ? 1 : 2; // randomly post 1 or 2 per run
   let tweets;
   try {
-    tweets = await generateTweets();
+    tweets = await generateTweets(count);
+    console.log(`  Generated ${tweets.length} tweet(s)`);
   } catch (err) {
-    console.error("Failed to generate tweets:", err.message);
+    console.error(`  Generate failed: ${err.message}`);
     process.exit(1);
   }
 
-  const DELAY_MS = 90 * 60 * 1000; // 90 minutes between tweets
-
   for (let i = 0; i < tweets.length; i++) {
-    const tweet = tweets[i];
-    const link = SITE_LINKS[i % SITE_LINKS.length];
-
+    const link = SITE_LINKS[Math.floor(Math.random() * SITE_LINKS.length)];
+    const text = `${tweets[i]}\n\n${link}`;
     try {
-      const id = await postTweet(tweet, link);
-      console.log(`  [${i + 1}/5] Posted tweet ${id}`);
-      console.log(`         "${tweet.substring(0, 60)}..."`);
+      const res = await twitter.v2.tweet(text);
+      console.log(`  [${i + 1}/${tweets.length}] Posted ${res.data.id}: "${tweets[i].slice(0, 60)}..."`);
     } catch (err) {
-      console.error(`  [${i + 1}/5] Failed to post:`, err.message);
+      console.error(`  [${i + 1}/${tweets.length}] Post failed: ${err.message}`);
     }
-
-    // Wait 90 minutes between posts (skip delay after last tweet)
-    if (i < tweets.length - 1) {
-      console.log(`  Waiting 90 minutes before next tweet...`);
-      await new Promise((r) => setTimeout(r, DELAY_MS));
-    }
+    // Short delay between tweets in same run
+    if (i < tweets.length - 1) await new Promise(r => setTimeout(r, 5000));
   }
 
-  console.log("\nDone. Posted all tweets.");
+  console.log(`[${ts()}] Done.\n`);
 }
 
 run().catch(console.error);
