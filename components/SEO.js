@@ -46,6 +46,9 @@ export default function SEO({
 
   return (
     <Head>
+      {/* Impact.com verification */}
+      <meta name="impact-site-verification" value="7a99b8bc-6d3b-4c9c-9f76-ce1301771cc1" />
+
       {/* Core */}
       <title>{title}</title>
       <meta name="description" content={description} />
