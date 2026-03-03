@@ -110,47 +110,37 @@ function getSessionCookie() {
 // ─── Generate article via Claude ─────────────────────────────────────────────
 async function generateArticle(topic, author) {
   console.log(`  Generating: "${topic.subject}"...`);
+  const today = new Date().toISOString().split("T")[0];
 
-  const prompt = `You are ${author.name}, a wrestling journalist writing for MondayNightWrestling.com.
+  // Step 1: get title + subtitle
+  const metaMsg = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 200,
+    messages: [{ role: "user", content: `You are ${author.name}, wrestling journalist. Give a title (under 90 chars) and subtitle (under 140 chars) for an article about: "${topic.subject}". Return JSON only: {"title":"...","subtitle":"..."}` }],
+  });
+  const metaText = metaMsg.content[0].text;
+  const metaMatch = metaText.match(/\{[\s\S]*\}/);
+  const meta = JSON.parse(metaMatch[0]);
 
-Write a detailed, engaging wrestling article on: "${topic.subject}"
-Angle: ${topic.angle}
+  // Step 2: get body HTML separately
+  const bodyMsg = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 3000,
+    messages: [{ role: "user", content: `You are ${author.name}, a wrestling journalist for MondayNightWrestling.com. Bio: ${author.bio}
+
+Write a 700-900 word article on: "${topic.subject}" (angle: ${topic.angle})
 
 Requirements:
-- 900-1400 words
-- Written in a knowledgeable fan voice — opinionated but factual
-- At least 5 clear section headings (H2 level)
-- At least one ranked list or bullet point section
-- Natural, editorial tone — like a real wrestling publication
-- Weave in ONE of these backlinks naturally where contextually relevant (pick whichever fits better):
-  * If the article touches on wrestlers building careers, money, or life outside the ring: link text "IHateCollege.com" pointing to https://ihatecollege.com — framed as a resource for athletes exploring careers without a degree
-  * If the article mentions Latin/Spanish wrestling, Spanish language, or Hispanic wrestlers: link text "SpanishTVShows.com" pointing to https://spanishtvshows.com — framed as a great resource for Spanish-language entertainment coverage
-- Do NOT force both links — use exactly ONE that fits naturally
-- Format response as JSON:
-{
-  "title": "Article headline (under 90 chars)",
-  "subtitle": "One sentence teaser (under 140 chars)",
-  "bodyHtml": "Full article in clean HTML. Use <h2> for sections, <p> for paragraphs, <ul>/<li> for lists, <a href='URL'>text</a> for the backlink.",
-  "publishDate": "${new Date().toISOString().split("T")[0]}"
-}`;
-
-  const message = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 4096,
-    messages: [{ role: "user", content: prompt }],
+- Opinionated, knowledgeable fan voice
+- 3-4 H2 section headings
+- One bullet list
+- Include ONE natural backlink: if wrestlers/careers/money mentioned use <a href="https://ihatecollege.com">IHateCollege.com</a>; if Latin/Spanish wrestling mentioned use <a href="https://spanishtvshows.com">SpanishTVShows.com</a>
+- Return ONLY the HTML body — no JSON, no wrapper, just the article HTML starting with <p> or <h2>` }],
   });
 
-  const text = message.content[0].text;
-  const stripped = text.replace(/```(?:json)?\n?/g, "").trim();
-  const match = stripped.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error("No JSON in response");
-  let jsonStr = match[0];
-  try {
-    return JSON.parse(jsonStr);
-  } catch {
-    const depth = (jsonStr.match(/\{/g)||[]).length - (jsonStr.match(/\}/g)||[]).length;
-    return JSON.parse(jsonStr + "}".repeat(Math.max(0, depth)));
-  }
+  const bodyHtml = bodyMsg.content[0].text.trim();
+
+  return { title: meta.title, subtitle: meta.subtitle, bodyHtml, publishDate: today };
 }
 
 // ─── Build full post HTML ────────────────────────────────────────────────────
@@ -216,7 +206,7 @@ async function run() {
 
   const cookie = getSessionCookie();
 
-  const count = Math.floor(Math.random() * 3) + 3; // 3-5 posts
+  const count = process.env.POST_COUNT ? parseInt(process.env.POST_COUNT) : Math.floor(Math.random() * 3) + 3; // 3-5 posts
   const topics = pickTopics(count);
   let posted = 0;
 

@@ -126,7 +126,7 @@ const HERO_IMAGES = {
   postal:     "photo-1568598035424-7070b67317d2",
   healthcare: "photo-1581595219315-a187dd40c322",
   medical:    "photo-1581595219315-a187dd40c322",
-  real.estate:"photo-1560518883-ce09059eeffa",
+  "real.estate":"photo-1560518883-ce09059eeffa",
   money:      "photo-1579621970563-ebec7560ff3e",
   debt:       "photo-1579621970563-ebec7560ff3e",
   salary:     "photo-1579621970563-ebec7560ff3e",
@@ -246,14 +246,14 @@ function buildPageJsx(article, topic, author) {
   const articleSchema = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "${article.h1.replace(/"/g, "&quot;")}",
-    "description": "${article.metaDescription.replace(/"/g, "&quot;")}",
-    "datePublished": "${article.publishDate}",
-    "dateModified": "${article.publishDate}",
-    "author": { "@type": "Person", "name": "${author.name}" },
+    "headline": article.h1.replace(/"/g, "&quot;"),
+    "description": article.metaDescription.replace(/"/g, "&quot;"),
+    "datePublished": article.publishDate,
+    "dateModified": article.publishDate,
+    "author": { "@type": "Person", "name": author.name },
     "publisher": { "@type": "Organization", "name": "IHateCollege.com", "url": "https://ihatecollege.com" },
-    "url": "https://ihatecollege.com/blog/${slug}",
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ihatecollege.com/blog/${slug}" }
+    "url": `https://ihatecollege.com/blog/${slug}`,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://ihatecollege.com/blog/${slug}` }
   });
 
   return `import Head from "next/head";
