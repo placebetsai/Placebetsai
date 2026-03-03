@@ -12,8 +12,10 @@
     "gen:tweets": "node scripts/post-twitter.js",
     "gen:tiktok": "node scripts/generate-tiktok.js",
     "gen:youtube": "node scripts/post-youtube.js",
+    "gen:medium": "node scripts/post-medium.js",
     "diagnose": "node scripts/diagnose.js",
-    "youtube:auth": "node scripts/youtube-auth.js"
+    "youtube:auth": "node scripts/youtube-auth.js",
+    "twitter:auth": "node scripts/twitter-auth.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",

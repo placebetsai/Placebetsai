@@ -10,6 +10,14 @@
  *  1:00 PM  → generate-articles.js  (5 more SEO blog posts)
  *  7:00 PM  → post-substack.js      (4 more wrestling posts)
  *
+ * Schedule (EST):
+ *  6:00 AM  → generate-articles.js  (5 SEO blog posts)
+ *  8:00 AM  → post-substack.js      (4 wrestling posts)
+ *  Every hour 8 AM–10 PM → post-twitter.js (1-2 tweets = ~15-25/day)
+ *  1:00 PM  → generate-articles.js  (5 more SEO blog posts)
+ *  7:00 PM  → post-substack.js      (4 more wrestling posts)
+ *  11:00 AM + 3:00 PM → post-medium.js (1 article each = 2/day)
+ *
  * Run with: node scripts/run-daily.js
  * Run now:  node scripts/run-daily.js --now
  */
@@ -27,6 +35,7 @@ const SCRIPTS = {
   tiktok:   path.join(__dirname, "generate-tiktok.js"),
   substack: path.join(__dirname, "post-substack.js"),
   youtube:  path.join(__dirname, "post-youtube.js"),
+  medium:   path.join(__dirname, "post-medium.js"),
 };
 
 const ts = () => new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -84,12 +93,22 @@ cron.schedule("0 16 * * *", () => {
   runScript("youtube-afternoon", SCRIPTS.youtube).catch(console.error);
 }, { timezone: TZ });
 
+// ── Medium articles: 11 AM and 3 PM (1 each = 2 articles/day) ────────────────
+cron.schedule("0 11 * * *", () => {
+  runScript("medium-morning", SCRIPTS.medium).catch(console.error);
+}, { timezone: TZ });
+
+cron.schedule("0 15 * * *", () => {
+  runScript("medium-afternoon", SCRIPTS.medium).catch(console.error);
+}, { timezone: TZ });
+
 console.log(`[${ts()}] Scheduler started (TZ: ${TZ})`);
 console.log("  Articles:  6:00 AM + 1:00 PM (5 each = 10/day)");
 console.log("  Tweets:    Every hour 8 AM–10 PM (1-2 each = ~15-25/day)");
 console.log("  Wrestling: 8:00 AM + 7:00 PM (4 each = 8/day)");
 console.log("  TikTok:    10:00 AM");
-console.log("  YouTube:   9:00 AM + 4:00 PM community posts\n");
+console.log("  YouTube:   9:00 AM + 4:00 PM community posts");
+console.log("  Medium:    11:00 AM + 3:00 PM articles (2/day)\n");
 
 // ── Run immediately if --now flag ─────────────────────────────────────────────
 if (process.argv.includes("--now")) {

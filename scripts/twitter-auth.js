@@ -78,7 +78,11 @@ async function main() {
       }
       fs.writeFileSync(ENV_PATH, envContent);
 
+      // Also write refresh token to /tmp so cron picks it up immediately
+      if (refreshToken) fs.writeFileSync("/tmp/twitter_rt.txt", refreshToken, "utf8");
+
       console.log("\n✓ Token saved to .env");
+      console.log("✓ Refresh token persisted to /tmp/twitter_rt.txt");
       console.log("✓ You can now run: node scripts/post-twitter.js\n");
 
       res.end("<h2>✓ Authorization successful! You can close this tab.</h2>");

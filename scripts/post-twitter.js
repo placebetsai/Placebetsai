@@ -2,23 +2,19 @@
 /**
  * post-twitter.js
  * Generates 1-2 anti-college tweets per run using Claude and posts them
- * via Twitter API v2 with OAuth 1.0a (never expires, survives redeploys).
+ * via Twitter API v2 with OAuth 2.0 + auto-refresh.
  * Called by run-daily.js every hour from 8 AM to 10 PM = ~15 tweets/day.
  */
 
 require("dotenv").config({ path: require("path").join(__dirname, "../.env") });
 const Anthropic = require("@anthropic-ai/sdk");
 const { TwitterApi } = require("twitter-api-v2");
+const fs = require("fs");
 
 const claude = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-// OAuth 1.0a — never expires, works across Railway redeploys
-const twitter = new TwitterApi({
-  appKey:      process.env.X_API_KEY,
-  appSecret:   process.env.X_API_SECRET,
-  accessToken: process.env.X_ACCESS_TOKEN,
-  accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
-});
+// Path to persist the rotating refresh token between cron runs
+const RT_FILE = "/tmp/twitter_rt.txt";
 
 const TWEET_STYLES = [
   "shocking stat about student debt or underemployment — cite a source like BLS, Fed, or Gallup",
@@ -39,6 +35,32 @@ const SITE_LINKS = [
   "https://ihatecollege.com/job-board",
   "https://ihatecollege.com/civil-service",
 ];
+
+// Get a fresh access token via OAuth 2.0 refresh, persist the new refresh token
+async function getTwitterClient() {
+  const { X_CLIENT_ID, X_CLIENT_SECRET, X_OAUTH2_REFRESH_TOKEN } = process.env;
+  if (!X_CLIENT_ID || !X_CLIENT_SECRET || !X_OAUTH2_REFRESH_TOKEN) {
+    throw new Error("Missing X_CLIENT_ID, X_CLIENT_SECRET, or X_OAUTH2_REFRESH_TOKEN in env");
+  }
+
+  // Use persisted refresh token if available (it rotates on each use)
+  let refreshToken = X_OAUTH2_REFRESH_TOKEN;
+  if (fs.existsSync(RT_FILE)) {
+    const saved = fs.readFileSync(RT_FILE, "utf8").trim();
+    if (saved) refreshToken = saved;
+  }
+
+  const base = new TwitterApi({ clientId: X_CLIENT_ID, clientSecret: X_CLIENT_SECRET });
+  const { client, accessToken, refreshToken: newRefreshToken } =
+    await base.refreshOAuth2Token(refreshToken);
+
+  // Save the new refresh token for the next run
+  if (newRefreshToken) {
+    fs.writeFileSync(RT_FILE, newRefreshToken, "utf8");
+  }
+
+  return client;
+}
 
 async function generateTweets(count = 2) {
   const styles = TWEET_STYLES.sort(() => Math.random() - 0.5).slice(0, count);
@@ -74,12 +96,21 @@ async function run() {
   const ts = () => new Date().toISOString().replace("T", " ").slice(0, 19);
   console.log(`\n[${ts()}] === Twitter Poster ===`);
 
-  const required = ["ANTHROPIC_API_KEY", "X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"];
+  const required = ["ANTHROPIC_API_KEY", "X_CLIENT_ID", "X_CLIENT_SECRET", "X_OAUTH2_REFRESH_TOKEN"];
   for (const key of required) {
     if (!process.env[key]) { console.error(`ERROR: ${key} not set`); process.exit(1); }
   }
 
-  const count = Math.random() < 0.5 ? 1 : 2; // randomly post 1 or 2 per run
+  let twitter;
+  try {
+    twitter = await getTwitterClient();
+    console.log("  Auth OK (OAuth 2.0)");
+  } catch (err) {
+    console.error(`  Auth failed: ${err.message}`);
+    process.exit(1);
+  }
+
+  const count = Math.random() < 0.5 ? 1 : 2;
   let tweets;
   try {
     tweets = await generateTweets(count);
@@ -98,7 +129,6 @@ async function run() {
     } catch (err) {
       console.error(`  [${i + 1}/${tweets.length}] Post failed: ${err.message}`);
     }
-    // Short delay between tweets in same run
     if (i < tweets.length - 1) await new Promise(r => setTimeout(r, 5000));
   }
 
