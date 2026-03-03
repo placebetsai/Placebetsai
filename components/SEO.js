@@ -3,7 +3,14 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 const SITE_URL = "https://ihatecollege.com";
-const DEFAULT_IMAGE = `${SITE_URL}/social-card.png`;
+
+function buildOgImage(title, description) {
+  const params = new URLSearchParams({
+    title: title.slice(0, 80),
+    sub: description.slice(0, 120),
+  });
+  return `${SITE_URL}/api/og?${params.toString()}`;
+}
 
 const ORG_SCHEMA = {
   "@context": "https://schema.org",
@@ -31,9 +38,9 @@ const SITE_SCHEMA = {
 };
 
 export default function SEO({
-  title = "IHateCollege.com — Skip Debt, Stack Cash 2025",
+  title = "IHateCollege.com — Skip Debt, Stack Cash",
   description = "College is optional. Debt isn't. Real alternatives to a 4-year degree: trades, tech certs, apprenticeships, and careers that pay without loans.",
-  image = DEFAULT_IMAGE,
+  image = null,
   schema = null,
   type = "website",
   author = null,
@@ -42,6 +49,7 @@ export default function SEO({
 }) {
   const router = useRouter();
   const canonical = `${SITE_URL}${router.asPath.split("?")[0]}`;
+  const ogImage = image || buildOgImage(title, description);
   const defaultKeywords = "college alternatives, is college worth it, trade school vs college, no degree jobs, student debt, ihatecollege";
 
   return (
@@ -64,9 +72,11 @@ export default function SEO({
       {/* Open Graph */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:secure_url" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:url" content={canonical} />
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content="IHateCollege.com" />
@@ -80,7 +90,7 @@ export default function SEO({
       <meta name="twitter:creator" content="@ihatecollege4u" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={ogImage} />
 
       {/* Structured Data — always include org + site */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_SCHEMA) }} />

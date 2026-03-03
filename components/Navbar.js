@@ -3,13 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const links = [
-  { href: "/college-rankings", label: "Rankings", mobileLabel: "College Rankings" },
-  { href: "/alternatives",     label: "Alternatives", mobileLabel: "Alternatives" },
-  { href: "/trade-schools",    label: "Trade Schools", mobileLabel: "Trade Schools" },
-  { href: "/civil-service",    label: "Gov Jobs", mobileLabel: "Gov Jobs" },
-  { href: "/debt-calculator",  label: "Debt Calc", mobileLabel: "Debt Calculator" },
-  { href: "/job-board",        label: "Job Board", mobileLabel: "Job Board" },
-  { href: "/blog",             label: "Blog", mobileLabel: "Blog" },
+  { href: "/college-rankings",        label: "Rankings",      mobileLabel: "College Rankings" },
+  { href: "/liberal-vs-conservative", label: "Liberal/Con",   mobileLabel: "Liberal vs Conservative" },
+  { href: "/rank-your-school",        label: "Rate School",   mobileLabel: "Rate Your School" },
+  { href: "/alternatives",            label: "Alternatives",  mobileLabel: "Alternatives" },
+  { href: "/trade-schools",           label: "Trades",        mobileLabel: "Trade Schools" },
+  { href: "/civil-service",           label: "Gov Jobs",      mobileLabel: "Gov Jobs" },
+  { href: "/debt-calculator",         label: "Debt Calc",     mobileLabel: "Debt Calculator" },
+  { href: "/job-board",               label: "Job Board",     mobileLabel: "Job Board" },
+  { href: "/blog",                    label: "Blog",          mobileLabel: "Blog" },
 ];
 
 export default function Navbar() {
