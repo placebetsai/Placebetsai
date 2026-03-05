@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=1200&h=500&fit=crop&auto=format"
               alt="College Debt Not Worth It: When Student Loans Cost More Than Your Degree Returns"
               className="w-full h-full object-cover"
               loading="eager"

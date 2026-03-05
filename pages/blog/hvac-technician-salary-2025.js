@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1609220136736-443140cfeaa6?w=1200&h=500&fit=crop&auto=format"
               alt="HVAC Technician Salary 2025: What You'll Actually Make and If It's Worth Your Time"
               className="w-full h-full object-cover"
               loading="eager"

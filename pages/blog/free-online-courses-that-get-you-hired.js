@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=500&fit=crop&auto=format"
               alt="Free Online Courses That Get You Hired: Which Certifications Actually Work in 2025"
               className="w-full h-full object-cover"
               loading="eager"

@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&h=500&fit=crop&auto=format"
               alt="Offshore Oil Rig Jobs No Degree: Roughneck Salary, Schedule, and What You'll Actually Make"
               className="w-full h-full object-cover"
               loading="eager"

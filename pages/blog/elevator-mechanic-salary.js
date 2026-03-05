@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=1200&h=500&fit=crop&auto=format"
               alt="Elevator Mechanic Salary: Why This Trade Beats Most College Degrees"
               className="w-full h-full object-cover"
               loading="eager"

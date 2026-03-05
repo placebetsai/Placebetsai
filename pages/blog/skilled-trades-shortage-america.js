@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&h=500&fit=crop&auto=format"
               alt="The Skilled Trades Shortage in America: Why Demand is Exploding"
               className="w-full h-full object-cover"
               loading="eager"

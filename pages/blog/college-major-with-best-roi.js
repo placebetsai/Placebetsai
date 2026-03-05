@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1532619187608-e5375cab36aa?w=1200&h=500&fit=crop&auto=format"
               alt="College Major with Best ROI: Which Degrees Actually Pay Off"
               className="w-full h-full object-cover"
               loading="eager"

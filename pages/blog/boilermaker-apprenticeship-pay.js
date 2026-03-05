@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1565008576549-57569a49371d?w=1200&h=500&fit=crop&auto=format"
               alt="Boilermaker Apprenticeship Pay: Actual Salaries, Job Growth, and Career Outlook"
               className="w-full h-full object-cover"
               loading="eager"

@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1587440871875-191322ee64b0?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=500&fit=crop&auto=format"
               alt="Fiber Optic Technician Salary: What You'll Actually Make Without a Degree"
               className="w-full h-full object-cover"
               loading="eager"

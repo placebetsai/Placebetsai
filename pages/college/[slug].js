@@ -1,199 +1,292 @@
 // pages/college/[slug].js
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 
-export async function getServerSideProps({ params }) {
-  const raw = params?.slug || "";
-  const apiKey = process.env.COLLEGE_SCORECARD_API_KEY;
+// Same dataset as college-rankings.js
+const ALL_SCHOOLS = [
+  { id: 1,  name: "Harvard University",               city: "Cambridge",      state: "MA", cost: "$57,261", debt: "$17,500", earnings: "$87,200",  type: "Private" },
+  { id: 2,  name: "MIT",                              city: "Cambridge",      state: "MA", cost: "$57,986", debt: "$17,100", earnings: "$116,100", type: "Private" },
+  { id: 3,  name: "Stanford University",              city: "Stanford",       state: "CA", cost: "$56,169", debt: "$15,200", earnings: "$91,000",  type: "Private" },
+  { id: 4,  name: "Yale University",                  city: "New Haven",      state: "CT", cost: "$59,950", debt: "$17,300", earnings: "$77,400",  type: "Private" },
+  { id: 5,  name: "Princeton University",             city: "Princeton",      state: "NJ", cost: "$57,410", debt: "$10,800", earnings: "$76,200",  type: "Private" },
+  { id: 6,  name: "Columbia University",              city: "New York",       state: "NY", cost: "$63,530", debt: "$25,100", earnings: "$71,400",  type: "Private" },
+  { id: 7,  name: "University of Pennsylvania",       city: "Philadelphia",   state: "PA", cost: "$57,770", debt: "$22,000", earnings: "$80,300",  type: "Private" },
+  { id: 8,  name: "Dartmouth College",                city: "Hanover",        state: "NH", cost: "$58,336", debt: "$20,100", earnings: "$72,100",  type: "Private" },
+  { id: 9,  name: "Brown University",                 city: "Providence",     state: "RI", cost: "$60,696", debt: "$23,400", earnings: "$67,200",  type: "Private" },
+  { id: 10, name: "Cornell University",               city: "Ithaca",         state: "NY", cost: "$59,316", debt: "$28,200", earnings: "$74,000",  type: "Private" },
+  { id: 11, name: "Duke University",                  city: "Durham",         state: "NC", cost: "$60,244", debt: "$22,100", earnings: "$73,200",  type: "Private" },
+  { id: 12, name: "Northwestern University",          city: "Evanston",       state: "IL", cost: "$60,768", debt: "$23,400", earnings: "$72,100",  type: "Private" },
+  { id: 13, name: "Vanderbilt University",            city: "Nashville",      state: "TN", cost: "$56,826", debt: "$23,100", earnings: "$68,400",  type: "Private" },
+  { id: 14, name: "Georgetown University",            city: "Washington",     state: "DC", cost: "$57,590", debt: "$27,200", earnings: "$72,100",  type: "Private" },
+  { id: 15, name: "Carnegie Mellon University",       city: "Pittsburgh",     state: "PA", cost: "$57,119", debt: "$31,200", earnings: "$89,200",  type: "Private" },
+  { id: 16, name: "Washington Univ in St. Louis",     city: "St. Louis",      state: "MO", cost: "$56,310", debt: "$23,100", earnings: "$70,100",  type: "Private" },
+  { id: 17, name: "Rice University",                  city: "Houston",        state: "TX", cost: "$49,996", debt: "$18,200", earnings: "$74,300",  type: "Private" },
+  { id: 18, name: "Notre Dame University",            city: "Notre Dame",     state: "IN", cost: "$57,699", debt: "$23,100", earnings: "$72,400",  type: "Private" },
+  { id: 19, name: "Emory University",                 city: "Atlanta",        state: "GA", cost: "$55,786", debt: "$27,100", earnings: "$65,200",  type: "Private" },
+  { id: 20, name: "Tufts University",                 city: "Medford",        state: "MA", cost: "$59,574", debt: "$27,300", earnings: "$65,400",  type: "Private" },
+  { id: 21, name: "University of Southern California",city: "Los Angeles",    state: "CA", cost: "$62,484", debt: "$27,200", earnings: "$62,400",  type: "Private" },
+  { id: 22, name: "Boston University",                city: "Boston",         state: "MA", cost: "$58,560", debt: "$38,100", earnings: "$58,200",  type: "Private" },
+  { id: 23, name: "Northeastern University",          city: "Boston",         state: "MA", cost: "$57,592", debt: "$30,100", earnings: "$72,400",  type: "Private" },
+  { id: 24, name: "New York University",              city: "New York",       state: "NY", cost: "$56,500", debt: "$47,300", earnings: "$57,100",  type: "Private" },
+  { id: 25, name: "Wake Forest University",           city: "Winston-Salem",  state: "NC", cost: "$58,700", debt: "$27,400", earnings: "$63,100",  type: "Private" },
+  { id: 26, name: "Tulane University",                city: "New Orleans",    state: "LA", cost: "$58,610", debt: "$33,200", earnings: "$56,100",  type: "Private" },
+  { id: 27, name: "Lehigh University",                city: "Bethlehem",      state: "PA", cost: "$54,640", debt: "$32,100", earnings: "$68,200",  type: "Private" },
+  { id: 28, name: "Rensselaer Polytechnic Institute", city: "Troy",           state: "NY", cost: "$58,694", debt: "$34,200", earnings: "$76,100",  type: "Private" },
+  { id: 29, name: "UC Berkeley",                      city: "Berkeley",       state: "CA", cost: "$14,312", debt: "$18,200", earnings: "$72,100",  type: "Public" },
+  { id: 30, name: "UCLA",                             city: "Los Angeles",    state: "CA", cost: "$13,240", debt: "$19,100", earnings: "$65,300",  type: "Public" },
+  { id: 31, name: "University of Michigan",           city: "Ann Arbor",      state: "MI", cost: "$15,948", debt: "$22,100", earnings: "$66,200",  type: "Public" },
+  { id: 32, name: "UNC Chapel Hill",                  city: "Chapel Hill",    state: "NC", cost: "$9,018",  debt: "$22,100", earnings: "$56,100",  type: "Public" },
+  { id: 33, name: "University of Virginia",           city: "Charlottesville",state: "VA", cost: "$17,400", debt: "$22,400", earnings: "$63,200",  type: "Public" },
+  { id: 34, name: "Georgia Tech",                     city: "Atlanta",        state: "GA", cost: "$12,682", debt: "$22,100", earnings: "$82,400",  type: "Public" },
+  { id: 35, name: "UC San Diego",                     city: "La Jolla",       state: "CA", cost: "$14,312", debt: "$19,200", earnings: "$64,100",  type: "Public" },
+  { id: 36, name: "UC Santa Barbara",                 city: "Santa Barbara",  state: "CA", cost: "$14,312", debt: "$20,100", earnings: "$57,300",  type: "Public" },
+  { id: 37, name: "UC Davis",                         city: "Davis",          state: "CA", cost: "$14,312", debt: "$21,200", earnings: "$57,100",  type: "Public" },
+  { id: 38, name: "University of Illinois Urbana",    city: "Champaign",      state: "IL", cost: "$15,868", debt: "$26,200", earnings: "$64,100",  type: "Public" },
+  { id: 39, name: "University of Wisconsin-Madison",  city: "Madison",        state: "WI", cost: "$10,728", debt: "$25,100", earnings: "$55,200",  type: "Public" },
+  { id: 40, name: "Purdue University",                city: "West Lafayette", state: "IN", cost: "$9,208",  debt: "$25,100", earnings: "$60,200",  type: "Public" },
+  { id: 41, name: "University of Washington",         city: "Seattle",        state: "WA", cost: "$11,465", debt: "$21,100", earnings: "$63,200",  type: "Public" },
+  { id: 42, name: "Ohio State University",            city: "Columbus",       state: "OH", cost: "$11,518", debt: "$25,100", earnings: "$54,200",  type: "Public" },
+  { id: 43, name: "Penn State University",            city: "University Park",state: "PA", cost: "$18,454", debt: "$32,100", earnings: "$55,200",  type: "Public" },
+  { id: 44, name: "Michigan State University",        city: "East Lansing",   state: "MI", cost: "$14,436", debt: "$27,100", earnings: "$51,200",  type: "Public" },
+  { id: 45, name: "University of Florida",            city: "Gainesville",    state: "FL", cost: "$6,380",  debt: "$20,100", earnings: "$52,200",  type: "Public" },
+  { id: 46, name: "Florida State University",         city: "Tallahassee",    state: "FL", cost: "$5,656",  debt: "$22,100", earnings: "$47,200",  type: "Public" },
+  { id: 47, name: "University of Texas at Austin",    city: "Austin",         state: "TX", cost: "$11,188", debt: "$23,100", earnings: "$56,100",  type: "Public" },
+  { id: 48, name: "Texas A&M University",             city: "College Station",state: "TX", cost: "$11,234", debt: "$22,100", earnings: "$54,200",  type: "Public" },
+  { id: 49, name: "University of Maryland",           city: "College Park",   state: "MD", cost: "$10,399", debt: "$24,100", earnings: "$61,200",  type: "Public" },
+  { id: 50, name: "Rutgers University",               city: "New Brunswick",  state: "NJ", cost: "$14,100", debt: "$28,100", earnings: "$57,200",  type: "Public" },
+  { id: 51, name: "University of Minnesota",          city: "Minneapolis",    state: "MN", cost: "$14,197", debt: "$26,100", earnings: "$55,200",  type: "Public" },
+  { id: 52, name: "Indiana University",               city: "Bloomington",    state: "IN", cost: "$10,012", debt: "$26,100", earnings: "$50,100",  type: "Public" },
+  { id: 53, name: "University of Colorado Boulder",   city: "Boulder",        state: "CO", cost: "$11,052", debt: "$24,100", earnings: "$52,200",  type: "Public" },
+  { id: 54, name: "Arizona State University",         city: "Tempe",          state: "AZ", cost: "$11,338", debt: "$23,100", earnings: "$48,200",  type: "Public" },
+  { id: 55, name: "University of Arizona",            city: "Tucson",         state: "AZ", cost: "$12,467", debt: "$21,100", earnings: "$48,100",  type: "Public" },
+  { id: 56, name: "University of Oregon",             city: "Eugene",         state: "OR", cost: "$12,720", debt: "$24,100", earnings: "$50,200",  type: "Public" },
+  { id: 57, name: "Virginia Tech",                    city: "Blacksburg",     state: "VA", cost: "$13,620", debt: "$24,100", earnings: "$64,200",  type: "Public" },
+  { id: 58, name: "NC State University",              city: "Raleigh",        state: "NC", cost: "$9,100",  debt: "$22,100", earnings: "$57,200",  type: "Public" },
+  { id: 59, name: "Clemson University",               city: "Clemson",        state: "SC", cost: "$14,708", debt: "$25,100", earnings: "$57,200",  type: "Public" },
+  { id: 60, name: "Auburn University",                city: "Auburn",         state: "AL", cost: "$11,796", debt: "$25,100", earnings: "$51,200",  type: "Public" },
+  { id: 61, name: "University of Alabama",            city: "Tuscaloosa",     state: "AL", cost: "$10,780", debt: "$23,100", earnings: "$47,200",  type: "Public" },
+  { id: 62, name: "Louisiana State University",       city: "Baton Rouge",    state: "LA", cost: "$8,038",  debt: "$22,100", earnings: "$46,100",  type: "Public" },
+  { id: 63, name: "University of Tennessee",          city: "Knoxville",      state: "TN", cost: "$11,332", debt: "$23,100", earnings: "$49,200",  type: "Public" },
+  { id: 64, name: "University of Iowa",               city: "Iowa City",      state: "IA", cost: "$9,616",  debt: "$24,100", earnings: "$48,100",  type: "Public" },
+  { id: 65, name: "University of Pittsburgh",         city: "Pittsburgh",     state: "PA", cost: "$19,080", debt: "$31,100", earnings: "$57,200",  type: "Public" },
+  { id: 66, name: "SUNY Buffalo",                     city: "Buffalo",        state: "NY", cost: "$10,391", debt: "$23,100", earnings: "$52,200",  type: "Public" },
+  { id: 67, name: "Stony Brook University",           city: "Stony Brook",    state: "NY", cost: "$10,391", debt: "$22,100", earnings: "$57,200",  type: "Public" },
+  { id: 68, name: "University of Nebraska",           city: "Lincoln",        state: "NE", cost: "$9,022",  debt: "$23,100", earnings: "$49,100",  type: "Public" },
+  { id: 69, name: "University of Kansas",             city: "Lawrence",       state: "KS", cost: "$10,092", debt: "$24,100", earnings: "$47,100",  type: "Public" },
+  { id: 70, name: "University of Missouri",           city: "Columbia",       state: "MO", cost: "$10,062", debt: "$24,100", earnings: "$47,100",  type: "Public" },
+  { id: 71, name: "West Virginia University",         city: "Morgantown",     state: "WV", cost: "$8,376",  debt: "$23,100", earnings: "$44,200",  type: "Public" },
+  { id: 72, name: "Mississippi State University",     city: "Starkville",     state: "MS", cost: "$8,780",  debt: "$21,100", earnings: "$46,200",  type: "Public" },
+  { id: 73, name: "DeVry University",                 city: "Naperville",     state: "IL", cost: "$15,835", debt: "$43,200", earnings: "$40,100",  type: "For-Profit" },
+  { id: 74, name: "Full Sail University",             city: "Winter Park",    state: "FL", cost: "$27,540", debt: "$57,400", earnings: "$38,200",  type: "For-Profit" },
+  { id: 75, name: "Strayer University",               city: "Washington",     state: "DC", cost: "$14,700", debt: "$32,100", earnings: "$42,100",  type: "For-Profit" },
+  { id: 76, name: "Grand Canyon University",          city: "Phoenix",        state: "AZ", cost: "$17,050", debt: "$35,100", earnings: "$41,200",  type: "For-Profit" },
+  { id: 77, name: "Santa Monica College",             city: "Santa Monica",   state: "CA", cost: "$1,288",  debt: "$13,100", earnings: "$44,200",  type: "Community" },
+  { id: 78, name: "Miami Dade College",               city: "Miami",          state: "FL", cost: "$3,340",  debt: "$12,100", earnings: "$36,200",  type: "Community" },
+  { id: 79, name: "Valencia College",                 city: "Orlando",        state: "FL", cost: "$2,530",  debt: "$12,100", earnings: "$36,100",  type: "Community" },
+  { id: 80, name: "Broward College",                  city: "Fort Lauderdale",state: "FL", cost: "$3,073",  debt: "$11,100", earnings: "$36,200",  type: "Community" },
+  { id: 81, name: "Houston Community College",        city: "Houston",        state: "TX", cost: "$2,214",  debt: "$10,100", earnings: "$34,200",  type: "Community" },
+  { id: 82, name: "Ivy Tech Community College",       city: "Indianapolis",   state: "IN", cost: "$4,106",  debt: "$11,100", earnings: "$35,100",  type: "Community" },
+];
 
-  if (!apiKey) return { props: { school: null, error: "Missing API key" } };
-
-  // Expecting: "florida-state-university-134097"
-  const parts = raw.split("-");
-  const last = parts[parts.length - 1];
-  const unitid = /^\d+$/.test(last) ? last : null;
-
-  try {
-    let url = "";
-
-    if (unitid) {
-      // ✅ Exact fetch by ID (reliable)
-      const fields = [
-        "id",
-        "school.name",
-        "school.city",
-        "school.state",
-        "school.opeid",
-        "school.school_url",
-        "latest.cost.tuition.in_state",
-        "latest.aid.median_debt.completers.overall",
-        "latest.earnings.10_yrs_after_entry.median",
-      ].join(",");
-
-      url = `https://api.data.gov/ed/collegescorecard/v1/schools?api_key=${apiKey}&id=${encodeURIComponent(
-        unitid
-      )}&per_page=1&fields=${encodeURIComponent(fields)}`;
-    } else {
-      // Fallback: try name guess (not ideal, but prevents blank page if someone visits old URLs)
-      const nameGuess = raw.replace(/-/g, " ");
-      const fields = [
-        "id",
-        "school.name",
-        "school.city",
-        "school.state",
-        "school.opeid",
-        "school.school_url",
-        "latest.cost.tuition.in_state",
-        "latest.aid.median_debt.completers.overall",
-        "latest.earnings.10_yrs_after_entry.median",
-      ].join(",");
-
-      url = `https://api.data.gov/ed/collegescorecard/v1/schools?api_key=${apiKey}&school.name=${encodeURIComponent(
-        nameGuess
-      )}&per_page=1&fields=${encodeURIComponent(fields)}`;
-    }
-
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Scorecard API HTTP ${res.status}`);
-
-    const data = await res.json();
-    const school = data?.results?.[0] || null;
-
-    if (!school) return { notFound: true };
-
-    return { props: { school, error: null } };
-  } catch (err) {
-    return {
-      props: { school: null, error: err?.message || "Failed to load school" },
-    };
-  }
+function toSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-function fmtMoney(v) {
-  if (v === null || v === undefined) return "N/A";
-  const n = Number(v);
-  if (!Number.isFinite(n)) return "N/A";
-  return `$${Math.round(n).toLocaleString()}`;
-}
-
-export default function CollegePage({ school, error }) {
-  if (!school) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center p-8">
-          <h1 className="text-3xl mb-4">School Not Found</h1>
-          {error ? <p className="text-gray-400 mb-4">{error}</p> : null}
-          <Link href="/rank-your-school" className="text-cyan-400 hover:underline">
-            Back to Search
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const name = school["school.name"];
-  const city = school["school.city"];
-  const state = school["school.state"];
-  const opeid = school["school.opeid"] || "N/A";
-
-  const avgCostNum = school["latest.cost.tuition.in_state"];
-  const avgDebtNum = school["latest.aid.median_debt.completers.overall"];
-  const earningsNum = school["latest.earnings.10_yrs_after_entry.median"];
-
-  const avgCost = fmtMoney(avgCostNum);
-  const avgDebt = fmtMoney(avgDebtNum);
-  const earnings = fmtMoney(earningsNum);
-
-  // payoffYears = debt / (10% of annual earnings)
-  const payoffYears =
-    Number.isFinite(Number(avgDebtNum)) && Number.isFinite(Number(earningsNum)) && Number(earningsNum) > 0
-      ? Math.round(Number(avgDebtNum) / (Number(earningsNum) * 0.1))
-      : null;
-
-  const isDebtTrap = payoffYears !== null && payoffYears > 20;
-
-  const debtStr = avgDebt !== "N/A" ? `Avg debt: ${avgDebt}.` : "";
-  const earningsStr = earnings !== "N/A" ? ` Median earnings 10 yrs out: ${earnings}.` : "";
-  const metaDesc = `Is ${name} worth it? ${debtStr}${earningsStr} Real government data — no marketing spin. Compare to trade school alternatives.`;
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": name,
-    "address": { "@type": "PostalAddress", "addressLocality": city, "addressRegion": state },
+export async function getStaticPaths() {
+  return {
+    paths: ALL_SCHOOLS.map((s) => ({ params: { slug: toSlug(s.name) } })),
+    fallback: false,
   };
+}
+
+export async function getStaticProps({ params }) {
+  const school = ALL_SCHOOLS.find((s) => toSlug(s.name) === params.slug);
+  if (!school) return { notFound: true };
+  return { props: { school } };
+}
+
+function verdict(school) {
+  const debt = parseInt((school.debt || "").replace(/[^0-9]/g, "")) || 0;
+  const earn = parseInt((school.earnings || "").replace(/[^0-9]/g, "")) || 0;
+  if (!debt || !earn) return null;
+  const months = debt / (earn / 12);
+  if (months < 5)  return { label: "Great Value",  color: "#10b981" };
+  if (months < 10) return { label: "Questionable", color: "#f59e0b" };
+  return           { label: "Debt Trap",     color: "#ff2020" };
+}
+
+function StarPicker({ value, onChange }) {
+  const [hover, setHover] = useState(0);
+  return (
+    <div style={{ display: "flex", gap: 4 }}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <span key={n}
+          onMouseEnter={() => setHover(n)} onMouseLeave={() => setHover(0)}
+          onClick={() => onChange(n)}
+          style={{ cursor: "pointer", fontSize: 28, color: n <= (hover || value) ? "#f59e0b" : "#333", transition: "color 0.1s" }}>
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+const STORAGE_KEY = "ihc_ratings_v1";
+
+export default function CollegePage({ school }) {
+  const v = verdict(school);
+  const [userRating, setUserRating] = useState(null);
+  const [draftRating, setDraftRating]   = useState(0);
+  const [draftComment, setDraftComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted]   = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const r = saved[school.id];
+      if (r) { setUserRating(r); setDraftRating(r.rating); setDraftComment(r.comment || ""); }
+    } catch {}
+  }, [school.id]);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!draftRating) return;
+    setSubmitting(true);
+    const entry = { rating: draftRating, comment: draftComment.trim(), date: new Date().toLocaleDateString() };
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      saved[school.id] = entry;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    } catch {}
+    setUserRating(entry);
+    setSubmitted(true);
+    try {
+      await fetch("/api/submit-rating", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ schoolId: school.id, schoolName: school.name, ...entry }),
+      });
+    } catch {}
+    setSubmitting(false);
+  }
+
+  const debt  = parseInt((school.debt || "").replace(/[^0-9]/g, "")) || 0;
+  const earn  = parseInt((school.earnings || "").replace(/[^0-9]/g, "")) || 0;
+  const payoffMonths = earn ? Math.round(debt / (earn / 12)) : null;
+
+  const metaDesc = `Is ${school.name} worth it? Cost: ${school.cost}/yr, avg debt: ${school.debt}, median earnings 10yrs out: ${school.earnings}. Real government data.`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <Layout>
       <SEO
-        title={`Is ${name} Worth It? Real Cost & Debt Data 2025`}
+        title={`Is ${school.name} Worth It? Real Cost & Debt Data`}
         description={metaDesc}
-        schema={schema}
       />
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4">
-          Is {name} Worth It?
-        </h1>
 
-        <p className="text-gray-400 mb-8">
-          {city}, {state} | OPEID: {opeid}
-        </p>
+      <section style={{ maxWidth: 860, margin: "0 auto", padding: "60px 20px 80px" }}>
+        {/* Back */}
+        <Link href="/college-rankings" style={{ color: "#555", fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 28 }}>
+          ← All Rankings
+        </Link>
 
-        {isDebtTrap && (
-          <div className="bg-red-900 border-2 border-red-500 text-red-100 p-6 rounded-xl mb-10">
-            <h2 className="text-2xl font-bold mb-2">⚠️ 20-Year Debt Trap Alert</h2>
-            <p>
-              Paying off average debt could take{" "}
-              <b>{payoffYears} years</b> if you can only put 10% of income toward it.
-              Explore alternatives.
+        {/* Header */}
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(255,32,32,0.12)", color: "#ff2020", letterSpacing: "0.08em", textTransform: "uppercase" }}>{school.type}</span>
+            {v && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, color: v.color, background: `${v.color}20` }}>{v.label}</span>}
+          </div>
+          <h1 style={{ color: "#fff", fontSize: "clamp(26px,5vw,42px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 8px" }}>
+            Is {school.name} Worth It?
+          </h1>
+          <p style={{ color: "#555", fontSize: 14 }}>{school.city}, {school.state}</p>
+        </div>
+
+        {/* Stats grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 32 }}>
+          {[
+            { label: "Cost / Year", value: school.cost, color: "#fff" },
+            { label: "Avg Debt at Graduation", value: school.debt, color: "#ff2020" },
+            { label: "Median Earnings (10yr)", value: school.earnings, color: "#10b981" },
+          ].map((stat) => (
+            <div key={stat.label} style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 12, padding: "20px 16px", textAlign: "center" }}>
+              <div style={{ color: "#444", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>{stat.label}</div>
+              <div style={{ color: stat.color, fontSize: 22, fontWeight: 900 }}>{stat.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Payoff alert */}
+        {payoffMonths !== null && payoffMonths > 6 && (
+          <div style={{ background: payoffMonths > 10 ? "rgba(255,32,32,0.08)" : "rgba(245,158,11,0.08)", border: `1px solid ${payoffMonths > 10 ? "rgba(255,32,32,0.3)" : "rgba(245,158,11,0.3)"}`, borderRadius: 12, padding: "16px 20px", marginBottom: 32 }}>
+            <p style={{ color: payoffMonths > 10 ? "#ff2020" : "#f59e0b", fontSize: 14, fontWeight: 700, margin: 0 }}>
+              At this debt load, it takes ~{payoffMonths} months of earnings just to pay off student loans.
+              {payoffMonths > 10 && " That's a serious debt trap."}
             </p>
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-gray-800 p-6 rounded-xl text-center">
-            <h3 className="text-lg font-semibold mb-2">Avg Cost</h3>
-            <p className="text-3xl font-bold text-cyan-400">{avgCost}</p>
-          </div>
+        {/* User Rating Section */}
+        <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 16, padding: "28px 24px", marginBottom: 32 }}>
+          <h2 style={{ color: "#fff", fontSize: 18, fontWeight: 900, marginBottom: 4 }}>Rate {school.name}</h2>
+          <p style={{ color: "#555", fontSize: 13, marginBottom: 20 }}>Student, alum, or parent? Share what you know.</p>
 
-          <div className="bg-gray-800 p-6 rounded-xl text-center">
-            <h3 className="text-lg font-semibold mb-2">Avg Debt</h3>
-            <p className="text-3xl font-bold text-red-400">{avgDebt}</p>
-          </div>
+          {/* Show existing rating */}
+          {userRating && (
+            <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
+              <div style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Your Rating · {userRating.date}</div>
+              <div style={{ color: "#f59e0b", fontSize: 20, fontWeight: 900, marginBottom: userRating.comment ? 8 : 0 }}>
+                {"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}
+                <span style={{ color: "#555", fontSize: 12, fontWeight: 700, marginLeft: 8 }}>{userRating.rating}/5</span>
+              </div>
+              {userRating.comment && (
+                <p style={{ color: "#aaa", fontSize: 14, margin: 0, lineHeight: 1.6 }}>{userRating.comment}</p>
+              )}
+            </div>
+          )}
 
-          <div className="bg-gray-800 p-6 rounded-xl text-center">
-            <h3 className="text-lg font-semibold mb-2">Earnings (10 yrs)</h3>
-            <p className="text-3xl font-bold text-green-400">{earnings}</p>
-          </div>
+          {submitted ? (
+            <p style={{ color: "#10b981", fontSize: 14, fontWeight: 700 }}>✓ Rating saved.</p>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div>
+                <div style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+                  {userRating ? "Update your rating" : "Your rating"}
+                </div>
+                <StarPicker value={draftRating} onChange={setDraftRating} />
+              </div>
+              <div>
+                <label style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>Your experience (optional)</label>
+                <textarea value={draftComment} onChange={e => setDraftComment(e.target.value)} rows={4}
+                  placeholder={`Tuition worth it? Job placement? Would you go to ${school.name} again?`}
+                  style={{ width: "100%", padding: "12px 14px", background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: 10, color: "#fff", fontSize: 14, resize: "vertical", fontFamily: "inherit", lineHeight: 1.5, boxSizing: "border-box", outline: "none" }}
+                  onFocus={e => e.target.style.borderColor = "#ff2020"} onBlur={e => e.target.style.borderColor = "#2a2a2a"}
+                />
+              </div>
+              <button type="submit" disabled={!draftRating || submitting}
+                style={{ alignSelf: "flex-start", padding: "12px 24px", background: draftRating ? "#ff2020" : "#1a1a1a", color: draftRating ? "#fff" : "#555", fontWeight: 900, fontSize: 14, borderRadius: 10, border: "none", cursor: draftRating ? "pointer" : "default", opacity: submitting ? 0.6 : 1 }}>
+                {submitting ? "Saving…" : userRating ? "Update Rating" : "Submit Rating"}
+              </button>
+            </form>
+          )}
         </div>
 
-        <div className="bg-gray-800 p-10 rounded-xl mb-12 text-center">
-          <h2 className="text-3xl font-bold mb-6">Escape the Debt Trap</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Find free scholarships or explore no-degree career paths.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a
-              href="https://studentaid.gov/understand-aid/types/scholarships"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-5 px-10 rounded-lg"
-            >
-              Find Scholarships (Free)
-            </a>
-            <a
-              href="/alternatives"
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-10 rounded-lg"
-            >
-              Skip College Entirely →
-            </a>
+        {/* CTA */}
+        <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+          <h3 style={{ color: "#fff", fontSize: 18, fontWeight: 900, marginBottom: 8 }}>Explore Alternatives</h3>
+          <p style={{ color: "#666", fontSize: 14, marginBottom: 20 }}>Trade schools, certifications, and apprenticeships that pay without the debt.</p>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/alternatives" style={{ padding: "11px 22px", background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 10, textDecoration: "none" }}>
+              Skip College →
+            </Link>
+            <Link href="/trade-schools" style={{ padding: "11px 22px", background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
+              Trade Schools
+            </Link>
           </div>
         </div>
-
-        <Link href="/rank-your-school" className="text-cyan-400 hover:underline">
-          ← Search Another School
-        </Link>
-      </div>
-    </div>
+      </section>
+    </Layout>
   );
-  }
+}

@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200&h=500&fit=crop&auto=format"
               alt="Civil Service Jobs No Degree Required: Government Careers Without a Bachelor's Degree"
               className="w-full h-full object-cover"
               loading="eager"

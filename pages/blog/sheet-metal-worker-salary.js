@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=1200&h=500&fit=crop&auto=format"
               alt="Sheet Metal Worker Salary: HVAC vs Aerospace — Which Path Pays More?"
               className="w-full h-full object-cover"
               loading="eager"

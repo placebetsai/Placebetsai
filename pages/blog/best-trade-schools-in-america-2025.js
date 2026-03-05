@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=500&fit=crop&auto=format"
               alt="Best Trade Schools in America 2025: A Data-Driven Guide to Top Programs and Real Costs"
               className="w-full h-full object-cover"
               loading="eager"

@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1200&h=500&fit=crop&auto=format"
               alt="Apprenticeship Programs Near Me 2025: The Complete Guide to Paid Training and Real Income"
               className="w-full h-full object-cover"
               loading="eager"

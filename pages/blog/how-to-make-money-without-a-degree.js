@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1200&h=500&fit=crop&auto=format"
               alt="How to Make Money Without a Degree: The Self-Taught and Freelance Blueprint"
               className="w-full h-full object-cover"
               loading="eager"

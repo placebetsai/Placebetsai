@@ -28,7 +28,7 @@ export default function BlogPost() {
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1520863864565-c2ebcff09d5b?w=1200&h=500&fit=crop&auto=format"
               alt="Union vs Non-Union Trade Jobs: The Complete Pay and Benefits Comparison"
               className="w-full h-full object-cover"
               loading="eager"
