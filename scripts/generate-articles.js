@@ -20,6 +20,17 @@ const SITEMAP_PATH = path.join(ROOT, "pages", "sitemap.xml.js");
 
 // Pool of rotating SEO topics — anti-college / trade / no-degree angle
 const TOPIC_POOL = [
+  // High-intent "i hate college" keywords
+  { keyword: "i hate college", angle: "why so many students regret going and what to do instead" },
+  { keyword: "i hate college so much", angle: "you're not alone — here's why and what to do" },
+  { keyword: "college is a waste of money", angle: "data proving college ROI is declining" },
+  { keyword: "college is a scam", angle: "predatory pricing, useless degrees, and who profits" },
+  { keyword: "why college is not worth it", angle: "earnings data vs debt load by major" },
+  { keyword: "college regret statistics", angle: "how many graduates regret going to college" },
+  { keyword: "drop out of college and succeed", angle: "famous dropouts and statistical outcomes" },
+  { keyword: "college debt not worth it", angle: "when student loans cost more than they return" },
+  { keyword: "alternatives to college 2025", angle: "every legitimate path that pays without a degree" },
+  { keyword: "should i drop out of college", angle: "decision framework with real financial data" },
   { keyword: "is college worth it 2025", angle: "student debt vs earnings ROI" },
   { keyword: "trade school salary vs college 2025", angle: "electrician and plumber earnings" },
   { keyword: "how to make money without a degree", angle: "self-taught and freelance paths" },
@@ -145,7 +156,9 @@ function getHeroImage(keyword) {
   return `https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format`;
 }
 
-// Pick 5 topics we haven't used recently
+// Pick N topics we haven't used recently
+const ARTICLES_PER_RUN = parseInt(process.env.ARTICLES_PER_RUN || "13");
+
 function pickTopics() {
   const usedFile = path.join(ROOT, ".used-topics.json");
   let used = [];
@@ -153,9 +166,9 @@ function pickTopics() {
     try { used = JSON.parse(fs.readFileSync(usedFile, "utf8")); } catch {}
   }
   const available = TOPIC_POOL.filter((t) => !used.includes(t.keyword));
-  const pool = available.length >= 5 ? available : TOPIC_POOL; // reset if exhausted
-  const picked = pool.slice(0, 5);
-  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-30);
+  const pool = available.length >= ARTICLES_PER_RUN ? available : TOPIC_POOL; // reset if exhausted
+  const picked = pool.slice(0, ARTICLES_PER_RUN);
+  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-80);
   fs.writeFileSync(usedFile, JSON.stringify(newUsed, null, 2));
   return picked;
 }
@@ -256,7 +269,10 @@ function buildPageJsx(article, topic, author) {
     "mainEntityOfPage": { "@type": "WebPage", "@id": `https://ihatecollege.com/blog/${slug}` }
   });
 
-  return `import Head from "next/head";
+  return `// date: ${article.publishDate}
+// keyword: ${topic.keyword}
+// author: ${author.name}
+import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 import AdUnit from "../../components/AdUnit";
@@ -313,14 +329,24 @@ export default function BlogPost() {
 
         <AdUnit slot="6600722153" />
 
-        <div className="mt-12 p-6 rounded-2xl bg-slate-900 border border-sky-500/30 text-center">
-          <h3 className="text-xl font-black text-white mb-2">See All Your Options</h3>
-          <p className="text-slate-400 text-sm mb-4">
-            Compare trades, certs, apprenticeships, and more.
-          </p>
-          <Link href="/alternatives" className="inline-block px-6 py-3 rounded-full bg-sky-500 text-white font-bold hover:bg-sky-400 transition-colors">
-            Explore Alternatives
-          </Link>
+        <div className="mt-12 p-6 rounded-2xl text-center" style={{background:"#111",border:"1px solid #ff2020"}}>
+          <h3 className="text-xl font-black text-white mb-2">Stop Paying For A Piece of Paper</h3>
+          <p className="text-slate-400 text-sm mb-6">Use our free tools to map your path without debt.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/debt-calculator" style={{background:"#ff2020",color:"#fff",fontWeight:900,padding:"12px 22px",borderRadius:8,textDecoration:"none",fontSize:14}}>Calculate My Debt</Link>
+            <Link href="/alternatives" style={{background:"#1a1a1a",color:"#fff",fontWeight:900,padding:"12px 22px",borderRadius:8,textDecoration:"none",fontSize:14,border:"1px solid #2a2a2a"}}>Explore Alternatives</Link>
+            <Link href="/trade-schools" style={{background:"#1a1a1a",color:"#fff",fontWeight:900,padding:"12px 22px",borderRadius:8,textDecoration:"none",fontSize:14,border:"1px solid #2a2a2a"}}>Trade Schools</Link>
+          </div>
+        </div>
+
+        <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
+          <div className="flex flex-col gap-2">
+            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
+            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+          </div>
         </div>
       </article>
     </Layout>
@@ -352,6 +378,15 @@ function updateSitemap(newPaths) {
 function commitAndPush(slugs) {
   const dateStr = new Date().toISOString().split("T")[0];
   try {
+    // On Railway, set git identity and use token-authenticated remote
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    if (GITHUB_TOKEN) {
+      try {
+        execSync("git config user.email 'bot@ihatecollege.com'", { cwd: ROOT });
+        execSync("git config user.name 'IHateCollege Bot'", { cwd: ROOT });
+        execSync(`git remote set-url origin https://placebetsai:${GITHUB_TOKEN}@github.com/placebetsai/Ihatecollege.git`, { cwd: ROOT });
+      } catch {}
+    }
     execSync("git add pages/blog/ pages/sitemap.xml.js .used-topics.json 2>/dev/null || true", { cwd: ROOT });
     execSync(
       `git commit -m "Auto-generate ${slugs.length} blog articles for ${dateStr}"`,
@@ -402,7 +437,7 @@ async function run() {
     commitAndPush(slugs);
   }
 
-  console.log(`\nDone. Generated ${slugs.length}/5 articles.`);
+  console.log(`\nDone. Generated ${slugs.length}/${ARTICLES_PER_RUN} articles.`);
 }
 
 run().catch(console.error);

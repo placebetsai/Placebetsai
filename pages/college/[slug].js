@@ -1,5 +1,6 @@
 // pages/college/[slug].js
 import Link from "next/link";
+import SEO from "../../components/SEO";
 
 export async function getServerSideProps({ params }) {
   const raw = params?.slug || "";
@@ -111,11 +112,27 @@ export default function CollegePage({ school, error }) {
 
   const isDebtTrap = payoffYears !== null && payoffYears > 20;
 
+  const debtStr = avgDebt !== "N/A" ? `Avg debt: ${avgDebt}.` : "";
+  const earningsStr = earnings !== "N/A" ? ` Median earnings 10 yrs out: ${earnings}.` : "";
+  const metaDesc = `Is ${name} worth it? ${debtStr}${earningsStr} Real government data — no marketing spin. Compare to trade school alternatives.`;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": name,
+    "address": { "@type": "PostalAddress", "addressLocality": city, "addressRegion": state },
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
+      <SEO
+        title={`Is ${name} Worth It? Real Cost & Debt Data 2025`}
+        description={metaDesc}
+        schema={schema}
+      />
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl font-bold mb-4">
-          {name} – Real Numbers 2025
+          Is {name} Worth It?
         </h1>
 
         <p className="text-gray-400 mb-8">

@@ -245,7 +245,7 @@ export default function HomePage() {
         <div style={{ position: "relative", maxWidth: 860, width: "100%" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 999, padding: "6px 14px", marginBottom: 28 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff2020", flexShrink: 0 }} />
-            <span style={{ color: "#888", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em" }}>The truth they don&apos;t teach at orientation</span>
+            <span style={{ color: "#888", fontSize: 15, fontWeight: 700, letterSpacing: "0.04em" }}>The truth they don&apos;t teach at orientation</span>
           </div>
 
           <h1 style={{ fontSize: "clamp(38px, 8vw, 86px)", fontWeight: 900, color: "#fff", lineHeight: 1.0, letterSpacing: "-0.03em", marginBottom: 24 }}>

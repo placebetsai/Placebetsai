@@ -22,8 +22,8 @@ export default function DebtCalculator() {
   return (
     <Layout>
       <SEO
-        title="Student Loan Debt Calculator"
-        description="See how much student loans really cost over 10 years — and compare to trades & certifications."
+        title="Student Loan Debt Calculator 2025 – See Your True Cost | IHateCollege.com"
+        description="Enter your school cost and years to see exact loan payments, total interest paid, and how it compares to trade school. Free calculator — no signup."
       />
 
       {/* HERO */}

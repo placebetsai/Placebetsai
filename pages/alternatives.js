@@ -8,8 +8,8 @@ export default function AlternativesPage() {
   return (
     <Layout>
       <SEO
-        title="Real Alternatives to a 4-Year Degree"
-        description="Skip the dorms and debt. Explore real career alternatives that pay well without a traditional degree."
+        title="College Alternatives 2025 – 10 Paths That Pay Without a Degree | IHateCollege.com"
+        description="Trade school, tech certifications, apprenticeships, military, and more. Real salary data for every alternative to a 4-year college degree in 2025."
       />
 
       {/* HERO */}

@@ -1,11 +1,16 @@
 import Layout from "../components/Layout";
+import SEO from "../components/SEO";
 import AdUnit from "../components/AdUnit";
 import EmailCapture from "../components/EmailCapture";
 
 export default function TradeSchoolsPage() {
   return (
-    <Layout title="Trade Schools – Programs That Actually Pay Off">
-      
+    <Layout>
+      <SEO
+        title="Best Trade Schools 2025 – Programs That Pay $70k–$150k+ | IHateCollege.com"
+        description="Top trade school programs in America. Electricians, plumbers, HVAC, welders — 3–18 month programs, many paid apprenticeships. No four-year degree required."
+      />
+
       {/* HERO */}
       <section className="hero text-center max-w-3xl mx-auto">
         <p className="eyebrow">NO SUITE. NO DORM. JUST SKILLS.</p>

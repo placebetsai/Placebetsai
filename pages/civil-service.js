@@ -45,8 +45,8 @@ export default function CivilService() {
   return (
     <Layout>
       <SEO
-        title="Government & Civil Service Jobs (No Degree Needed)"
-        description="Federal, state, and city careers that pay well, offer pensions, and often require no degree."
+        title="Government & Civil Service Jobs No Degree Required 2025 | IHateCollege.com"
+        description="Federal, state, and city careers that pay $50k–$100k+, offer pensions and job security, and don't require a 4-year degree. USPS, TSA, firefighter, park ranger, and more."
       />
 
       {/* HERO */}
