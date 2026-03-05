@@ -65,8 +65,8 @@ export default function SEO({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="canonical" href={canonical} />
 
-      {/* Icons */}
-      <link rel="icon" href="/icon.png" />
+      {/* Icons — SVG inline favicon is 0 bytes vs 832KB PNG */}
+      <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='12' fill='%23ff2020'/%3E%3Ctext y='.85em' font-size='68' x='12'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E" />
       <link rel="apple-touch-icon" href="/icon.png" />
 
       {/* Open Graph */}

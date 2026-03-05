@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import Link from "next/link";
@@ -82,7 +83,6 @@ function DebtCalculator() {
       <h2 style={{ color: "#fff", fontSize: "clamp(22px,4vw,32px)", fontWeight: 900, marginBottom: 28, lineHeight: 1.1 }}>Your Real College Cost</h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 22, marginBottom: 28 }}>
-        {/* School type */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
             <span style={{ color: "#888", fontSize: 13, fontWeight: 700 }}>School Type</span>
@@ -94,7 +94,6 @@ function DebtCalculator() {
           </div>
         </div>
 
-        {/* Years */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
             <span style={{ color: "#888", fontSize: 13, fontWeight: 700 }}>Years Enrolled</span>
@@ -106,7 +105,6 @@ function DebtCalculator() {
           </div>
         </div>
 
-        {/* Living */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
             <span style={{ color: "#888", fontSize: 13, fontWeight: 700 }}>Living Situation</span>
@@ -119,7 +117,6 @@ function DebtCalculator() {
         </div>
       </div>
 
-      {/* Results side by side */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
         <div style={{ background: "rgba(255,32,32,0.08)", border: "1px solid rgba(255,32,32,0.25)", borderRadius: 12, padding: "18px 16px" }}>
           <div style={{ color: "#ff2020", fontSize: 11, fontWeight: 900, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>College Path</div>
@@ -184,16 +181,6 @@ const STATS = [
   { num: "53%",      label: "Recent grads underemployed",  source: "Fed Reserve NY" },
 ];
 
-const ARTICLES = [
-  { slug: "highest-paying-trade-jobs-2025",              category: "TRADES",  author: "Marcus Bell",    readTime: "6 min", title: "The 8 Highest-Paying Trade Jobs in 2025 (Real Salary Data)" },
-  { slug: "electrician-salary-2025",                     category: "TRADES",  author: "Jake Callahan",  readTime: "5 min", title: "Electrician Salary in 2025: What You Actually Make" },
-  { slug: "student-loan-debt-crisis-2025",               category: "DATA",    author: "Sara Whitfield", readTime: "7 min", title: "The Student Loan Crisis Is Worse Than You Think" },
-  { slug: "should-i-go-to-college-or-work",              category: "GUIDE",   author: "Tyler Okafor",   readTime: "8 min", title: "Should I Go to College or Work? The Honest Answer" },
-  { slug: "how-to-become-an-electrician-without-college", category: "HOW-TO", author: "Derek Pham",     readTime: "6 min", title: "How to Become an Electrician Without College" },
-  { slug: "community-college-vs-university",             category: "DATA",    author: "Megan Torres",   readTime: "5 min", title: "Community College vs University: The Financial Reality" },
-  { slug: "google-career-certificates-worth-it",         category: "CERTS",   author: "Jordan Reese",   readTime: "5 min", title: "Are Google Career Certificates Worth It in 2025?" },
-];
-
 const TRADE_PATHS = [
   { title: "Electrician",   emoji: "⚡", salary: "$75k–$115k", time: "4yr apprentice", debt: "$0",    earn10: "$850k", color: "#f59e0b" },
   { title: "Plumber",       emoji: "🔧", salary: "$68k–$105k", time: "4yr apprentice", debt: "$0",    earn10: "$780k", color: "#3b82f6" },
@@ -203,10 +190,83 @@ const TRADE_PATHS = [
   { title: "Real Estate",   emoji: "🏠", salary: "$65k–$130k", time: "3mo license",    debt: "$500",  earn10: "$950k", color: "#10b981" },
 ];
 
+// ── Article image helper ─────────────────────────────────────────────────────
+function getArticleImage(slug = "") {
+  const s = slug.toLowerCase();
+  if (s.includes("electric")) return "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("plumb")) return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("weld")) return "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("hvac") || s.includes("heat")) return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("debt") || s.includes("loan") || s.includes("crisis")) return "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("cert") || s.includes("google") || s.includes("aws") || s.includes("coding") || s.includes("bootcamp") || s.includes("cyber")) return "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("college") || s.includes("campus") || s.includes("scam") || s.includes("worth") || s.includes("university") || s.includes("drop")) return "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("trade") || s.includes("skill") || s.includes("apprentice") || s.includes("union")) return "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("salary") || s.includes("pay") || s.includes("money") || s.includes("earn") || s.includes("income")) return "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("cdl") || s.includes("truck") || s.includes("driver")) return "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("solar") || s.includes("wind") || s.includes("energy")) return "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("offshore") || s.includes("oil") || s.includes("rig")) return "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=450&fit=crop&auto=format";
+  if (s.includes("government") || s.includes("civil") || s.includes("federal")) return "https://images.unsplash.com/photo-1585373683920-671438c82baf?w=800&h=450&fit=crop&auto=format";
+  return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=450&fit=crop&auto=format";
+}
+
+function getArticleCategory(slug = "", keyword = "") {
+  const s = (slug + " " + keyword).toLowerCase();
+  if (/electric|plumb|weld|hvac|boiler|iron|line|mill|sheet|pipe|rigg|fiber|cdl|truck|solar|wind|offshore|trade|skill|apprentice|union/.test(s)) return "TRADES";
+  if (/cert|aws|google|comptia|cyber|coding|bootcamp|cloud/.test(s)) return "CERTS";
+  if (/debt|loan|crisis|statistic|regret/.test(s)) return "DATA";
+  if (/salary|pay|earn|income|wage/.test(s)) return "SALARY";
+  if (/should|worth|vs|compare|better|scam|waste|hate|drop/.test(s)) return "GUIDE";
+  return "FEATURED";
+}
+
+// ── Real Stories ─────────────────────────────────────────────────────────────
+const STORIES = [
+  {
+    name: "Tyler M., 24",
+    career: "Journeyman Electrician",
+    location: "Dallas, TX",
+    salary: "$94k/yr",
+    debtAvoided: "$87,000",
+    quote: "Turned down $87k in loans. Went IBEW union. Made $42k my first year as an apprentice. Four years in, I'm clearing six figures with zero debt and a pension.",
+    image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=900&h=560&fit=crop&auto=format",
+  },
+  {
+    name: "Kayla R., 26",
+    career: "Licensed Master Plumber",
+    location: "Phoenix, AZ",
+    salary: "$88k/yr",
+    debtAvoided: "$120,000",
+    quote: "My college roommate took out $120k for a psych degree and is waiting tables. I own my van, set my own hours, bought a house at 25, and never sat through a single lecture.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&h=560&fit=crop&auto=format",
+  },
+  {
+    name: "Marcus D., 23",
+    career: "AWS Cloud Architect",
+    location: "Remote",
+    salary: "$112k/yr",
+    debtAvoided: "$95,000",
+    quote: "Spent $3,200 on AWS certs. Got hired at $95k after 6 months of self-study. My friend with a CS degree has $90k debt and makes less than me. Already been promoted twice.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=900&h=560&fit=crop&auto=format",
+  },
+];
+
+// ── Fallback articles (if dynamic load fails) ────────────────────────────────
+const FALLBACK_ARTICLES = [
+  { slug: "highest-paying-trade-jobs-2025",              category: "TRADES",  author: "Marcus Bell",    readTime: "6 min", title: "The 8 Highest-Paying Trade Jobs in 2025 (Real Salary Data)" },
+  { slug: "electrician-salary-2025",                     category: "TRADES",  author: "Jake Callahan",  readTime: "5 min", title: "Electrician Salary in 2025: What You Actually Make" },
+  { slug: "student-loan-debt-crisis-2025",               category: "DATA",    author: "Sara Whitfield", readTime: "7 min", title: "The Student Loan Crisis Is Worse Than You Think" },
+  { slug: "should-i-go-to-college-or-work",              category: "GUIDE",   author: "Tyler Okafor",   readTime: "8 min", title: "Should I Go to College or Work? The Honest Answer" },
+  { slug: "how-to-become-an-electrician-without-college", category: "HOW-TO", author: "Derek Pham",     readTime: "6 min", title: "How to Become an Electrician Without College" },
+  { slug: "community-college-vs-university",             category: "DATA",    author: "Megan Torres",   readTime: "5 min", title: "Community College vs University: The Financial Reality" },
+  { slug: "google-career-certificates-worth-it",         category: "CERTS",   author: "Jordan Reese",   readTime: "5 min", title: "Are Google Career Certificates Worth It in 2025?" },
+];
+
 // ── Page ─────────────────────────────────────────────────────────────────────
-export default function HomePage() {
+export default function HomePage({ articles = [] }) {
   const [email, setEmail] = useState("");
   const [emailStatus, setEmailStatus] = useState("idle");
+
+  const displayArticles = articles.length >= 4 ? articles : FALLBACK_ARTICLES;
 
   async function handleEmail(e) {
     e.preventDefault();
@@ -238,39 +298,105 @@ export default function HomePage() {
       <p style={{ display: "none" }}>Impact-Site-Verification: 7a99b8bc-6d3b-4c9c-9f76-ce1301771cc1</p>
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "92vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "60px 20px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        {/* Background glow */}
-        <div style={{ position: "absolute", top: "30%", left: "50%", transform: "translate(-50%,-50%)", width: 600, height: 600, background: "radial-gradient(circle, rgba(255,32,32,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <section style={{ minHeight: "92vh", display: "flex", alignItems: "center", padding: "60px 20px", position: "relative", overflow: "hidden" }}>
+        {/* Subtle background image */}
+        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+          <Image
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&h=900&fit=crop&auto=format"
+            alt=""
+            fill
+            priority
+            style={{ objectFit: "cover", opacity: 0.06 }}
+            sizes="100vw"
+          />
+        </div>
+        {/* Red glow */}
+        <div style={{ position: "absolute", top: "20%", left: "30%", transform: "translate(-50%,-50%)", width: 700, height: 700, background: "radial-gradient(circle, rgba(255,32,32,0.07) 0%, transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
 
-        <div style={{ position: "relative", maxWidth: 860, width: "100%" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 999, padding: "6px 14px", marginBottom: 28 }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff2020", flexShrink: 0 }} />
-            <span style={{ color: "#888", fontSize: 17, fontWeight: 700, letterSpacing: "0.04em" }}>The truth they don&apos;t teach at orientation</span>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }} className="hero-grid">
+          {/* LEFT: text */}
+          <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 999, padding: "6px 14px", marginBottom: 28 }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff2020", flexShrink: 0 }} />
+              <span style={{ color: "#888", fontSize: 15, fontWeight: 700, letterSpacing: "0.04em" }}>The truth they don&apos;t teach at orientation</span>
+            </div>
+
+            <h1 style={{ fontSize: "clamp(38px, 5vw, 76px)", fontWeight: 900, color: "#fff", lineHeight: 1.0, letterSpacing: "-0.03em", marginBottom: 24 }}>
+              College Is A Scam.<br />
+              <span style={{ color: "#ff2020" }}>We Have The Receipts.</span>
+            </h1>
+
+            <p style={{ color: "#888", fontSize: "clamp(16px,2vw,18px)", maxWidth: 480, marginBottom: 40, lineHeight: 1.5 }}>
+              Join the generation that said no to debt.
+            </p>
+
+            <div style={{ marginBottom: 48 }}>
+              <DebtCounter />
+            </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <Link href="/college-rankings" style={{ background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none" }}>
+                Is My School Worth It? →
+              </Link>
+              <Link href="/debt-calculator" style={{ background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
+                Calculate My Debt
+              </Link>
+              <Link href="/job-board" style={{ background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
+                Jobs Without Degrees
+              </Link>
+            </div>
           </div>
 
-          <h1 style={{ fontSize: "clamp(38px, 8vw, 86px)", fontWeight: 900, color: "#fff", lineHeight: 1.0, letterSpacing: "-0.03em", marginBottom: 24 }}>
-            College Is A Scam.<br />
-            <span style={{ color: "#ff2020" }}>We Have The Receipts.</span>
-          </h1>
+          {/* RIGHT: image mosaic */}
+          <div className="hero-images" style={{ display: "grid", gridTemplateRows: "240px 200px", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {/* Top: full-width image */}
+            <div style={{ gridColumn: "1 / -1", borderRadius: 16, overflow: "hidden", position: "relative" }}>
+              <Image
+                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1000&h=500&fit=crop&auto=format"
+                alt="College debt trap"
+                fill
+                priority
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
+              <div style={{ position: "absolute", bottom: 16, left: 18, right: 18 }}>
+                <span style={{ background: "rgba(255,32,32,0.9)", color: "#fff", fontSize: 10, fontWeight: 900, letterSpacing: "0.12em", padding: "3px 8px", borderRadius: 4, textTransform: "uppercase" }}>The Trap</span>
+                <div style={{ color: "#fff", fontSize: 15, fontWeight: 800, marginTop: 5, lineHeight: 1.2 }}>4 years · $120k debt · no job guarantee</div>
+              </div>
+            </div>
 
-          <p style={{ color: "#888", fontSize: "clamp(16px,2.5vw,20px)", maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.5 }}>
-            Join the generation that said no to debt.
-          </p>
+            {/* Bottom left */}
+            <div style={{ borderRadius: 14, overflow: "hidden", position: "relative" }}>
+              <Image
+                src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=500&h=400&fit=crop&auto=format"
+                alt="Electrician earning six figures"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="25vw"
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
+              <div style={{ position: "absolute", bottom: 10, left: 12, right: 12 }}>
+                <span style={{ background: "rgba(16,185,129,0.9)", color: "#fff", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3, textTransform: "uppercase" }}>The Move</span>
+                <div style={{ color: "#fff", fontSize: 12, fontWeight: 800, marginTop: 3 }}>Electrician · $94k/yr · $0 debt</div>
+              </div>
+            </div>
 
-          <div style={{ marginBottom: 56 }}>
-            <DebtCounter />
-          </div>
-
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
-            <Link href="/college-rankings" style={{ background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none", transition: "background 0.2s" }}>
-              Is My School Worth It? →
-            </Link>
-            <Link href="/debt-calculator" style={{ background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
-              Calculate My Debt
-            </Link>
-            <Link href="/job-board" style={{ background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
-              Jobs Without Degrees
-            </Link>
+            {/* Bottom right */}
+            <div style={{ borderRadius: 14, overflow: "hidden", position: "relative" }}>
+              <Image
+                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=400&fit=crop&auto=format"
+                alt="Trades worker outearning college grads"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="25vw"
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
+              <div style={{ position: "absolute", bottom: 10, left: 12, right: 12 }}>
+                <span style={{ background: "rgba(16,185,129,0.9)", color: "#fff", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3, textTransform: "uppercase" }}>The Move</span>
+                <div style={{ color: "#fff", fontSize: 12, fontWeight: 800, marginTop: 3 }}>Plumber · $88k/yr · $0 debt</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -311,53 +437,82 @@ export default function HomePage() {
         </div>
 
         {/* Featured + side stack */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16, marginBottom: 16 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.7fr) minmax(0,1fr)", gap: 16 }}>
-            {/* Featured */}
-            <Link href={`/blog/${ARTICLES[0].slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}
-              onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
-              onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}
-            >
-              <div style={{ background: "#1a1a1a", height: 220, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: 48 }}>📚</span>
-              </div>
-              <div style={{ padding: "20px 22px 22px" }}>
-                <span style={{ background: "#ff2020", color: "#fff", fontSize: 10, fontWeight: 900, letterSpacing: "0.1em", padding: "3px 8px", borderRadius: 4 }}>{ARTICLES[0].category}</span>
-                <h3 style={{ color: "#fff", fontSize: "clamp(18px,2.5vw,24px)", fontWeight: 900, margin: "12px 0 10px", lineHeight: 1.2 }}>{ARTICLES[0].title}</h3>
-                <div style={{ color: "#555", fontSize: 12, display: "flex", gap: 12 }}>
-                  <span>{ARTICLES[0].author}</span>
-                  <span>·</span>
-                  <span>{ARTICLES[0].readTime} read</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Side stack */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {ARTICLES.slice(1, 4).map((a) => (
-                <Link key={a.slug} href={`/blog/${a.slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 10, padding: "16px 18px", flex: 1, transition: "border-color 0.2s" }}
-                  onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
-                  onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}
-                >
-                  <span style={{ background: "rgba(255,32,32,0.15)", color: "#ff2020", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3 }}>{a.category}</span>
-                  <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 800, margin: "8px 0 6px", lineHeight: 1.3 }}>{a.title}</h3>
-                  <div style={{ color: "#555", fontSize: 11 }}>{a.author} · {a.readTime} read</div>
-                </Link>
-              ))}
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.7fr) minmax(0,1fr)", gap: 16, marginBottom: 16 }} className="blog-main-grid">
+          {/* Featured */}
+          <Link href={`/blog/${displayArticles[0].slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}
+            onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
+            onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}
+          >
+            <div style={{ height: 240, position: "relative", overflow: "hidden" }}>
+              <Image
+                src={getArticleImage(displayArticles[0].slug)}
+                alt={displayArticles[0].title}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 100vw, 60vw"
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)" }} />
             </div>
+            <div style={{ padding: "20px 22px 22px" }}>
+              <span style={{ background: "#ff2020", color: "#fff", fontSize: 10, fontWeight: 900, letterSpacing: "0.1em", padding: "3px 8px", borderRadius: 4 }}>{displayArticles[0].category || getArticleCategory(displayArticles[0].slug)}</span>
+              <h3 style={{ color: "#fff", fontSize: "clamp(18px,2.5vw,24px)", fontWeight: 900, margin: "12px 0 10px", lineHeight: 1.2 }}>{displayArticles[0].title}</h3>
+              <div style={{ color: "#555", fontSize: 12, display: "flex", gap: 12 }}>
+                <span>{displayArticles[0].author}</span>
+                {displayArticles[0].readTime && <><span>·</span><span>{displayArticles[0].readTime} read</span></>}
+                {displayArticles[0].date && <><span>·</span><span>{displayArticles[0].date}</span></>}
+              </div>
+            </div>
+          </Link>
+
+          {/* Side stack */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {displayArticles.slice(1, 4).map((a) => (
+              <Link key={a.slug} href={`/blog/${a.slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 10, overflow: "hidden", flex: 1, transition: "border-color 0.2s" }}
+                onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
+                onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}
+              >
+                <div style={{ display: "flex", height: "100%" }}>
+                  <div style={{ width: 90, flexShrink: 0, position: "relative", minHeight: 80 }}>
+                    <Image
+                      src={getArticleImage(a.slug)}
+                      alt={a.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="90px"
+                    />
+                  </div>
+                  <div style={{ padding: "12px 14px", flex: 1 }}>
+                    <span style={{ background: "rgba(255,32,32,0.15)", color: "#ff2020", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3 }}>{a.category || getArticleCategory(a.slug)}</span>
+                    <h3 style={{ color: "#fff", fontSize: 13, fontWeight: 800, margin: "6px 0 5px", lineHeight: 1.3 }}>{a.title}</h3>
+                    <div style={{ color: "#555", fontSize: 11 }}>{a.author}{a.date ? ` · ${a.date}` : ""}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* 3-column grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
-          {ARTICLES.slice(4).map((a) => (
-            <Link key={a.slug} href={`/blog/${a.slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 10, padding: "20px", transition: "border-color 0.2s" }}
+          {displayArticles.slice(4).map((a) => (
+            <Link key={a.slug} href={`/blog/${a.slug}`} style={{ textDecoration: "none", display: "block", background: "#111", border: "1px solid #2a2a2a", borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}
               onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
               onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}
             >
-              <span style={{ background: "rgba(255,32,32,0.15)", color: "#ff2020", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3 }}>{a.category}</span>
-              <h3 style={{ color: "#fff", fontSize: 15, fontWeight: 800, margin: "10px 0 8px", lineHeight: 1.3 }}>{a.title}</h3>
-              <div style={{ color: "#555", fontSize: 12 }}>{a.author} · {a.readTime} read</div>
+              <div style={{ height: 160, position: "relative" }}>
+                <Image
+                  src={getArticleImage(a.slug)}
+                  alt={a.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+              <div style={{ padding: 18 }}>
+                <span style={{ background: "rgba(255,32,32,0.15)", color: "#ff2020", fontSize: 9, fontWeight: 900, letterSpacing: "0.1em", padding: "2px 6px", borderRadius: 3 }}>{a.category || getArticleCategory(a.slug)}</span>
+                <h3 style={{ color: "#fff", fontSize: 15, fontWeight: 800, margin: "10px 0 8px", lineHeight: 1.3 }}>{a.title}</h3>
+                <div style={{ color: "#555", fontSize: 12 }}>{a.author}{a.date ? ` · ${a.date}` : ""}</div>
+              </div>
             </Link>
           ))}
         </div>
@@ -370,8 +525,49 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── REAL STORIES ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: "60px 20px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ marginBottom: 32 }}>
+            <p style={{ color: "#ff2020", fontSize: 11, fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 6 }}>Real People. Real Results.</p>
+            <h2 style={{ color: "#fff", fontSize: "clamp(22px,4vw,32px)", fontWeight: 900, margin: 0 }}>They Skipped College. Here&apos;s What Happened.</h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 16 }}>
+            {STORIES.map((s) => (
+              <div key={s.name} style={{ background: "#111", border: "1px solid #2a2a2a", borderRadius: 14, overflow: "hidden" }}>
+                <div style={{ height: 200, position: "relative" }}>
+                  <Image
+                    src={s.image}
+                    alt={s.career}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)" }} />
+                  <div style={{ position: "absolute", bottom: 14, left: 16, right: 16, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <div>
+                      <div style={{ color: "#10b981", fontSize: 22, fontWeight: 900, lineHeight: 1 }}>{s.salary}</div>
+                      <div style={{ color: "#aaa", fontSize: 12 }}>{s.career} · {s.location}</div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ color: "#ff2020", fontSize: 11, fontWeight: 900 }}>DEBT AVOIDED</div>
+                      <div style={{ color: "#fff", fontSize: 16, fontWeight: 900 }}>{s.debtAvoided}</div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ padding: "18px 20px 20px" }}>
+                  <p style={{ color: "#bbb", fontSize: 14, lineHeight: 1.6, margin: "0 0 14px", fontStyle: "italic" }}>&ldquo;{s.quote}&rdquo;</p>
+                  <div style={{ color: "#666", fontSize: 12, fontWeight: 700 }}>— {s.name}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TRADE PATHS ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: "60px 0" }}>
+      <section style={{ padding: "60px 0", background: "#050505", borderTop: "1px solid #1a1a1a" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px" }}>
           <div style={{ marginBottom: 28 }}>
             <p style={{ color: "#ff2020", fontSize: 11, fontWeight: 900, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 6 }}>Skip The Debt, Keep The Income</p>
@@ -437,11 +633,64 @@ export default function HomePage() {
           0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,32,32,0.7); }
           50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(255,32,32,0); }
         }
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; text-align: center; }
+          .hero-images { display: none !important; }
+          .blog-main-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </Layout>
   );
 }
 
 export async function getStaticProps() {
-  return { props: {}, revalidate: 3600 };
+  const fs = require("fs");
+  const path = require("path");
+
+  let articles = [];
+
+  try {
+    const blogDir = path.join(process.cwd(), "pages", "blog");
+    const files = fs.readdirSync(blogDir).filter(
+      (f) => f.endsWith(".js") && f !== "index.js"
+    );
+
+    for (const file of files) {
+      const slug = file.replace(".js", "");
+      const content = fs.readFileSync(path.join(blogDir, file), "utf8");
+
+      const titleMatch = content.match(/title="((?:[^"\\]|\\.)*)"/);
+      const dateMatch = content.match(/\/\/ date: (\d{4}-\d{2}-\d{2})/);
+      const authorMatch = content.match(/\/\/ author: ([^\n]+)/);
+      const keywordMatch = content.match(/\/\/ keyword: ([^\n]+)/);
+
+      const slug_ = slug;
+      const keyword = keywordMatch ? keywordMatch[1].trim() : "";
+
+      articles.push({
+        slug: slug_,
+        title: titleMatch
+          ? titleMatch[1].replace(/\\"/g, '"')
+          : slug_.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+        date: dateMatch ? dateMatch[1] : "2025-01-01",
+        author: authorMatch ? authorMatch[1].trim() : "Staff Writer",
+        category: (() => {
+          const s = (slug_ + " " + keyword).toLowerCase();
+          if (/electric|plumb|weld|hvac|boiler|iron|line|mill|sheet|pipe|rigg|fiber|cdl|truck|solar|wind|offshore|trade|skill|apprentice|union/.test(s)) return "TRADES";
+          if (/cert|aws|google|comptia|cyber|coding|bootcamp|cloud/.test(s)) return "CERTS";
+          if (/debt|loan|crisis|statistic|regret/.test(s)) return "DATA";
+          if (/salary|pay|earn|income|wage/.test(s)) return "SALARY";
+          if (/should|worth|vs|compare|better|scam|waste|hate|drop/.test(s)) return "GUIDE";
+          return "FEATURED";
+        })(),
+      });
+    }
+
+    articles.sort((a, b) => b.date.localeCompare(a.date));
+    articles = articles.slice(0, 7);
+  } catch (e) {
+    console.error("getStaticProps blog load error:", e.message);
+  }
+
+  return { props: { articles }, revalidate: 3600 };
 }

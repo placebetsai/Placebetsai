@@ -14,6 +14,7 @@ const links = [
   { href: "/job-board",               label: "Job Board",     mobileLabel: "Job Board" },
   { href: "/blog",                    label: "Blog",          mobileLabel: "Blog" },
   { href: "/news",                    label: "News",          mobileLabel: "News" },
+  { href: "/contact",                 label: "Contact",       mobileLabel: "Contact" },
 ];
 
 export default function Navbar() {

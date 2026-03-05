@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     if (category === "Law Enforcement") {
       jobs = jobs.filter((j) =>
         govKeywords.slice(0, 8).some((kw) =>
-          (j.title + " " + j.description).toLowerCase().includes(kw)
+          ((j.title || "") + " " + (j.description || "")).toLowerCase().includes(kw)
         )
       );
     }
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     if (category === "Federal") {
       const fedKw = ["federal", "faa", "fbi", "dea", "cbp", "usps", "postal", "park service", "national park", "tsa", "cia", "irs", "army", "navy", "marines", "air force", "coast guard"];
       jobs = jobs.filter((j) =>
-        fedKw.some((kw) => (j.title + " " + j.company + " " + j.description).toLowerCase().includes(kw))
+        fedKw.some((kw) => ((j.title || "") + " " + (j.company || "") + " " + (j.description || "")).toLowerCase().includes(kw))
       );
     }
 
