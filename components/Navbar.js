@@ -29,11 +29,11 @@ export default function Navbar() {
     <header style={{ background: "#0a0a0a", borderBottom: "1px solid #1a1a1a" }} className="relative z-50">
 
       {/* ROW 1: Logo + Social + Hamburger */}
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
+      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-2">
 
         <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
-          <span className="text-2xl font-black italic tracking-tighter text-white">IHATECOLLEGE</span>
-          <span style={{ background: "#ff2020", color: "#fff", fontSize: "11px", fontWeight: 900, padding: "3px 7px", borderRadius: "4px", letterSpacing: "0.05em" }}>
+          <span className="text-3xl font-black italic tracking-tighter text-white">IHATECOLLEGE</span>
+          <span style={{ background: "#ff2020", color: "#fff", fontSize: "13px", fontWeight: 900, padding: "4px 8px", borderRadius: "4px", letterSpacing: "0.05em" }}>
             .COM
           </span>
         </Link>
@@ -66,7 +66,7 @@ export default function Navbar() {
             {links.map((link) => (
               <Link key={link.href} href={link.href}
                 style={isActive(link.href) ? { background: "#ff2020", color: "#fff" } : {}}
-                className={`text-[14px] font-bold px-4 py-2 rounded-full whitespace-nowrap flex-shrink-0 transition-all ${
+                className={`text-base font-bold px-4 py-2 rounded-full whitespace-nowrap flex-shrink-0 transition-all ${
                   isActive(link.href) ? "" : "text-slate-400 hover:text-white hover:bg-white/10"
                 }`}
               >

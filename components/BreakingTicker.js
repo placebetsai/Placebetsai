@@ -18,7 +18,7 @@ export default function BreakingTicker() {
 
   return (
     <div
-      style={{ background: "#ff2020", overflow: "hidden", height: "40px" }}
+      style={{ background: "#ff2020", overflow: "hidden", height: "46px" }}
       className="flex items-center"
       aria-label="Breaking news ticker"
     >
@@ -33,7 +33,7 @@ export default function BreakingTicker() {
           zIndex: 2,
         }}
       >
-        <span style={{ color: "#fff", fontSize: "13px", fontWeight: 900, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>
+        <span style={{ color: "#fff", fontSize: "15px", fontWeight: 900, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>
           ● BREAKING
         </span>
       </div>
@@ -51,7 +51,7 @@ export default function BreakingTicker() {
               key={i}
               style={{
                 color: "#fff",
-                fontSize: "14px",
+                fontSize: "16px",
                 fontWeight: 800,
                 marginRight: "60px",
                 whiteSpace: "nowrap",

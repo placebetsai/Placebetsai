@@ -347,23 +347,15 @@ export default function JobBoard() {
             Federal jobs, law enforcement, skilled trades, and tech — careers that pay well without a 4-year degree.
           </p>
 
-          {/* Find / Post toggle — prominent */}
-          <div className="grid sm:grid-cols-2 gap-3 mb-8 max-w-lg">
+          {/* Browse Jobs button only */}
+          <div className="mb-8">
             <button onClick={() => setView("browse")}
-              className={`flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-black text-sm transition-all ${
+              className={`flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-black text-sm transition-all ${
                 view === "browse"
                   ? "bg-sky-600 text-white shadow-lg shadow-sky-900/40"
                   : "bg-slate-800 border border-slate-700 text-slate-300 hover:border-sky-600 hover:text-white"
               }`}>
-              🔍 Browse Jobs
-            </button>
-            <button onClick={() => setView("post")}
-              className={`flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-black text-sm transition-all ${
-                view === "post" || view === "success"
-                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
-                  : "bg-slate-800 border border-slate-700 text-slate-300 hover:border-emerald-600 hover:text-white"
-              }`}>
-              📢 Post a Job — Free
+              🔍 Search Jobs Without a Degree
             </button>
           </div>
 
