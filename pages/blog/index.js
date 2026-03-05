@@ -65,7 +65,7 @@ export async function getStaticProps() {
       // Extract metadata via regex from generated JSX
       const titleMatch = content.match(/title="((?:[^"\\]|\\.)*)"/);
       const descMatch = content.match(/description="((?:[^"\\]|\\.)*)"/);
-      const dateMatch = content.match(/Blog[^·]*·\s*(\d{4}-\d{2}-\d{2})/);
+      const dateMatch = content.match(/\/\/ date: (\d{4}-\d{2}-\d{2})/) || content.match(/Blog[^&]*&middot;\s*(\d{4}-\d{2}-\d{2})/);
       const authorMatch = content.match(/<div className="font-bold text-white text-sm">([^<]+)<\/div>/);
 
       blogArticles.push({
