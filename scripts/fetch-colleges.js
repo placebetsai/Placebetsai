@@ -81,6 +81,17 @@ async function main() {
     process.exit(0);
   }
 
+  // Skip fetch if we already have a complete dataset (avoids rate limiting on every build)
+  try {
+    if (fs.existsSync(OUT_FILE)) {
+      const existing = JSON.parse(fs.readFileSync(OUT_FILE, "utf8"));
+      if ((existing.colleges || []).length >= 6000) {
+        console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges). Skipping fetch.`);
+        process.exit(0);
+      }
+    }
+  } catch {}
+
   console.log("[fetch-colleges] Starting college data fetch...");
 
   const colleges = [];
