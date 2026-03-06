@@ -83,6 +83,15 @@ export default function Navbar() {
         className={`fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center gap-5 transition-all duration-300 ${open ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}
         style={{ background: "#0a0a0a", zIndex: 40 }}
       >
+        {/* Close button — top right */}
+        <button
+          onClick={() => setOpen(false)}
+          style={{ position: "absolute", top: 20, right: 20, background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 10, padding: "10px 18px", color: "#fff", fontSize: 15, fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Close
+        </button>
+
         {links.map((link) => (
           <Link key={link.href + "m"} href={link.href}
             style={isActive(link.href) ? { color: "#ff2020" } : {}}

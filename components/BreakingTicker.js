@@ -49,7 +49,6 @@ export default function BreakingTicker() {
       } catch {}
     }
     load();
-    // don't poll — one load is enough for a sticky bar
     return () => { alive = false; };
   }, []);
 
@@ -62,11 +61,19 @@ export default function BreakingTicker() {
 
   return (
     <div style={{ background: "#ff2020", width: "100%" }}>
+
+      {/* ── MOBILE: BREAKING label on its own top row ── */}
+      <div className="brk-mobile-label" style={{ background: "#cc0000", padding: "4px 14px", display: "none", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
+        <span style={{ color: "#fff", fontSize: 12, fontWeight: 900, letterSpacing: "0.12em" }}>● BREAKING NEWS</span>
+        <Link href="/news" style={{ marginLeft: "auto", color: "rgba(255,255,255,0.75)", fontSize: 11, fontWeight: 800, textDecoration: "none", whiteSpace: "nowrap" }}>More →</Link>
+      </div>
+
       {/* Ticker row */}
-      <div style={{ display: "flex", alignItems: "center", height: 44, overflow: "hidden" }}>
-        {/* BREAKING label */}
-        <div style={{ background: "#cc0000", height: "100%", display: "flex", alignItems: "center", padding: "0 14px", flexShrink: 0, zIndex: 2 }}>
-          <span style={{ color: "#fff", fontSize: 14, fontWeight: 900, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING</span>
+      <div style={{ display: "flex", alignItems: "center", height: 40, overflow: "hidden" }}>
+
+        {/* BREAKING label — desktop only */}
+        <div className="brk-desktop-label" style={{ background: "#cc0000", height: "100%", display: "flex", alignItems: "center", padding: "0 14px", flexShrink: 0 }}>
+          <span style={{ color: "#fff", fontSize: 13, fontWeight: 900, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING</span>
         </div>
 
         {/* Scrolling items */}
@@ -87,9 +94,9 @@ export default function BreakingTicker() {
                 rel={item.link.startsWith("http") ? "noreferrer" : undefined}
                 style={{
                   color: "#fff",
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: 800,
-                  marginRight: 60,
+                  marginRight: 56,
                   whiteSpace: "nowrap",
                   textDecoration: "none",
                   display: "inline-block",
@@ -104,9 +111,10 @@ export default function BreakingTicker() {
           </div>
         </div>
 
-        {/* "More news" link — right side, always visible */}
+        {/* "More news" — desktop only */}
         <Link
           href="/news"
+          className="brk-desktop-label"
           style={{
             flexShrink: 0,
             background: "#cc0000",
@@ -133,6 +141,10 @@ export default function BreakingTicker() {
         @keyframes brkTicker {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        @media (max-width: 640px) {
+          .brk-mobile-label { display: flex !important; }
+          .brk-desktop-label { display: none !important; }
         }
       `}</style>
     </div>
