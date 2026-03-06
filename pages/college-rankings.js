@@ -96,6 +96,92 @@ const ALL_SCHOOLS = [
   { id: 82, rank: null,  name: "Ivy Tech Community College",       city: "Indianapolis",  state: "IN", cost: "$4,106",  debt: "$11,100", earnings: "$35,100",  type: "Community" },
 ];
 
+// Liberal / Conservative lean data per school
+const SCHOOL_LEAN = {
+  // Very Liberal
+  "Brown University":                   "Very Liberal",
+  "UC Berkeley":                        "Very Liberal",
+  "Oberlin College":                    "Very Liberal",
+  "Reed College":                       "Very Liberal",
+  "Swarthmore College":                 "Very Liberal",
+  "Wesleyan University":                "Very Liberal",
+  "Macalester College":                 "Very Liberal",
+  // Liberal
+  "Harvard University":                 "Liberal",
+  "MIT":                                "Liberal",
+  "Stanford University":                "Liberal",
+  "Yale University":                    "Liberal",
+  "Princeton University":               "Liberal",
+  "Columbia University":                "Liberal",
+  "University of Pennsylvania":         "Liberal",
+  "Dartmouth College":                  "Liberal",
+  "Duke University":                    "Liberal",
+  "Northwestern University":            "Liberal",
+  "Georgetown University":              "Liberal",
+  "Emory University":                   "Liberal",
+  "Tufts University":                   "Liberal",
+  "University of Southern California":  "Liberal",
+  "Boston University":                  "Liberal",
+  "Northeastern University":            "Liberal",
+  "New York University":                "Liberal",
+  "UCLA":                               "Liberal",
+  "University of Michigan":             "Liberal",
+  "UC San Diego":                       "Liberal",
+  "UC Santa Barbara":                   "Liberal",
+  "UC Davis":                           "Liberal",
+  "University of Illinois Urbana":      "Liberal",
+  "University of Wisconsin-Madison":    "Liberal",
+  "University of Washington":           "Liberal",
+  "University of Maryland":             "Liberal",
+  "Rutgers University":                 "Liberal",
+  "University of Minnesota":            "Liberal",
+  "University of Colorado Boulder":     "Liberal",
+  "University of Oregon":               "Liberal",
+  "Johns Hopkins University":           "Liberal",
+  // Moderate
+  "Carnegie Mellon University":         "Moderate",
+  "Washington Univ in St. Louis":       "Moderate",
+  "Vanderbilt University":              "Moderate",
+  "Wake Forest University":             "Moderate",
+  "Tulane University":                  "Moderate",
+  "Rensselaer Polytechnic Institute":   "Moderate",
+  "Georgia Tech":                       "Moderate",
+  "University of Virginia":             "Moderate",
+  "Purdue University":                  "Moderate",
+  "Ohio State University":              "Moderate",
+  "Penn State University":              "Moderate",
+  "Michigan State University":          "Moderate",
+  "University of Florida":              "Moderate",
+  "Florida State University":           "Moderate",
+  "Indiana University":                 "Moderate",
+  "Arizona State University":           "Moderate",
+  "University of Arizona":              "Moderate",
+  "Virginia Tech":                      "Moderate",
+  "NC State University":                "Moderate",
+  "University of Pittsburgh":           "Moderate",
+  "University of Notre Dame":           "Moderate",
+  "Notre Dame University":              "Moderate",
+  "University of Missouri":             "Moderate",
+  "University of Kansas":               "Moderate",
+  // Conservative
+  "Texas A&M University":               "Conservative",
+  "Clemson University":                 "Conservative",
+  "Auburn University":                  "Conservative",
+  "University of Alabama":              "Conservative",
+  "Louisiana State University":         "Conservative",
+  "University of Tennessee":            "Conservative",
+  "University of Nebraska":             "Conservative",
+  "Mississippi State University":       "Conservative",
+};
+
+const LEAN_COLORS = {
+  "Very Liberal":      { color: "#60a5fa", bg: "rgba(59,130,246,0.15)",  border: "rgba(59,130,246,0.35)"  },
+  "Liberal":           { color: "#7dd3fc", bg: "rgba(14,165,233,0.12)",  border: "rgba(14,165,233,0.3)"   },
+  "Moderate":          { color: "#94a3b8", bg: "rgba(100,116,139,0.15)", border: "rgba(100,116,139,0.35)" },
+  "Conservative":      { color: "#fb923c", bg: "rgba(249,115,22,0.15)",  border: "rgba(249,115,22,0.35)"  },
+  "Very Conservative": { color: "#f87171", bg: "rgba(239,68,68,0.15)",   border: "rgba(239,68,68,0.35)"   },
+};
+
 function verdict(school) {
   const debt = parseInt((school.debt || "").replace(/[^0-9]/g, "")) || 0;
   const earn = parseInt((school.earnings || "").replace(/[^0-9]/g, "")) || 0;
@@ -209,7 +295,7 @@ export default function CollegeRankings() {
           <h1 style={{ color: "#fff", fontSize: "clamp(28px,5vw,52px)", fontWeight: 900, lineHeight: 1.05, marginBottom: 14 }}>
             Is Your College a <span style={{ color: "#ff2020" }}>Debt Trap?</span>
           </h1>
-          <p style={{ color: "#666", fontSize: 16, marginBottom: 32, maxWidth: 540, margin: "0 auto 32px" }}>
+          <p style={{ color: "#ccc", fontSize: 16, marginBottom: 32, maxWidth: 540, margin: "0 auto 32px" }}>
             82 schools ranked by real cost, average debt at graduation, and median earnings 10 years out.
           </p>
 
@@ -243,14 +329,14 @@ export default function CollegeRankings() {
       {/* Legend */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px 0", display: "flex", gap: 16, flexWrap: "wrap" }}>
         {[
-          { label: "Great Value", color: "#10b981", desc: "Debt paid off in <5 months of earnings" },
-          { label: "Questionable", color: "#f59e0b", desc: "5–10 months of earnings to pay off debt" },
-          { label: "Debt Trap", color: "#ff2020", desc: "10+ months of earnings just to break even" },
+          { label: "Great Value", color: "#34d399", desc: "Debt paid off in <5 months of earnings" },
+          { label: "Questionable", color: "#fbbf24", desc: "5–10 months of earnings to pay off debt" },
+          { label: "Debt Trap", color: "#ff6060", desc: "10+ months of earnings just to break even" },
         ].map((v) => (
           <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12 }}>
             <span style={{ width: 10, height: 10, borderRadius: "50%", background: v.color, flexShrink: 0 }} />
             <span style={{ color: v.color, fontWeight: 800 }}>{v.label}</span>
-            <span style={{ color: "#aaa" }}>{v.desc}</span>
+            <span style={{ color: "#ccc" }}>{v.desc}</span>
           </div>
         ))}
       </div>
@@ -290,6 +376,8 @@ export default function CollegeRankings() {
             const slug = school.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
             const userRating = ratings[school.id];
             const isOpen = expanded === school.id;
+            const lean = SCHOOL_LEAN[school.name];
+            const lc = lean ? LEAN_COLORS[lean] : null;
             return (
               <div key={school.id} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #2a2a2a", background: "#141414" }}
                 onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
@@ -298,41 +386,48 @@ export default function CollegeRankings() {
                 <div className="rank-card-row" style={{ display: "flex", alignItems: "center" }}>
                   <Link href={`/college/${slug}`} className="rank-card-link" style={{ flex: 1, display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", textDecoration: "none", minWidth: 0 }}>
                     {/* Position # */}
-                    <div style={{ color: "#666", fontSize: 12, fontWeight: 900, minWidth: 24, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
+                    <div style={{ color: "#888", fontSize: 13, fontWeight: 900, minWidth: 24, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
 
                     {/* Name + location + badges */}
                     <div className="rank-card-info" style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                        <span style={{ color: "#fff", fontSize: 14, fontWeight: 800 }}>{school.name}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+                        <span style={{ color: "#fff", fontSize: 15, fontWeight: 900 }}>{school.name}</span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
+                        <span style={{ color: "#bbb", fontSize: 12, marginRight: 2 }}>{school.city}, {school.state}</span>
                         {school.rank && (
-                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)", whiteSpace: "nowrap" }}>
+                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(99,102,241,0.2)", color: "#c4b5fd", border: "1px solid rgba(99,102,241,0.4)", whiteSpace: "nowrap" }}>
                             US News #{school.rank}
                           </span>
                         )}
                         <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: tc.bg, color: tc.color }}>{school.type}</span>
+                        {lc && (
+                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: lc.bg, color: lc.color, border: `1px solid ${lc.border}`, whiteSpace: "nowrap" }}>
+                            {lean}
+                          </span>
+                        )}
                         {v && <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: v.bg, color: v.color, border: `1px solid ${v.border}` }}>{v.label}</span>}
                         {userRating && (
-                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)" }}>
+                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(245,158,11,0.2)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.4)" }}>
                             ★ USER RATED
                           </span>
                         )}
                       </div>
-                      <div style={{ color: "#888", fontSize: 11, marginTop: 2 }}>{school.city}, {school.state}</div>
                     </div>
 
                     {/* Stats */}
-                    <div className="rank-card-stats" style={{ display: "flex", gap: 14, flexShrink: 0, textAlign: "right" }}>
+                    <div className="rank-card-stats" style={{ display: "flex", gap: 18, flexShrink: 0, textAlign: "right" }}>
                       <div>
-                        <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost/yr</div>
-                        <div style={{ color: "#fff", fontSize: 13, fontWeight: 800 }}>{school.cost}</div>
+                        <div style={{ color: "#aaa", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost/yr</div>
+                        <div style={{ color: "#fff", fontSize: 14, fontWeight: 900 }}>{school.cost}</div>
                       </div>
                       <div>
-                        <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Debt</div>
-                        <div style={{ color: "#ff2020", fontSize: 13, fontWeight: 800 }}>{school.debt}</div>
+                        <div style={{ color: "#aaa", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Debt</div>
+                        <div style={{ color: "#ff6060", fontSize: 14, fontWeight: 900 }}>{school.debt}</div>
                       </div>
                       <div className="hidden-mobile">
-                        <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>10yr Earn</div>
-                        <div style={{ color: "#10b981", fontSize: 13, fontWeight: 800 }}>{school.earnings}</div>
+                        <div style={{ color: "#aaa", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>10yr Earn</div>
+                        <div style={{ color: "#34d399", fontSize: 14, fontWeight: 900 }}>{school.earnings}</div>
                       </div>
                     </div>
                   </Link>
@@ -352,7 +447,7 @@ export default function CollegeRankings() {
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
                       <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)", letterSpacing: "0.08em" }}>USER RANKING</span>
                       <span style={{ color: "#f59e0b", fontSize: 16, fontWeight: 900 }}>{"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}</span>
-                      <span style={{ color: "#777", fontWeight: 700, fontSize: 11 }}>{userRating.rating}/5 · submitted {userRating.date}</span>
+                      <span style={{ color: "#aaa", fontWeight: 700, fontSize: 11 }}>{userRating.rating}/5 · submitted {userRating.date}</span>
                     </div>
                     {userRating.comment && (
                       <p style={{ color: "#ccc", fontSize: 13, margin: "4px 0 0", lineHeight: 1.5 }}>&ldquo;{userRating.comment}&rdquo;</p>
@@ -394,7 +489,7 @@ export default function CollegeRankings() {
 
         {filtered.length === 0 && (
           <div style={{ textAlign: "center", padding: "60px 20px" }}>
-            <p style={{ color: "#555", fontSize: 16 }}>No schools match &quot;{query}&quot;.</p>
+            <p style={{ color: "#bbb", fontSize: 16 }}>No schools match &quot;{query}&quot;.</p>
             <button onClick={() => setQuery("")} style={{ marginTop: 12, color: "#ff2020", background: "none", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 800 }}>Clear search</button>
           </div>
         )}
@@ -403,7 +498,7 @@ export default function CollegeRankings() {
           <AdUnit slot="6600722153" />
         </div>
 
-        <p style={{ color: "#888", fontSize: 11, marginTop: 16, textAlign: "center" }}>
+        <p style={{ color: "#999", fontSize: 11, marginTop: 16, textAlign: "center" }}>
           Cost &amp; debt: U.S. Dept. of Education College Scorecard · Earnings: median 10yr post-entry · Rankings: US News 2025 Best National Universities
         </p>
       </section>
