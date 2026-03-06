@@ -88,10 +88,14 @@ async function main() {
   let page = 0;
   let total = null;
 
+  let retries = 0;
+  const MAX_RETRIES = 5;
+
   while (true) {
     try {
       const data = await fetchPage(page, PER_PAGE);
       const results = data?.results || [];
+      retries = 0; // reset on success
 
       if (total === null) {
         total = data?.metadata?.total ?? 0;
@@ -135,13 +139,22 @@ async function main() {
       // Safety: stop if we've clearly got everything
       if (colleges.length >= total) break;
 
-      // Small delay to avoid hammering the API
-      await new Promise((r) => setTimeout(r, 120));
+      // Delay between pages to stay under rate limit (~1 req/sec)
+      await new Promise((r) => setTimeout(r, 800));
     } catch (err) {
-      console.error(`[fetch-colleges] Error on page ${page}: ${err.message}`);
-      // Don't abort the whole run on a transient error — try next page
-      page++;
-      if (page > 100) break; // hard stop after 100 pages
+      const is429 = err.message.includes("429");
+      retries++;
+      if (is429 && retries <= MAX_RETRIES) {
+        const wait = retries * 3000; // 3s, 6s, 9s, 12s, 15s
+        console.warn(`[fetch-colleges] Rate limited on page ${page}, waiting ${wait / 1000}s (attempt ${retries}/${MAX_RETRIES})...`);
+        await new Promise((r) => setTimeout(r, wait));
+        // retry same page (don't increment)
+      } else {
+        console.error(`[fetch-colleges] Error on page ${page}: ${err.message}`);
+        retries = 0;
+        page++; // skip this page and continue
+        if (page > 100) break;
+      }
     }
   }
 
