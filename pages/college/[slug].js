@@ -95,17 +95,56 @@ function toSlug(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+function loadCollegesJson() {
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    const file = path.join(process.cwd(), "data", "colleges.json");
+    if (!fs.existsSync(file)) return [];
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    return data.colleges || [];
+  } catch {
+    return [];
+  }
+}
+
 export async function getStaticPaths() {
-  return {
-    paths: ALL_SCHOOLS.map((s) => ({ params: { slug: toSlug(s.name) } })),
-    fallback: false,
-  };
+  const jsonColleges = loadCollegesJson();
+
+  const slugSet = new Set();
+  const paths = [];
+
+  // Hardcoded schools first (they have extra data like rank)
+  for (const s of ALL_SCHOOLS) {
+    const slug = toSlug(s.name);
+    if (!slugSet.has(slug)) {
+      slugSet.add(slug);
+      paths.push({ params: { slug } });
+    }
+  }
+
+  // JSON colleges from prebuild script (6000+)
+  for (const c of jsonColleges) {
+    if (c.slug && !slugSet.has(c.slug)) {
+      slugSet.add(c.slug);
+      paths.push({ params: { slug: c.slug } });
+    }
+  }
+
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
-  const school = ALL_SCHOOLS.find((s) => toSlug(s.name) === params.slug);
-  if (!school) return { notFound: true };
-  return { props: { school } };
+  // Hardcoded schools have more detail (rank, etc.)
+  const hardcoded = ALL_SCHOOLS.find((s) => toSlug(s.name) === params.slug);
+  if (hardcoded) return { props: { school: hardcoded } };
+
+  // Fall back to pre-built college scorecard data
+  const jsonColleges = loadCollegesJson();
+  const fromJson = jsonColleges.find((c) => c.slug === params.slug);
+  if (fromJson) return { props: { school: fromJson } };
+
+  return { notFound: true };
 }
 
 function verdict(school) {

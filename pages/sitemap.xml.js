@@ -2,6 +2,47 @@
 import fs from "fs";
 import path from "path";
 
+function loadCollegesFromFile() {
+  try {
+    const file = path.join(process.cwd(), "data", "colleges.json");
+    if (!fs.existsSync(file)) return [];
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    return (data.colleges || []).map((c) => c.slug).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+// Fallback: the hardcoded list from college/[slug].js
+const FALLBACK_SLUGS = [
+  "harvard-university","mit","stanford-university","yale-university",
+  "princeton-university","columbia-university","university-of-pennsylvania",
+  "dartmouth-college","brown-university","cornell-university",
+  "duke-university","northwestern-university","vanderbilt-university",
+  "georgetown-university","carnegie-mellon-university","washington-univ-in-st-louis",
+  "rice-university","notre-dame-university","emory-university","tufts-university",
+  "university-of-southern-california","boston-university","northeastern-university",
+  "new-york-university","wake-forest-university","tulane-university",
+  "lehigh-university","rensselaer-polytechnic-institute","uc-berkeley","ucla",
+  "university-of-michigan","unc-chapel-hill","university-of-virginia","georgia-tech",
+  "uc-san-diego","uc-santa-barbara","uc-davis","university-of-illinois-urbana",
+  "university-of-wisconsin-madison","purdue-university","university-of-washington",
+  "ohio-state-university","penn-state-university","michigan-state-university",
+  "university-of-florida","florida-state-university","university-of-texas-at-austin",
+  "texas-a-m-university","university-of-maryland","rutgers-university",
+  "university-of-minnesota","indiana-university","university-of-colorado-boulder",
+  "arizona-state-university","university-of-arizona","university-of-oregon",
+  "virginia-tech","nc-state-university","clemson-university","auburn-university",
+  "university-of-alabama","louisiana-state-university","university-of-tennessee",
+  "university-of-iowa","university-of-pittsburgh","suny-buffalo",
+  "stony-brook-university","university-of-nebraska","university-of-kansas",
+  "university-of-missouri","west-virginia-university","mississippi-state-university",
+  "devry-university","full-sail-university","strayer-university",
+  "grand-canyon-university","santa-monica-college","miami-dade-college",
+  "valencia-college","broward-college","houston-community-college",
+  "ivy-tech-community-college",
+];
+
 export async function getServerSideProps({ res }) {
   const siteUrl = "https://ihatecollege.com";
 
@@ -9,10 +50,8 @@ export async function getServerSideProps({ res }) {
   const staticPaths = [
     "",
     "/college-rankings",
-    "/jobs",
     "/alternatives",
     "/trade-schools",
-    "/cheat-sheets",
     "/debt-calculator",
     "/rank-your-school",
     "/civil-service",
@@ -73,91 +112,41 @@ export async function getServerSideProps({ res }) {
     "/blog/cybersecurity-certifications-worth-it-2025",
     "/blog/aws-certification-salary-2025",
     "/blog/comptia-a-certification-jobs",
+    "/blog/google-career-certificates-worth-it",
+    "/blog/college-debt-not-worth-it",
   ];
 
-  // Auto-discover all blog articles from the filesystem
+  // Auto-discover all blog files
   try {
     const blogDir = path.join(process.cwd(), "pages", "blog");
     const blogFiles = fs.readdirSync(blogDir).filter(
       (f) => f.endsWith(".js") && f !== "index.js"
     );
     for (const file of blogFiles) {
-      staticPaths.push(`/blog/${file.replace(".js", "")}`);
+      const p = `/blog/${file.replace(".js", "")}`;
+      if (!staticPaths.includes(p)) staticPaths.push(p);
     }
-  } catch {
-    // fallback — no crash
+  } catch {}
+
+  // College slugs: read from pre-built file (fast, no API calls at runtime)
+  let collegeSlugs = loadCollegesFromFile();
+  if (collegeSlugs.length === 0) {
+    // Fallback to hardcoded list if JSON doesn't exist yet
+    collegeSlugs = FALLBACK_SLUGS;
   }
 
-  // IMPORTANT: dynamic generation from external API is fragile on serverless.
-  // We’ll make it robust: cap pages, add timeouts, and never throw.
-  const apiKey = process.env.COLLEGE_SCORECARD_API_KEY;
-
-  const collegePaths = [];
-  const MAX_PAGES = 60;          // 60 * 100 = 6000 schools max
-  const PER_PAGE = 100;
-  const TIMEOUT_MS = 8000;
-
-  if (apiKey) {
-    for (let page = 1; page <= MAX_PAGES; page++) {
-      const controller = new AbortController();
-      const t = setTimeout(() => controller.abort(), TIMEOUT_MS);
-
-      try {
-        const url =
-          `https://api.data.gov/ed/collegescorecard/v1/schools.json` +
-          `?api_key=${encodeURIComponent(apiKey)}` +
-          `&per_page=${PER_PAGE}` +
-          `&page=${page}` +
-          `&fields=school.name`;
-
-        const response = await fetch(url, {
-          signal: controller.signal,
-          headers: { "User-Agent": "ihatecollege-sitemap/1.0" },
-        });
-
-        // If API fails, stop gracefully (never 500 your sitemap)
-        if (!response.ok) break;
-
-        let data;
-        try {
-          data = await response.json();
-        } catch {
-          break;
-        }
-
-        if (!data?.results?.length) break;
-
-        for (const school of data.results) {
-          const name = school?.["school.name"];
-          if (!name || typeof name !== "string") continue;
-
-          const slug = name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-|-$/g, "");
-
-          if (slug) collegePaths.push(`/college/${slug}`);
-        }
-      } catch {
-        // Abort / network error / anything else -> stop, but do not crash
-        break;
-      } finally {
-        clearTimeout(t);
-      }
-    }
-  }
-
+  const collegePaths = collegeSlugs.map((slug) => `/college/${slug}`);
   const allPaths = [...staticPaths, ...collegePaths];
 
   const now = new Date().toISOString();
   const xmlUrls = allPaths
     .map(
-      (path) => `
+      (p) => `
   <url>
-    <loc>${siteUrl}${path}</loc>
+    <loc>${siteUrl}${p}</loc>
     <lastmod>${now}</lastmod>
-    <changefreq>${path === "" ? "daily" : "weekly"}</changefreq>
-    <priority>${path === "" ? "1.0" : "0.8"}</priority>
+    <changefreq>${p === "" ? "daily" : "weekly"}</changefreq>
+    <priority>${p === "" ? "1.0" : p.startsWith("/college/") ? "0.7" : "0.8"}</priority>
   </url>`
     )
     .join("");
@@ -167,9 +156,8 @@ export async function getServerSideProps({ res }) {
 ${xmlUrls}
 </urlset>`;
 
-  // Cache so Google/Vercel isn’t hammering this endpoint
   res.setHeader("Content-Type", "application/xml");
-  res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate=86400"); // 6h CDN cache
+  res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate=86400");
   res.write(sitemap);
   res.end();
 
