@@ -150,14 +150,15 @@ async function main() {
       // Safety: stop if we've clearly got everything
       if (colleges.length >= total) break;
 
-      // Delay between pages to stay under rate limit (~1 req/sec)
-      await new Promise((r) => setTimeout(r, 800));
+      // Delay between pages — College Scorecard API allows ~1000 req/hour (3.6s min)
+      // Use 5s to stay safely under the limit on shared Vercel build IPs
+      await new Promise((r) => setTimeout(r, 5000));
     } catch (err) {
       const is429 = err.message.includes("429");
       retries++;
       if (is429 && retries <= MAX_RETRIES) {
-        const wait = retries * 3000; // 3s, 6s, 9s, 12s, 15s
-        console.warn(`[fetch-colleges] Rate limited on page ${page}, waiting ${wait / 1000}s (attempt ${retries}/${MAX_RETRIES})...`);
+        const wait = retries * 30000; // 30s, 60s, 90s, 120s, 150s
+        console.warn(`[fetch-colleges] Rate limited on page ${page + 1}, waiting ${wait / 1000}s (attempt ${retries}/${MAX_RETRIES})...`);
         await new Promise((r) => setTimeout(r, wait));
         // retry same page (don't increment)
       } else {
