@@ -336,7 +336,7 @@ export default function HomePage({ articles = [] }) {
       <p style={{ display: "none" }}>Impact-Site-Verification: 7a99b8bc-6d3b-4c9c-9f76-ce1301771cc1</p>
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "92vh", display: "flex", alignItems: "center", padding: "60px 20px", position: "relative", overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "92vh", display: "flex", alignItems: "center", padding: "60px 20px", position: "relative", overflow: "hidden" }}>
         {/* Subtle background image */}
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <Image
@@ -372,7 +372,7 @@ export default function HomePage({ articles = [] }) {
               <DebtCounter />
             </div>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            <div className="hero-cta-row" style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
               <Link href="/college-rankings" style={{ background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 15, padding: "14px 28px", borderRadius: 10, textDecoration: "none" }}>
                 Is My School Worth It? →
               </Link>
@@ -675,9 +675,18 @@ export default function HomePage({ articles = [] }) {
           50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(255,32,32,0); }
         }
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; text-align: center; }
+          /* Hero: single column, no image mosaic */
+          .hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
           .hero-images { display: none !important; }
+          /* Hero section: reduce padding on mobile */
+          .hero-section { min-height: auto !important; padding: 40px 16px 48px !important; }
+          /* Blog grid: single column */
           .blog-main-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          /* CTA buttons: full width on small phones */
+          .hero-cta-row { flex-direction: column !important; }
+          .hero-cta-row a { width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
         }
       `}</style>
     </Layout>

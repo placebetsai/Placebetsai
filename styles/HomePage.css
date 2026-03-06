@@ -420,3 +420,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Homepage: hero + blog grids ─────────────────────────── */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .hero-images {
+    display: none !important;
+  }
+  .blog-main-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

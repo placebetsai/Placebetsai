@@ -256,7 +256,7 @@ export default function CollegeRankings() {
       </div>
 
       {/* Controls */}
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 20px", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", justifyContent: "space-between" }}>
+      <div className="rank-controls" style={{ maxWidth: 1100, margin: "0 auto", padding: "16px 20px", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", justifyContent: "space-between" }}>
         {/* Type filter */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {types.map((t) => (
@@ -268,8 +268,8 @@ export default function CollegeRankings() {
         </div>
 
         {/* Sort */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12 }}>
-          <span style={{ color: "#aaa" }}>Sort:</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+          <span style={{ color: "#aaa", fontSize: 12, fontWeight: 700 }}>Sort:</span>
           {[["earnings", "10yr Earnings"], ["debt", "Lowest Debt"], ["cost", "Lowest Cost"], ["rank", "US News Rank"], ["name", "A–Z"]].map(([k, l]) => (
             <button key={k} onClick={() => setSortBy(k)}
               style={{ padding: "5px 12px", borderRadius: 999, fontSize: 12, fontWeight: 800, cursor: "pointer", border: "1px solid", borderColor: sortBy === k ? "#ff2020" : "#2a2a2a", background: sortBy === k ? "#ff2020" : "#111", color: sortBy === k ? "#fff" : "#ccc" }}>
@@ -294,53 +294,53 @@ export default function CollegeRankings() {
               <div key={school.id} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #2a2a2a", background: "#141414" }}
                 onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"}
                 onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}>
-                {/* Main row — clicking the info area navigates to the school page */}
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Link href={`/college/${slug}`} style={{ flex: 1, display: "flex", alignItems: "center", gap: 16, padding: "16px 20px", textDecoration: "none", minWidth: 0 }}>
+                {/* Main row */}
+                <div className="rank-card-row" style={{ display: "flex", alignItems: "center" }}>
+                  <Link href={`/college/${slug}`} className="rank-card-link" style={{ flex: 1, display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", textDecoration: "none", minWidth: 0 }}>
                     {/* Position # */}
-                    <div style={{ color: "#888", fontSize: 13, fontWeight: 900, minWidth: 28, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
+                    <div style={{ color: "#666", fontSize: 12, fontWeight: 900, minWidth: 24, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
 
                     {/* Name + location + badges */}
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ color: "#fff", fontSize: 15, fontWeight: 800 }}>{school.name}</span>
+                    <div className="rank-card-info" style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                        <span style={{ color: "#fff", fontSize: 14, fontWeight: 800 }}>{school.name}</span>
                         {school.rank && (
-                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)", whiteSpace: "nowrap" }}>
+                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)", whiteSpace: "nowrap" }}>
                             US News #{school.rank}
                           </span>
                         )}
-                        <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, background: tc.bg, color: tc.color }}>{school.type}</span>
-                        {v && <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, background: v.bg, color: v.color, border: `1px solid ${v.border}` }}>{v.label}</span>}
+                        <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: tc.bg, color: tc.color }}>{school.type}</span>
+                        {v && <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: v.bg, color: v.color, border: `1px solid ${v.border}` }}>{v.label}</span>}
                         {userRating && (
-                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)" }}>
+                          <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)" }}>
                             ★ USER RATED
                           </span>
                         )}
                       </div>
-                      <div style={{ color: "#aaa", fontSize: 12, marginTop: 3 }}>{school.city}, {school.state}</div>
+                      <div style={{ color: "#888", fontSize: 11, marginTop: 2 }}>{school.city}, {school.state}</div>
                     </div>
 
                     {/* Stats */}
-                    <div style={{ display: "flex", gap: 16, flexShrink: 0, textAlign: "right" }}>
+                    <div className="rank-card-stats" style={{ display: "flex", gap: 14, flexShrink: 0, textAlign: "right" }}>
                       <div>
                         <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost/yr</div>
-                        <div style={{ color: "#fff", fontSize: 14, fontWeight: 800 }}>{school.cost}</div>
+                        <div style={{ color: "#fff", fontSize: 13, fontWeight: 800 }}>{school.cost}</div>
                       </div>
                       <div>
-                        <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Avg Debt</div>
-                        <div style={{ color: "#ff2020", fontSize: 14, fontWeight: 800 }}>{school.debt}</div>
+                        <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Debt</div>
+                        <div style={{ color: "#ff2020", fontSize: 13, fontWeight: 800 }}>{school.debt}</div>
                       </div>
                       <div className="hidden-mobile">
                         <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>10yr Earn</div>
-                        <div style={{ color: "#10b981", fontSize: 14, fontWeight: 800 }}>{school.earnings}</div>
+                        <div style={{ color: "#10b981", fontSize: 13, fontWeight: 800 }}>{school.earnings}</div>
                       </div>
                     </div>
                   </Link>
 
-                  {/* Rate button — separate from the link */}
-                  <div style={{ padding: "0 16px", flexShrink: 0 }}>
+                  {/* Rate button */}
+                  <div className="rank-card-rate" style={{ padding: "0 12px", flexShrink: 0 }}>
                     <button onClick={() => openRating(school)}
-                      style={{ padding: "6px 14px", background: isOpen ? "#ff2020" : "#1a1a1a", border: "1px solid", borderColor: isOpen ? "#ff2020" : "#333", borderRadius: 8, color: isOpen ? "#fff" : "#ccc", fontSize: 11, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+                      style={{ padding: "6px 12px", background: isOpen ? "#ff2020" : "#1a1a1a", border: "1px solid", borderColor: isOpen ? "#ff2020" : "#333", borderRadius: 8, color: isOpen ? "#fff" : "#ccc", fontSize: 11, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
                       {isOpen ? "✕" : "Rate ↓"}
                     </button>
                   </div>
@@ -409,8 +409,19 @@ export default function CollegeRankings() {
       </section>
 
       <style jsx global>{`
-        @media (max-width: 600px) {
-          .hidden-mobile { display: none; }
+        @media (max-width: 640px) {
+          .hidden-mobile { display: none !important; }
+
+          /* Card: stack info on top, stats below, rate button full-width */
+          .rank-card-row { flex-wrap: wrap !important; }
+          .rank-card-link { flex-wrap: wrap !important; width: 100% !important; padding: 12px !important; gap: 8px !important; }
+          .rank-card-info { min-width: 0; flex: 1 1 auto !important; }
+          .rank-card-stats { width: 100% !important; flex-shrink: 1 !important; text-align: left !important; justify-content: flex-start !important; padding-left: 32px !important; }
+          .rank-card-rate { width: 100% !important; padding: 0 12px 12px !important; }
+          .rank-card-rate button { width: 100% !important; text-align: center !important; }
+
+          /* Controls: stack vertically */
+          .rank-controls { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
         }
       `}</style>
     </Layout>
