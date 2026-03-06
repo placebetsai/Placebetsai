@@ -60,29 +60,81 @@ export default function BreakingTicker() {
   const repeated = [...items, ...items];
 
   return (
-    <div style={{ background: "#ff2020", width: "100%" }}>
+    <div style={{ background: "#e80000", width: "100%" }}>
 
       {/* ── MOBILE: BREAKING label on its own top row ── */}
-      <div className="brk-mobile-label" style={{ background: "#cc0000", padding: "4px 14px", display: "none", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
-        <span style={{ color: "#fff", fontSize: 12, fontWeight: 900, letterSpacing: "0.12em" }}>● BREAKING NEWS</span>
-        <Link href="/news" style={{ marginLeft: "auto", color: "rgba(255,255,255,0.75)", fontSize: 11, fontWeight: 800, textDecoration: "none", whiteSpace: "nowrap" }}>More →</Link>
+      <div className="brk-mobile-label" style={{
+        background: "linear-gradient(90deg, #900 0%, #c00 100%)",
+        padding: "5px 14px",
+        display: "none",
+        alignItems: "center",
+        gap: 8,
+        borderBottom: "1px solid rgba(0,0,0,0.2)",
+      }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#fff", fontSize: 11, fontWeight: 900, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+          <span className="brk-dot" />
+          BREAKING NEWS
+        </span>
+        <Link href="/news" style={{ marginLeft: "auto", color: "rgba(255,255,255,0.8)", fontSize: 11, fontWeight: 800, textDecoration: "none", whiteSpace: "nowrap" }}>More →</Link>
       </div>
 
-      {/* Ticker row */}
-      <div style={{ display: "flex", alignItems: "center", height: 40, overflow: "hidden" }}>
+      {/* ── DESKTOP ticker row ── */}
+      <div style={{ display: "flex", alignItems: "stretch", height: 42, overflow: "hidden" }}>
 
-        {/* BREAKING label — desktop only */}
-        <div className="brk-desktop-label" style={{ background: "#cc0000", height: "100%", display: "flex", alignItems: "center", padding: "0 14px", flexShrink: 0 }}>
-          <span style={{ color: "#fff", fontSize: 13, fontWeight: 900, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING</span>
+        {/* BREAKING badge */}
+        <div className="brk-desktop-label" style={{
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "0 18px 0 16px",
+          background: "linear-gradient(90deg, #7a0000 0%, #b00 60%, #cc0000 100%)",
+          borderRight: "none",
+          position: "relative",
+          zIndex: 3,
+        }}>
+          <span className="brk-dot" />
+          <span style={{ color: "#fff", fontSize: 11, fontWeight: 900, letterSpacing: "0.15em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            Breaking
+          </span>
+          {/* right-pointing chevron shape */}
+          <div style={{
+            position: "absolute",
+            right: -12,
+            top: 0,
+            bottom: 0,
+            width: 24,
+            background: "linear-gradient(90deg, #cc0000 0%, #e80000 100%)",
+            clipPath: "polygon(0 0, 100% 50%, 0 100%)",
+            zIndex: 4,
+          }} />
         </div>
 
-        {/* Scrolling items */}
-        <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+        {/* Scrolling text — with fade overlays */}
+        <div style={{ flex: 1, overflow: "hidden", position: "relative", paddingLeft: 18 }}>
+
+          {/* Left fade: headlines emerge from BREAKING */}
+          <div style={{
+            position: "absolute", left: 0, top: 0, bottom: 0, width: 72,
+            background: "linear-gradient(to right, #e80000 0%, rgba(232,0,0,0) 100%)",
+            zIndex: 2, pointerEvents: "none",
+          }} />
+
+          {/* Right fade: headlines dissolve before More News */}
+          <div className="brk-fade-right" style={{
+            position: "absolute", right: 0, top: 0, bottom: 0, width: 80,
+            background: "linear-gradient(to left, #e80000 0%, rgba(232,0,0,0) 100%)",
+            zIndex: 2, pointerEvents: "none",
+          }} />
+
+          {/* Scrolling headlines */}
           <div
             key={runKey}
             style={{
               display: "inline-flex",
+              alignItems: "center",
               whiteSpace: "nowrap",
+              height: "100%",
               animation: ready ? "brkTicker 70s linear infinite" : "none",
             }}
           >
@@ -94,46 +146,50 @@ export default function BreakingTicker() {
                 rel={item.link.startsWith("http") ? "noreferrer" : undefined}
                 style={{
                   color: "#fff",
-                  fontSize: 14,
-                  fontWeight: 800,
-                  marginRight: 56,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  marginRight: 64,
                   whiteSpace: "nowrap",
                   textDecoration: "none",
-                  display: "inline-block",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  letterSpacing: "0.01em",
                 }}
                 onMouseOver={e => e.currentTarget.style.textDecoration = "underline"}
                 onMouseOut={e => e.currentTarget.style.textDecoration = "none"}
               >
-                <span style={{ marginRight: 8, opacity: 0.7 }}>•</span>
+                <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 10 }}>◆</span>
                 {item.title}
               </a>
             ))}
           </div>
         </div>
 
-        {/* "More news" — desktop only */}
+        {/* More News — desktop */}
         <Link
           href="/news"
           className="brk-desktop-label"
           style={{
             flexShrink: 0,
-            background: "#cc0000",
-            color: "#fff",
-            fontSize: 12,
-            fontWeight: 900,
-            padding: "0 14px",
-            height: "100%",
             display: "flex",
             alignItems: "center",
+            padding: "0 16px",
+            background: "linear-gradient(90deg, #e80000 0%, #aa0000 100%)",
+            color: "#fff",
+            fontSize: 11,
+            fontWeight: 900,
             textDecoration: "none",
             whiteSpace: "nowrap",
-            letterSpacing: "0.04em",
-            borderLeft: "1px solid rgba(255,255,255,0.2)",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            borderLeft: "1px solid rgba(255,255,255,0.15)",
+            gap: 5,
           }}
-          onMouseOver={e => e.currentTarget.style.background = "#aa0000"}
-          onMouseOut={e => e.currentTarget.style.background = "#cc0000"}
+          onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+          onMouseOut={e => e.currentTarget.style.opacity = "1"}
         >
-          More News →
+          More News <span style={{ fontSize: 14 }}>›</span>
         </Link>
       </div>
 
@@ -142,9 +198,23 @@ export default function BreakingTicker() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @keyframes brkPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.4; transform: scale(0.85); }
+        }
+        .brk-dot {
+          display: inline-block;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #fff;
+          flex-shrink: 0;
+          animation: brkPulse 1.4s ease-in-out infinite;
+        }
         @media (max-width: 640px) {
           .brk-mobile-label { display: flex !important; }
           .brk-desktop-label { display: none !important; }
+          .brk-fade-right { display: none !important; }
         }
       `}</style>
     </div>
