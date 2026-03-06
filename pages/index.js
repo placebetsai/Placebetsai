@@ -191,22 +191,60 @@ const TRADE_PATHS = [
 ];
 
 // ── Article image helper ─────────────────────────────────────────────────────
+const ARTICLE_IMAGES = {
+  "alternatives-to-college-2025":             "photo-1517694712202",
+  "apprenticeship-programs-near-me-2025":     "photo-1519085360753",
+  "aws-certification-salary-2025":            "photo-1587440871875",
+  "best-trade-schools-in-america-2025":       "photo-1556761175-5973dc0f32e7",
+  "boilermaker-apprenticeship-pay":           "photo-1565008576549",
+  "cdl-truck-driver-salary-2025":             "photo-1601584115197",
+  "cheapest-way-to-get-a-good-career":        "photo-1450101499163",
+  "civil-service-jobs-no-degree-required":    "photo-1529107386315",
+  "coding-bootcamp-worth-it-2025":            "photo-1461749280684",
+  "college-debt-not-worth-it":                "photo-1567427017947",
+  "college-dropout-success-stories":          "photo-1542744173-8e7e53415bb0",
+  "college-is-a-scam":                        "photo-1611974789855",
+  "college-is-a-waste-of-money":              "photo-1554224155-8d04cb21cd6c",
+  "college-major-with-best-roi":              "photo-1532619187608",
+  "college-regret-statistics":                "photo-1516979187457",
+  "community-college-vs-university":          "photo-1562774053-701939374585",
+  "comptia-a-certification-jobs":             "photo-1488590528505",
+  "cybersecurity-certifications-worth-it-2025": "photo-1550751827-4bd374c3f58b",
+  "drop-out-of-college-and-succeed":          "photo-1556742049-0cfed4f6a45d",
+  "electrician-salary-2025":                  "photo-1621905251918",
+  "elevator-mechanic-salary":                 "photo-1555680202",
+  "fiber-optic-technician-salary":            "photo-1519389950473",
+  "free-online-courses-that-get-you-hired":   "photo-1498050108023",
+  "google-career-certificates-worth-it":      "photo-1516321318423",
+  "highest-paying-trade-jobs-2025":           "photo-1504307651254",
+  "how-to-become-an-electrician-without-college": "photo-1621905252507",
+  "how-to-make-money-without-a-degree":       "photo-1515378791036",
+  "hvac-technician-salary-2025":              "photo-1609220136736",
+  "i-hate-college":                           "photo-1541339907198",
+  "i-hate-college-so-much":                   "photo-1580582932707",
+  "ironworker-apprenticeship":                "photo-1590599145008",
+  "is-college-worth-it-2025":                 "photo-1523240795612",
+  "lineman-apprenticeship-salary":            "photo-1473341304170",
+  "millwright-trade-school-salary":           "photo-1581091226825",
+  "offshore-oil-rig-jobs-no-degree":          "photo-1521737604893",
+  "pipe-fitter-salary-2025":                  "photo-1563013544-824ae1b704d3",
+  "plumber-vs-lawyer-salary":                 "photo-1558618666",
+  "sheet-metal-worker-salary":                "photo-1516937941344",
+  "should-i-drop-out-of-college":             "photo-1454165804606",
+  "should-i-go-to-college-or-work":           "photo-1507003211169",
+  "skilled-trades-shortage-america":          "photo-1581094794329",
+  "solar-panel-installer-salary-2025":        "photo-1509391366360",
+  "student-loan-debt-crisis-2025":            "photo-1579621970563",
+  "trade-school-salary-vs-college-2025":      "photo-1565688534245",
+  "union-vs-non-union-trade-jobs":            "photo-1520863864565",
+  "welder-salary-2025":                       "photo-1504328345606",
+  "why-college-is-not-worth-it":              "photo-1434030216411",
+  "wind-turbine-technician-salary":           "photo-1466611653911",
+};
+
 function getArticleImage(slug = "") {
-  const s = slug.toLowerCase();
-  if (s.includes("electric")) return "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("plumb")) return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("weld")) return "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("hvac") || s.includes("heat")) return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("debt") || s.includes("loan") || s.includes("crisis")) return "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("cert") || s.includes("google") || s.includes("aws") || s.includes("coding") || s.includes("bootcamp") || s.includes("cyber")) return "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("college") || s.includes("campus") || s.includes("scam") || s.includes("worth") || s.includes("university") || s.includes("drop")) return "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("trade") || s.includes("skill") || s.includes("apprentice") || s.includes("union")) return "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("salary") || s.includes("pay") || s.includes("money") || s.includes("earn") || s.includes("income")) return "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("cdl") || s.includes("truck") || s.includes("driver")) return "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("solar") || s.includes("wind") || s.includes("energy")) return "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("offshore") || s.includes("oil") || s.includes("rig")) return "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=450&fit=crop&auto=format";
-  if (s.includes("government") || s.includes("civil") || s.includes("federal")) return "https://images.unsplash.com/photo-1585373683920-671438c82baf?w=800&h=450&fit=crop&auto=format";
-  return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=450&fit=crop&auto=format";
+  const id = ARTICLE_IMAGES[slug] || "photo-1523050854058";
+  return `https://images.unsplash.com/${id}?w=800&h=450&fit=crop&auto=format`;
 }
 
 function getArticleCategory(slug = "", keyword = "") {
