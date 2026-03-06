@@ -228,7 +228,7 @@ const STORIES = [
     salary: "$94k/yr",
     debtAvoided: "$87,000",
     quote: "Turned down $87k in loans. Went IBEW union. Made $42k my first year as an apprentice. Four years in, I'm clearing six figures with zero debt and a pension.",
-    image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=900&h=560&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=560&fit=crop&auto=format",
   },
   {
     name: "Kayla R., 26",
@@ -237,7 +237,7 @@ const STORIES = [
     salary: "$88k/yr",
     debtAvoided: "$120,000",
     quote: "My college roommate took out $120k for a psych degree and is waiting tables. I own my van, set my own hours, bought a house at 25, and never sat through a single lecture.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&h=560&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=900&h=560&fit=crop&auto=format",
   },
   {
     name: "Marcus D., 23",
@@ -246,7 +246,7 @@ const STORIES = [
     salary: "$112k/yr",
     debtAvoided: "$95,000",
     quote: "Spent $3,200 on AWS certs. Got hired at $95k after 6 months of self-study. My friend with a CS degree has $90k debt and makes less than me. Already been promoted twice.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=900&h=560&fit=crop&auto=format",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=900&h=560&fit=crop&auto=format",
   },
 ];
 

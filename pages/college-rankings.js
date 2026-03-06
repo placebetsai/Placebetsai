@@ -8,92 +8,92 @@ import Link from "next/link";
 // Real data from U.S. Dept. of Education College Scorecard
 const ALL_SCHOOLS = [
   // Ivy League
-  { id: 1,   name: "Harvard University",               city: "Cambridge",     state: "MA", cost: "$57,261", debt: "$17,500", earnings: "$87,200",  type: "Private" },
-  { id: 2,   name: "MIT",                              city: "Cambridge",     state: "MA", cost: "$57,986", debt: "$17,100", earnings: "$116,100", type: "Private" },
-  { id: 3,   name: "Stanford University",              city: "Stanford",      state: "CA", cost: "$56,169", debt: "$15,200", earnings: "$91,000",  type: "Private" },
-  { id: 4,   name: "Yale University",                  city: "New Haven",     state: "CT", cost: "$59,950", debt: "$17,300", earnings: "$77,400",  type: "Private" },
-  { id: 5,   name: "Princeton University",             city: "Princeton",     state: "NJ", cost: "$57,410", debt: "$10,800", earnings: "$76,200",  type: "Private" },
-  { id: 6,   name: "Columbia University",              city: "New York",      state: "NY", cost: "$63,530", debt: "$25,100", earnings: "$71,400",  type: "Private" },
-  { id: 7,   name: "University of Pennsylvania",       city: "Philadelphia",  state: "PA", cost: "$57,770", debt: "$22,000", earnings: "$80,300",  type: "Private" },
-  { id: 8,   name: "Dartmouth College",                city: "Hanover",       state: "NH", cost: "$58,336", debt: "$20,100", earnings: "$72,100",  type: "Private" },
-  { id: 9,   name: "Brown University",                 city: "Providence",    state: "RI", cost: "$60,696", debt: "$23,400", earnings: "$67,200",  type: "Private" },
-  { id: 10,  name: "Cornell University",               city: "Ithaca",        state: "NY", cost: "$59,316", debt: "$28,200", earnings: "$74,000",  type: "Private" },
+  { id: 1, rank: 3,   name: "Harvard University",               city: "Cambridge",     state: "MA", cost: "$57,261", debt: "$17,500", earnings: "$87,200",  type: "Private" },
+  { id: 2, rank: 2,   name: "MIT",                              city: "Cambridge",     state: "MA", cost: "$57,986", debt: "$17,100", earnings: "$116,100", type: "Private" },
+  { id: 3, rank: 4,   name: "Stanford University",              city: "Stanford",      state: "CA", cost: "$56,169", debt: "$15,200", earnings: "$91,000",  type: "Private" },
+  { id: 4, rank: 5,   name: "Yale University",                  city: "New Haven",     state: "CT", cost: "$59,950", debt: "$17,300", earnings: "$77,400",  type: "Private" },
+  { id: 5, rank: 1,   name: "Princeton University",             city: "Princeton",     state: "NJ", cost: "$57,410", debt: "$10,800", earnings: "$76,200",  type: "Private" },
+  { id: 6, rank: 12,   name: "Columbia University",              city: "New York",      state: "NY", cost: "$63,530", debt: "$25,100", earnings: "$71,400",  type: "Private" },
+  { id: 7, rank: 7,   name: "University of Pennsylvania",       city: "Philadelphia",  state: "PA", cost: "$57,770", debt: "$22,000", earnings: "$80,300",  type: "Private" },
+  { id: 8, rank: 12,   name: "Dartmouth College",                city: "Hanover",       state: "NH", cost: "$58,336", debt: "$20,100", earnings: "$72,100",  type: "Private" },
+  { id: 9, rank: 13,   name: "Brown University",                 city: "Providence",    state: "RI", cost: "$60,696", debt: "$23,400", earnings: "$67,200",  type: "Private" },
+  { id: 10, rank: 12,  name: "Cornell University",               city: "Ithaca",        state: "NY", cost: "$59,316", debt: "$28,200", earnings: "$74,000",  type: "Private" },
   // Top Private
-  { id: 11,  name: "Duke University",                  city: "Durham",        state: "NC", cost: "$60,244", debt: "$22,100", earnings: "$73,200",  type: "Private" },
-  { id: 12,  name: "Northwestern University",          city: "Evanston",      state: "IL", cost: "$60,768", debt: "$23,400", earnings: "$72,100",  type: "Private" },
-  { id: 13,  name: "Vanderbilt University",            city: "Nashville",     state: "TN", cost: "$56,826", debt: "$23,100", earnings: "$68,400",  type: "Private" },
-  { id: 14,  name: "Georgetown University",            city: "Washington",    state: "DC", cost: "$57,590", debt: "$27,200", earnings: "$72,100",  type: "Private" },
-  { id: 15,  name: "Carnegie Mellon University",       city: "Pittsburgh",    state: "PA", cost: "$57,119", debt: "$31,200", earnings: "$89,200",  type: "Private" },
-  { id: 16,  name: "Washington Univ in St. Louis",     city: "St. Louis",     state: "MO", cost: "$56,310", debt: "$23,100", earnings: "$70,100",  type: "Private" },
-  { id: 17,  name: "Rice University",                  city: "Houston",       state: "TX", cost: "$49,996", debt: "$18,200", earnings: "$74,300",  type: "Private" },
-  { id: 18,  name: "Notre Dame University",            city: "Notre Dame",    state: "IN", cost: "$57,699", debt: "$23,100", earnings: "$72,400",  type: "Private" },
-  { id: 19,  name: "Emory University",                 city: "Atlanta",       state: "GA", cost: "$55,786", debt: "$27,100", earnings: "$65,200",  type: "Private" },
-  { id: 20,  name: "Tufts University",                 city: "Medford",       state: "MA", cost: "$59,574", debt: "$27,300", earnings: "$65,400",  type: "Private" },
-  { id: 21,  name: "University of Southern California",city: "Los Angeles",   state: "CA", cost: "$62,484", debt: "$27,200", earnings: "$62,400",  type: "Private" },
-  { id: 22,  name: "Boston University",                city: "Boston",        state: "MA", cost: "$58,560", debt: "$38,100", earnings: "$58,200",  type: "Private" },
-  { id: 23,  name: "Northeastern University",          city: "Boston",        state: "MA", cost: "$57,592", debt: "$30,100", earnings: "$72,400",  type: "Private" },
-  { id: 24,  name: "New York University",              city: "New York",      state: "NY", cost: "$56,500", debt: "$47,300", earnings: "$57,100",  type: "Private" },
-  { id: 25,  name: "Wake Forest University",           city: "Winston-Salem", state: "NC", cost: "$58,700", debt: "$27,400", earnings: "$63,100",  type: "Private" },
-  { id: 26,  name: "Tulane University",                city: "New Orleans",   state: "LA", cost: "$58,610", debt: "$33,200", earnings: "$56,100",  type: "Private" },
-  { id: 27,  name: "Lehigh University",                city: "Bethlehem",     state: "PA", cost: "$54,640", debt: "$32,100", earnings: "$68,200",  type: "Private" },
-  { id: 28,  name: "Rensselaer Polytechnic Institute", city: "Troy",          state: "NY", cost: "$58,694", debt: "$34,200", earnings: "$76,100",  type: "Private" },
+  { id: 11, rank: 6,  name: "Duke University",                  city: "Durham",        state: "NC", cost: "$60,244", debt: "$22,100", earnings: "$73,200",  type: "Private" },
+  { id: 12, rank: 10,  name: "Northwestern University",          city: "Evanston",      state: "IL", cost: "$60,768", debt: "$23,400", earnings: "$72,100",  type: "Private" },
+  { id: 13, rank: 18,  name: "Vanderbilt University",            city: "Nashville",     state: "TN", cost: "$56,826", debt: "$23,100", earnings: "$68,400",  type: "Private" },
+  { id: 14, rank: 22,  name: "Georgetown University",            city: "Washington",    state: "DC", cost: "$57,590", debt: "$27,200", earnings: "$72,100",  type: "Private" },
+  { id: 15, rank: 22,  name: "Carnegie Mellon University",       city: "Pittsburgh",    state: "PA", cost: "$57,119", debt: "$31,200", earnings: "$89,200",  type: "Private" },
+  { id: 16, rank: 22,  name: "Washington Univ in St. Louis",     city: "St. Louis",     state: "MO", cost: "$56,310", debt: "$23,100", earnings: "$70,100",  type: "Private" },
+  { id: 17, rank: 17,  name: "Rice University",                  city: "Houston",       state: "TX", cost: "$49,996", debt: "$18,200", earnings: "$74,300",  type: "Private" },
+  { id: 18, rank: 18,  name: "Notre Dame University",            city: "Notre Dame",    state: "IN", cost: "$57,699", debt: "$23,100", earnings: "$72,400",  type: "Private" },
+  { id: 19, rank: 25,  name: "Emory University",                 city: "Atlanta",       state: "GA", cost: "$55,786", debt: "$27,100", earnings: "$65,200",  type: "Private" },
+  { id: 20, rank: 29,  name: "Tufts University",                 city: "Medford",       state: "MA", cost: "$59,574", debt: "$27,300", earnings: "$65,400",  type: "Private" },
+  { id: 21, rank: 28,  name: "University of Southern California",city: "Los Angeles",   state: "CA", cost: "$62,484", debt: "$27,200", earnings: "$62,400",  type: "Private" },
+  { id: 22, rank: 41,  name: "Boston University",                city: "Boston",        state: "MA", cost: "$58,560", debt: "$38,100", earnings: "$58,200",  type: "Private" },
+  { id: 23, rank: 53,  name: "Northeastern University",          city: "Boston",        state: "MA", cost: "$57,592", debt: "$30,100", earnings: "$72,400",  type: "Private" },
+  { id: 24, rank: 28,  name: "New York University",              city: "New York",      state: "NY", cost: "$56,500", debt: "$47,300", earnings: "$57,100",  type: "Private" },
+  { id: 25, rank: 28,  name: "Wake Forest University",           city: "Winston-Salem", state: "NC", cost: "$58,700", debt: "$27,400", earnings: "$63,100",  type: "Private" },
+  { id: 26, rank: 67,  name: "Tulane University",                city: "New Orleans",   state: "LA", cost: "$58,610", debt: "$33,200", earnings: "$56,100",  type: "Private" },
+  { id: 27, rank: 102,  name: "Lehigh University",                city: "Bethlehem",     state: "PA", cost: "$54,640", debt: "$32,100", earnings: "$68,200",  type: "Private" },
+  { id: 28, rank: 72,  name: "Rensselaer Polytechnic Institute", city: "Troy",          state: "NY", cost: "$58,694", debt: "$34,200", earnings: "$76,100",  type: "Private" },
   // Top Public
-  { id: 29,  name: "UC Berkeley",                      city: "Berkeley",      state: "CA", cost: "$14,312", debt: "$18,200", earnings: "$72,100",  type: "Public" },
-  { id: 30,  name: "UCLA",                             city: "Los Angeles",   state: "CA", cost: "$13,240", debt: "$19,100", earnings: "$65,300",  type: "Public" },
-  { id: 31,  name: "University of Michigan",           city: "Ann Arbor",     state: "MI", cost: "$15,948", debt: "$22,100", earnings: "$66,200",  type: "Public" },
-  { id: 32,  name: "UNC Chapel Hill",                  city: "Chapel Hill",   state: "NC", cost: "$9,018",  debt: "$22,100", earnings: "$56,100",  type: "Public" },
-  { id: 33,  name: "University of Virginia",           city: "Charlottesville",state:"VA", cost: "$17,400", debt: "$22,400", earnings: "$63,200",  type: "Public" },
-  { id: 34,  name: "Georgia Tech",                     city: "Atlanta",       state: "GA", cost: "$12,682", debt: "$22,100", earnings: "$82,400",  type: "Public" },
-  { id: 35,  name: "UC San Diego",                     city: "La Jolla",      state: "CA", cost: "$14,312", debt: "$19,200", earnings: "$64,100",  type: "Public" },
-  { id: 36,  name: "UC Santa Barbara",                 city: "Santa Barbara", state: "CA", cost: "$14,312", debt: "$20,100", earnings: "$57,300",  type: "Public" },
-  { id: 37,  name: "UC Davis",                         city: "Davis",         state: "CA", cost: "$14,312", debt: "$21,200", earnings: "$57,100",  type: "Public" },
-  { id: 38,  name: "University of Illinois Urbana",    city: "Champaign",     state: "IL", cost: "$15,868", debt: "$26,200", earnings: "$64,100",  type: "Public" },
-  { id: 39,  name: "University of Wisconsin-Madison",  city: "Madison",       state: "WI", cost: "$10,728", debt: "$25,100", earnings: "$55,200",  type: "Public" },
-  { id: 40,  name: "Purdue University",                city: "West Lafayette",state: "IN", cost: "$9,208",  debt: "$25,100", earnings: "$60,200",  type: "Public" },
-  { id: 41,  name: "University of Washington",         city: "Seattle",       state: "WA", cost: "$11,465", debt: "$21,100", earnings: "$63,200",  type: "Public" },
-  { id: 42,  name: "Ohio State University",            city: "Columbus",      state: "OH", cost: "$11,518", debt: "$25,100", earnings: "$54,200",  type: "Public" },
-  { id: 43,  name: "Penn State University",            city: "University Park",state:"PA", cost: "$18,454", debt: "$32,100", earnings: "$55,200",  type: "Public" },
-  { id: 44,  name: "Michigan State University",        city: "East Lansing",  state: "MI", cost: "$14,436", debt: "$27,100", earnings: "$51,200",  type: "Public" },
-  { id: 45,  name: "University of Florida",            city: "Gainesville",   state: "FL", cost: "$6,380",  debt: "$20,100", earnings: "$52,200",  type: "Public" },
-  { id: 46,  name: "Florida State University",         city: "Tallahassee",   state: "FL", cost: "$5,656",  debt: "$22,100", earnings: "$47,200",  type: "Public" },
-  { id: 47,  name: "University of Texas at Austin",    city: "Austin",        state: "TX", cost: "$11,188", debt: "$23,100", earnings: "$56,100",  type: "Public" },
-  { id: 48,  name: "Texas A&M University",             city: "College Station",state:"TX", cost: "$11,234", debt: "$22,100", earnings: "$54,200",  type: "Public" },
-  { id: 49,  name: "University of Maryland",           city: "College Park",  state: "MD", cost: "$10,399", debt: "$24,100", earnings: "$61,200",  type: "Public" },
-  { id: 50,  name: "Rutgers University",               city: "New Brunswick", state: "NJ", cost: "$14,100", debt: "$28,100", earnings: "$57,200",  type: "Public" },
-  { id: 51,  name: "University of Minnesota",          city: "Minneapolis",   state: "MN", cost: "$14,197", debt: "$26,100", earnings: "$55,200",  type: "Public" },
-  { id: 52,  name: "Indiana University",               city: "Bloomington",   state: "IN", cost: "$10,012", debt: "$26,100", earnings: "$50,100",  type: "Public" },
-  { id: 53,  name: "University of Colorado Boulder",   city: "Boulder",       state: "CO", cost: "$11,052", debt: "$24,100", earnings: "$52,200",  type: "Public" },
-  { id: 54,  name: "Arizona State University",         city: "Tempe",         state: "AZ", cost: "$11,338", debt: "$23,100", earnings: "$48,200",  type: "Public" },
-  { id: 55,  name: "University of Arizona",            city: "Tucson",        state: "AZ", cost: "$12,467", debt: "$21,100", earnings: "$48,100",  type: "Public" },
-  { id: 56,  name: "University of Oregon",             city: "Eugene",        state: "OR", cost: "$12,720", debt: "$24,100", earnings: "$50,200",  type: "Public" },
-  { id: 57,  name: "Virginia Tech",                    city: "Blacksburg",    state: "VA", cost: "$13,620", debt: "$24,100", earnings: "$64,200",  type: "Public" },
-  { id: 58,  name: "NC State University",              city: "Raleigh",       state: "NC", cost: "$9,100",  debt: "$22,100", earnings: "$57,200",  type: "Public" },
-  { id: 59,  name: "Clemson University",               city: "Clemson",       state: "SC", cost: "$14,708", debt: "$25,100", earnings: "$57,200",  type: "Public" },
-  { id: 60,  name: "Auburn University",                city: "Auburn",        state: "AL", cost: "$11,796", debt: "$25,100", earnings: "$51,200",  type: "Public" },
-  { id: 61,  name: "University of Alabama",            city: "Tuscaloosa",    state: "AL", cost: "$10,780", debt: "$23,100", earnings: "$47,200",  type: "Public" },
-  { id: 62,  name: "Louisiana State University",       city: "Baton Rouge",   state: "LA", cost: "$8,038",  debt: "$22,100", earnings: "$46,100",  type: "Public" },
-  { id: 63,  name: "University of Tennessee",          city: "Knoxville",     state: "TN", cost: "$11,332", debt: "$23,100", earnings: "$49,200",  type: "Public" },
-  { id: 64,  name: "University of Iowa",               city: "Iowa City",     state: "IA", cost: "$9,616",  debt: "$24,100", earnings: "$48,100",  type: "Public" },
-  { id: 65,  name: "University of Pittsburgh",         city: "Pittsburgh",    state: "PA", cost: "$19,080", debt: "$31,100", earnings: "$57,200",  type: "Public" },
-  { id: 66,  name: "SUNY Buffalo",                     city: "Buffalo",       state: "NY", cost: "$10,391", debt: "$23,100", earnings: "$52,200",  type: "Public" },
-  { id: 67,  name: "Stony Brook University",           city: "Stony Brook",   state: "NY", cost: "$10,391", debt: "$22,100", earnings: "$57,200",  type: "Public" },
-  { id: 68,  name: "University of Nebraska",           city: "Lincoln",       state: "NE", cost: "$9,022",  debt: "$23,100", earnings: "$49,100",  type: "Public" },
-  { id: 69,  name: "University of Kansas",             city: "Lawrence",      state: "KS", cost: "$10,092", debt: "$24,100", earnings: "$47,100",  type: "Public" },
-  { id: 70,  name: "University of Missouri",           city: "Columbia",      state: "MO", cost: "$10,062", debt: "$24,100", earnings: "$47,100",  type: "Public" },
-  { id: 71,  name: "West Virginia University",         city: "Morgantown",    state: "WV", cost: "$8,376",  debt: "$23,100", earnings: "$44,200",  type: "Public" },
-  { id: 72,  name: "Mississippi State University",     city: "Starkville",    state: "MS", cost: "$8,780",  debt: "$21,100", earnings: "$46,200",  type: "Public" },
+  { id: 29, rank: 9,  name: "UC Berkeley",                      city: "Berkeley",      state: "CA", cost: "$14,312", debt: "$18,200", earnings: "$72,100",  type: "Public" },
+  { id: 30, rank: 15,  name: "UCLA",                             city: "Los Angeles",   state: "CA", cost: "$13,240", debt: "$19,100", earnings: "$65,300",  type: "Public" },
+  { id: 31, rank: 23,  name: "University of Michigan",           city: "Ann Arbor",     state: "MI", cost: "$15,948", debt: "$22,100", earnings: "$66,200",  type: "Public" },
+  { id: 32, rank: 25,  name: "UNC Chapel Hill",                  city: "Chapel Hill",   state: "NC", cost: "$9,018",  debt: "$22,100", earnings: "$56,100",  type: "Public" },
+  { id: 33, rank: 25,  name: "University of Virginia",           city: "Charlottesville",state:"VA", cost: "$17,400", debt: "$22,400", earnings: "$63,200",  type: "Public" },
+  { id: 34, rank: 35,  name: "Georgia Tech",                     city: "Atlanta",       state: "GA", cost: "$12,682", debt: "$22,100", earnings: "$82,400",  type: "Public" },
+  { id: 35, rank: 34,  name: "UC San Diego",                     city: "La Jolla",      state: "CA", cost: "$14,312", debt: "$19,200", earnings: "$64,100",  type: "Public" },
+  { id: 36, rank: 60,  name: "UC Santa Barbara",                 city: "Santa Barbara", state: "CA", cost: "$14,312", debt: "$20,100", earnings: "$57,300",  type: "Public" },
+  { id: 37, rank: 60,  name: "UC Davis",                         city: "Davis",         state: "CA", cost: "$14,312", debt: "$21,200", earnings: "$57,100",  type: "Public" },
+  { id: 38, rank: 35,  name: "University of Illinois Urbana",    city: "Champaign",     state: "IL", cost: "$15,868", debt: "$26,200", earnings: "$64,100",  type: "Public" },
+  { id: 39, rank: 42,  name: "University of Wisconsin-Madison",  city: "Madison",       state: "WI", cost: "$10,728", debt: "$25,100", earnings: "$55,200",  type: "Public" },
+  { id: 40, rank: 60,  name: "Purdue University",                city: "West Lafayette",state: "IN", cost: "$9,208",  debt: "$25,100", earnings: "$60,200",  type: "Public" },
+  { id: 41, rank: 55,  name: "University of Washington",         city: "Seattle",       state: "WA", cost: "$11,465", debt: "$21,100", earnings: "$63,200",  type: "Public" },
+  { id: 42, rank: 66,  name: "Ohio State University",            city: "Columbus",      state: "OH", cost: "$11,518", debt: "$25,100", earnings: "$54,200",  type: "Public" },
+  { id: 43, rank: 96,  name: "Penn State University",            city: "University Park",state:"PA", cost: "$18,454", debt: "$32,100", earnings: "$55,200",  type: "Public" },
+  { id: 44, rank: 96,  name: "Michigan State University",        city: "East Lansing",  state: "MI", cost: "$14,436", debt: "$27,100", earnings: "$51,200",  type: "Public" },
+  { id: 45, rank: 57,  name: "University of Florida",            city: "Gainesville",   state: "FL", cost: "$6,380",  debt: "$20,100", earnings: "$52,200",  type: "Public" },
+  { id: 46, rank: 72,  name: "Florida State University",         city: "Tallahassee",   state: "FL", cost: "$5,656",  debt: "$22,100", earnings: "$47,200",  type: "Public" },
+  { id: 47, rank: 35,  name: "University of Texas at Austin",    city: "Austin",        state: "TX", cost: "$11,188", debt: "$23,100", earnings: "$56,100",  type: "Public" },
+  { id: 48, rank: 66,  name: "Texas A&M University",             city: "College Station",state:"TX", cost: "$11,234", debt: "$22,100", earnings: "$54,200",  type: "Public" },
+  { id: 49, rank: 52,  name: "University of Maryland",           city: "College Park",  state: "MD", cost: "$10,399", debt: "$24,100", earnings: "$61,200",  type: "Public" },
+  { id: 50, rank: 96,  name: "Rutgers University",               city: "New Brunswick", state: "NJ", cost: "$14,100", debt: "$28,100", earnings: "$57,200",  type: "Public" },
+  { id: 51, rank: 79,  name: "University of Minnesota",          city: "Minneapolis",   state: "MN", cost: "$14,197", debt: "$26,100", earnings: "$55,200",  type: "Public" },
+  { id: 52, rank: 121,  name: "Indiana University",               city: "Bloomington",   state: "IN", cost: "$10,012", debt: "$26,100", earnings: "$50,100",  type: "Public" },
+  { id: 53, rank: 92,  name: "University of Colorado Boulder",   city: "Boulder",       state: "CO", cost: "$11,052", debt: "$24,100", earnings: "$52,200",  type: "Public" },
+  { id: 54, rank: 117,  name: "Arizona State University",         city: "Tempe",         state: "AZ", cost: "$11,338", debt: "$23,100", earnings: "$48,200",  type: "Public" },
+  { id: 55, rank: 117,  name: "University of Arizona",            city: "Tucson",        state: "AZ", cost: "$12,467", debt: "$21,100", earnings: "$48,100",  type: "Public" },
+  { id: 56, rank: 121,  name: "University of Oregon",             city: "Eugene",        state: "OR", cost: "$12,720", debt: "$24,100", earnings: "$50,200",  type: "Public" },
+  { id: 57, rank: 56,  name: "Virginia Tech",                    city: "Blacksburg",    state: "VA", cost: "$13,620", debt: "$24,100", earnings: "$64,200",  type: "Public" },
+  { id: 58, rank: 67,  name: "NC State University",              city: "Raleigh",       state: "NC", cost: "$9,100",  debt: "$22,100", earnings: "$57,200",  type: "Public" },
+  { id: 59, rank: 55,  name: "Clemson University",               city: "Clemson",       state: "SC", cost: "$14,708", debt: "$25,100", earnings: "$57,200",  type: "Public" },
+  { id: 60, rank: 117,  name: "Auburn University",                city: "Auburn",        state: "AL", cost: "$11,796", debt: "$25,100", earnings: "$51,200",  type: "Public" },
+  { id: 61, rank: 144,  name: "University of Alabama",            city: "Tuscaloosa",    state: "AL", cost: "$10,780", debt: "$23,100", earnings: "$47,200",  type: "Public" },
+  { id: 62, rank: 150,  name: "Louisiana State University",       city: "Baton Rouge",   state: "LA", cost: "$8,038",  debt: "$22,100", earnings: "$46,100",  type: "Public" },
+  { id: 63, rank: 113,  name: "University of Tennessee",          city: "Knoxville",     state: "TN", cost: "$11,332", debt: "$23,100", earnings: "$49,200",  type: "Public" },
+  { id: 64, rank: 104,  name: "University of Iowa",               city: "Iowa City",     state: "IA", cost: "$9,616",  debt: "$24,100", earnings: "$48,100",  type: "Public" },
+  { id: 65, rank: 66,  name: "University of Pittsburgh",         city: "Pittsburgh",    state: "PA", cost: "$19,080", debt: "$31,100", earnings: "$57,200",  type: "Public" },
+  { id: 66, rank: 115,  name: "SUNY Buffalo",                     city: "Buffalo",       state: "NY", cost: "$10,391", debt: "$23,100", earnings: "$52,200",  type: "Public" },
+  { id: 67, rank: 98,  name: "Stony Brook University",           city: "Stony Brook",   state: "NY", cost: "$10,391", debt: "$22,100", earnings: "$57,200",  type: "Public" },
+  { id: 68, rank: 165,  name: "University of Nebraska",           city: "Lincoln",       state: "NE", cost: "$9,022",  debt: "$23,100", earnings: "$49,100",  type: "Public" },
+  { id: 69, rank: 163,  name: "University of Kansas",             city: "Lawrence",      state: "KS", cost: "$10,092", debt: "$24,100", earnings: "$47,100",  type: "Public" },
+  { id: 70, rank: 133,  name: "University of Missouri",           city: "Columbia",      state: "MO", cost: "$10,062", debt: "$24,100", earnings: "$47,100",  type: "Public" },
+  { id: 71, rank: 188,  name: "West Virginia University",         city: "Morgantown",    state: "WV", cost: "$8,376",  debt: "$23,100", earnings: "$44,200",  type: "Public" },
+  { id: 72, rank: 182,  name: "Mississippi State University",     city: "Starkville",    state: "MS", cost: "$8,780",  debt: "$21,100", earnings: "$46,200",  type: "Public" },
   // High-debt warning schools
-  { id: 73,  name: "DeVry University",                 city: "Naperville",    state: "IL", cost: "$15,835", debt: "$43,200", earnings: "$40,100",  type: "For-Profit" },
-  { id: 74,  name: "Full Sail University",             city: "Winter Park",   state: "FL", cost: "$27,540", debt: "$57,400", earnings: "$38,200",  type: "For-Profit" },
-  { id: 75,  name: "Strayer University",               city: "Washington",    state: "DC", cost: "$14,700", debt: "$32,100", earnings: "$42,100",  type: "For-Profit" },
-  { id: 76,  name: "Grand Canyon University",          city: "Phoenix",       state: "AZ", cost: "$17,050", debt: "$35,100", earnings: "$41,200",  type: "For-Profit" },
+  { id: 73, rank: null,  name: "DeVry University",                 city: "Naperville",    state: "IL", cost: "$15,835", debt: "$43,200", earnings: "$40,100",  type: "For-Profit" },
+  { id: 74, rank: null,  name: "Full Sail University",             city: "Winter Park",   state: "FL", cost: "$27,540", debt: "$57,400", earnings: "$38,200",  type: "For-Profit" },
+  { id: 75, rank: null,  name: "Strayer University",               city: "Washington",    state: "DC", cost: "$14,700", debt: "$32,100", earnings: "$42,100",  type: "For-Profit" },
+  { id: 76, rank: null,  name: "Grand Canyon University",          city: "Phoenix",       state: "AZ", cost: "$17,050", debt: "$35,100", earnings: "$41,200",  type: "For-Profit" },
   // Good-value schools
-  { id: 77,  name: "Santa Monica College",             city: "Santa Monica",  state: "CA", cost: "$1,288",  debt: "$13,100", earnings: "$44,200",  type: "Community" },
-  { id: 78,  name: "Miami Dade College",               city: "Miami",         state: "FL", cost: "$3,340",  debt: "$12,100", earnings: "$36,200",  type: "Community" },
-  { id: 79,  name: "Valencia College",                 city: "Orlando",       state: "FL", cost: "$2,530",  debt: "$12,100", earnings: "$36,100",  type: "Community" },
-  { id: 80,  name: "Broward College",                  city: "Fort Lauderdale",state:"FL", cost: "$3,073",  debt: "$11,100", earnings: "$36,200",  type: "Community" },
-  { id: 81,  name: "Houston Community College",        city: "Houston",       state: "TX", cost: "$2,214",  debt: "$10,100", earnings: "$34,200",  type: "Community" },
-  { id: 82,  name: "Ivy Tech Community College",       city: "Indianapolis",  state: "IN", cost: "$4,106",  debt: "$11,100", earnings: "$35,100",  type: "Community" },
+  { id: 77, rank: null,  name: "Santa Monica College",             city: "Santa Monica",  state: "CA", cost: "$1,288",  debt: "$13,100", earnings: "$44,200",  type: "Community" },
+  { id: 78, rank: null,  name: "Miami Dade College",               city: "Miami",         state: "FL", cost: "$3,340",  debt: "$12,100", earnings: "$36,200",  type: "Community" },
+  { id: 79, rank: null,  name: "Valencia College",                 city: "Orlando",       state: "FL", cost: "$2,530",  debt: "$12,100", earnings: "$36,100",  type: "Community" },
+  { id: 80, rank: null,  name: "Broward College",                  city: "Fort Lauderdale",state:"FL", cost: "$3,073",  debt: "$11,100", earnings: "$36,200",  type: "Community" },
+  { id: 81, rank: null,  name: "Houston Community College",        city: "Houston",       state: "TX", cost: "$2,214",  debt: "$10,100", earnings: "$34,200",  type: "Community" },
+  { id: 82, rank: null,  name: "Ivy Tech Community College",       city: "Indianapolis",  state: "IN", cost: "$4,106",  debt: "$11,100", earnings: "$35,100",  type: "Community" },
 ];
 
 function verdict(school) {
@@ -191,6 +191,7 @@ export default function CollegeRankings() {
       if (sortBy === "earnings") return val(b, "earnings") - val(a, "earnings");
       if (sortBy === "debt")     return val(a, "debt")     - val(b, "debt");
       if (sortBy === "cost")     return val(a, "cost")     - val(b, "cost");
+      if (sortBy === "rank")     return (a.rank || 9999) - (b.rank || 9999);
       return a.name.localeCompare(b.name);
     });
 
@@ -249,7 +250,7 @@ export default function CollegeRankings() {
           <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12 }}>
             <span style={{ width: 10, height: 10, borderRadius: "50%", background: v.color, flexShrink: 0 }} />
             <span style={{ color: v.color, fontWeight: 800 }}>{v.label}</span>
-            <span style={{ color: "#555" }}>{v.desc}</span>
+            <span style={{ color: "#aaa" }}>{v.desc}</span>
           </div>
         ))}
       </div>
@@ -260,7 +261,7 @@ export default function CollegeRankings() {
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {types.map((t) => (
             <button key={t} onClick={() => setFilter(t)}
-              style={{ padding: "6px 14px", borderRadius: 999, fontSize: 12, fontWeight: 800, cursor: "pointer", border: "1px solid", borderColor: filter === t ? "#ff2020" : "#2a2a2a", background: filter === t ? "#ff2020" : "#111", color: filter === t ? "#fff" : "#888" }}>
+              style={{ padding: "6px 14px", borderRadius: 999, fontSize: 12, fontWeight: 800, cursor: "pointer", border: "1px solid", borderColor: filter === t ? "#ff2020" : "#333", background: filter === t ? "#ff2020" : "#1a1a1a", color: filter === t ? "#fff" : "#ddd" }}>
               {t}
             </button>
           ))}
@@ -268,10 +269,10 @@ export default function CollegeRankings() {
 
         {/* Sort */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12 }}>
-          <span style={{ color: "#555" }}>Sort:</span>
-          {[["earnings", "10yr Earnings"], ["debt", "Lowest Debt"], ["cost", "Lowest Cost"], ["name", "A–Z"]].map(([k, l]) => (
+          <span style={{ color: "#aaa" }}>Sort:</span>
+          {[["earnings", "10yr Earnings"], ["debt", "Lowest Debt"], ["cost", "Lowest Cost"], ["rank", "US News Rank"], ["name", "A–Z"]].map(([k, l]) => (
             <button key={k} onClick={() => setSortBy(k)}
-              style={{ padding: "5px 12px", borderRadius: 999, fontSize: 12, fontWeight: 800, cursor: "pointer", border: "1px solid", borderColor: sortBy === k ? "#ff2020" : "#2a2a2a", background: sortBy === k ? "#ff2020" : "#111", color: sortBy === k ? "#fff" : "#888" }}>
+              style={{ padding: "5px 12px", borderRadius: 999, fontSize: 12, fontWeight: 800, cursor: "pointer", border: "1px solid", borderColor: sortBy === k ? "#ff2020" : "#2a2a2a", background: sortBy === k ? "#ff2020" : "#111", color: sortBy === k ? "#fff" : "#ccc" }}>
               {l}
             </button>
           ))}
@@ -280,7 +281,7 @@ export default function CollegeRankings() {
 
       {/* Table */}
       <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
-        <p style={{ color: "#555", fontSize: 12, marginBottom: 12 }}>{filtered.length} schools</p>
+        <p style={{ color: "#aaa", fontSize: 12, marginBottom: 12 }}>{filtered.length} schools · US News ranks from 2025 Best National Universities</p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {filtered.map((school, i) => {
@@ -290,69 +291,76 @@ export default function CollegeRankings() {
             const userRating = ratings[school.id];
             const isOpen = expanded === school.id;
             return (
-              <div key={school.id} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #1e1e1e", background: "#111" }}>
+              <div key={school.id} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #2a2a2a", background: "#141414" }}>
                 {/* Main row */}
                 <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 16 }}>
-                  {/* Rank */}
-                  <div style={{ color: "#333", fontSize: 13, fontWeight: 900, minWidth: 28, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
+                  {/* Position # */}
+                  <div style={{ color: "#888", fontSize: 13, fontWeight: 900, minWidth: 28, textAlign: "right", flexShrink: 0 }}>#{i + 1}</div>
 
-                  {/* Name + location */}
+                  {/* Name + location + badges */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                       <Link href={`/college/${slug}`} style={{ color: "#fff", fontSize: 15, fontWeight: 800, textDecoration: "none" }}
                         onMouseOver={e => e.target.style.color = "#ff2020"} onMouseOut={e => e.target.style.color = "#fff"}>
                         {school.name}
                       </Link>
+                      {/* US News rank badge */}
+                      {school.rank && (
+                        <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)", whiteSpace: "nowrap" }}>
+                          US News #{school.rank}
+                        </span>
+                      )}
                       <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, background: tc.bg, color: tc.color }}>{school.type}</span>
                       {v && <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, background: v.bg, color: v.color, border: `1px solid ${v.border}` }}>{v.label}</span>}
                       {userRating && (
-                        <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, background: "rgba(245,158,11,0.12)", color: "#f59e0b" }}>
-                          {"★".repeat(userRating.rating)} You rated
+                        <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 7px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)" }}>
+                          ★ USER RATED
                         </span>
                       )}
                     </div>
-                    <div style={{ color: "#555", fontSize: 12, marginTop: 2 }}>{school.city}, {school.state}</div>
+                    <div style={{ color: "#aaa", fontSize: 12, marginTop: 3 }}>{school.city}, {school.state}</div>
                   </div>
 
                   {/* Stats */}
                   <div style={{ display: "flex", gap: 16, flexShrink: 0, textAlign: "right", alignItems: "center" }}>
                     <div>
-                      <div style={{ color: "#444", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost/yr</div>
+                      <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Cost/yr</div>
                       <div style={{ color: "#fff", fontSize: 14, fontWeight: 800 }}>{school.cost}</div>
                     </div>
                     <div>
-                      <div style={{ color: "#444", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Avg Debt</div>
+                      <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Avg Debt</div>
                       <div style={{ color: "#ff2020", fontSize: 14, fontWeight: 800 }}>{school.debt}</div>
                     </div>
                     <div className="hidden-mobile">
-                      <div style={{ color: "#444", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>10yr Earn</div>
+                      <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>10yr Earn</div>
                       <div style={{ color: "#10b981", fontSize: 14, fontWeight: 800 }}>{school.earnings}</div>
                     </div>
                     <button onClick={() => openRating(school)}
-                      style={{ marginLeft: 8, padding: "5px 12px", background: isOpen ? "#1a1a1a" : "transparent", border: "1px solid #2a2a2a", borderRadius: 8, color: "#555", fontSize: 11, fontWeight: 800, cursor: "pointer", flexShrink: 0 }}>
-                      {isOpen ? "✕" : "Rate"}
+                      style={{ marginLeft: 8, padding: "5px 12px", background: isOpen ? "#ff2020" : "#1a1a1a", border: "1px solid", borderColor: isOpen ? "#ff2020" : "#333", borderRadius: 8, color: isOpen ? "#fff" : "#ccc", fontSize: 11, fontWeight: 800, cursor: "pointer", flexShrink: 0 }}>
+                      {isOpen ? "✕ Close" : "Rate ↓"}
                     </button>
                   </div>
                 </div>
 
-                {/* User rating display (if already rated) */}
+                {/* USER RANKING display (if already rated and not editing) */}
                 {userRating && !isOpen && (
-                  <div style={{ borderTop: "1px solid #1a1a1a", padding: "10px 20px 12px 68px", background: "#0d0d0d" }}>
-                    <div style={{ color: "#f59e0b", fontSize: 14, fontWeight: 900, marginBottom: 2 }}>
-                      {"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}
-                      <span style={{ color: "#555", fontWeight: 700, fontSize: 11, marginLeft: 8 }}>Your rating · {userRating.date}</span>
+                  <div style={{ borderTop: "1px solid #222", padding: "12px 20px 14px", background: "#0f0f0f" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                      <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)", letterSpacing: "0.08em" }}>USER RANKING</span>
+                      <span style={{ color: "#f59e0b", fontSize: 16, fontWeight: 900 }}>{"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}</span>
+                      <span style={{ color: "#777", fontWeight: 700, fontSize: 11 }}>{userRating.rating}/5 · submitted {userRating.date}</span>
                     </div>
                     {userRating.comment && (
-                      <p style={{ color: "#888", fontSize: 13, margin: "4px 0 0", lineHeight: 1.5 }}>{userRating.comment}</p>
+                      <p style={{ color: "#ccc", fontSize: 13, margin: "4px 0 0", lineHeight: 1.5 }}>&ldquo;{userRating.comment}&rdquo;</p>
                     )}
                   </div>
                 )}
 
                 {/* Rating form (expanded) */}
                 {isOpen && (
-                  <div style={{ borderTop: "1px solid #1a1a1a", padding: "20px", background: "#0d0d0d" }}>
-                    <p style={{ color: "#888", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12 }}>
-                      Rate {school.name}
+                  <div style={{ borderTop: "1px solid #222", padding: "20px", background: "#0f0f0f" }}>
+                    <p style={{ color: "#ccc", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12 }}>
+                      Your Ranking — {school.name}
                     </p>
                     <div style={{ marginBottom: 12 }}>
                       <StarPicker value={draftRating} onChange={setDraftRating} />
@@ -391,8 +399,8 @@ export default function CollegeRankings() {
           <AdUnit slot="6600722153" />
         </div>
 
-        <p style={{ color: "#333", fontSize: 11, marginTop: 16, textAlign: "center" }}>
-          Data: U.S. Dept. of Education College Scorecard. Cost = in-state tuition. Earnings = median 10yr post-entry. Figures approximate.
+        <p style={{ color: "#888", fontSize: 11, marginTop: 16, textAlign: "center" }}>
+          Cost &amp; debt: U.S. Dept. of Education College Scorecard · Earnings: median 10yr post-entry · Rankings: US News 2025 Best National Universities
         </p>
       </section>
 

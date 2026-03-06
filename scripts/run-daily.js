@@ -55,13 +55,21 @@ function runScript(name, scriptPath) {
   });
 }
 
-// ── Articles: 6 AM and 1 PM (5 each = 10 articles/day) ───────────────────────
+// ── Articles: 6 AM, 10 AM, 2 PM, 6 PM (13 each = 52 articles/day) ───────────
 cron.schedule("0 6 * * *", () => {
   runScript("articles-morning", SCRIPTS.articles).catch(console.error);
 }, { timezone: TZ });
 
-cron.schedule("0 13 * * *", () => {
+cron.schedule("0 10 * * *", () => {
+  runScript("articles-midmorning", SCRIPTS.articles).catch(console.error);
+}, { timezone: TZ });
+
+cron.schedule("0 14 * * *", () => {
   runScript("articles-afternoon", SCRIPTS.articles).catch(console.error);
+}, { timezone: TZ });
+
+cron.schedule("0 18 * * *", () => {
+  runScript("articles-evening", SCRIPTS.articles).catch(console.error);
 }, { timezone: TZ });
 
 // ── Tweets: every hour 8 AM – 10 PM (1-2 per run = ~15-25 tweets/day) ────────
@@ -79,8 +87,8 @@ cron.schedule("0 19 * * *", () => {
   runScript("substack-evening", SCRIPTS.substack).catch(console.error);
 }, { timezone: TZ });
 
-// ── TikTok scripts: 10 AM ─────────────────────────────────────────────────────
-cron.schedule("0 10 * * *", () => {
+// ── TikTok scripts: 9:30 AM ───────────────────────────────────────────────────
+cron.schedule("30 9 * * *", () => {
   runScript("tiktok", SCRIPTS.tiktok).catch(console.error);
 }, { timezone: TZ });
 
@@ -96,7 +104,7 @@ cron.schedule("0 15 * * *", () => {
 }, { timezone: TZ });
 
 console.log(`[${ts()}] Scheduler started (TZ: ${TZ})`);
-console.log("  Articles:  6:00 AM + 1:00 PM (5 each = 10/day)");
+console.log("  Articles:  6AM + 10AM + 2PM + 6PM (13 each = 52/day)");
 console.log("  Tweets:    Every hour 8 AM–10 PM (1-2 each = ~15-25/day)");
 console.log("  Wrestling: 8:00 AM + 7:00 PM (4 each = 8/day)");
 console.log("  TikTok:    10:00 AM");
