@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const links = [
   { href: "/",                        label: "Home",          mobileLabel: "Home" },
   { href: "/college-rankings",        label: "Rankings",      mobileLabel: "College Rankings" },
-  { href: "/liberal-vs-conservative", label: "Political",     mobileLabel: "Liberal vs Conservative" },
+  { href: "/liberal-vs-conservative", label: "Lib vs Con",    mobileLabel: "Liberal vs Conservative" },
   { href: "/rank-your-school",        label: "Rate My School", mobileLabel: "Rate My School" },
   { href: "/alternatives",            label: "Alternatives",  mobileLabel: "Alternatives" },
   { href: "/trade-schools",           label: "Trade Schools", mobileLabel: "Trade Schools" },

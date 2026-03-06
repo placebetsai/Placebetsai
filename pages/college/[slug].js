@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
+import AdUnit from "../../components/AdUnit";
 
 // Same dataset as college-rankings.js
 const ALL_SCHOOLS = [
@@ -187,32 +188,34 @@ export default function CollegePage({ school }) {
       />
 
       <section style={{ maxWidth: 860, margin: "0 auto", padding: "60px 20px 80px" }}>
-        {/* Back */}
-        <Link href="/college-rankings" style={{ color: "#555", fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 28 }}>
-          ← All Rankings
-        </Link>
+        {/* Back nav */}
+        <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
+          <Link href="/college-rankings" style={{ color: "#aaa", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>← All Rankings</Link>
+          <Link href="/rank-your-school" style={{ color: "#aaa", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>← Rate My School</Link>
+        </div>
 
         {/* Header */}
         <div style={{ marginBottom: 32 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
             <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(255,32,32,0.12)", color: "#ff2020", letterSpacing: "0.08em", textTransform: "uppercase" }}>{school.type}</span>
+            {school.rank && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)" }}>US News #{school.rank}</span>}
             {v && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, color: v.color, background: `${v.color}20` }}>{v.label}</span>}
           </div>
           <h1 style={{ color: "#fff", fontSize: "clamp(26px,5vw,42px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 8px" }}>
             Is {school.name} Worth It?
           </h1>
-          <p style={{ color: "#555", fontSize: 14 }}>{school.city}, {school.state}</p>
+          <p style={{ color: "#aaa", fontSize: 14 }}>{school.city}, {school.state} · Source: U.S. Dept. of Education College Scorecard</p>
         </div>
 
         {/* Stats grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 24 }}>
           {[
-            { label: "Cost / Year", value: school.cost, color: "#fff" },
+            { label: "Annual Cost (In-State)", value: school.cost, color: "#fff" },
             { label: "Avg Debt at Graduation", value: school.debt, color: "#ff2020" },
             { label: "Median Earnings (10yr)", value: school.earnings, color: "#10b981" },
           ].map((stat) => (
-            <div key={stat.label} style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 12, padding: "20px 16px", textAlign: "center" }}>
-              <div style={{ color: "#444", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>{stat.label}</div>
+            <div key={stat.label} style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 16px", textAlign: "center" }}>
+              <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>{stat.label}</div>
               <div style={{ color: stat.color, fontSize: 22, fontWeight: 900 }}>{stat.value}</div>
             </div>
           ))}
@@ -220,72 +223,116 @@ export default function CollegePage({ school }) {
 
         {/* Payoff alert */}
         {payoffMonths !== null && payoffMonths > 6 && (
-          <div style={{ background: payoffMonths > 10 ? "rgba(255,32,32,0.08)" : "rgba(245,158,11,0.08)", border: `1px solid ${payoffMonths > 10 ? "rgba(255,32,32,0.3)" : "rgba(245,158,11,0.3)"}`, borderRadius: 12, padding: "16px 20px", marginBottom: 32 }}>
-            <p style={{ color: payoffMonths > 10 ? "#ff2020" : "#f59e0b", fontSize: 14, fontWeight: 700, margin: 0 }}>
-              At this debt load, it takes ~{payoffMonths} months of earnings just to pay off student loans.
-              {payoffMonths > 10 && " That's a serious debt trap."}
+          <div style={{ background: payoffMonths > 10 ? "rgba(255,32,32,0.08)" : "rgba(245,158,11,0.08)", border: `1px solid ${payoffMonths > 10 ? "rgba(255,32,32,0.3)" : "rgba(245,158,11,0.3)"}`, borderRadius: 12, padding: "16px 20px", marginBottom: 24 }}>
+            <p style={{ color: payoffMonths > 10 ? "#ff4040" : "#fbbf24", fontSize: 14, fontWeight: 700, margin: 0 }}>
+              ⚠️ At this debt load, graduates need ~{payoffMonths} months of full earnings just to pay off student loans.
+              {payoffMonths > 10 && " That qualifies as a serious debt trap."}
             </p>
           </div>
         )}
 
-        {/* User Rating Section */}
-        <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 16, padding: "28px 24px", marginBottom: 32 }}>
-          <h2 style={{ color: "#fff", fontSize: 18, fontWeight: 900, marginBottom: 4 }}>Rate {school.name}</h2>
-          <p style={{ color: "#555", fontSize: 13, marginBottom: 20 }}>Student, alum, or parent? Share what you know.</p>
+        {/* Ad */}
+        <div style={{ marginBottom: 28 }}>
+          <AdUnit slot="6600722153" />
+        </div>
 
-          {/* Show existing rating */}
+        {/* Monetization CTAs */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 28 }}>
+          <a href="https://studentaid.gov/understand-aid/types/scholarships" target="_blank" rel="noopener noreferrer"
+            style={{ display: "block", background: "#10b981", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 12, padding: "18px 20px", textDecoration: "none", textAlign: "center" }}
+            onMouseOver={e => e.currentTarget.style.background = "#059669"} onMouseOut={e => e.currentTarget.style.background = "#10b981"}>
+            🎓 Find Free Scholarships
+          </a>
+          <a href="https://studentaid.gov/loan-simulator/" target="_blank" rel="noopener noreferrer"
+            style={{ display: "block", background: "#3b82f6", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 12, padding: "18px 20px", textDecoration: "none", textAlign: "center" }}
+            onMouseOver={e => e.currentTarget.style.background = "#2563eb"} onMouseOut={e => e.currentTarget.style.background = "#3b82f6"}>
+            📊 Calculate Your Loan Payments
+          </a>
+          <Link href="/debt-calculator"
+            style={{ display: "block", background: "#f59e0b", color: "#000", fontWeight: 900, fontSize: 14, borderRadius: 12, padding: "18px 20px", textDecoration: "none", textAlign: "center" }}
+            onMouseOver={e => e.currentTarget.style.background = "#d97706"} onMouseOut={e => e.currentTarget.style.background = "#f59e0b"}>
+            💸 Student Debt Calculator
+          </Link>
+          <Link href="/alternatives"
+            style={{ display: "block", background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 12, padding: "18px 20px", textDecoration: "none", textAlign: "center" }}
+            onMouseOver={e => e.currentTarget.style.background = "#cc0000"} onMouseOut={e => e.currentTarget.style.background = "#ff2020"}>
+            🚀 Skip College Entirely →
+          </Link>
+        </div>
+
+        {/* No-degree alternatives */}
+        <div style={{ background: "#111", border: "1px solid #222", borderRadius: 16, padding: "24px", marginBottom: 28 }}>
+          <h3 style={{ color: "#fff", fontSize: 16, fontWeight: 900, marginBottom: 16 }}>No-Degree Paths That Pay More</h3>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {[
+              { label: "Trade Schools", href: "/trade-schools" },
+              { label: "Apprenticeships", href: "/blog/apprenticeship-programs-near-me-2025" },
+              { label: "Electrician ($115k)", href: "/blog/electrician-salary-2025" },
+              { label: "Plumber vs Lawyer", href: "/blog/plumber-vs-lawyer-salary" },
+              { label: "AWS Certification", href: "/blog/aws-certification-salary-2025" },
+              { label: "CDL Trucking", href: "/blog/cdl-truck-driver-salary-2025" },
+              { label: "Gov Jobs", href: "/civil-service" },
+              { label: "Job Board", href: "/job-board" },
+            ].map((item) => (
+              <Link key={item.href} href={item.href}
+                style={{ padding: "7px 14px", background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 999, color: "#ddd", fontSize: 12, fontWeight: 700, textDecoration: "none" }}
+                onMouseOver={e => e.currentTarget.style.borderColor = "#ff2020"} onMouseOut={e => e.currentTarget.style.borderColor = "#2a2a2a"}>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* USER RANKING section */}
+        <div style={{ background: "#111", border: "1px solid #222", borderRadius: 16, padding: "28px 24px", marginBottom: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+            <span style={{ fontSize: 10, fontWeight: 900, padding: "3px 10px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)", letterSpacing: "0.1em" }}>USER RANKING</span>
+            <h2 style={{ color: "#fff", fontSize: 18, fontWeight: 900, margin: 0 }}>Rate {school.name}</h2>
+          </div>
+          <p style={{ color: "#aaa", fontSize: 13, marginBottom: 20 }}>Student, alum, or parent? Tell the next generation the truth the brochure won&apos;t.</p>
+
+          {/* Existing rating display */}
           {userRating && (
-            <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
-              <div style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Your Rating · {userRating.date}</div>
-              <div style={{ color: "#f59e0b", fontSize: 20, fontWeight: 900, marginBottom: userRating.comment ? 8 : 0 }}>
-                {"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}
-                <span style={{ color: "#555", fontSize: 12, fontWeight: 700, marginLeft: 8 }}>{userRating.rating}/5</span>
+            <div style={{ background: "#0d0d0d", border: "1px solid #222", borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                <span style={{ fontSize: 10, fontWeight: 900, padding: "2px 8px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.3)", letterSpacing: "0.08em" }}>USER RANKING</span>
+                <span style={{ color: "#f59e0b", fontSize: 18, fontWeight: 900 }}>{"★".repeat(userRating.rating)}{"☆".repeat(5 - userRating.rating)}</span>
+                <span style={{ color: "#777", fontSize: 11, fontWeight: 700 }}>{userRating.rating}/5 · {userRating.date}</span>
               </div>
               {userRating.comment && (
-                <p style={{ color: "#aaa", fontSize: 14, margin: 0, lineHeight: 1.6 }}>{userRating.comment}</p>
+                <p style={{ color: "#ccc", fontSize: 14, margin: 0, lineHeight: 1.6 }}>&ldquo;{userRating.comment}&rdquo;</p>
               )}
             </div>
           )}
 
           {submitted ? (
-            <p style={{ color: "#10b981", fontSize: 14, fontWeight: 700 }}>✓ Rating saved.</p>
+            <p style={{ color: "#10b981", fontSize: 14, fontWeight: 700 }}>✓ Your ranking has been saved.</p>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div>
-                <div style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
-                  {userRating ? "Update your rating" : "Your rating"}
+                <div style={{ color: "#ccc", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
+                  {userRating ? "Update your ranking" : "Your overall ranking"}
                 </div>
                 <StarPicker value={draftRating} onChange={setDraftRating} />
               </div>
               <div>
-                <label style={{ color: "#888", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>Your experience (optional)</label>
+                <label style={{ color: "#ccc", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>Comments (optional)</label>
                 <textarea value={draftComment} onChange={e => setDraftComment(e.target.value)} rows={4}
-                  placeholder={`Tuition worth it? Job placement? Would you go to ${school.name} again?`}
+                  placeholder={`Was ${school.name} worth the cost? Job placement? Regrets?`}
                   style={{ width: "100%", padding: "12px 14px", background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: 10, color: "#fff", fontSize: 14, resize: "vertical", fontFamily: "inherit", lineHeight: 1.5, boxSizing: "border-box", outline: "none" }}
                   onFocus={e => e.target.style.borderColor = "#ff2020"} onBlur={e => e.target.style.borderColor = "#2a2a2a"}
                 />
               </div>
               <button type="submit" disabled={!draftRating || submitting}
-                style={{ alignSelf: "flex-start", padding: "12px 24px", background: draftRating ? "#ff2020" : "#1a1a1a", color: draftRating ? "#fff" : "#555", fontWeight: 900, fontSize: 14, borderRadius: 10, border: "none", cursor: draftRating ? "pointer" : "default", opacity: submitting ? 0.6 : 1 }}>
-                {submitting ? "Saving…" : userRating ? "Update Rating" : "Submit Rating"}
+                style={{ alignSelf: "flex-start", padding: "12px 28px", background: draftRating ? "#ff2020" : "#1a1a1a", color: draftRating ? "#fff" : "#666", fontWeight: 900, fontSize: 14, borderRadius: 10, border: "none", cursor: draftRating ? "pointer" : "default", opacity: submitting ? 0.6 : 1 }}>
+                {submitting ? "Saving…" : userRating ? "Update My Ranking" : "Submit My Ranking"}
               </button>
             </form>
           )}
         </div>
 
-        {/* CTA */}
-        <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
-          <h3 style={{ color: "#fff", fontSize: 18, fontWeight: 900, marginBottom: 8 }}>Explore Alternatives</h3>
-          <p style={{ color: "#666", fontSize: 14, marginBottom: 20 }}>Trade schools, certifications, and apprenticeships that pay without the debt.</p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/alternatives" style={{ padding: "11px 22px", background: "#ff2020", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 10, textDecoration: "none" }}>
-              Skip College →
-            </Link>
-            <Link href="/trade-schools" style={{ padding: "11px 22px", background: "#1a1a1a", color: "#fff", fontWeight: 900, fontSize: 14, borderRadius: 10, textDecoration: "none", border: "1px solid #2a2a2a" }}>
-              Trade Schools
-            </Link>
-          </div>
-        </div>
+        {/* Second ad */}
+        <AdUnit slot="6600722153" />
       </section>
     </Layout>
   );
