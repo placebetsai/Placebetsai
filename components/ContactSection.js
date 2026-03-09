@@ -1,52 +1,40 @@
 export default function ContactSection() {
-  function handleSubmit(e) {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.contactName.value.trim() || "(not given)";
-    const email = form.contactEmail.value.trim();
-    const message = form.contactMessage.value.trim();
-    const to = "placebetsai@gmail.com";
-    const subject = encodeURIComponent("ihatecollege.com contact");
-    const body = encodeURIComponent(
-      "Name: " + name +
-      "\nEmail: " + email +
-      "\n\nMessage:\n" + message
-    );
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-    form.reset();
-  }
-
   return (
     <section id="contact" className="section">
       <div className="section-header">
         <h2>Contact (quietly)</h2>
         <p>
-          Got a story, idea, or collab pitch? This doesn&apos;t post anywhere public – it opens email to us.
+          Got a story, idea, or collab pitch? Hit the button below to drop us a line directly.
         </p>
       </div>
 
       <div className="contact-grid">
-        <form className="card form-card" onSubmit={handleSubmit}>
-          <div className="form-row">
-            <label htmlFor="contactName">Name (optional)</label>
-            <input id="contactName" name="contactName" type="text" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="contactEmail">Email (so we can reply)</label>
-            <input id="contactEmail" name="contactEmail" type="email" required />
-          </div>
-          <div className="form-row">
-            <label htmlFor="contactMessage">Message</label>
-            <textarea id="contactMessage" name="contactMessage" required />
-          </div>
-          <button type="submit" className="btn btn-secondary">
-            Send message
-          </button>
-          <p className="hint">
-            This opens your email app pre-filled to <strong>placebetsai@gmail.com</strong>.
+        {/* Left Card: The Email Action */}
+        <div className="card form-card" style={{ textAlign: "center", padding: "3rem 1rem" }}>
+          <h3 style={{ marginBottom: "1rem" }}>Let's Talk</h3>
+          <p style={{ marginBottom: "2rem", opacity: 0.8 }}>
+            Send your rants, ideas, or pitches to <strong>info@ihatecollege.com</strong>.
           </p>
-        </form>
 
+          <a
+            href="mailto:ihatecollege79@gmail.com?cc=info@ihatecollege.com&subject=ihatecollege.com%20contact"
+            className="btn btn-secondary"
+            style={{
+              display: "inline-block",
+              padding: "0.75rem 1.5rem",
+              textDecoration: "none",
+              fontWeight: "bold"
+            }}
+          >
+            Open Email App
+          </a>
+
+          <p className="hint" style={{ marginTop: "1.5rem", fontSize: "0.85rem", opacity: 0.6 }}>
+            Opens your default email client — Gmail, Apple Mail, etc.
+          </p>
+        </div>
+
+        {/* Right Card: The Info/Context */}
         <div className="card">
           <h3>What this inbox is for</h3>
           <ul className="list">
@@ -58,4 +46,4 @@ export default function ContactSection() {
       </div>
     </section>
   );
-    }
+}
