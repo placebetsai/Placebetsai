@@ -17,10 +17,10 @@ export default function ContactSection() {
             className="btn btn-secondary"
             style={{ display: "inline-block", padding: "0.75rem 1.5rem", textDecoration: "none", fontWeight: "bold" }}
           >
-            Open Email App
+            Email Us Here
           </a>
           <p className="hint" style={{ marginTop: "1.5rem", fontSize: "0.85rem", opacity: 0.6 }}>
-            Opens your default email client — Gmail, Apple Mail, etc.
+            Opens Gmail, Apple Mail, or your default email app.
           </p>
         </div>
 
