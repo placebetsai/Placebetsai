@@ -177,6 +177,14 @@ function slugify(str) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+function randomPast2026Date() {
+  // Random date between 2026-01-01 and yesterday (Mar 8, 2026)
+  const start = new Date("2026-01-01");
+  const end = new Date("2026-03-08");
+  const ms = start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  return new Date(ms).toISOString().split("T")[0];
+}
+
 function randomAuthor() {
   const authors = [
     { name: "Jake Morrison", initials: "JM", color: "from-sky-500 to-blue-700", bio: "Jake spent 6 years in higher education administration before leaving to write about the economics of college. He covers student debt, ROI, and career alternatives." },
@@ -215,7 +223,7 @@ Requirements:
       ...
     ],
     "conclusion": "concluding paragraph",
-    "publishDate": "${new Date().toISOString().split("T")[0]}"
+    "publishDate": "${randomPast2026Date()}"
   }`;
 
   const message = await client.messages.create({

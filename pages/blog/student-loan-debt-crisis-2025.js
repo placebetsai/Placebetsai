@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-03-01
 // keyword: student loan debt crisis 2025
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Student Loan Debt Crisis 2025: What the Numbers Actually Show","description":"Breaking down the 2025 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Student Loan Debt Crisis 2025: What the Numbers Actually Show","description":"Breaking down the 2025 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?","datePublished":"2026-03-01","dateModified":"2026-03-01","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025"}}` }} />
       </Head>
       <SEO
         title="Student Loan Debt Crisis 2025: Latest Stats & Real Stories"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-03-01
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             The Student Loan Debt Crisis 2025: What the Numbers Actually Show

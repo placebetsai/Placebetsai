@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-02-01
 // keyword: cybersecurity certifications worth it 2025
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Are Cybersecurity Certifications Worth It in 2025? Security+ vs CEH vs CISSP ROI Analysis","description":"Compare Security+, CEH, and CISSP certifications: real salary data, costs, and job market demand. Is cybersecurity certification worth it in 2025?","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/cybersecurity-certifications-worth-it-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/cybersecurity-certifications-worth-it-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Are Cybersecurity Certifications Worth It in 2025? Security+ vs CEH vs CISSP ROI Analysis","description":"Compare Security+, CEH, and CISSP certifications: real salary data, costs, and job market demand. Is cybersecurity certification worth it in 2025?","datePublished":"2026-02-01","dateModified":"2026-02-01","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/cybersecurity-certifications-worth-it-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/cybersecurity-certifications-worth-it-2025"}}` }} />
       </Head>
       <SEO
         title="Cybersecurity Certifications Worth It 2025: ROI Breakdown"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-02-01
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Are Cybersecurity Certifications Worth It in 2025? Security+ vs CEH vs CISSP ROI Analysis

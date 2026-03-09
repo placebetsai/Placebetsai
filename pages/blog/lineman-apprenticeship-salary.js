@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-24
 // keyword: lineman apprenticeship salary
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Lineman Apprenticeship Salary: Complete IBEW Pay Scale Breakdown","description":"Real IBEW lineman apprenticeship salary data. Learn the pay scale, progression, benefits, and whether the trade beats a college degree.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/lineman-apprenticeship-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/lineman-apprenticeship-salary"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Lineman Apprenticeship Salary: Complete IBEW Pay Scale Breakdown","description":"Real IBEW lineman apprenticeship salary data. Learn the pay scale, progression, benefits, and whether the trade beats a college degree.","datePublished":"2026-01-24","dateModified":"2026-01-24","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/lineman-apprenticeship-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/lineman-apprenticeship-salary"}}` }} />
       </Head>
       <SEO
         title="Lineman Apprenticeship Salary: IBEW Pay Scale 2024"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-24
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Lineman Apprenticeship Salary: Complete IBEW Pay Scale Breakdown

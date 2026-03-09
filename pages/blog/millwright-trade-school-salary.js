@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-05
 // keyword: millwright trade school salary
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Millwright Trade School Salary: What You Actually Make in This Industrial Career","description":"Millwright trade school salary data, job growth, and whether this industrial trade beats a 4-year degree. Real BLS statistics inside.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/millwright-trade-school-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/millwright-trade-school-salary"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Millwright Trade School Salary: What You Actually Make in This Industrial Career","description":"Millwright trade school salary data, job growth, and whether this industrial trade beats a 4-year degree. Real BLS statistics inside.","datePublished":"2026-01-05","dateModified":"2026-01-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/millwright-trade-school-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/millwright-trade-school-salary"}}` }} />
       </Head>
       <SEO
         title="Millwright Trade School Salary: Real Numbers & Career Path"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-05
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Millwright Trade School Salary: What You Actually Make in This Industrial Career

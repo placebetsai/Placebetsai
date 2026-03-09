@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-17
 // keyword: trade school salary vs college 2025
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn","description":"Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2025 BLS statistics show trade school advantages.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn","description":"Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2025 BLS statistics show trade school advantages.","datePublished":"2026-01-17","dateModified":"2026-01-17","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025"}}` }} />
       </Head>
       <SEO
         title="Trade School Salary vs College 2025: Electrician & Plumber Data"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-17
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn

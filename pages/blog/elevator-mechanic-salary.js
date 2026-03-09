@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-02-14
 // keyword: elevator mechanic salary
 // author: Sarah Chen
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Elevator Mechanic Salary: Why This Trade Beats Most College Degrees","description":"Elevator mechanic salary data shows why this trade tops the earnings list. Real BLS stats on pay, job growth, and why college isn't necessary.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/elevator-mechanic-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/elevator-mechanic-salary"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Elevator Mechanic Salary: Why This Trade Beats Most College Degrees","description":"Elevator mechanic salary data shows why this trade tops the earnings list. Real BLS stats on pay, job growth, and why college isn't necessary.","datePublished":"2026-02-14","dateModified":"2026-02-14","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/elevator-mechanic-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/elevator-mechanic-salary"}}` }} />
       </Head>
       <SEO
         title="Elevator Mechanic Salary: America's Highest-Paid Trade"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-02-14
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Elevator Mechanic Salary: Why This Trade Beats Most College Degrees

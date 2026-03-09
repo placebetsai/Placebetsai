@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-19
 // keyword: CDL truck driver salary 2025
 // author: Sarah Chen
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"CDL Truck Driver Salary 2025: What OTR, Local, and Regional Drivers Actually Earn","description":"Real 2025 CDL truck driver salaries broken down by route type. OTR, local, regional earnings compared with actual data.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/cdl-truck-driver-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/cdl-truck-driver-salary-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"CDL Truck Driver Salary 2025: What OTR, Local, and Regional Drivers Actually Earn","description":"Real 2025 CDL truck driver salaries broken down by route type. OTR, local, regional earnings compared with actual data.","datePublished":"2026-01-19","dateModified":"2026-01-19","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/cdl-truck-driver-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/cdl-truck-driver-salary-2025"}}` }} />
       </Head>
       <SEO
         title="CDL Truck Driver Salary 2025: OTR vs Local vs Regional"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-19
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             CDL Truck Driver Salary 2025: What OTR, Local, and Regional Drivers Actually Earn

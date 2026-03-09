@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-17
 // keyword: apprenticeship programs near me 2025
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apprenticeship Programs Near Me 2025: The Complete Guide to Paid Training and Real Income","description":"Find paid apprenticeship programs in your area. Earn while you learn with real wages, no student debt. Complete 2025 guide with salaries & job stats.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/apprenticeship-programs-near-me-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/apprenticeship-programs-near-me-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apprenticeship Programs Near Me 2025: The Complete Guide to Paid Training and Real Income","description":"Find paid apprenticeship programs in your area. Earn while you learn with real wages, no student debt. Complete 2025 guide with salaries & job stats.","datePublished":"2026-01-17","dateModified":"2026-01-17","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/apprenticeship-programs-near-me-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/apprenticeship-programs-near-me-2025"}}` }} />
       </Head>
       <SEO
         title="Apprenticeship Programs Near Me 2025: The Paid Alternative to College"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-17
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Apprenticeship Programs Near Me 2025: The Complete Guide to Paid Training and Real Income

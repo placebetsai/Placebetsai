@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-03
 // keyword: free online courses that get you hired
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Free Online Courses That Get You Hired: Which Certifications Actually Work in 2025","description":"Discover which free online courses actually lead to jobs. Data-backed analysis of Coursera, MIT, AWS, and Google certifications that employers actually want.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/free-online-courses-that-get-you-hired","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/free-online-courses-that-get-you-hired"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Free Online Courses That Get You Hired: Which Certifications Actually Work in 2025","description":"Discover which free online courses actually lead to jobs. Data-backed analysis of Coursera, MIT, AWS, and Google certifications that employers actually want.","datePublished":"2026-01-03","dateModified":"2026-01-03","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/free-online-courses-that-get-you-hired","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/free-online-courses-that-get-you-hired"}}` }} />
       </Head>
       <SEO
         title="Free Online Courses That Get You Hired: 2025 Guide"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-03
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Free Online Courses That Get You Hired: Which Certifications Actually Work in 2025

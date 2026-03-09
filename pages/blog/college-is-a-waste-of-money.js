@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-02-20
 // keyword: college is a waste of money
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Is a Waste of Money for Many Students: What the Data Actually Shows","description":"Real statistics show college ROI is plummeting. We break down why a degree costs more, takes longer, and delivers less than it used to.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-is-a-waste-of-money","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-is-a-waste-of-money"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Is a Waste of Money for Many Students: What the Data Actually Shows","description":"Real statistics show college ROI is plummeting. We break down why a degree costs more, takes longer, and delivers less than it used to.","datePublished":"2026-02-20","dateModified":"2026-02-20","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-is-a-waste-of-money","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-is-a-waste-of-money"}}` }} />
       </Head>
       <SEO
         title="College is a Waste of Money: Hard Data on Declining ROI"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-02-20
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             College Is a Waste of Money for Many Students: What the Data Actually Shows

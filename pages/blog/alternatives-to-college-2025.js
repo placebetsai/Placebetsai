@@ -1,4 +1,4 @@
-// date: 2025-03-05
+// date: 2026-01-13
 // keyword: alternatives to college 2025
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Alternatives to College 2025: Every Legitimate High-Paying Path Without a Degree","description":"Explore legitimate alternatives to college in 2025. Real data on trades, apprenticeships, entrepreneurship & more that pay well without student debt.","datePublished":"2025-03-05","dateModified":"2025-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/alternatives-to-college-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/alternatives-to-college-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Alternatives to College 2025: Every Legitimate High-Paying Path Without a Degree","description":"Explore legitimate alternatives to college in 2025. Real data on trades, apprenticeships, entrepreneurship & more that pay well without student debt.","datePublished":"2026-01-13","dateModified":"2026-01-13","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/alternatives-to-college-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/alternatives-to-college-2025"}}` }} />
       </Head>
       <SEO
         title="Alternatives to College 2025: High-Paying Paths Without a Degree"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2025-03-05
+            Blog &middot; 2026-01-13
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Alternatives to College 2025: Every Legitimate High-Paying Path Without a Degree
