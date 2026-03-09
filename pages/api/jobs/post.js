@@ -1,22 +1,11 @@
 // pages/api/jobs/post.js
-// Creates a new job post in Supabase.
-// Requires env vars: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY
+// Posts a job — tries Supabase first, falls back to email via formsubmit.co
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_ANON_KEY;
+  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email, logo_url, image_url } = req.body;
 
-  if (!url || !key) {
-    return res.status(503).json({ error: "Database not configured yet. Check back soon!" });
-  }
-
-  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email, logo_url } = req.body;
-
-  // Basic validation
   if (!title?.trim() || !location?.trim() || !category?.trim() || !description?.trim()) {
     return res.status(400).json({ error: "Title, location, category, and description are required." });
   }
@@ -35,30 +24,71 @@ export default async function handler(req, res) {
     apply_url:     apply_url?.trim() || null,
     contact_email: contact_email?.trim() || null,
     logo_url:      logo_url?.trim() || null,
+    image_url:     image_url?.trim() || null,
     is_approved:   true,
   };
 
+  // Try Supabase first if configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_ANON_KEY;
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const resp = await fetch(`${supabaseUrl}/rest/v1/job_posts`, {
+        method: "POST",
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify(payload),
+      });
+      if (resp.ok) {
+        const [created] = await resp.json();
+        return res.status(201).json({ ok: true, id: created?.id });
+      }
+    } catch {}
+  }
+
+  // Fallback: email the job posting to admin via formsubmit.co
   try {
-    const resp = await fetch(`${url}/rest/v1/job_posts`, {
+    const salary = payload.salary_min && payload.salary_max
+      ? `$${payload.salary_min.toLocaleString()} – $${payload.salary_max.toLocaleString()}`
+      : "Not specified";
+
+    const emailBody = `
+NEW JOB POSTING — IHateCollege.com
+
+Title: ${payload.title}
+Company: ${payload.company || "Not specified"}
+Location: ${payload.location}
+Category: ${payload.category}
+Salary: ${salary}
+Apply URL: ${payload.apply_url || "N/A"}
+Contact Email: ${payload.contact_email || "N/A"}
+Logo URL: ${payload.logo_url || "N/A"}
+Image URL: ${payload.image_url || "N/A"}
+
+Description:
+${payload.description}
+    `.trim();
+
+    const r = await fetch("https://formsubmit.co/ajax/info@ihatecollege.com", {
       method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=representation",
-      },
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: `New Job Post: ${payload.title} @ ${payload.company || payload.location}`,
+        message: emailBody,
+        _template: "box",
+      }),
     });
-
-    if (!resp.ok) {
-      const err = await resp.text();
-      throw new Error(err);
+    const d = await r.json();
+    if (d.success === "true" || d.success === true) {
+      return res.status(201).json({ ok: true });
     }
-
-    const [created] = await resp.json();
-    return res.status(201).json({ ok: true, id: created?.id });
+    throw new Error("formsubmit failed");
   } catch (err) {
-    console.error("jobs/post error:", err);
-    return res.status(500).json({ error: "Failed to post job. Please try again." });
+    console.error("jobs/post fallback error:", err);
+    return res.status(500).json({ error: "Failed to submit. Email us directly at info@ihatecollege.com." });
   }
 }

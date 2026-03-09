@@ -175,18 +175,62 @@ function FeaturedCard({ job }) {
 // ─── Post form ────────────────────────────────────────────────────────────────
 const POST_CATS = ["Government", "Trades", "Tech", "Healthcare", "Business", "Other"];
 
+function JobPreview({ form }) {
+  const salary = form.salary_min && form.salary_max
+    ? `$${Math.round(form.salary_min / 1000)}k – $${Math.round(form.salary_max / 1000)}k`
+    : form.salary_min ? `$${Math.round(form.salary_min / 1000)}k+` : null;
+  const badge = CAT_BADGE[form.category] || CAT_BADGE.Other;
+
+  return (
+    <div className="rounded-2xl overflow-hidden bg-slate-900 border border-emerald-500/30">
+      {form.image_url && (
+        <div className="relative w-full h-40 bg-slate-800">
+          <img src={form.image_url} alt={form.title} className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+          {salary && <span className="absolute bottom-3 right-3 text-sm font-black text-emerald-400 bg-slate-900/90 px-2.5 py-1 rounded-lg">{salary}</span>}
+          <span className="absolute top-3 left-3 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-slate-900/80 text-emerald-400 border border-emerald-700/50">No Degree</span>
+        </div>
+      )}
+      <div className="p-5">
+        <div className="flex items-start gap-3 mb-2">
+          {form.logo_url && (
+            <img src={form.logo_url} alt={form.company} className="w-10 h-10 rounded-lg object-contain bg-slate-800 border border-slate-700 shrink-0" onError={(e) => { e.target.style.display = "none"; }} />
+          )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-white font-bold text-base">{form.title || "Job Title"}</h3>
+              {form.category && <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${badge}`}>{form.category}</span>}
+            </div>
+            <p className="text-slate-400 text-sm">
+              {form.company && <span className="font-semibold text-slate-300">{form.company} · </span>}
+              {form.location || "Location"}
+            </p>
+          </div>
+          {salary && !form.image_url && <div className="text-emerald-400 font-black text-sm shrink-0">{salary}</div>}
+        </div>
+        {form.description && <p className="text-slate-400 text-sm leading-relaxed line-clamp-3 mt-2">{form.description}</p>}
+        <div className="mt-4">
+          <span className="inline-block px-4 py-2 bg-sky-700 text-white text-xs font-bold rounded-lg">Apply →</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PostForm({ onSuccess }) {
   const [form, setForm] = useState({
     title: "", company: "", location: "", category: "",
-    salary_min: "", salary_max: "", description: "", apply_url: "", contact_email: "",
-    logo_url: "",
+    salary_min: "", salary_max: "", description: "",
+    apply_url: "", contact_email: "", logo_url: "", image_url: "",
   });
+  const [step, setStep] = useState("form"); // "form" | "preview"
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const set = (f) => (e) => setForm((p) => ({ ...p, [f]: e.target.value }));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const canPreview = form.title && form.location && form.category && form.description;
+
+  const handleSubmit = async () => {
     setError("");
     setSubmitting(true);
     try {
@@ -196,65 +240,97 @@ function PostForm({ onSuccess }) {
         body: JSON.stringify(form),
       });
       const d = await r.json();
-      if (!r.ok) { setError(d.error || "Something went wrong."); return; }
+      if (!r.ok) { setError(d.error || "Something went wrong."); setStep("form"); return; }
       onSuccess();
     } catch {
       setError("Network error. Please try again.");
+      setStep("form");
     } finally {
       setSubmitting(false);
     }
   };
 
-  const input = "w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm";
+  const input = "w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm transition-all";
+
+  if (step === "preview") {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <button onClick={() => setStep("form")} className="text-xs text-slate-400 hover:text-white font-bold">← Edit</button>
+          <span className="text-sm font-black text-white uppercase tracking-widest">Preview your listing</span>
+        </div>
+        <JobPreview form={form} />
+        {error && <div className="p-4 rounded-xl bg-red-900/30 border border-red-700 text-red-300 text-sm">{error}</div>}
+        <button onClick={handleSubmit} disabled={submitting}
+          className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 text-white font-black rounded-xl transition-colors text-base">
+          {submitting ? "Posting…" : "Looks Good — Post It Free →"}
+        </button>
+        <p className="text-xs text-slate-500 text-center">Free · No account needed · We'll confirm by email</p>
+      </div>
+    );
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-      <div>
-        <label htmlFor="p-title" className="block text-sm font-bold text-slate-200 mb-1.5">Job Title <span className="text-red-400">*</span></label>
-        <input id="p-title" type="text" required value={form.title} onChange={set("title")} placeholder="e.g. Electrician Apprentice, IT Help Desk" className={input} />
+    <div className="space-y-5">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Job Title <span className="text-red-400">*</span></label>
+          <input type="text" required value={form.title} onChange={set("title")} placeholder="e.g. Electrician Apprentice" className={input} />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Company</label>
+          <input type="text" value={form.company} onChange={set("company")} placeholder="Your company name" className={input} />
+        </div>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="p-company" className="block text-sm font-bold text-slate-200 mb-1.5">Company <span className="text-slate-500 font-normal">(optional)</span></label>
-          <input id="p-company" type="text" value={form.company} onChange={set("company")} placeholder="Your company name" className={input} />
-        </div>
-      </div>
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="p-logo" className="block text-sm font-bold text-slate-200 mb-1.5">Company Logo URL <span className="text-slate-500 font-normal">(optional)</span></label>
-          <input id="p-logo" type="url" value={form.logo_url} onChange={set("logo_url")} placeholder="https://yourcompany.com/logo.png" className={input} />
-          <p className="text-xs text-slate-500 mt-1">Direct image link. Adds credibility to your listing.</p>
+          <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Location <span className="text-red-400">*</span></label>
+          <input type="text" required value={form.location} onChange={set("location")} placeholder="City, State or Remote" className={input} />
         </div>
         <div>
-          <label htmlFor="p-location" className="block text-sm font-bold text-slate-200 mb-1.5">Location <span className="text-red-400">*</span></label>
-          <input id="p-location" type="text" required value={form.location} onChange={set("location")} placeholder="City, State or Remote" className={input} />
+          <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Category <span className="text-red-400">*</span></label>
+          <select required value={form.category} onChange={set("category")} className={input}>
+            <option value="" disabled>Select…</option>
+            {POST_CATS.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
         </div>
       </div>
       <div>
-        <label htmlFor="p-cat" className="block text-sm font-bold text-slate-200 mb-1.5">Category <span className="text-red-400">*</span></label>
-        <select id="p-cat" required value={form.category} onChange={set("category")} className={input}>
-          <option value="" disabled>Select a category</option>
-          {POST_CATS.map((c) => <option key={c} value={c}>{c}</option>)}
-        </select>
-      </div>
-      <div>
-        <p className="text-sm font-bold text-slate-200 mb-1.5">Salary Range <span className="text-slate-500 font-normal">(optional but increases applicants)</span></p>
+        <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Salary Range <span className="text-slate-500 font-normal normal-case">(optional — boosts applications)</span></label>
         <div className="grid grid-cols-2 gap-3">
           <input type="number" value={form.salary_min} onChange={set("salary_min")} placeholder="Min e.g. 50000" min={0} className={input} />
           <input type="number" value={form.salary_max} onChange={set("salary_max")} placeholder="Max e.g. 90000" min={0} className={input} />
         </div>
       </div>
       <div>
-        <label htmlFor="p-desc" className="block text-sm font-bold text-slate-200 mb-1.5">Job Description <span className="text-red-400">*</span></label>
-        <textarea id="p-desc" required rows={5} value={form.description} onChange={set("description")}
-          placeholder="Describe the role, required skills, training provided, why someone should apply. No degree requirements?" className={`${input} resize-none leading-relaxed`} />
-        <p className="text-xs text-slate-500 mt-1">Mention if training is provided. Be specific about schedule and pay.</p>
+        <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-1.5">Job Description <span className="text-red-400">*</span></label>
+        <textarea required rows={5} value={form.description} onChange={set("description")}
+          placeholder="Describe the role, pay, training provided, schedule. Mention no degree required." className={`${input} resize-none leading-relaxed`} />
       </div>
+
+      {/* Photos — free, URL-based */}
       <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 space-y-4">
-        <p className="text-sm font-bold text-slate-200">How should candidates apply?</p>
+        <p className="text-xs font-black text-slate-300 uppercase tracking-widest">Photos <span className="text-slate-500 font-normal normal-case">(optional — paste image URLs)</span></p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-400 mb-1.5">Company Logo URL</label>
+            <input type="url" value={form.logo_url} onChange={set("logo_url")} placeholder="https://yoursite.com/logo.png" className={input} />
+            <p className="text-xs text-slate-500 mt-1">Shows next to your company name.</p>
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-400 mb-1.5">Job Banner / Photo URL</label>
+            <input type="url" value={form.image_url} onChange={set("image_url")} placeholder="https://yoursite.com/photo.jpg" className={input} />
+            <p className="text-xs text-slate-500 mt-1">Header image on your listing card.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Apply method */}
+      <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 space-y-4">
+        <p className="text-xs font-black text-slate-300 uppercase tracking-widest">How candidates apply <span className="text-red-400">*</span></p>
         <div>
-          <label htmlFor="p-url" className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Apply URL</label>
-          <input id="p-url" type="url" value={form.apply_url} onChange={set("apply_url")} placeholder="https://yourcompany.com/apply" className={input} />
+          <label className="block text-xs font-bold text-slate-400 mb-1.5">Apply URL</label>
+          <input type="url" value={form.apply_url} onChange={set("apply_url")} placeholder="https://yourcompany.com/apply" className={input} />
         </div>
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-slate-700" />
@@ -262,17 +338,31 @@ function PostForm({ onSuccess }) {
           <div className="flex-1 h-px bg-slate-700" />
         </div>
         <div>
-          <label htmlFor="p-email" className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Contact Email</label>
-          <input id="p-email" type="email" value={form.contact_email} onChange={set("contact_email")} placeholder="hiring@yourcompany.com" className={input} />
+          <label className="block text-xs font-bold text-slate-400 mb-1.5">Contact Email</label>
+          <input type="email" value={form.contact_email} onChange={set("contact_email")} placeholder="hiring@yourcompany.com" className={input} />
         </div>
       </div>
+
       {error && <div className="p-4 rounded-xl bg-red-900/30 border border-red-700 text-red-300 text-sm">{error}</div>}
-      <button type="submit" disabled={submitting}
-        className="w-full py-4 bg-sky-600 hover:bg-sky-500 disabled:opacity-60 text-white font-black rounded-xl transition-colors text-base">
-        {submitting ? "Posting…" : "Post Job — Free →"}
+
+      <button
+        onClick={() => {
+          if (!form.title || !form.location || !form.category || !form.description) {
+            setError("Please fill in Title, Location, Category, and Description first.");
+            return;
+          }
+          if (!form.apply_url && !form.contact_email) {
+            setError("Add an Apply URL or Contact Email so candidates can reach you.");
+            return;
+          }
+          setError("");
+          setStep("preview");
+        }}
+        className={`w-full py-4 font-black rounded-xl transition-colors text-base ${canPreview ? "bg-sky-600 hover:bg-sky-500 text-white" : "bg-slate-700 text-slate-400 cursor-not-allowed"}`}>
+        Preview My Listing →
       </button>
-      <p className="text-xs text-slate-500 text-center">Free · Live for 30 days · No account needed</p>
-    </form>
+      <p className="text-xs text-slate-500 text-center">Free · 30 days · No account needed</p>
+    </div>
   );
 }
 
