@@ -61,8 +61,9 @@ export default function JobsBoard() {
   return (
     <Layout>
       <SEO
-        title="High-Paying Jobs Without a Degree 2025 | No College Required | IHateCollege.com"
+        title="High-Paying Jobs Without a Degree 2026 | No College Required | IHateCollege.com"
         description="Browse 20+ high-income careers that don't require a 4-year degree. Real salary data, how to get started, and exact training paths."
+        keywords="high paying jobs no degree, careers without college, i hate college jobs, trade jobs 2026, tech jobs no degree, government jobs no degree, no college required, college alternative careers"
         schema={{
           "@context": "https://schema.org",
           "@type": "ItemList",
@@ -85,9 +86,13 @@ export default function JobsBoard() {
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
             Jobs That Pay Well <span className="text-emerald-400">Without College</span>
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-lg mb-6">
             Real careers, real salary ranges, exact paths to get there. No $150k debt required.
           </p>
+          <Link href="/job-board#post"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl transition-colors text-sm">
+            📢 Post a Job (Employers)
+          </Link>
         </div>
       </section>
 

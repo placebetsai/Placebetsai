@@ -50,7 +50,7 @@ export default function SEO({
   const router = useRouter();
   const canonical = `${SITE_URL}${router.asPath.split("?")[0]}`;
   const ogImage = image || buildOgImage(title, description);
-  const defaultKeywords = "college alternatives, is college worth it, trade school vs college, no degree jobs, student debt, ihatecollege";
+  const defaultKeywords = "i hate college, college, university, liberal campus, conservative campus, college is a scam, college alternatives, is college worth it, trade school vs college, no degree jobs, student debt, ihatecollege, college dropout, should i go to college, college debt, anti college, college not worth it, skip college, college regret, trade school, apprenticeship, certifications instead of college, college vs trade school, student loan crisis, no degree careers, jobs without college degree";
 
   return (
     <Head>

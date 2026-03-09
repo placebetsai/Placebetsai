@@ -179,6 +179,7 @@ function PostForm({ onSuccess }) {
   const [form, setForm] = useState({
     title: "", company: "", location: "", category: "",
     salary_min: "", salary_max: "", description: "", apply_url: "", contact_email: "",
+    logo_url: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -216,6 +217,13 @@ function PostForm({ onSuccess }) {
         <div>
           <label htmlFor="p-company" className="block text-sm font-bold text-slate-200 mb-1.5">Company <span className="text-slate-500 font-normal">(optional)</span></label>
           <input id="p-company" type="text" value={form.company} onChange={set("company")} placeholder="Your company name" className={input} />
+        </div>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="p-logo" className="block text-sm font-bold text-slate-200 mb-1.5">Company Logo URL <span className="text-slate-500 font-normal">(optional)</span></label>
+          <input id="p-logo" type="url" value={form.logo_url} onChange={set("logo_url")} placeholder="https://yourcompany.com/logo.png" className={input} />
+          <p className="text-xs text-slate-500 mt-1">Direct image link. Adds credibility to your listing.</p>
         </div>
         <div>
           <label htmlFor="p-location" className="block text-sm font-bold text-slate-200 mb-1.5">Location <span className="text-red-400">*</span></label>
@@ -322,7 +330,7 @@ export default function JobBoard() {
       <SEO
         title="No-Degree Jobs | Federal, Trade, Law Enforcement & Tech | IHateCollege.com"
         description="Browse thousands of jobs that don't require a college degree. Filter by state, federal, law enforcement, trades, tech, and more. Post a job free."
-        keywords="jobs without degree, government jobs no degree, federal jobs no college, trade jobs hiring, law enforcement jobs, no degree required jobs by state"
+        keywords="jobs without college degree, i hate college jobs, no degree required jobs, government jobs no degree, federal jobs no college, trade jobs hiring, law enforcement jobs, no degree required jobs by state, college alternative careers, post a job no degree, employer job posting, skilled trades jobs, apprenticeship jobs, tech jobs no degree, conservative campus jobs, anti college careers"
         schema={{
           "@context": "https://schema.org",
           "@type": "JobPosting",
@@ -347,15 +355,23 @@ export default function JobBoard() {
             Federal jobs, law enforcement, skilled trades, and tech — careers that pay well without a 4-year degree.
           </p>
 
-          {/* Browse Jobs button only */}
-          <div className="mb-8">
+          {/* CTA buttons */}
+          <div className="flex flex-wrap gap-3 mb-8">
             <button onClick={() => setView("browse")}
-              className={`flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-black text-sm transition-all ${
+              className={`flex items-center gap-2 py-3 px-6 rounded-xl font-black text-sm transition-all ${
                 view === "browse"
                   ? "bg-sky-600 text-white shadow-lg shadow-sky-900/40"
                   : "bg-slate-800 border border-slate-700 text-slate-300 hover:border-sky-600 hover:text-white"
               }`}>
-              🔍 Search Jobs Without a Degree
+              🔍 Search Jobs
+            </button>
+            <button onClick={() => setView("post")}
+              className={`flex items-center gap-2 py-3 px-6 rounded-xl font-black text-sm transition-all ${
+                view === "post"
+                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
+                  : "bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+              }`}>
+              📢 Post a Job (Employers)
             </button>
           </div>
 
@@ -437,7 +453,11 @@ export default function JobBoard() {
                   return (
                     <article key={job.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition-all">
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 flex gap-4">
+                          {job.logo_url && (
+                            <img src={job.logo_url} alt={job.company || job.title} className="w-12 h-12 rounded-xl object-contain bg-slate-800 border border-slate-700 shrink-0" onError={(e) => { e.target.style.display = "none"; }} />
+                          )}
+                          <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1">
                             <h3 className="text-white font-bold text-base">{job.title}</h3>
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${badge}`}>{job.category}</span>
@@ -449,6 +469,7 @@ export default function JobBoard() {
                           {job.description && (
                             <p className="text-slate-500 text-sm mt-2 leading-relaxed line-clamp-2">{job.description}</p>
                           )}
+                          </div>
                         </div>
                         <div className="shrink-0 flex sm:flex-col items-center sm:items-end gap-3 sm:gap-2">
                           {salary && <div className="text-emerald-400 font-black text-sm">{salary}</div>}

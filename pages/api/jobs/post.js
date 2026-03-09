@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     return res.status(503).json({ error: "Database not configured yet. Check back soon!" });
   }
 
-  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email } = req.body;
+  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email, logo_url } = req.body;
 
   // Basic validation
   if (!title?.trim() || !location?.trim() || !category?.trim() || !description?.trim()) {
@@ -34,6 +34,7 @@ export default async function handler(req, res) {
     description:   description.trim().slice(0, 2000),
     apply_url:     apply_url?.trim() || null,
     contact_email: contact_email?.trim() || null,
+    logo_url:      logo_url?.trim() || null,
     is_approved:   true,
   };
 

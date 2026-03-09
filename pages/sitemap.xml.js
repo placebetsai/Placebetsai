@@ -58,6 +58,7 @@ export async function getServerSideProps({ res }) {
     "/liberal-vs-conservative",
     "/job-board",
     "/job-board/post",
+    "/jobs",
     "/contact",
     "/about",
     "/advertise",
@@ -138,17 +139,35 @@ export async function getServerSideProps({ res }) {
   const collegePaths = collegeSlugs.map((slug) => `/college/${slug}`);
   const allPaths = [...staticPaths, ...collegePaths];
 
+  const HIGH_PRIORITY = new Set([
+    "", "/blog", "/job-board", "/trade-schools", "/alternatives",
+    "/college-rankings", "/debt-calculator", "/civil-service",
+    "/is-college-worth-it-2025", "/how-to-make-money-without-a-college-degree",
+    "/trade-school-vs-college-salary-2025", "/liberal-vs-conservative",
+    "/blog/i-hate-college", "/blog/i-hate-college-so-much",
+    "/blog/college-is-a-scam", "/blog/college-is-a-waste-of-money",
+    "/blog/why-college-is-not-worth-it", "/blog/alternatives-to-college-2025",
+    "/blog/is-college-worth-it-2025", "/blog/trade-school-salary-vs-college-2025",
+    "/blog/student-loan-debt-crisis-2025", "/blog/highest-paying-trade-jobs-2025",
+    "/blog/college-dropout-success-stories",
+  ]);
   const now = new Date().toISOString();
   const xmlUrls = allPaths
-    .map(
-      (p) => `
+    .map((p) => {
+      const priority = p === "" ? "1.0"
+        : HIGH_PRIORITY.has(p) ? "0.95"
+        : p.startsWith("/blog/") ? "0.85"
+        : p.startsWith("/college/") ? "0.70"
+        : "0.80";
+      const changefreq = p === "" || p === "/blog" ? "daily" : p.startsWith("/blog/") ? "weekly" : "monthly";
+      return `
   <url>
     <loc>${siteUrl}${p}</loc>
     <lastmod>${now}</lastmod>
-    <changefreq>${p === "" ? "daily" : "weekly"}</changefreq>
-    <priority>${p === "" ? "1.0" : p.startsWith("/college/") ? "0.7" : "0.8"}</priority>
-  </url>`
-    )
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+    })
     .join("");
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
