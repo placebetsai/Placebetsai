@@ -94,7 +94,7 @@ async function run() {
     process.exit(1);
   }
 
-  const count = Math.random() < 0.5 ? 1 : 2;
+  const count = 1; // 3 runs/day × 1 tweet = ~90/month, well under free tier 1,500 limit
   let tweets;
   try {
     tweets = await generateTweets(count);

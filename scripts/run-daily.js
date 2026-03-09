@@ -72,9 +72,15 @@ cron.schedule("0 18 * * *", () => {
   runScript("articles-evening", SCRIPTS.articles).catch(console.error);
 }, { timezone: TZ });
 
-// ── Tweets: every hour 8 AM – 10 PM (1-2 per run = ~15-25 tweets/day) ────────
-cron.schedule("0 8-22 * * *", () => {
-  runScript("twitter", SCRIPTS.twitter).catch(console.error);
+// ── Tweets: 3x/day to stay under Twitter free tier (1,500/month limit) ───────
+cron.schedule("0 9 * * *", () => {
+  runScript("twitter-morning", SCRIPTS.twitter).catch(console.error);
+}, { timezone: TZ });
+cron.schedule("0 13 * * *", () => {
+  runScript("twitter-afternoon", SCRIPTS.twitter).catch(console.error);
+}, { timezone: TZ });
+cron.schedule("0 18 * * *", () => {
+  runScript("twitter-evening", SCRIPTS.twitter).catch(console.error);
 }, { timezone: TZ });
 
 // ── Wrestling Substack: 8 AM and 7 PM (4 posts each = 8 posts/day) ───────────
