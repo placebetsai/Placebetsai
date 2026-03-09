@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * generate-articles.js
- * Generates 3 SEO-optimized blog articles per day using Anthropic API,
- * saves them as Next.js pages to /pages/blog/, updates the sitemap,
- * then commits and pushes to GitHub.
+ * Generates 13 SEO articles per run, 4x/day = ~52 articles/day.
+ * Runs 6AM, 10AM, 2PM, 6PM EST via run-daily.js on Railway.
+ * Pushes to restore-good with [skip ci] to prevent Railway redeploy loop.
  */
 
 require("dotenv").config({ path: require("path").join(__dirname, "../.env") });
@@ -18,45 +18,72 @@ const ROOT = path.join(__dirname, "..");
 const BLOG_DIR = path.join(ROOT, "pages", "blog");
 const SITEMAP_PATH = path.join(ROOT, "pages", "sitemap.xml.js");
 
-// Pool of rotating SEO topics — anti-college / trade / no-degree angle
+// Pool of 200+ rotating SEO topics — anti-college / trade / no-degree angle
 const TOPIC_POOL = [
-  // High-intent "i hate college" keywords
+  // Anti-college / regret
   { keyword: "i hate college", angle: "why so many students regret going and what to do instead" },
   { keyword: "i hate college so much", angle: "you're not alone — here's why and what to do" },
-  { keyword: "college is a waste of money", angle: "data proving college ROI is declining" },
+  { keyword: "college is a waste of money", angle: "data proving college ROI is declining fast" },
   { keyword: "college is a scam", angle: "predatory pricing, useless degrees, and who profits" },
   { keyword: "why college is not worth it", angle: "earnings data vs debt load by major" },
   { keyword: "college regret statistics", angle: "how many graduates regret going to college" },
   { keyword: "drop out of college and succeed", angle: "famous dropouts and statistical outcomes" },
   { keyword: "college debt not worth it", angle: "when student loans cost more than they return" },
-  { keyword: "alternatives to college 2026", angle: "every legitimate path that pays without a degree" },
   { keyword: "should i drop out of college", angle: "decision framework with real financial data" },
-  { keyword: "is college worth it 2026", angle: "student debt vs earnings ROI" },
-  { keyword: "trade school salary vs college 2026", angle: "electrician and plumber earnings" },
-  { keyword: "how to make money without a degree", angle: "self-taught and freelance paths" },
-  { keyword: "best trade schools in America 2026", angle: "top programs and costs" },
   { keyword: "college dropout success stories", angle: "billionaires and founders who skipped college" },
-  { keyword: "cheapest way to get a good career", angle: "certs vs degrees" },
-  { keyword: "apprenticeship programs near me 2026", angle: "paid apprenticeship guide" },
-  { keyword: "google career certificates worth it", angle: "IT and cloud certs without college" },
-  { keyword: "electrician salary 2026", angle: "how much electricians make by state" },
-  { keyword: "student loan debt crisis 2026", angle: "latest statistics and borrower stories" },
-  { keyword: "plumber vs lawyer salary", angle: "who actually earns more lifetime" },
-  { keyword: "community college vs university", angle: "cost and outcome comparison" },
-  { keyword: "coding bootcamp worth it 2026", angle: "bootcamp vs self-study vs CS degree" },
-  { keyword: "highest paying trade jobs 2026", angle: "top 10 skilled trades by salary" },
-  { keyword: "college major with best ROI", angle: "data on which degrees pay off" },
-  { keyword: "HVAC technician salary 2026", angle: "HVAC career path and earnings" },
   { keyword: "should i go to college or work", angle: "decision framework for 18 year olds" },
+  { keyword: "college dropout rate 2026", angle: "who drops out and why the data shows" },
+  { keyword: "for-profit college scams 2026", angle: "list of predatory colleges and settlements" },
+  { keyword: "college tuition increase over time", angle: "how tuition outpaced inflation and wages since 1980" },
+  { keyword: "college not worth it for everyone", angle: "who college actually works for and who it doesn't" },
+  { keyword: "is a four year degree worth it", angle: "breaking down the real cost vs. lifetime earnings" },
+  { keyword: "wasted money on a college degree", angle: "what graduates say about their degree ROI" },
+  { keyword: "college makes you poor", angle: "the math behind how student debt destroys wealth" },
+  { keyword: "university is a bad investment", angle: "investment analysis of a degree vs alternatives" },
+  { keyword: "i regret going to college", angle: "common regrets and what you can still do about it" },
+  { keyword: "liberal arts degree useless 2026", angle: "what employers actually think of liberal arts grads" },
+  { keyword: "college acceptance rates dropping", angle: "how admissions pressure fuels the scam" },
+  { keyword: "ivy league not worth it", angle: "data showing state schools often outperform Ivy grads" },
+  // Worth it comparisons
+  { keyword: "is college worth it 2026", angle: "student debt vs earnings ROI by major" },
+  { keyword: "trade school salary vs college 2026", angle: "electrician and plumber vs 4-year grad earnings" },
+  { keyword: "community college vs university", angle: "cost and outcome comparison with real data" },
+  { keyword: "alternatives to college 2026", angle: "every legitimate path that pays without a degree" },
+  { keyword: "cheapest way to get a good career", angle: "certs vs degrees — real cost comparison" },
+  { keyword: "how to make money without a degree", angle: "self-taught and freelance paths that work" },
+  { keyword: "best trade schools in America 2026", angle: "top programs, costs, and outcomes" },
+  { keyword: "apprenticeship programs near me 2026", angle: "paid apprenticeship complete guide" },
+  { keyword: "google career certificates worth it", angle: "IT and cloud certs without college" },
   { keyword: "free online courses that get you hired", angle: "Coursera MIT AWS Google certs" },
-  { keyword: "skilled trades shortage America", angle: "why tradespeople are in demand" },
-  { keyword: "civil service jobs no degree required", angle: "government jobs with no degree" },
-  // Trades & Apprenticeships
-  { keyword: "welder salary 2026", angle: "pipeline vs structural welding earnings" },
+  { keyword: "income share agreement vs student loans", angle: "ISA programs compared" },
+  { keyword: "online degree worth it 2026", angle: "employer acceptance and salary outcomes" },
+  { keyword: "military vs college which is better", angle: "GI Bill, salary, and career outcomes compared" },
+  { keyword: "gap year instead of college", angle: "what gap years actually do for careers" },
+  { keyword: "plumber vs lawyer salary", angle: "who actually earns more over a lifetime" },
+  { keyword: "college major with best ROI", angle: "data on which degrees actually pay off" },
+  { keyword: "student loan debt crisis 2026", angle: "latest statistics and borrower stories" },
+  // Trades — electrician
+  { keyword: "electrician salary 2026", angle: "how much electricians make by state" },
   { keyword: "how to become an electrician without college", angle: "step-by-step apprenticeship guide" },
-  { keyword: "plumber apprenticeship how to start", angle: "unions, pay, and timeline" },
-  { keyword: "CDL truck driver salary 2026", angle: "OTR vs local vs regional earnings" },
   { keyword: "lineman apprenticeship salary", angle: "IBEW pay scale and career path" },
+  { keyword: "master electrician salary 2026", angle: "what it takes and what you earn" },
+  { keyword: "electrician vs engineer salary", angle: "trades vs degree earnings over 30 years" },
+  { keyword: "IBEW apprenticeship how to join", angle: "step by step guide to electrical union" },
+  { keyword: "journeyman electrician salary by state", angle: "best states to work as an electrician" },
+  // Trades — plumbing
+  { keyword: "plumber apprenticeship how to start", angle: "unions, pay, and timeline to journeyman" },
+  { keyword: "plumbing business owner salary", angle: "how much plumbers make owning a business" },
+  { keyword: "how much do plumbers make 2026", angle: "plumber salary by state and experience" },
+  // Trades — HVAC
+  { keyword: "HVAC technician salary 2026", angle: "HVAC career path and earnings" },
+  { keyword: "how to become an HVAC technician", angle: "training, certs, and salary expectations" },
+  { keyword: "HVAC vs electrician salary", angle: "which trade pays better in 2026" },
+  // Trades — welding
+  { keyword: "welder salary 2026", angle: "pipeline vs structural welding earnings" },
+  { keyword: "underwater welder salary", angle: "the highest paid welding specialty" },
+  { keyword: "how to become a welder without college", angle: "welding school vs apprenticeship" },
+  // Trades — other
+  { keyword: "CDL truck driver salary 2026", angle: "OTR vs local vs regional earnings" },
   { keyword: "pipe fitter salary 2026", angle: "industrial vs commercial pipefitting earnings" },
   { keyword: "ironworker apprenticeship", angle: "structural steel careers and union pay" },
   { keyword: "boilermaker apprenticeship pay", angle: "boilermaker career outlook and salary" },
@@ -64,54 +91,139 @@ const TOPIC_POOL = [
   { keyword: "millwright trade school salary", angle: "industrial millwright career path" },
   { keyword: "solar panel installer salary 2026", angle: "clean energy trades growth and pay" },
   { keyword: "wind turbine technician salary", angle: "fastest growing trade job in America" },
-  { keyword: "fiber optic technician salary", angle: "telecom trade career path" },
+  { keyword: "fiber optic technician salary", angle: "telecom trade career path and earnings" },
   { keyword: "elevator mechanic salary", angle: "highest paid trade in America" },
   { keyword: "union vs non-union trade jobs", angle: "benefits, pay, and job security compared" },
-  { keyword: "construction manager no degree", angle: "paths from trade to management" },
-  { keyword: "offshore oil rig jobs no degree", angle: "roughneck salary and schedule" },
-  // Tech & Certs
+  { keyword: "construction manager no degree", angle: "paths from trade worker to management" },
+  { keyword: "offshore oil rig jobs no degree", angle: "roughneck salary and offshore schedule" },
+  { keyword: "highest paying trade jobs 2026", angle: "top 10 skilled trades by average salary" },
+  { keyword: "skilled trades shortage America", angle: "why tradespeople are in demand and command premium pay" },
+  { keyword: "aviation mechanic school salary", angle: "FAA A&P mechanic career and pay" },
+  { keyword: "nuclear power plant technician salary", angle: "highest paying no-degree energy job" },
+  { keyword: "pipeline welder salary", angle: "most lucrative welding specialty explained" },
+  { keyword: "heavy equipment operator salary 2026", angle: "operating engineers union pay and career" },
+  { keyword: "mason bricklayer salary 2026", angle: "masonry trade pay and apprenticeship path" },
+  { keyword: "carpenter apprenticeship salary", angle: "union carpenter pay by region and level" },
+  { keyword: "roofer salary 2026", angle: "roofing trade career path and earnings" },
+  { keyword: "concrete finisher salary", angle: "concrete trade pay and career outlook" },
+  { keyword: "crane operator salary 2026", angle: "one of the best paid construction trades" },
+  { keyword: "sprinkler fitter apprenticeship", angle: "fire protection trade pay and career path" },
+  { keyword: "insulation installer salary", angle: "energy efficiency trade pay and outlook" },
+  { keyword: "tile setter salary 2026", angle: "flooring trade career path and income" },
+  // Tech & certs
   { keyword: "cybersecurity certifications worth it 2026", angle: "CompTIA Security+ vs CEH vs CISSP ROI" },
   { keyword: "AWS certification salary 2026", angle: "cloud engineer pay without a degree" },
-  { keyword: "CompTIA A+ certification jobs", angle: "IT helpdesk to sysadmin path" },
+  { keyword: "CompTIA A+ certification jobs", angle: "IT helpdesk to sysadmin path without college" },
   { keyword: "network administrator no degree", angle: "certs that replace a CS degree" },
-  { keyword: "IT helpdesk salary no degree", angle: "entry point to six-figure tech" },
-  { keyword: "project management certification PMP salary", angle: "PMP vs MBA ROI" },
+  { keyword: "IT helpdesk salary no degree", angle: "entry point to six-figure tech career" },
+  { keyword: "project management certification PMP salary", angle: "PMP vs MBA ROI comparison" },
   { keyword: "drone pilot license salary 2026", angle: "FAA Part 107 commercial drone jobs" },
   { keyword: "freelance web developer income no degree", angle: "self-taught dev earning data" },
   { keyword: "social media manager salary no degree", angle: "how to break into digital marketing" },
   { keyword: "copywriter salary without degree", angle: "freelance vs agency copywriting income" },
-  // Bad Degrees
-  { keyword: "is a business degree worth it", angle: "ROI data for business majors" },
+  { keyword: "coding bootcamp worth it 2026", angle: "bootcamp vs self-study vs CS degree ROI" },
+  { keyword: "google IT support certificate salary", angle: "what you earn after Google IT cert" },
+  { keyword: "data analyst no degree salary", angle: "SQL Python path to six figures without college" },
+  { keyword: "UI UX designer salary no degree", angle: "portfolio-based design career path" },
+  { keyword: "DevOps engineer without degree", angle: "Linux certs and cloud skills that get you hired" },
+  { keyword: "Salesforce certification salary", angle: "CRM admin and developer pay without degree" },
+  { keyword: "certified ethical hacker salary", angle: "CEH certification career and pay" },
+  { keyword: "CISSP certification salary 2026", angle: "senior security role pay without a CS degree" },
+  { keyword: "help desk to sysadmin no degree", angle: "career ladder in IT without college" },
+  { keyword: "cybersecurity analyst no degree 2026", angle: "how to break into security without college" },
+  { keyword: "Microsoft Azure certification salary", angle: "Azure cloud jobs that skip the degree" },
+  { keyword: "Cisco CCNA salary 2026", angle: "network engineering pay with just a cert" },
+  { keyword: "Python programming jobs no degree", angle: "how self-taught devs land six figures" },
+  { keyword: "game developer salary no degree", angle: "portfolio path into game development" },
+  { keyword: "IT project manager no degree", angle: "PMP path without a four-year degree" },
+  // Bad degrees
+  { keyword: "is a business degree worth it", angle: "ROI data for business majors vs alternatives" },
   { keyword: "computer science degree worth it 2026", angle: "CS degree vs self-taught vs bootcamp" },
   { keyword: "psychology degree jobs and salary", angle: "what psychology grads actually earn" },
   { keyword: "communications degree worth it", angle: "job outcomes and salary data" },
   { keyword: "art degree salary vs debt", angle: "worst ROI degrees by the numbers" },
-  { keyword: "philosophy degree jobs 2026", angle: "what you can actually do with it" },
+  { keyword: "philosophy degree jobs 2026", angle: "what you can actually do with a philosophy degree" },
   { keyword: "sociology degree salary", angle: "earning outcomes for social science majors" },
-  { keyword: "for-profit college scams 2026", angle: "list of predatory colleges and settlements" },
-  { keyword: "college dropout rate 2026", angle: "who drops out and why the data shows" },
-  // Government & Emergency
-  { keyword: "firefighter salary 2026", angle: "firefighter pay by state and overtime" },
+  { keyword: "english degree worth it 2026", angle: "job outcomes for English majors" },
+  { keyword: "history degree jobs 2026", angle: "what history majors actually end up doing" },
+  { keyword: "gender studies degree salary", angle: "employment outcomes for gender studies majors" },
+  { keyword: "political science degree salary", angle: "what poli sci grads actually earn" },
+  { keyword: "anthropology degree worth it", angle: "job market reality for anthropology grads" },
+  { keyword: "fine arts degree salary", angle: "the real financial outcome of an art school degree" },
+  { keyword: "theater degree worth it", angle: "performing arts degree vs trade salary comparison" },
+  { keyword: "journalism degree worth it 2026", angle: "media industry collapse and grad outcomes" },
+  { keyword: "education degree worth it", angle: "teacher salary vs debt — is it worth it?" },
+  // Government & emergency services
+  { keyword: "firefighter salary 2026", angle: "firefighter pay by state and overtime income" },
   { keyword: "police officer salary vs college degree", angle: "law enforcement pay and career path" },
   { keyword: "paramedic salary no degree required", angle: "EMT to paramedic career path and pay" },
-  { keyword: "postal service jobs no degree", angle: "USPS salary, benefits, and retirement" },
+  { keyword: "postal service jobs no degree", angle: "USPS salary, benefits, and retirement pension" },
   { keyword: "federal government jobs no degree required", angle: "GS pay scale entry-level paths" },
-  // Side Hustles & Alternative Income
-  { keyword: "real estate license vs degree salary", angle: "agent vs broker income without college" },
-  { keyword: "insurance agent salary no degree", angle: "life insurance career income potential" },
-  { keyword: "notary public income side hustle", angle: "loan signing agent earnings" },
-  { keyword: "landscaping business owner income", angle: "trades entrepreneurship earnings" },
-  { keyword: "plumbing business owner salary", angle: "how much plumbers make owning a business" },
-  { keyword: "military vs college which is better", angle: "GI Bill, salary, and career outcomes compared" },
-  { keyword: "gap year instead of college", angle: "what gap years actually do for careers" },
-  { keyword: "income share agreement vs student loans", angle: "ISA programs and how they compare" },
-  { keyword: "online degree worth it 2026", angle: "employer acceptance and salary outcomes" },
-  { keyword: "aviation mechanic school salary", angle: "FAA A&P mechanic career and pay" },
+  { keyword: "air traffic controller salary no degree", angle: "FAA career path and six-figure pay" },
+  { keyword: "border patrol agent salary 2026", angle: "federal law enforcement career and pay" },
+  { keyword: "coast guard salary benefits", angle: "military branch with no degree requirement" },
+  { keyword: "TSA officer salary 2026", angle: "federal airport security pay and career" },
+  { keyword: "park ranger salary no degree", angle: "national park service career path" },
+  { keyword: "correctional officer salary 2026", angle: "prison officer pay, pension, and career" },
+  { keyword: "DEA agent salary requirements", angle: "federal drug enforcement career without degree" },
+  { keyword: "sheriff deputy salary 2026", angle: "local law enforcement pay by state" },
+  { keyword: "army civilian jobs no degree", angle: "civilian DOD jobs that skip the college requirement" },
+  // Healthcare (no 4-year degree)
   { keyword: "dental hygienist school no degree", angle: "two-year program earnings breakdown" },
   { keyword: "medical coding certification salary", angle: "remote healthcare jobs without a degree" },
   { keyword: "pharmacy technician no degree", angle: "certification path and earning potential" },
-  { keyword: "nuclear power plant technician salary", angle: "highest paying no-degree energy job" },
+  { keyword: "surgical technologist salary 2026", angle: "OR tech pay and two-year program path" },
+  { keyword: "radiologic technologist salary 2026", angle: "X-ray tech career with an associates degree" },
+  { keyword: "respiratory therapist salary no degree", angle: "two-year RT program salary outcomes" },
+  { keyword: "phlebotomist salary 2026", angle: "fastest entry into healthcare with no degree" },
+  { keyword: "EMT salary and career path 2026", angle: "emergency medical career without college" },
+  { keyword: "medical assistant salary 2026", angle: "clinical admin career without a 4-year degree" },
+  { keyword: "occupational therapy assistant salary", angle: "OTA two-year degree pay and career" },
+  { keyword: "physical therapy assistant salary", angle: "PTA associate degree vs PT bachelor earnings" },
+  { keyword: "MRI technician salary no degree", angle: "imaging tech career and pay with 2-year program" },
+  { keyword: "veterinary technician salary 2026", angle: "vet tech career path without a 4-year degree" },
+  // Side hustles & entrepreneurship
+  { keyword: "real estate license vs degree salary", angle: "agent vs broker income without college" },
+  { keyword: "insurance agent salary no degree", angle: "life insurance career income potential" },
+  { keyword: "notary public income side hustle", angle: "loan signing agent earnings potential" },
+  { keyword: "landscaping business owner income", angle: "trades entrepreneurship earnings and startup" },
+  { keyword: "how to start a pressure washing business", angle: "low cost trade business that scales fast" },
+  { keyword: "cleaning business owner income", angle: "commercial cleaning profit margins and startup" },
+  { keyword: "hvac business owner salary", angle: "how much HVAC contractors make owning their company" },
+  { keyword: "electrician business owner salary", angle: "what electrical contractors earn vs employees" },
+  { keyword: "how to start a roofing company", angle: "roofing business startup and profit potential" },
+  { keyword: "trucking company owner operator salary", angle: "owner-operator income vs company driver" },
+  { keyword: "dropshipping income no degree", angle: "ecommerce side hustle that replaces college" },
+  { keyword: "amazon fba seller income", angle: "how much FBA sellers make without a degree" },
+  { keyword: "stock market investing without college", angle: "self-directed investing vs finance degree" },
+  { keyword: "real estate investing without a degree", angle: "property income paths with no college" },
+  // College-specific critiques
+  { keyword: "liberal arts college worth it 2026", angle: "hard data on liberal arts graduate outcomes" },
+  { keyword: "student loan forgiveness 2026", angle: "what forgiveness programs exist and who qualifies" },
+  { keyword: "college application process too stressful", angle: "how the college industrial complex creates anxiety" },
+  { keyword: "college mental health crisis", angle: "student mental health stats and whether college helps" },
+  { keyword: "college drinking culture consequences", angle: "what nobody tells you about campus life" },
+  { keyword: "greek life worth it", angle: "fraternity and sorority ROI in actual career terms" },
+  { keyword: "college athletes exploited", angle: "how schools profit while athletes stay broke" },
+  { keyword: "college financial aid scams", angle: "FAFSA loopholes and institutional aid manipulation" },
+  { keyword: "college admissions scandal aftermath", angle: "what Varsity Blues revealed about college value" },
+  { keyword: "student debt by major 2026", angle: "which majors carry the highest loan burdens" },
+  { keyword: "college campus politics too extreme", angle: "how campus ideology affects career outcomes" },
+  { keyword: "conservative alternatives to college", angle: "trade and service paths favored by conservatives" },
+  { keyword: "why conservatives distrust college", angle: "the political economy of university skepticism" },
+  // Salary deep dives
+  { keyword: "six figure jobs without college degree", angle: "proven paths to $100k without a BA" },
+  { keyword: "how to make 100k without college", angle: "specific career paths with salary data" },
+  { keyword: "highest paying jobs no degree required 2026", angle: "top 20 no-degree jobs over $70k" },
+  { keyword: "blue collar millionaires", angle: "how trade workers build seven-figure wealth" },
+  { keyword: "white collar vs blue collar income 2026", angle: "which actually pays better after debt" },
+  { keyword: "overtime pay trades vs office jobs", angle: "how OT pushes trade income past white collar" },
+  { keyword: "union pension vs 401k which is better", angle: "retirement comparison for trade vs office workers" },
+  { keyword: "job security trades vs corporate", angle: "which career survives recession better" },
+  { keyword: "remote jobs no degree 2026", angle: "work from home careers that skip college" },
+  { keyword: "entry level jobs that pay well 2026", angle: "best first jobs for people skipping college" },
 ];
+
 
 // Hero image by topic keyword
 const HERO_IMAGES = {
@@ -156,8 +268,17 @@ function getHeroImage(keyword) {
   return `https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop&auto=format`;
 }
 
-// Pick N topics we haven't used recently
-const ARTICLES_PER_RUN = parseInt(process.env.ARTICLES_PER_RUN || "13");
+// 13 per run × 4 runs/day = 52 articles/day
+const ARTICLES_PER_RUN = 13;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 function pickTopics() {
   const usedFile = path.join(ROOT, ".used-topics.json");
@@ -165,10 +286,15 @@ function pickTopics() {
   if (fs.existsSync(usedFile)) {
     try { used = JSON.parse(fs.readFileSync(usedFile, "utf8")); } catch {}
   }
-  const available = TOPIC_POOL.filter((t) => !used.includes(t.keyword));
-  const pool = available.length >= ARTICLES_PER_RUN ? available : TOPIC_POOL; // reset if exhausted
-  const picked = pool.slice(0, ARTICLES_PER_RUN);
-  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-80);
+  // Filter out recently used, shuffle remainder, reset when pool runs low
+  let available = TOPIC_POOL.filter((t) => !used.includes(t.keyword));
+  if (available.length < ARTICLES_PER_RUN) {
+    used = []; // reset — cycle through all topics again
+    available = [...TOPIC_POOL];
+  }
+  const picked = shuffle(available).slice(0, ARTICLES_PER_RUN);
+  // Only keep last 100 used to allow gradual recycling
+  const newUsed = [...used, ...picked.map((t) => t.keyword)].slice(-100);
   fs.writeFileSync(usedFile, JSON.stringify(newUsed, null, 2));
   return picked;
 }
@@ -178,10 +304,10 @@ function slugify(str) {
 }
 
 function randomPast2026Date() {
-  // Random date between 2026-01-01 and yesterday (Mar 8, 2026)
-  const start = new Date("2026-01-01");
-  const end = new Date("2026-03-08");
-  const ms = start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  // Random date between 2026-01-01 and yesterday — always before today
+  const start = new Date("2026-01-01").getTime();
+  const yesterday = Date.now() - 86400000;
+  const ms = start + Math.random() * (yesterday - start);
   return new Date(ms).toISOString().split("T")[0];
 }
 
@@ -397,7 +523,7 @@ function commitAndPush(slugs) {
     }
     execSync("git add pages/blog/ pages/sitemap.xml.js .used-topics.json 2>/dev/null || true", { cwd: ROOT });
     execSync(
-      `git commit -m "Auto-generate ${slugs.length} blog articles for ${dateStr}"`,
+      `git commit -m "Auto-generate ${slugs.length} blog articles for ${dateStr} [skip ci]"`,
       { cwd: ROOT }
     );
     execSync("git push origin restore-good", { cwd: ROOT });
