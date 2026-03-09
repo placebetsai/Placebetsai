@@ -85,7 +85,7 @@ async function main() {
   try {
     if (fs.existsSync(OUT_FILE)) {
       const existing = JSON.parse(fs.readFileSync(OUT_FILE, "utf8"));
-      if ((existing.colleges || []).length >= 800) {
+      if ((existing.colleges || []).length >= 6000) {
         console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges). Skipping fetch.`);
         process.exit(0);
       }

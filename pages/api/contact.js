@@ -1,40 +1,30 @@
-import nodemailer from "nodemailer";
-
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { name, email, message } = req.body || {};
-  if (!name?.trim() || !email?.trim() || !message?.trim()) {
-    return res.status(400).json({ error: "All fields are required." });
+  if (!email?.trim() || !message?.trim()) {
+    return res.status(400).json({ error: "Email and message are required." });
   }
 
-  const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-
-  // Try to send via Gmail if credentials are set
-  if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_APP_PASSWORD,
-        },
-      });
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: "info@ihatecollege.com",
-        replyTo: email,
-        subject: `Contact from ${name} — IHateCollege.com`,
-        text: body,
-      });
-    } catch (err) {
-      console.error("[CONTACT] Email send failed:", err.message);
-      // Still return success so the user sees the confirmation
+  try {
+    const r = await fetch("https://formsubmit.co/ajax/info@ihatecollege.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: name || "Anonymous",
+        email: email.trim(),
+        message: message.trim(),
+        _subject: `IHateCollege.com contact from ${name || email}`,
+        _template: "table",
+      }),
+    });
+    const data = await r.json();
+    if (data.success === "true" || data.success === true) {
+      return res.status(200).json({ success: true });
     }
+    throw new Error("formsubmit failed");
+  } catch (err) {
+    console.error("[CONTACT] error:", err);
+    return res.status(500).json({ error: "Failed to send." });
   }
-
-  // Always log the submission
-  console.log(`[CONTACT] ${new Date().toISOString()} — ${name} <${email}>: ${message.slice(0, 120)}`);
-
-  return res.status(200).json({ success: true });
 }
