@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-05
 // keyword: i hate college
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"I Hate College: Why So Many Students Regret Going and What to Do Instead","description":"Discover why 46% of students regret college. Real statistics, honest analysis, and proven alternatives to the traditional degree path.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/i-hate-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/i-hate-college"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"I Hate College: Why So Many Students Regret Going and What to Do Instead","description":"Discover why 46% of students regret college. Real statistics, honest analysis, and proven alternatives to the traditional degree path.","datePublished":"2026-01-05","dateModified":"2026-01-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/i-hate-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/i-hate-college"}}` }} />
       </Head>
       <SEO
         title="I Hate College: Why Students Regret It & Real Alternatives"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-05
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             I Hate College: Why So Many Students Regret Going and What to Do Instead

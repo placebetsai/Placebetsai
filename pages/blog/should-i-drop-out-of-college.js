@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-06
 // keyword: should i drop out of college
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Should I Drop Out of College? A Data-Driven Decision Framework for Your Future","description":"Honest analysis of dropping out of college with real financial data, statistics, and a decision framework to help you choose.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/should-i-drop-out-of-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/should-i-drop-out-of-college"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Should I Drop Out of College? A Data-Driven Decision Framework for Your Future","description":"Honest analysis of dropping out of college with real financial data, statistics, and a decision framework to help you choose.","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/should-i-drop-out-of-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/should-i-drop-out-of-college"}}` }} />
       </Head>
       <SEO
         title="Should I Drop Out of College? A Data-Driven Decision Framework"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-06
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Should I Drop Out of College? A Data-Driven Decision Framework for Your Future

@@ -1,4 +1,4 @@
-// date: 2026-02-02
+// date: 2026-02-04
 // keyword: college debt not worth it
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Debt Not Worth It: When Student Loans Cost More Than Your Degree Returns","description":"Real data on when college debt exceeds lifetime earnings gains. See the numbers on student loans, ROI by major, and what actually makes college worth it.","datePublished":"2026-02-02","dateModified":"2026-02-02","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-debt-not-worth-it","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-debt-not-worth-it"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Debt Not Worth It: When Student Loans Cost More Than Your Degree Returns","description":"Real data on when college debt exceeds lifetime earnings gains. See the numbers on student loans, ROI by major, and what actually makes college worth it.","datePublished":"2026-02-04","dateModified":"2026-02-04","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-debt-not-worth-it","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-debt-not-worth-it"}}` }} />
       </Head>
       <SEO
         title="College Debt Not Worth It: When Student Loans Cost More Than Returns"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-02-02
+            Blog &middot; 2026-02-04
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             College Debt Not Worth It: When Student Loans Cost More Than Your Degree Returns

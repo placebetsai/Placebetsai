@@ -14,7 +14,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-02
+            Blog &middot; 2026-02-02
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
             Are Google Career Certificates Worth It? A Data-Driven Analysis for IT and Cloud Careers

@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-27
 // keyword: sheet metal worker salary
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sheet Metal Worker Salary: HVAC vs Aerospace — Which Path Pays More?","description":"Compare sheet metal worker salaries in HVAC vs aerospace. Real BLS data on earnings, job growth, and which trade pays better.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/sheet-metal-worker-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/sheet-metal-worker-salary"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sheet Metal Worker Salary: HVAC vs Aerospace — Which Path Pays More?","description":"Compare sheet metal worker salaries in HVAC vs aerospace. Real BLS data on earnings, job growth, and which trade pays better.","datePublished":"2026-01-27","dateModified":"2026-01-27","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/sheet-metal-worker-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/sheet-metal-worker-salary"}}` }} />
       </Head>
       <SEO
         title="Sheet Metal Worker Salary: HVAC vs Aerospace Pay 2025"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-27
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Sheet Metal Worker Salary: HVAC vs Aerospace — Which Path Pays More?

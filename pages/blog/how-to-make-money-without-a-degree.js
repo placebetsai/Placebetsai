@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-02-17
 // keyword: how to make money without a degree
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Make Money Without a Degree: The Self-Taught and Freelance Blueprint","description":"Skip the debt. Learn how to make serious money without a degree through freelancing, trades, and self-taught skills. Real data inside.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/how-to-make-money-without-a-degree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/how-to-make-money-without-a-degree"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Make Money Without a Degree: The Self-Taught and Freelance Blueprint","description":"Skip the debt. Learn how to make serious money without a degree through freelancing, trades, and self-taught skills. Real data inside.","datePublished":"2026-02-17","dateModified":"2026-02-17","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/how-to-make-money-without-a-degree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/how-to-make-money-without-a-degree"}}` }} />
       </Head>
       <SEO
         title="How to Make Money Without a Degree: Real Paths That Work"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-02-17
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             How to Make Money Without a Degree: The Self-Taught and Freelance Blueprint

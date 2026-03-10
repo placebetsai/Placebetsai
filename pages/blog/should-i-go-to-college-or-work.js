@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-20
 // keyword: should i go to college or work
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Should I Go to College or Work? A Decision Framework for 18-Year-Olds","description":"Compare college vs. work with real statistics on earnings, debt, and job satisfaction. Get a decision framework for 18-year-olds based on actual data.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/should-i-go-to-college-or-work","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/should-i-go-to-college-or-work"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Should I Go to College or Work? A Decision Framework for 18-Year-Olds","description":"Compare college vs. work with real statistics on earnings, debt, and job satisfaction. Get a decision framework for 18-year-olds based on actual data.","datePublished":"2026-01-20","dateModified":"2026-01-20","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/should-i-go-to-college-or-work","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/should-i-go-to-college-or-work"}}` }} />
       </Head>
       <SEO
         title="Should I Go to College or Work? A Data-Driven Decision Framework"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-20
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Should I Go to College or Work? A Decision Framework for 18-Year-Olds

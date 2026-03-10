@@ -1,4 +1,4 @@
-// date: 2026-01-27
+// date: 2026-03-07
 // keyword: welder salary 2025
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?","description":"Compare pipeline vs structural welding salaries in 2025. Real BLS data, job outlook, and which path pays more. No college required.","datePublished":"2026-01-27","dateModified":"2026-01-27","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/welder-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/welder-salary-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?","description":"Compare pipeline vs structural welding salaries in 2025. Real BLS data, job outlook, and which path pays more. No college required.","datePublished":"2026-03-07","dateModified":"2026-03-07","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/welder-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/welder-salary-2025"}}` }} />
       </Head>
       <SEO
         title="Welder Salary 2025: Pipeline vs Structural Earnings"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-01-27
+            Blog &middot; 2026-03-07
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?

@@ -1,4 +1,4 @@
-// date: 2026-02-08
+// date: 2026-02-22
 // keyword: electrician salary 2025
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Electrician Salary 2025: Complete State-by-State Breakdown and What You Actually Take Home","description":"Real electrician salaries by state in 2025. See which states pay the most, cost of living adjustments, and whether the trade is worth it financially.","datePublished":"2026-02-08","dateModified":"2026-02-08","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/electrician-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/electrician-salary-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Electrician Salary 2025: Complete State-by-State Breakdown and What You Actually Take Home","description":"Real electrician salaries by state in 2025. See which states pay the most, cost of living adjustments, and whether the trade is worth it financially.","datePublished":"2026-02-22","dateModified":"2026-02-22","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/electrician-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/electrician-salary-2025"}}` }} />
       </Head>
       <SEO
         title="Electrician Salary 2025: Complete State-by-State Breakdown"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-02-08
+            Blog &middot; 2026-02-22
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Electrician Salary 2025: Complete State-by-State Breakdown and What You Actually Take Home

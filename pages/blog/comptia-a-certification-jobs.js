@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-20
 // keyword: CompTIA A+ certification jobs
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"CompTIA A+ Certification Jobs: The Real Path from IT Helpdesk to Systems Administrator","description":"Real data on CompTIA A+ jobs, salaries, and career progression. Skip the degree and move from helpdesk to sysadmin in 3-5 years.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/comptia-a-certification-jobs","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/comptia-a-certification-jobs"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"CompTIA A+ Certification Jobs: The Real Path from IT Helpdesk to Systems Administrator","description":"Real data on CompTIA A+ jobs, salaries, and career progression. Skip the degree and move from helpdesk to sysadmin in 3-5 years.","datePublished":"2026-01-20","dateModified":"2026-01-20","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/comptia-a-certification-jobs","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/comptia-a-certification-jobs"}}` }} />
       </Head>
       <SEO
         title="CompTIA A+ Certification Jobs: The IT Helpdesk to Sysadmin Path"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-20
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             CompTIA A+ Certification Jobs: The Real Path from IT Helpdesk to Systems Administrator

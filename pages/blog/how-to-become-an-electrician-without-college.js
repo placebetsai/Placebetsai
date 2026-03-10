@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-02-20
 // keyword: how to become an electrician without college
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Become an Electrician Without College: A Step-by-Step Apprenticeship Guide","description":"Step-by-step apprenticeship roadmap to becoming a licensed electrician. No degree required. Real earnings data, timeline, and requirements inside.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/how-to-become-an-electrician-without-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/how-to-become-an-electrician-without-college"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Become an Electrician Without College: A Step-by-Step Apprenticeship Guide","description":"Step-by-step apprenticeship roadmap to becoming a licensed electrician. No degree required. Real earnings data, timeline, and requirements inside.","datePublished":"2026-02-20","dateModified":"2026-02-20","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/how-to-become-an-electrician-without-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/how-to-become-an-electrician-without-college"}}` }} />
       </Head>
       <SEO
         title="How to Become an Electrician Without College: The Complete Guide"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-02-20
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             How to Become an Electrician Without College: A Step-by-Step Apprenticeship Guide

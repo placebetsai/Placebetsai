@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-05
 // keyword: ironworker apprenticeship
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Ironworker Apprenticeship: A Data-Driven Look at Union Pay and Structural Steel Careers","description":"Complete guide to ironworker apprenticeships, union wages, and structural steel careers. Real BLS data on salary, job growth, and trade school ROI.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/ironworker-apprenticeship","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/ironworker-apprenticeship"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Ironworker Apprenticeship: A Data-Driven Look at Union Pay and Structural Steel Careers","description":"Complete guide to ironworker apprenticeships, union wages, and structural steel careers. Real BLS data on salary, job growth, and trade school ROI.","datePublished":"2026-01-05","dateModified":"2026-01-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/ironworker-apprenticeship","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/ironworker-apprenticeship"}}` }} />
       </Head>
       <SEO
         title="Ironworker Apprenticeship: Union Pay & Career Path"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-05
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Ironworker Apprenticeship: A Data-Driven Look at Union Pay and Structural Steel Careers

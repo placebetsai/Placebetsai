@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-10
 // keyword: drop out of college and succeed
 // author: Sarah Chen
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Drop Out of College and Succeed: What the Data Actually Shows About Famous Dropouts and Their Outcomes","description":"Can you succeed without a degree? We analyze famous college dropouts and statistics on non-degree earners. Data-driven insights on alternatives to college.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/drop-out-of-college-and-succeed","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/drop-out-of-college-and-succeed"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Drop Out of College and Succeed: What the Data Actually Shows About Famous Dropouts and Their Outcomes","description":"Can you succeed without a degree? We analyze famous college dropouts and statistics on non-degree earners. Data-driven insights on alternatives to college.","datePublished":"2026-01-10","dateModified":"2026-01-10","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/drop-out-of-college-and-succeed","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/drop-out-of-college-and-succeed"}}` }} />
       </Head>
       <SEO
         title="Drop Out of College and Succeed: Real Data on Dropouts"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-10
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Drop Out of College and Succeed: What the Data Actually Shows About Famous Dropouts and Their Outcomes

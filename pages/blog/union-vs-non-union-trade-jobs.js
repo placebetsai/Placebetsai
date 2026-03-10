@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-13
 // keyword: union vs non-union trade jobs
 // author: Marcus Webb
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Union vs Non-Union Trade Jobs: The Complete Pay and Benefits Comparison","description":"Compare union vs non-union trade jobs. Real data on wages, benefits, job security, and career stability. Everything you need to know.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/union-vs-non-union-trade-jobs","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/union-vs-non-union-trade-jobs"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Union vs Non-Union Trade Jobs: The Complete Pay and Benefits Comparison","description":"Compare union vs non-union trade jobs. Real data on wages, benefits, job security, and career stability. Everything you need to know.","datePublished":"2026-01-13","dateModified":"2026-01-13","author":{"@type":"Person","name":"Marcus Webb"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/union-vs-non-union-trade-jobs","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/union-vs-non-union-trade-jobs"}}` }} />
       </Head>
       <SEO
         title="Union vs Non-Union Trade Jobs: Pay, Benefits & Job Security"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-13
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Union vs Non-Union Trade Jobs: The Complete Pay and Benefits Comparison

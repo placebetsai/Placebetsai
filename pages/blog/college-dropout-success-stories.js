@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-02-11
 // keyword: college dropout success stories
 // author: Danielle Torres
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Dropout Success Stories: The Billionaires and Founders Who Skipped Degrees","description":"Real college dropout success stories from billionaires and founders. Data-driven look at alternatives to traditional 4-year degrees and career outcomes.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-dropout-success-stories","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-dropout-success-stories"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Dropout Success Stories: The Billionaires and Founders Who Skipped Degrees","description":"Real college dropout success stories from billionaires and founders. Data-driven look at alternatives to traditional 4-year degrees and career outcomes.","datePublished":"2026-02-11","dateModified":"2026-02-11","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-dropout-success-stories","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-dropout-success-stories"}}` }} />
       </Head>
       <SEO
         title="College Dropout Success Stories: Billionaires Who Skipped Degrees"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-02-11
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             College Dropout Success Stories: The Billionaires and Founders Who Skipped Degrees

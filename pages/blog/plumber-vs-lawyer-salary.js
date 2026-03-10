@@ -1,4 +1,4 @@
-// date: 2026-01-18
+// date: 2026-02-19
 // keyword: plumber vs lawyer salary
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Plumber vs Lawyer Salary: The Lifetime Earnings Reality Check","description":"Real data on plumber vs lawyer lifetime earnings. See total compensation, debt, job security, and why the answer isn't what you'd expect.","datePublished":"2026-01-18","dateModified":"2026-01-18","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/plumber-vs-lawyer-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/plumber-vs-lawyer-salary"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Plumber vs Lawyer Salary: The Lifetime Earnings Reality Check","description":"Real data on plumber vs lawyer lifetime earnings. See total compensation, debt, job security, and why the answer isn't what you'd expect.","datePublished":"2026-02-19","dateModified":"2026-02-19","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/plumber-vs-lawyer-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/plumber-vs-lawyer-salary"}}` }} />
       </Head>
       <SEO
         title="Plumber vs Lawyer Salary: Who Actually Earns More?"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-01-18
+            Blog &middot; 2026-02-19
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Plumber vs Lawyer Salary: The Lifetime Earnings Reality Check

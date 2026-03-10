@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-11
 // keyword: community college vs university
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Community College vs University: A Cost and Outcome Comparison Based on Real Data","description":"Compare community college vs university costs, earnings, and outcomes. Data-driven analysis to help you choose the right path.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/community-college-vs-university","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/community-college-vs-university"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Community College vs University: A Cost and Outcome Comparison Based on Real Data","description":"Compare community college vs university costs, earnings, and outcomes. Data-driven analysis to help you choose the right path.","datePublished":"2026-01-11","dateModified":"2026-01-11","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/community-college-vs-university","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/community-college-vs-university"}}` }} />
       </Head>
       <SEO
         title="Community College vs University: Cost & Outcome Data"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-11
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Community College vs University: A Cost and Outcome Comparison Based on Real Data

@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-02-25
 // keyword: offshore oil rig jobs no degree
 // author: Ryan Kowalski
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Offshore Oil Rig Jobs No Degree: Roughneck Salary, Schedule, and What You'll Actually Make","description":"Roughneck salary, schedule, and lifestyle on offshore oil rigs. No degree required. See actual earnings data and what to expect working in oil and gas.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/offshore-oil-rig-jobs-no-degree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/offshore-oil-rig-jobs-no-degree"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Offshore Oil Rig Jobs No Degree: Roughneck Salary, Schedule, and What You'll Actually Make","description":"Roughneck salary, schedule, and lifestyle on offshore oil rigs. No degree required. See actual earnings data and what to expect working in oil and gas.","datePublished":"2026-02-25","dateModified":"2026-02-25","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/offshore-oil-rig-jobs-no-degree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/offshore-oil-rig-jobs-no-degree"}}` }} />
       </Head>
       <SEO
         title="Offshore Oil Rig Jobs No Degree: Real Roughneck Pay & Schedule"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-02-25
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             Offshore Oil Rig Jobs No Degree: Roughneck Salary, Schedule, and What You'll Actually Make

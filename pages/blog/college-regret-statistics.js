@@ -1,4 +1,4 @@
-// date: 2026-03-05
+// date: 2026-01-28
 // keyword: college regret statistics
 // author: Jake Morrison
 import Head from "next/head";
@@ -11,7 +11,7 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Regret Statistics: How Many Graduates Actually Regret Going to College","description":"Real college regret statistics show 36% of graduates regret their degree. See data on debt, earnings, and alternatives to the traditional 4-year path.","datePublished":"2026-03-05","dateModified":"2026-03-05","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-regret-statistics","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-regret-statistics"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"College Regret Statistics: How Many Graduates Actually Regret Going to College","description":"Real college regret statistics show 36% of graduates regret their degree. See data on debt, earnings, and alternatives to the traditional 4-year path.","datePublished":"2026-01-28","dateModified":"2026-01-28","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/college-regret-statistics","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/college-regret-statistics"}}` }} />
       </Head>
       <SEO
         title="College Regret Statistics: How Many Graduates Regret Their Degree"
@@ -21,7 +21,7 @@ export default function BlogPost() {
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
         <div className="mb-10">
           <p className="text-xs uppercase tracking-widest text-sky-400 font-bold mb-3">
-            Blog &middot; 2026-03-05
+            Blog &middot; 2026-01-28
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
             College Regret Statistics: How Many Graduates Actually Regret Going to College
