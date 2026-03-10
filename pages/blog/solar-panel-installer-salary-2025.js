@@ -6,6 +6,7 @@ import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 import AdUnit from "../../components/AdUnit";
 import Link from "next/link";
+import AffiliateCTA from "../../components/AffiliateCTA";
 
 export default function BlogPost() {
   return (
@@ -170,6 +171,8 @@ One often-overlooked factor: solar installers have strong geographic mobility an
         </section>
 
         <AdUnit slot="6600722153" />
+
+        <AffiliateCTA topic="trade" />
 
         <div className="mt-12 p-6 rounded-2xl text-center" style={{background:"#111",border:"1px solid #ff2020"}}>
           <h3 className="text-xl font-black text-white mb-2">Stop Paying For A Piece of Paper</h3>

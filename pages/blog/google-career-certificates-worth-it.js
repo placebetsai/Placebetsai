@@ -2,6 +2,7 @@ import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
 import AdUnit from "../../components/AdUnit";
 import Link from "next/link";
+import AffiliateCTA from "../../components/AffiliateCTA";
 
 export default function BlogPost() {
   return (
