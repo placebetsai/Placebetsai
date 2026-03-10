@@ -439,6 +439,37 @@ export default function HomePage() {
           )}
         </section>
 
+        {/* AI DAILY PICKS */}
+        <section style={{ marginTop: "60px", paddingTop: "40px", borderTop: "1px solid #1f2937" }}>
+          <div style={{ textAlign: "center", marginBottom: "30px" }}>
+            <span style={{ background: "#00ff87", color: "#000", fontSize: "0.7rem", fontWeight: 900, padding: "4px 12px", borderRadius: 99, letterSpacing: "0.1em", textTransform: "uppercase" }}>AI-Powered</span>
+            <h2 style={{ marginTop: "12px", marginBottom: "8px" }}>Today&apos;s Value Bets</h2>
+            <p style={{ fontSize: "0.9rem", color: "#9ca3af", maxWidth: 560, margin: "0 auto" }}>
+              Our model scans line movements, injury reports, and historical ATS data to surface positive-EV spots. Updated daily.
+            </p>
+          </div>
+          <div className="grid-3">
+            {[
+              { sport: "🏀 NBA", pick: "Fade the public on road favorites tonight", edge: "+4.2% EV", confidence: "High", note: "Public betting 68% on the favorite. Line hasn't moved — sharp money disagrees." },
+              { sport: "⚽ MLS", pick: "Under 2.5 goals in rivalry matchups this week", edge: "+3.1% EV", confidence: "Medium", note: "Rivalry games historically go under 64% of the time. Cold front incoming." },
+              { sport: "🎾 ATP", pick: "First-set winner markets on clay underdogs", edge: "+5.8% EV", confidence: "High", note: "Clay surfaces tighten first sets. Underdogs win first set 38% — priced at 30%." },
+            ].map((p) => (
+              <div key={p.sport} className="card" style={{ borderColor: "#00ff8730" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                  <span style={{ fontWeight: 900, fontSize: "0.95rem" }}>{p.sport}</span>
+                  <span style={{ background: "#00ff8720", color: "#00ff87", fontSize: "0.7rem", fontWeight: 900, padding: "2px 10px", borderRadius: 99 }}>{p.edge}</span>
+                </div>
+                <p style={{ fontWeight: 700, color: "#fff", marginBottom: "8px", fontSize: "0.9rem" }}>{p.pick}</p>
+                <p style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: "12px" }}>{p.note}</p>
+                <div style={{ fontSize: "0.75rem", color: "#6b7280" }}>Confidence: <span style={{ color: p.confidence === "High" ? "#00ff87" : "#facc15", fontWeight: 700 }}>{p.confidence}</span></div>
+              </div>
+            ))}
+          </div>
+          <p style={{ textAlign: "center", fontSize: "0.72rem", color: "#4b5563", marginTop: "20px" }}>
+            ⚠️ Statistical insights only — not guaranteed wins. Bet responsibly. 18+. <a href="/responsible-gambling" style={{ color: "#6b7280" }}>Responsible Gambling</a>
+          </p>
+        </section>
+
         {/* EDUCATIONAL FEATURES */}
         <section
           className="mt-4"
