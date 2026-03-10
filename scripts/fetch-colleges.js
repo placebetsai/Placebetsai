@@ -19,7 +19,10 @@ try {
 } catch {}
 
 const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY;
-const OUT_FILE = path.join(__dirname, "..", "data", "colleges.json");
+// Save to .next/cache/ so Vercel preserves it between builds (avoids refetching every deploy)
+const CACHE_FILE = path.join(__dirname, "..", ".next", "cache", "colleges.json");
+const DATA_FILE = path.join(__dirname, "..", "data", "colleges.json");
+const OUT_FILE = CACHE_FILE;
 
 function toSlug(name) {
   return String(name || "")
@@ -81,16 +84,27 @@ async function main() {
     process.exit(0);
   }
 
-  // Skip fetch if we already have a complete dataset (avoids rate limiting on every build)
-  try {
-    if (fs.existsSync(OUT_FILE)) {
-      const existing = JSON.parse(fs.readFileSync(OUT_FILE, "utf8"));
-      if ((existing.colleges || []).length >= 6000) {
-        console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges). Skipping fetch.`);
-        process.exit(0);
+  // Skip fetch if we already have a complete dataset in the Vercel build cache
+  for (const checkFile of [CACHE_FILE, DATA_FILE]) {
+    try {
+      if (fs.existsSync(checkFile)) {
+        const existing = JSON.parse(fs.readFileSync(checkFile, "utf8"));
+        if ((existing.colleges || []).length >= 6000) {
+          console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges) from ${checkFile}. Skipping fetch.`);
+          // Ensure both locations have the file
+          if (checkFile !== DATA_FILE) {
+            fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+            fs.copyFileSync(checkFile, DATA_FILE);
+          }
+          if (checkFile !== CACHE_FILE) {
+            fs.mkdirSync(path.dirname(CACHE_FILE), { recursive: true });
+            fs.copyFileSync(checkFile, CACHE_FILE);
+          }
+          process.exit(0);
+        }
       }
-    }
-  } catch {}
+    } catch {}
+  }
 
   console.log("[fetch-colleges] Starting college data fetch...");
 
@@ -100,7 +114,7 @@ async function main() {
   let total = null;
 
   let retries = 0;
-  const MAX_RETRIES = 5;
+  const MAX_RETRIES = 3;
 
   while (true) {
     try {
@@ -157,7 +171,7 @@ async function main() {
       const is429 = err.message.includes("429");
       retries++;
       if (is429 && retries <= MAX_RETRIES) {
-        const wait = retries * 30000; // 30s, 60s, 90s, 120s, 150s
+        const wait = retries * 15000; // 15s, 30s, 45s
         console.warn(`[fetch-colleges] Rate limited on page ${page + 1}, waiting ${wait / 1000}s (attempt ${retries}/${MAX_RETRIES})...`);
         await new Promise((r) => setTimeout(r, wait));
         // retry same page (don't increment)
@@ -181,9 +195,12 @@ async function main() {
     colleges,
   };
 
-  fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-  fs.writeFileSync(OUT_FILE, JSON.stringify(output, null, 0), "utf8");
-  console.log(`[fetch-colleges] Saved ${colleges.length} colleges to ${OUT_FILE}`);
+  const json = JSON.stringify(output, null, 0);
+  fs.mkdirSync(path.dirname(CACHE_FILE), { recursive: true });
+  fs.writeFileSync(CACHE_FILE, json, "utf8");
+  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+  fs.writeFileSync(DATA_FILE, json, "utf8");
+  console.log(`[fetch-colleges] Saved ${colleges.length} colleges to cache and data/`);
 }
 
 main().catch((err) => {
