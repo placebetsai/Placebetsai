@@ -523,10 +523,11 @@ function commitAndPush(slugs) {
     }
     execSync("git add pages/blog/ pages/sitemap.xml.js .used-topics.json 2>/dev/null || true", { cwd: ROOT });
     execSync(
-      `git commit -m "Auto-generate ${slugs.length} blog articles for ${dateStr} [skip ci]"`,
+      `git commit -m "Auto-generate ${slugs.length} blog articles for ${dateStr} [skip ci] [railway skip]"`,
       { cwd: ROOT }
     );
     execSync("git push origin restore-good", { cwd: ROOT });
+    execSync("git push origin restore-good:main", { cwd: ROOT });
     console.log("  Committed and pushed to GitHub");
   } catch (e) {
     console.error("  Git error:", e.message);
