@@ -12,19 +12,17 @@ export default function Contact() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const r = await fetch("https://formsubmit.co/ajax/info@ihatecollege.com", {
+      const r = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name || "Anonymous",
           email: form.email.trim(),
           message: form.message.trim(),
-          _subject: `IHateCollege.com message from ${form.name || form.email}`,
-          _template: "table",
         }),
       });
       const d = await r.json();
-      if (d.success === "true" || d.success === true) {
+      if (r.ok && d.success) {
         setStatus("success");
         setForm({ name: "", email: "", message: "" });
       } else {

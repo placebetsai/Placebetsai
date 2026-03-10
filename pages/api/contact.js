@@ -15,14 +15,19 @@ export default async function handler(req, res) {
         email: email.trim(),
         message: message.trim(),
         _subject: `IHateCollege.com contact from ${name || email}`,
-        _template: "table",
+        _replyto: email.trim(),
+        _captcha: "false",
       }),
     });
-    const data = await r.json();
+    const text = await r.text();
+    console.log("[CONTACT] formsubmit response:", r.status, text);
+    let data;
+    try { data = JSON.parse(text); } catch { data = {}; }
     if (data.success === "true" || data.success === true) {
       return res.status(200).json({ success: true });
     }
-    throw new Error("formsubmit failed");
+    console.error("[CONTACT] formsubmit did not return success:", data);
+    return res.status(500).json({ error: "Failed to send." });
   } catch (err) {
     console.error("[CONTACT] error:", err);
     return res.status(500).json({ error: "Failed to send." });
