@@ -236,7 +236,7 @@ export default function CollegeRankings({ colleges }) {
             Is Your College a <span style={{ color: "#ff2020" }}>Debt Trap?</span>
           </h1>
           <p style={{ color: "#ccc", fontSize: 16, marginBottom: 32, maxWidth: 540, margin: "0 auto 32px" }}>
-            {(colleges || []).length.toLocaleString()} schools ranked by real cost, average debt, and median earnings 10 years out.
+            Every U.S. college ranked by real cost, average debt, and median earnings 10 years out.
           </p>
 
           {/* Search */}
