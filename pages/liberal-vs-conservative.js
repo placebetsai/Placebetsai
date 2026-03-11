@@ -1,5 +1,6 @@
 // pages/liberal-vs-conservative.js
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 
@@ -505,13 +506,15 @@ export default function LiberalVsConservative() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {filtered.map((college, i) => {
               const s = LEAN_STYLES[college.lean];
+              const slug = college.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
               return (
-                <div
+                <Link
                   key={`${college.name}-${i}`}
-                  className="bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-600 transition-all"
+                  href={`/college/${slug}`}
+                  className="bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-purple-500 transition-all block"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="font-bold text-white text-sm leading-snug">{college.name}</h3>
+                    <h3 className="font-bold text-white text-sm leading-snug group-hover:text-purple-300">{college.name}</h3>
                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap ${s.badge} ${s.text}`}>
                       {s.icon} {college.lean}
                     </span>
@@ -521,7 +524,8 @@ export default function LiberalVsConservative() {
                     <span className="text-[11px] font-bold bg-slate-800 text-slate-400 px-2 py-0.5 rounded">{college.type}</span>
                   </div>
                   <p className="text-[11px] text-slate-500 leading-relaxed">{college.notes}</p>
-                </div>
+                  <p className="text-[10px] text-purple-500 mt-2 font-semibold">View details →</p>
+                </Link>
               );
             })}
           </div>

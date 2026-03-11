@@ -1,5 +1,5 @@
 // components/RatingForm.js
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function RatingForm() {
   const [school, setSchool] = useState("");
@@ -10,19 +10,55 @@ export default function RatingForm() {
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("");
 
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingSugg, setLoadingSugg] = useState(false);
+  const searchTimeout = useRef(null);
+  const wrapperRef = useRef(null);
+
+  const handleSchoolChange = (e) => {
+    const val = e.target.value;
+    setSchool(val);
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    if (val.length < 3) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    searchTimeout.current = setTimeout(async () => {
+      setLoadingSugg(true);
+      try {
+        const res = await fetch(`/api/college-rankings?search=${encodeURIComponent(val)}`);
+        const data = await res.json();
+        const results = (data.results || []).slice(0, 8);
+        setSuggestions(results);
+        setShowSuggestions(results.length > 0);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setLoadingSugg(false);
+      }
+    }, 300);
+  };
+
+  const selectSuggestion = (s) => {
+    setSchool(s.name);
+    setCity(s.city || "");
+    setState(s.state || "");
+    setSuggestions([]);
+    setShowSuggestions(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending…");
-
     try {
       const res = await fetch("/api/submit-rating", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ school, city, state, debtScore, mentalHealthScore, comment }),
       });
-
       if (!res.ok) throw new Error("Request failed");
-
       setStatus("success");
       setSchool(""); setCity(""); setState("");
       setDebtScore(5); setMentalHealthScore(5); setComment("");
@@ -45,18 +81,51 @@ export default function RatingForm() {
         No login. Anonymous.
       </p>
 
-      {/* School name */}
-      <div>
+      {/* School name with autocomplete */}
+      <div ref={wrapperRef} className="relative">
         <label className={labelClass}>
           School Name <span className="text-red-500">*</span>
         </label>
-        <input
-          className={inputClass}
-          value={school}
-          onChange={(e) => setSchool(e.target.value)}
-          placeholder="e.g. Florida State University"
-          required
-        />
+        <div className="relative">
+          <input
+            className={inputClass}
+            value={school}
+            onChange={handleSchoolChange}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+            onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+            placeholder="Start typing your school name..."
+            required
+          />
+          {loadingSugg && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 mt-0.5">
+              <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          )}
+        </div>
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="absolute z-50 left-0 right-0 mt-1 rounded-xl border border-slate-700 bg-slate-900 shadow-xl overflow-hidden">
+            {suggestions.map((s) => (
+              <button
+                key={s.id || s.name}
+                type="button"
+                onMouseDown={() => selectSuggestion(s)}
+                className="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition-colors flex items-center justify-between gap-4"
+              >
+                <div>
+                  <div className="text-white text-sm font-semibold">{s.name}</div>
+                  <div className="text-slate-500 text-xs">{s.city}, {s.state}</div>
+                </div>
+                {s.cost && (
+                  <div className="text-right shrink-0">
+                    <div className="text-[10px] text-slate-500">Cost/yr</div>
+                    <div className="text-xs font-bold text-white">{s.cost}</div>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+        <p className="text-[11px] text-slate-600 mt-1">Type 3+ characters to search 6,000+ colleges</p>
       </div>
 
       {/* City + State */}
