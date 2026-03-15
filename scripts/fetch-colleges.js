@@ -5,21 +5,17 @@
  *
  * Run: node scripts/fetch-colleges.js
  * Requires: COLLEGE_SCORECARD_API_KEY env var (or in .env.local)
- *
- * Output: data/colleges.json (~6000+ schools with cost/debt/earnings)
  */
 
 const fs = require("fs");
 const path = require("path");
 
-// Load .env / .env.local if running locally
 try {
   require("dotenv").config({ path: path.join(__dirname, "..", ".env.local") });
   require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 } catch {}
 
 const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY;
-// Save to .next/cache/ so Vercel preserves it between builds (avoids refetching every deploy)
 const CACHE_FILE = path.join(__dirname, "..", ".next", "cache", "colleges.json");
 const DATA_FILE = path.join(__dirname, "..", "data", "colleges.json");
 const OUT_FILE = CACHE_FILE;
@@ -38,9 +34,43 @@ function ownershipLabel(n) {
   return "Other";
 }
 
+function localeLabel(n) {
+  const map = {
+    11: "Large city", 12: "Midsize city", 13: "Small city",
+    21: "Large suburb", 22: "Midsize suburb", 23: "Small suburb",
+    31: "Town", 32: "Distant town", 33: "Remote town",
+    41: "Rural", 42: "Distant rural", 43: "Remote rural",
+  };
+  return map[n] || null;
+}
+
+function carnegieLabel(n) {
+  if (!n) return null;
+  if (n === 14) return "R1 Research University";
+  if (n === 15) return "R2 Research University";
+  if (n === 16) return "Doctoral/Professional University";
+  if (n >= 17 && n <= 19) return "Master's University";
+  if (n === 20 || n === 21) return "Liberal Arts College";
+  if (n === 22) return "Baccalaureate/Associate's College";
+  if (n >= 23 && n <= 29) return "Associate's College";
+  return null;
+}
+
 function fmt(n, prefix = "$") {
-  if (!n || isNaN(n)) return null;
+  if (n === null || n === undefined || isNaN(n)) return null;
   return prefix + Number(n).toLocaleString("en-US");
+}
+
+function fmtPct(n) {
+  if (n === null || n === undefined || isNaN(n)) return null;
+  return Math.round(Number(n) * 100) + "%";
+}
+
+function isDataHealthy(colleges) {
+  if (!colleges || colleges.length < 6000) return false;
+  // Require at least 30% of colleges to have earnings data
+  const withEarnings = colleges.filter((c) => c.earnings).length;
+  return withEarnings / colleges.length >= 0.3;
 }
 
 async function fetchPage(page, perPage = 100) {
@@ -51,10 +81,19 @@ async function fetchPage(page, perPage = 100) {
     "school.state",
     "school.ownership",
     "school.school_url",
+    "school.locale",
+    "school.carnegie_basic",
+    "school.religious_affiliation",
+    "latest.admissions.admission_rate.overall",
+    "latest.student.size",
+    "latest.completion.completion_rate_4yr_150nt",
     "latest.cost.avg_net_price.public",
     "latest.cost.avg_net_price.private",
+    "latest.cost.tuition.in_state",
+    "latest.cost.tuition.out_of_state",
     "latest.aid.median_debt.completers.overall",
     "latest.earnings.10_yrs_after_entry.median",
+    "latest.repayment.3_yr_repayment_suppressed.overall",
   ].join(",");
 
   const url =
@@ -84,14 +123,13 @@ async function main() {
     process.exit(0);
   }
 
-  // Skip fetch if we already have a complete dataset in the Vercel build cache
+  // Skip fetch only if cached data is both large AND has real financial data
   for (const checkFile of [CACHE_FILE, DATA_FILE]) {
     try {
       if (fs.existsSync(checkFile)) {
         const existing = JSON.parse(fs.readFileSync(checkFile, "utf8"));
-        if ((existing.colleges || []).length >= 6000) {
-          console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges) from ${checkFile}. Skipping fetch.`);
-          // Ensure both locations have the file
+        if (isDataHealthy(existing.colleges)) {
+          console.log(`[fetch-colleges] Using cached data (${existing.colleges.length} colleges, data healthy) from ${checkFile}.`);
           if (checkFile !== DATA_FILE) {
             fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
             fs.copyFileSync(checkFile, DATA_FILE);
@@ -101,6 +139,8 @@ async function main() {
             fs.copyFileSync(checkFile, CACHE_FILE);
           }
           process.exit(0);
+        } else {
+          console.log(`[fetch-colleges] Cached data exists but is stale/incomplete — refetching.`);
         }
       }
     } catch {}
@@ -136,8 +176,6 @@ async function main() {
         const netPub = r["latest.cost.avg_net_price.public"];
         const netPriv = r["latest.cost.avg_net_price.private"];
         const netPrice = netPub || netPriv || null;
-        const debt = r["latest.aid.median_debt.completers.overall"];
-        const earnings = r["latest.earnings.10_yrs_after_entry.median"];
 
         colleges.push({
           id: r["id"],
@@ -146,9 +184,17 @@ async function main() {
           city: r["school.city"] || null,
           state: r["school.state"] || null,
           type: ownershipLabel(ownership),
+          locale: localeLabel(r["school.locale"]),
+          carnegie: carnegieLabel(r["school.carnegie_basic"]),
           cost: fmt(netPrice),
-          debt: fmt(debt),
-          earnings: fmt(earnings),
+          tuitionInState: fmt(r["latest.cost.tuition.in_state"]),
+          tuitionOutState: fmt(r["latest.cost.tuition.out_of_state"]),
+          debt: fmt(r["latest.aid.median_debt.completers.overall"]),
+          earnings: fmt(r["latest.earnings.10_yrs_after_entry.median"]),
+          admissionRate: fmtPct(r["latest.admissions.admission_rate.overall"]),
+          enrollment: r["latest.student.size"] ? Number(r["latest.student.size"]).toLocaleString("en-US") : null,
+          gradRate: fmtPct(r["latest.completion.completion_rate_4yr_150nt"]),
+          repaymentRate: fmtPct(r["latest.repayment.3_yr_repayment_suppressed.overall"]),
           url: r["school.school_url"] || null,
         });
       }
@@ -161,15 +207,12 @@ async function main() {
 
       await new Promise((r) => setTimeout(r, 5000));
     } catch (err) {
-      const is429 = err.message.includes("429");
-      if (is429) {
+      if (err.message.includes("429")) {
         console.warn(`[fetch-colleges] Rate limited — stopping early with ${colleges.length} colleges.`);
-        break; // stop immediately, don't retry, save what we have
-        console.warn(`[fetch-colleges] Rate limited on page ${page + 1}, waiting ${wait / 1000}s (attempt ${retries}/${MAX_RETRIES})...`);
-        await new Promise((r) => setTimeout(r, wait));
+        break;
       } else {
         console.error(`[fetch-colleges] Error on page ${page}: ${err.message}`);
-        page++; // skip this page and continue
+        page++;
         if (page > 100) break;
       }
     }
@@ -196,6 +239,5 @@ async function main() {
 
 main().catch((err) => {
   console.error("[fetch-colleges] Fatal error:", err);
-  // Exit 0 so a fetch failure doesn't block the build
   process.exit(0);
 });

@@ -157,6 +157,59 @@ function verdict(school) {
   return           { label: "Debt Trap",     color: "#ff2020" };
 }
 
+function buildNarrative(school) {
+  const parts = [];
+
+  const typeStr = school.carnegie || (school.type + " institution");
+  const locationStr = school.locale
+    ? `${school.locale.toLowerCase()} in ${school.city}, ${school.state}`
+    : `${school.city}, ${school.state}`;
+  parts.push(`${school.name} is a ${typeStr} located in ${locationStr}.`);
+
+  if (school.enrollment) {
+    parts.push(`It enrolls approximately ${school.enrollment} students.`);
+  }
+
+  if (school.admissionRate) {
+    const rate = parseInt(school.admissionRate);
+    const label = rate < 20 ? "highly selective" : rate < 40 ? "selective" : rate < 70 ? "moderately selective" : "broadly accessible";
+    parts.push(`The acceptance rate is ${school.admissionRate}, making it ${label}.`);
+  }
+
+  if (school.gradRate) {
+    const rate = parseInt(school.gradRate);
+    const comment = rate >= 80 ? "a strong result" : rate >= 60 ? "solid" : rate >= 40 ? "below average — worth asking why" : "low, which is a red flag worth researching before enrolling";
+    parts.push(`${school.gradRate} of students graduate within 4 years — ${comment}.`);
+  }
+
+  const debt = parseInt((school.debt || "").replace(/[^0-9]/g, "")) || 0;
+  const earn = parseInt((school.earnings || "").replace(/[^0-9]/g, "")) || 0;
+
+  if (earn && debt) {
+    const months = Math.round(debt / (earn / 12));
+    if (months <= 5) {
+      parts.push(`With ${school.earnings} median earnings and ${school.debt} median debt, graduates typically pay off their loans in about ${months} months — a solid ROI.`);
+    } else if (months <= 12) {
+      parts.push(`Median earnings of ${school.earnings} vs. ${school.debt} in median debt means a typical graduate needs about ${months} months of income to clear their loans.`);
+    } else {
+      parts.push(`The numbers are rough: ${school.debt} median debt against ${school.earnings} median earnings means a typical graduate spends over ${months} months of income repaying loans. That's a serious financial commitment.`);
+    }
+  } else if (earn) {
+    parts.push(`Median earnings for graduates are ${school.earnings} ten years after enrollment.`);
+  }
+
+  if (school.repaymentRate) {
+    const rate = parseInt(school.repaymentRate);
+    if (rate < 40) {
+      parts.push(`Only ${school.repaymentRate} of borrowers are actively repaying their loans 3 years after leaving school — a warning sign about post-graduation outcomes.`);
+    } else if (rate >= 60) {
+      parts.push(`${school.repaymentRate} of borrowers are repaying their loans within 3 years of leaving school, which is above average.`);
+    }
+  }
+
+  return parts.join(" ");
+}
+
 function StarPicker({ value, onChange }) {
   const [hover, setHover] = useState(0);
   return (
@@ -217,12 +270,14 @@ export default function CollegePage({ school }) {
   const earn  = parseInt((school.earnings || "").replace(/[^0-9]/g, "")) || 0;
   const payoffMonths = earn ? Math.round(debt / (earn / 12)) : null;
 
-  const metaDesc = `Is ${school.name} worth it? Cost: ${school.cost}/yr, avg debt: ${school.debt}, median earnings 10yrs out: ${school.earnings}. Real government data.`;
+  const narrative = buildNarrative(school);
+  const admissionDesc = school.admissionRate ? `Acceptance rate: ${school.admissionRate}.` : "";
+  const metaDesc = `Is ${school.name} worth it? Avg cost: ${school.cost || "N/A"}, debt: ${school.debt || "N/A"}, earnings 10yrs out: ${school.earnings || "N/A"}. ${admissionDesc} Real government data.`.slice(0, 155);
 
   return (
     <Layout>
       <SEO
-        title={`Is ${school.name} Worth It? Real Cost & Debt Data`}
+        title={`Is ${school.name} Worth It? Cost, Debt & Outcomes Data`}
         description={metaDesc}
       />
 
@@ -237,25 +292,54 @@ export default function CollegePage({ school }) {
         <div style={{ marginBottom: 32 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
             <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(255,32,32,0.12)", color: "#ff2020", letterSpacing: "0.08em", textTransform: "uppercase" }}>{school.type}</span>
+            {school.carnegie && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(99,102,241,0.12)", color: "#a5b4fc", letterSpacing: "0.06em" }}>{school.carnegie}</span>}
             {school.rank && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, background: "rgba(99,102,241,0.15)", color: "#a5b4fc", border: "1px solid rgba(99,102,241,0.3)" }}>US News #{school.rank}</span>}
             {v && <span style={{ fontSize: 11, fontWeight: 900, padding: "3px 8px", borderRadius: 4, color: v.color, background: `${v.color}20` }}>{v.label}</span>}
           </div>
           <h1 style={{ color: "#fff", fontSize: "clamp(26px,5vw,42px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 8px" }}>
             Is {school.name} Worth It?
           </h1>
-          <p style={{ color: "#aaa", fontSize: 14 }}>{school.city}, {school.state} · Source: U.S. Dept. of Education College Scorecard</p>
+          <p style={{ color: "#aaa", fontSize: 14 }}>
+            {school.city}, {school.state}
+            {school.locale ? ` · ${school.locale}` : ""}
+            {school.enrollment ? ` · ${school.enrollment} students` : ""}
+            {" · "} Source: U.S. Dept. of Education College Scorecard
+          </p>
         </div>
 
-        {/* Stats grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 24 }}>
+        {/* Narrative summary */}
+        {narrative && (
+          <div style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }}>
+            <p style={{ color: "#ccc", fontSize: 15, lineHeight: 1.7, margin: 0 }}>{narrative}</p>
+          </div>
+        )}
+
+        {/* Primary stats grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 12 }}>
           {[
-            { label: "Annual Cost (In-State)", value: school.cost, color: "#fff" },
-            { label: "Avg Debt at Graduation", value: school.debt, color: "#ff2020" },
-            { label: "Median Earnings (10yr)", value: school.earnings, color: "#10b981" },
+            { label: "Avg Net Price / Year", value: school.cost || "N/A", color: "#fff" },
+            { label: "Median Debt at Graduation", value: school.debt || "N/A", color: "#ff2020" },
+            { label: "Median Earnings (10yr)", value: school.earnings || "N/A", color: "#10b981" },
           ].map((stat) => (
             <div key={stat.label} style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 16px", textAlign: "center" }}>
               <div style={{ color: "#999", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>{stat.label}</div>
               <div style={{ color: stat.color, fontSize: 22, fontWeight: 900 }}>{stat.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Secondary stats grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr) repeat(2, 1fr)", gap: 12, marginBottom: 24 }}>
+          {[
+            school.admissionRate && { label: "Acceptance Rate", value: school.admissionRate, color: "#e2e8f0" },
+            school.gradRate      && { label: "4-yr Grad Rate",   value: school.gradRate,      color: parseInt(school.gradRate) >= 60 ? "#10b981" : "#f59e0b" },
+            school.tuitionInState  && { label: "Tuition (In-State)",  value: school.tuitionInState,  color: "#e2e8f0" },
+            school.tuitionOutState && { label: "Tuition (Out-of-State)", value: school.tuitionOutState, color: "#e2e8f0" },
+            school.repaymentRate && { label: "3-yr Loan Repayment", value: school.repaymentRate, color: parseInt(school.repaymentRate) >= 50 ? "#10b981" : "#f59e0b" },
+          ].filter(Boolean).map((stat) => (
+            <div key={stat.label} style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 10, padding: "14px 16px", textAlign: "center" }}>
+              <div style={{ color: "#666", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{stat.label}</div>
+              <div style={{ color: stat.color, fontSize: 18, fontWeight: 900 }}>{stat.value}</div>
             </div>
           ))}
         </div>
