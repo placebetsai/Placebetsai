@@ -1,6 +1,6 @@
 // date: 2026-03-07
-// keyword: welder salary 2025
-// author: Ryan Kowalski
+// keyword: welder salary 2026
+// author: Tony Russo
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?","description":"Compare pipeline vs structural welding salaries in 2025. Real BLS data, job outlook, and which path pays more. No college required.","datePublished":"2026-03-07","dateModified":"2026-03-07","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/welder-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/welder-salary-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Welder Salary 2026: Pipeline vs Structural Welding—Which Path Pays More?","description":"Compare pipeline vs structural welding salaries in 2026. Real BLS data, job outlook, and which path pays more. No college required.","datePublished":"2026-03-07","dateModified":"2026-03-07","author":{"@type":"Person","name":"Tony Russo"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/welder-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/welder-salary"}}` }} />
       </Head>
       <SEO
-        title="Welder Salary 2025: Pipeline vs Structural Earnings"
-        description="Compare pipeline vs structural welding salaries in 2025. Real BLS data, job outlook, and which path pays more. No college required."
+        title="Welder Salary 2026: Pipeline vs Structural Earnings"
+        description="Compare pipeline vs structural welding salaries in 2026. Real BLS data, job outlook, and which path pays more. No college required."
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-03-07
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?
+            Welder Salary 2026: Pipeline vs Structural Welding—Which Path Pays More?
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&h=500&fit=crop&auto=format"
-              alt="Welder Salary 2025: Pipeline vs Structural Welding—Which Path Pays More?"
+              alt="Welder Salary 2026: Pipeline vs Structural Welding—Which Path Pays More?"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,35 +40,35 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            RK
+            TR
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Ryan Kowalski</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Ryan is a master electrician turned writer. After 15 years in the trades, he documents the financial realities of skilled work vs. the college path.</div>
+            <div className="font-bold text-white text-sm">Tony Russo</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Tony is a certified welding inspector with 18 years in manufacturing. He writes about the trades because he&apos;s tired of seeing the profession undervalued.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
-        <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">The Real Numbers: What Welders Actually Make in 2025</h2>
-          <p className="text-slate-300 leading-relaxed">Let&apos;s cut straight to it. According to the U.S. Bureau of Labor Statistics, the median annual wage for welders, cutters, solderers, and brazers was $43,380 as of May 2023, with projections showing continued stability into 2025. But here&apos;s what matters: that median number obscures a massive earnings gap depending on specialization.
 
-Pipeline welders and structural welders operate in fundamentally different markets with different risk profiles, travel demands, and earning potential. In 2025, this gap is wider than ever. Pipeline welders in high-activity regions are pulling in $60,000 to $80,000 annually, with experienced union welders reaching six figures during peak project cycles. Structural welders, while commanding solid wages, typically plateau lower unless they transition into supervisory or inspection roles.
+        <section className="mb-10">
+          <h2 className="text-2xl font-black text-white mb-4">The Real Numbers: What Welders Actually Make in 2026</h2>
+          <p className="text-slate-300 leading-relaxed">Let&apos;s cut straight to it. According to the U.S. Bureau of Labor Statistics, the median annual wage for welders, cutters, solderers, and brazers was $43,380 as of May 2023, with projections showing continued stability into 2026. But here&apos;s what matters: that median number obscures a massive earnings gap depending on specialization.
+
+Pipeline welders and structural welders operate in fundamentally different markets with different risk profiles, travel demands, and earning potential. In 2026, this gap is wider than ever. Pipeline welders in high-activity regions are pulling in $60,000 to $80,000 annually, with experienced union welders reaching six figures during peak project cycles. Structural welders, while commanding solid wages, typically plateau lower unless they transition into supervisory or inspection roles.
 
 The difference isn&apos;t random. It comes down to market demand, project scarcity, and working conditions. Pipeline work is concentrated geographically and cyclical—when projects are active, competition is fierce and wages spike. Structural welding is steadier but more commoditized.
 
 Before you choose a path, you need to understand exactly what you&apos;re signing up for, because the higher pay in pipeline welding comes with real tradeoffs that structural welding doesn&apos;t always demand.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Pipeline Welding Salaries: Where the Money Actually Is</h2>
           <p className="text-slate-300 leading-relaxed">Pipeline welding is the high-risk, high-reward lane of the welding world. These are the workers building and maintaining the infrastructure that moves oil, natural gas, and other products across North America. The work is critical, often dangerous, and highly specialized—which means clients will pay premium rates to get it done right.
 
-According to data from the Pipeline and Hazardous Materials Safety Administration (PHMSA) and labor market surveys, entry-level pipeline welders in 2025 start at around $50,000 to $55,000 annually, but this jumps quickly. Mid-level pipeline welders with 5+ years of experience regularly earn $65,000 to $80,000 per year. In hot markets—particularly in Texas, Oklahoma, Alberta, and North Dakota—experienced pipeline welders are clearing $85,000 to $100,000+ annually during active construction phases.
+According to data from the Pipeline and Hazardous Materials Safety Administration (PHMSA) and labor market surveys, entry-level pipeline welders in 2026 start at around $50,000 to $55,000 annually, but this jumps quickly. Mid-level pipeline welders with 5+ years of experience regularly earn $65,000 to $80,000 per year. In hot markets—particularly in Texas, Oklahoma, Alberta, and North Dakota—experienced pipeline welders are clearing $85,000 to $100,000+ annually during active construction phases.
 
 The catch? Pipeline welding work is feast-or-famine. A major pipeline project might employ hundreds of welders at premium rates for 18-24 months, then that work dries up and you&apos;re looking for the next contract. The Bureau of Labor Statistics doesn&apos;t break out pipeline welding separately, but industry-specific surveys from the American Welding Society show pipeline specialization commands roughly 15-25% wage premiums over general structural welding.
 
@@ -76,10 +76,10 @@ Travel is non-negotiable in pipeline work. Expect 6-10 months per year away from
 
 Union representation matters significantly here. Roughly 40-50% of pipeline welders are unionized (primarily through unions like the UA and IBEW), and union pipeline welders negotiate specifically around travel allowances, hazard pay, and per diem. A unionized pipeline welder might make $28-$35 per hour in base wages plus $20-$30 per hour in travel allowance, housing, and hazard pay when deployed to a project site. That&apos;s where the $85,000-$100,000+ annual figures come from.
 
-One critical detail the Bureau of Labor Statistics doesn&apos;t capture well: pipeline welding demand is project-dependent and increasingly political. The Biden administration&apos;s stance on fossil fuel infrastructure has created genuine uncertainty in the market. The Keystone XL pipeline cancellation eliminated thousands of high-paying jobs. In 2025, pipeline work still exists and still pays well, but the long-term trajectory is less certain than it was five years ago.</p>
+One critical detail the Bureau of Labor Statistics doesn&apos;t capture well: pipeline welding demand is project-dependent and increasingly political. The Biden administration&apos;s stance on fossil fuel infrastructure has created genuine uncertainty in the market. The Keystone XL pipeline cancellation eliminated thousands of high-paying jobs. In 2026, pipeline work still exists and still pays well, but the long-term trajectory is less certain than it was five years ago.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Structural Welding Earnings: Steady Work, Lower Ceiling</h2>
@@ -101,10 +101,10 @@ Here&apos;s what the data shows about the structural welding market:
 
 5. Physical demand is actually higher than pipeline work in some cases. Structural welders on buildings work at height, in confined spaces, and often in physically awkward positions. The pay doesn&apos;t always reflect this difficulty.
 
-The BLS projects 4% job growth for welders through 2033, but this is an aggregate number. Structural welding should grow roughly in line with construction spending, which the Federal Reserve and industry analysts expect to remain steady but unspectacular at 2-4% annually in 2025.</p>
+The BLS projects 4% job growth for welders through 2033, but this is an aggregate number. Structural welding should grow roughly in line with construction spending, which the Federal Reserve and industry analysts expect to remain steady but unspectacular at 2-4% annually in 2026.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Cost of Living Adjustments: Why Geographic Location Matters</h2>
@@ -127,11 +127,11 @@ The MIT Living Wage Calculator, updated through 2024, shows that a single adult 
 One advantage pipeline welders often overlook: when you&apos;re at a project site, many major expenses are covered by per diem and employer housing. You&apos;re essentially saving money while living in temporary housing, even if the temporary location itself is expensive. Structural welders, working locally and living in their own homes, carry all personal expenses.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Job Growth, Market Demand, and Future Earnings Stability</h2>
-          <p className="text-slate-300 leading-relaxed">The trajectory for these two careers diverges significantly when you look beyond 2025.
+          <p className="text-slate-300 leading-relaxed">The trajectory for these two careers diverges significantly when you look beyond 2026.
 
 Pipeline welding faces structural headwinds. According to the U.S. Energy Information Administration, domestic oil production is relatively flat, and new pipeline construction in the U.S. has slowed dramatically compared to 2010-2015. Liquefied Natural Gas (LNG) export infrastructure is still being built, particularly on the Gulf Coast, but these are cyclical booms, not sustained employment.
 
@@ -143,10 +143,10 @@ Structural welding has more stable, predictable growth. According to the BLS, co
 
 However, automation is gradually affecting structural welding more than pipeline work. Robotic welding has penetrated manufacturing and shipbuilding significantly. The BLS reports that machine welders (robotic systems) grew 2.4% annually from 2013-2023, while manual welders grew just 1.1%. If you&apos;re a structural welder in manufacturing, your job security is lower than a structural welder in construction.
 
-The bottom line on employment: Pipeline welding is more lucrative but less stable and has declining long-term prospects. Structural welding is less lucrative but more stable and recession-resistant. In 2025, you need to decide whether you&apos;re betting on 10-15 years of high-income cycles (pipeline) or a 40-year career with consistent moderate income (structural).</p>
+The bottom line on employment: Pipeline welding is more lucrative but less stable and has declining long-term prospects. Structural welding is less lucrative but more stable and recession-resistant. In 2026, you need to decide whether you&apos;re betting on 10-15 years of high-income cycles (pipeline) or a 40-year career with consistent moderate income (structural).</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Hidden Costs and Tradeoffs: Why Take-Home Pay Isn't the Whole Story</h2>
@@ -176,8 +176,8 @@ Structural Welding Hidden Costs:
 
 The Federal Bureau of Labor Statistics doesn&apos;t track these hidden costs, but industry analysts estimate they reduce pipeline welding net value by 10-15% and structural welding costs by 5-8%. Neither career is a pure financial play.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Certification, Credentials, and Path to Higher Earnings</h2>
@@ -209,10 +209,10 @@ Structural welders typically pursue fewer specializations because the market is 
 
 4. Union ironworker status—Similar to pipeline, completing union apprenticeship increases pay by $4,000-$10,000 annually.
 
-The major difference: pipeline welders have a clearer financial path to earning $80,000-$100,000+ through certifications and experience. Structural welders plateau earlier unless they transition into inspection or supervisory roles. According to AWS data, welding inspectors in 2025 earn $60,000-$85,000 annually, which is a real upgrade from working welder wages but less than top-tier experienced pipeline welders.</p>
+The major difference: pipeline welders have a clearer financial path to earning $80,000-$100,000+ through certifications and experience. Structural welders plateau earlier unless they transition into inspection or supervisory roles. According to AWS data, welding inspectors in 2026 earn $60,000-$85,000 annually, which is a real upgrade from working welder wages but less than top-tier experienced pipeline welders.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Union vs Non-Union: The Impact on Pipeline and Structural Welder Salaries</h2>
@@ -222,7 +222,7 @@ Union Pipeline Welding:
 
 Approximately 45-50% of pipeline welders are unionized, primarily through the United Association (UA) for plumbers, pipefitters, and welders. Union pipeline welders work under negotiated contracts that specify hourly rates, travel allowances, housing per diem, and hazard pay.
 
-A typical union pipeline welder contract in 2025 breaks down like this:
+A typical union pipeline welder contract in 2026 breaks down like this:
 
 1. Base hourly rate: $28-$35 per hour
 
@@ -258,7 +258,7 @@ Union Structural Welding:
 
 Roughly 40-45% of structural welders are unionized, primarily through the International Association of Bridge, Structural, Ornamental and Reinforcing Iron Workers (IABSORIW, often called the Iron Workers union).
 
-A typical union structural welder contract in 2025:
+A typical union structural welder contract in 2026:
 
 1. Base hourly rate: $22-$32 per hour (varies by region)
 
@@ -288,16 +288,16 @@ Union Challenges:
 
 According to the BLS, union workers across all industries earn 10.2% more than non-union workers. For welders specifically, the union premium is roughly 12-18% depending on specialization and region.
 
-In 2025, if you&apos;re serious about maximizing pipeline welder earnings, union membership is nearly essential for accessing the best-paying projects. For structural welding, union membership doesn&apos;t increase earning potential as dramatically but provides significantly better retirement security.</p>
+In 2026, if you&apos;re serious about maximizing pipeline welder earnings, union membership is nearly essential for accessing the best-paying projects. For structural welding, union membership doesn&apos;t increase earning potential as dramatically but provides significantly better retirement security.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Regional Variations in Welder Salaries: Where to Work for Maximum Earnings</h2>
           <p className="text-slate-300 leading-relaxed">Welder salaries vary dramatically by region, and this variation is larger for pipeline welders than structural welders.
 
-Top Pipeline Welding Markets in 2025:
+Top Pipeline Welding Markets in 2026:
 
 1. Alberta, Canada—Highest paying region, but also highest cost of living. Experienced pipeline welders earn $95,000-$130,000 CAD annually ($70,000-$95,000 USD), but that&apos;s in a market with 15% provincial income tax and expensive housing. Net purchasing power advantage over U.S. markets is roughly 15-25%.
 
@@ -309,7 +309,7 @@ Top Pipeline Welding Markets in 2025:
 
 5. Wyoming—Limited pipeline work but growing renewable energy infrastructure. Welders earn $60,000-$78,000 with very low cost of living.
 
-Top Structural Welding Markets in 2025:
+Top Structural Welding Markets in 2026:
 
 1. Los Angeles/Southern California—Heavy construction market, port work, and entertainment industry infrastructure. Structural welders earn $62,000-$75,000, but rent alone is $2,000-$2,500 monthly for modest apartments.
 
@@ -321,7 +321,7 @@ Top Structural Welding Markets in 2025:
 
 5. Phoenix—Growing construction market, lower costs than California. Welders earn $52,000-$65,000.
 
-Cost-of-Living Adjusted Real Earnings (Adjusted for 2025):
+Cost-of-Living Adjusted Real Earnings (Adjusted for 2026):
 
 When you account for cost of living, the picture changes. According to the Council for Community and Economic Research (C2ER) data and MIT&apos;s Living Wage Calculator, the best regions for net disposable income as a welder are:
 
@@ -335,16 +335,16 @@ When you account for cost of living, the picture changes. According to the Counc
 
 The major finding: raw salary doesn&apos;t correlate with real purchasing power for welders. A structural welder making $62,000 in California is financially worse off than a structural welder making $54,000 in Houston due to cost of living differences. A pipeline welder making $85,000 USD in a Texas market has better real purchasing power than one making $110,000 CAD in Alberta due to taxes and living costs.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">Future Outlook: Is Welding Still a Smart Career Path in 2025 and Beyond?</h2>
+          <h2 className="text-2xl font-black text-white mb-4">Future Outlook: Is Welding Still a Smart Career Path in 2026 and Beyond?</h2>
           <p className="text-slate-300 leading-relaxed">Let&apos;s be direct: welding is still a viable career path that doesn&apos;t require a four-year degree or six-figure student loans. But the future trajectory is different for pipeline versus structural specializations.
 
 Pipeline Welding Outlook:
 
-Pipeline welding will remain a high-paying specialty through 2025 and likely through 2030, but the demand is declining. The EIA reports that U.S. crude oil pipeline mileage has been relatively flat since 2014. New pipeline construction projects are increasingly constrained by regulatory uncertainty and environmental opposition. A major pipeline project greenlit today faces 5-10 years of legal challenges before construction even begins.
+Pipeline welding will remain a high-paying specialty through 2026 and likely through 2030, but the demand is declining. The EIA reports that U.S. crude oil pipeline mileage has been relatively flat since 2014. New pipeline construction projects are increasingly constrained by regulatory uncertainty and environmental opposition. A major pipeline project greenlit today faces 5-10 years of legal challenges before construction even begins.
 
 LNG export infrastructure (liquefied natural gas) is the bright spot, with terminal construction ongoing on the Gulf Coast. These projects employ pipeline welders but are also nearing completion. New major LNG expansion is unlikely in the U.S. through 2030.
 
@@ -366,7 +366,7 @@ The bright spots for structural welders:
 
 The trajectory: Structural welding is a legitimate 40-year career path with stable income but limited upside.
 
-Skills That Will Matter in 2025 and Beyond:
+Skills That Will Matter in 2026 and Beyond:
 
 Whether you choose pipeline or structural welding, these skills will increase your earnings:
 
@@ -386,12 +386,12 @@ Unlike four-year degrees, most welding training happens through apprenticeships 
 
 BLS data shows that the lifetime earnings for a welder are approximately $1.2-$1.4 million (nominal dollars, before inflation adjustment) over a 40-year career. A four-year college degree costs $40,000-$200,000 and delays earning by 4 years. Even with a bachelor&apos;s degree, the median college graduate earning is roughly $1.5-$1.8 million over 40 years—only 15-25% more than a welder, despite substantially higher upfront costs and opportunity costs.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">Bottom Line: In 2025, pipeline welders earn $70,000-$100,000+ annually with peaks during active project cycles, while structural welders earn $50,000-$70,000 with more consistent year-round work. Pipeline welding offers higher peak earnings but demands 6-10 months of annual travel, has boom-bust income cycles, and faces declining long-term demand. Structural welding offers stability, predictable income, and local work but has a lower earning ceiling and increasing automation risk in manufacturing sectors. Pipeline welding is a smarter 10-15 year play if you&apos;re young and willing to prioritize income over lifestyle. Structural welding is a better 40-year career if you want stability, predictability, and a reasonable life outside work. Both beat the ROI of a four-year college degree when you account for cost, time, and earning trajectory. Union membership in either field provides 12-18% wage premiums and meaningful pension benefits that don&apos;t appear in salary numbers but matter significantly for long-term wealth. Geographic location matters more than specialization—a structural welder in Houston with real purchasing power beats a structural welder in Los Angeles making $10,000 more annually. If you choose welding, pick your region first based on cost of living and job stability, then optimize for specialization. Neither pipeline nor structural welding is a mistake—but the choice between them should be based on your tolerance for travel, uncertainty, and whether you&apos;re building a career or banking income.</p>
+          <p className="text-slate-300 leading-relaxed">Bottom Line: In 2026, pipeline welders earn $70,000-$100,000+ annually with peaks during active project cycles, while structural welders earn $50,000-$70,000 with more consistent year-round work. Pipeline welding offers higher peak earnings but demands 6-10 months of annual travel, has boom-bust income cycles, and faces declining long-term demand. Structural welding offers stability, predictable income, and local work but has a lower earning ceiling and increasing automation risk in manufacturing sectors. Pipeline welding is a smarter 10-15 year play if you&apos;re young and willing to prioritize income over lifestyle. Structural welding is a better 40-year career if you want stability, predictability, and a reasonable life outside work. Both beat the ROI of a four-year college degree when you account for cost, time, and earning trajectory. Union membership in either field provides 12-18% wage premiums and meaningful pension benefits that don&apos;t appear in salary numbers but matter significantly for long-term wealth. Geographic location matters more than specialization—a structural welder in Houston with real purchasing power beats a structural welder in Los Angeles making $10,000 more annually. If you choose welding, pick your region first based on cost of living and job stability, then optimize for specialization. Neither pipeline nor structural welding is a mistake—but the choice between them should be based on your tolerance for travel, uncertainty, and whether you&apos;re building a career or banking income.</p>
         </section>
 
         <AdUnit slot="6600722153" />
@@ -411,10 +411,10 @@ BLS data shows that the lifetime earnings for a welder are approximately $1.2-$1
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>

@@ -1,6 +1,6 @@
 // date: 2026-02-07
-// keyword: is college worth it 2025
-// author: Jake Morrison
+// keyword: is college worth it 2026
+// author: Lisa Chen
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Is College Worth It in 2025? A Data-Driven Look at Student Debt vs Earnings ROI","description":"Real data on college ROI in 2025. Compare student debt vs earnings. See if a degree pays off for your career path.","datePublished":"2026-02-07","dateModified":"2026-02-07","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/is-college-worth-it-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/is-college-worth-it-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Is College Worth It in 2026? A Data-Driven Look at Student Debt vs Earnings ROI","description":"Real data on college ROI in 2026. Compare student debt vs earnings. See if a degree pays off for your career path.","datePublished":"2026-02-07","dateModified":"2026-02-07","author":{"@type":"Person","name":"Lisa Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/is-college-worth-it","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/is-college-worth-it"}}` }} />
       </Head>
       <SEO
-        title="Is College Worth It in 2025? Student Debt vs ROI"
-        description="Real data on college ROI in 2025. Compare student debt vs earnings. See if a degree pays off for your career path."
+        title="Is College Worth It in 2026? Student Debt vs ROI"
+        description="Real data on college ROI in 2026. Compare student debt vs earnings. See if a degree pays off for your career path."
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-02-07
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Is College Worth It in 2025? A Data-Driven Look at Student Debt vs Earnings ROI
+            Is College Worth It in 2026? A Data-Driven Look at Student Debt vs Earnings ROI
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&h=500&fit=crop&auto=format"
-              alt="Is College Worth It in 2025? A Data-Driven Look at Student Debt vs Earnings ROI"
+              alt="Is College Worth It in 2026? A Data-Driven Look at Student Debt vs Earnings ROI"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,20 +40,20 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            JM
+            LC
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Jake Morrison</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Jake spent 6 years in higher education administration before leaving to write about the economics of college. He covers student debt, ROI, and career alternatives.</div>
+            <div className="font-bold text-white text-sm">Lisa Chen</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Lisa is a former university admissions officer who became a vocal critic of the college-industrial complex after watching students take on crushing debt for degrees with no ROI.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
+
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">The Simple Truth About College Economics in 2025</h2>
-          <p className="text-slate-300 leading-relaxed">Whether college is worth it in 2025 depends entirely on what you study, where you attend, and how much you pay. There&apos;s no universal answer. But there are hard numbers that tell the story.
+          <h2 className="text-2xl font-black text-white mb-4">The Simple Truth About College Economics in 2026</h2>
+          <p className="text-slate-300 leading-relaxed">Whether college is worth it in 2026 depends entirely on what you study, where you attend, and how much you pay. There&apos;s no universal answer. But there are hard numbers that tell the story.
 
 As of 2024, the average student loan debt for borrowers with federal student loans sits at $37,850 according to Federal Student Aid data. Meanwhile, the median student loan payment for recent graduates is around $200 to $300 per month over a standard 10-year repayment plan. That&apos;s money that could go toward a house, starting a business, or investing.
 
@@ -61,8 +61,8 @@ The Department of Education reports that 43 million Americans carry federal stud
 
 But here&apos;s what matters: does that debt get paid back through higher earnings? The answer is more complicated than yes or no.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">What the Earnings Data Actually Shows</h2>
@@ -82,7 +82,7 @@ Humanities graduates: $38,000 to $45,000
 That starting salary matters because it determines how fast you pay down debt and when you break even on your investment.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Cost Problem: College Prices Have Outpaced Earnings</h2>
@@ -92,12 +92,12 @@ According to the National Center for Education Statistics (NCES), the average co
 
 Adjusting for inflation, college costs have risen 169% since 1980, while median earnings for young college graduates have risen only 23% in the same period. That&apos;s an unsustainable gap.
 
-The College Board reports that average published tuition and fees alone (not including room and board) at private institutions reached $41,540 for 2024-2025. At public four-year institutions, it&apos;s $10,070 for in-state and $27,350 for out-of-state students.
+The College Board reports that average published tuition and fees alone (not including room and board) at private institutions reached $41,540 for 2024-2026. At public four-year institutions, it&apos;s $10,070 for in-state and $27,350 for out-of-state students.
 
 When you borrow $100,000 to $150,000 to attend college, you need a job paying at least $60,000 to $80,000 just to make the numbers work with standard debt repayment timelines. Not every degree delivers that.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Student Debt Burden by Major: Where It Actually Hurts</h2>
@@ -118,10 +118,10 @@ Here&apos;s the breakdown by field (average debt vs median starting salary):
 These break-even calculations are simplified—they don&apos;t account for interest, taxes, or other living expenses. The real payback period is much longer. For education and fine arts majors, the ROI is genuinely questionable.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">Why Default Rates and Debt-to-Income Ratios Matter in 2025</h2>
+          <h2 className="text-2xl font-black text-white mb-4">Why Default Rates and Debt-to-Income Ratios Matter in 2026</h2>
           <p className="text-slate-300 leading-relaxed">Student loan default has become a serious issue. The Department of Education tracks loan repayment success rates, and they&apos;re declining.
 
 For borrowers who started repayment in fiscal year 2018, the three-year official default rate was 8.6% according to federal data. However, that number only captures traditional defaults. When you include those struggling with income-driven repayment plans or those in deferment due to hardship, the picture is worse.
@@ -132,8 +132,8 @@ According to the Census Bureau, the homeownership rate for millennials (now in t
 
 From a pure ROI perspective, if $50,000 in student debt delays a $300,000 home purchase by 7 years, and home appreciation averages 3% annually, that student is giving up roughly $65,000 in equity accumulation. That&apos;s a real cost that doesn&apos;t show up in earnings statistics.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Alternative Paths: Trade School, Bootcamps, and On-the-Job Training ROI</h2>
@@ -153,12 +153,12 @@ Military service with GI Bill benefits provides tuition-free college or trade tr
 
 On-the-job training in fields like insurance, sales, and management is staging a comeback. Companies like Progressive and State Farm hire high school graduates into management-track positions with full tuition reimbursement, starting at $35,000 to $40,000 with clear earning progression.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The College Worth It Calculation: Variables That Determine Your Answer</h2>
-          <p className="text-slate-300 leading-relaxed">The real answer to &apos;is college worth it in 2025&apos; depends on these specific variables:
+          <p className="text-slate-300 leading-relaxed">The real answer to &apos;is college worth it in 2026&apos; depends on these specific variables:
 
 1. How much does the program cost? (Private school at full price vs. in-state public vs. community college transfer)
 
@@ -178,8 +178,8 @@ On-the-job training in fields like insurance, sales, and management is staging a
 
 If you answer these questions honestly, you can build an actual ROI model instead of relying on vague statistics about average earnings.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">What Gallup Polls Actually Show About College Satisfaction</h2>
@@ -195,8 +195,8 @@ Paradoxically, employers still heavily weight college degrees in hiring. The Soc
 
 That&apos;s a problem for individuals who can&apos;t afford college: the degree functions more as a class barrier than a legitimate prerequisite.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Demographic Reality: College ROI Varies by Race and Income</h2>
@@ -212,12 +212,12 @@ Income level affects whether college even makes economic sense. A student from a
 
 These aren&apos;t abstract equity concerns—they&apos;re real ROI variables that change the answer to &apos;is college worth it&apos; depending on who&apos;s asking.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">2025 Market Context: Tech Saturation and Credential Inflation</h2>
-          <p className="text-slate-300 leading-relaxed">The job market context matters. In 2025, two macro trends are reshaping college&apos;s value:
+          <h2 className="text-2xl font-black text-white mb-4">2026 Market Context: Tech Saturation and Credential Inflation</h2>
+          <p className="text-slate-300 leading-relaxed">The job market context matters. In 2026, two macro trends are reshaping college&apos;s value:
 
 First, credential inflation. Companies now require bachelor&apos;s degrees for jobs that didn&apos;t require them 15 years ago. A 2021 Burning Glass Institute report found that 35% of job postings for positions paying $55,000 or more required a bachelor&apos;s degree, up from 20% in 2007. The degree hasn&apos;t gotten more necessary; employers simply use it as a screening tool because they can.
 
@@ -227,12 +227,12 @@ Second, tech hiring has cooled significantly. 2024 saw major tech layoffs and hi
 
 Meanwhile, skilled trades are experiencing a worker shortage. The Bureau of Labor Statistics projects electricians, plumbers, and HVAC technicians will be in high demand through 2032 with wage growth outpacing the national average. These fields have less credential inflation and more actual labor scarcity, which is better for workers.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">Is college worth it in 2025? The honest answer is: it depends entirely on the specific program, cost, field of study, and your personal financial situation. The overall earnings advantage for college graduates still exists—roughly $23,800 more per year on median—but college costs have grown so much faster than wages that the ROI timeline has extended from &apos;immediate&apos; to &apos;seven to ten years out&apos; for many graduates. For engineering, computer science, and accounting majors attending in-state public universities, college has strong ROI. For humanities majors at expensive private schools with full-price tuition, the math often doesn&apos;t work. For many fields, skilled trade apprenticeships, bootcamps, or direct entry-level employment with on-the-job training deliver faster ROI and lower debt. The key is to calculate your specific scenario: total out-of-pocket cost divided by realistically achievable starting salary in your field. If that division doesn&apos;t yield a break-even point within five to seven years, college is likely a bad financial decision, even if it&apos;s socially expected. Don&apos;t ask &apos;is college worth it in general&apos;—ask &apos;is this specific college education worth this specific cost for this specific career&apos; and use the data to answer it yourself.</p>
+          <p className="text-slate-300 leading-relaxed">Is college worth it in 2026? The honest answer is: it depends entirely on the specific program, cost, field of study, and your personal financial situation. The overall earnings advantage for college graduates still exists—roughly $23,800 more per year on median—but college costs have grown so much faster than wages that the ROI timeline has extended from &apos;immediate&apos; to &apos;seven to ten years out&apos; for many graduates. For engineering, computer science, and accounting majors attending in-state public universities, college has strong ROI. For humanities majors at expensive private schools with full-price tuition, the math often doesn&apos;t work. For many fields, skilled trade apprenticeships, bootcamps, or direct entry-level employment with on-the-job training deliver faster ROI and lower debt. The key is to calculate your specific scenario: total out-of-pocket cost divided by realistically achievable starting salary in your field. If that division doesn&apos;t yield a break-even point within five to seven years, college is likely a bad financial decision, even if it&apos;s socially expected. Don&apos;t ask &apos;is college worth it in general&apos;—ask &apos;is this specific college education worth this specific cost for this specific career&apos; and use the data to answer it yourself.</p>
         </section>
 
         <AdUnit slot="6600722153" />
@@ -252,10 +252,10 @@ Meanwhile, skilled trades are experiencing a worker shortage. The Bureau of Labo
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>

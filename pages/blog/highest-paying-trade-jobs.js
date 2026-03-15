@@ -1,6 +1,6 @@
 // date: 2026-02-12
-// keyword: highest paying trade jobs 2025
-// author: Sarah Chen
+// keyword: highest paying trade jobs 2026
+// author: Amber Williams
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Highest Paying Trade Jobs 2025: Top 10 Skilled Trades Ranked by Salary","description":"Real data on the highest paying trade jobs in 2025. See which skilled trades earn $70K-$150K+ annually without a 4-year degree.","datePublished":"2026-02-12","dateModified":"2026-02-12","author":{"@type":"Person","name":"Sarah Chen"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/highest-paying-trade-jobs-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/highest-paying-trade-jobs-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Highest Paying Trade Jobs 2026: Top 10 Skilled Trades Ranked by Salary","description":"Real data on the highest paying trade jobs in 2026. See which skilled trades earn $70K-$150K+ annually without a 4-year degree.","datePublished":"2026-02-12","dateModified":"2026-02-12","author":{"@type":"Person","name":"Amber Williams"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/highest-paying-trade-jobs","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/highest-paying-trade-jobs"}}` }} />
       </Head>
       <SEO
-        title="Highest Paying Trade Jobs 2025: Top 10 Skilled Trades by Salary"
-        description="Real data on the highest paying trade jobs in 2025. See which skilled trades earn $70K-$150K+ annually without a 4-year degree."
+        title="Highest Paying Trade Jobs 2026: Top 10 Skilled Trades by Salary"
+        description="Real data on the highest paying trade jobs in 2026. See which skilled trades earn $70K-$150K+ annually without a 4-year degree."
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-02-12
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Highest Paying Trade Jobs 2025: Top 10 Skilled Trades Ranked by Salary
+            Highest Paying Trade Jobs 2026: Top 10 Skilled Trades Ranked by Salary
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=500&fit=crop&auto=format"
-              alt="Highest Paying Trade Jobs 2025: Top 10 Skilled Trades Ranked by Salary"
+              alt="Highest Paying Trade Jobs 2026: Top 10 Skilled Trades Ranked by Salary"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,38 +40,38 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            SC
+            AW
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Sarah Chen</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Sarah is a labor economist who tracks trade wages and advises high schoolers on alternatives to four-year degrees. Former consultant, current advocate.</div>
+            <div className="font-bold text-white text-sm">Amber Williams</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Amber covers labor economics and workforce trends, with a focus on skilled trades and the growing wage gap between blue-collar and white-collar work.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
+
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">Why Trade Jobs Matter More in 2025</h2>
+          <h2 className="text-2xl font-black text-white mb-4">Why Trade Jobs Matter More in 2026</h2>
           <p className="text-slate-300 leading-relaxed">The American workforce is facing a crisis that nobody talks about at career day: we have a massive shortage of skilled tradespeople. According to the Associated General Contractors of America, 80% of construction firms report difficulty finding qualified workers. Meanwhile, college enrollment has been declining since 2010, leaving a gap between labor demand and supply that&apos;s driving wages for skilled trades into territory that rivals white-collar jobs.
 
 The U.S. Bureau of Labor Statistics projects that the skilled trades will see job growth of 5-8% through 2033, outpacing overall employment growth of 3.3%. What does that mean in practical terms? It means trade jobs are recession-resistant, pay well, don&apos;t require crushing student debt, and are becoming increasingly valuable as fewer people choose this path.
 
 The median student loan debt for a 2023 college graduate was $37,574 according to Federal Reserve data. Meanwhile, apprenticeships in skilled trades are often FREE or subsidized, and you earn while you learn. That&apos;s the reality nobody wants to discuss at family dinner.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">How We Ranked These Jobs</h2>
-          <p className="text-slate-300 leading-relaxed">We pulled data from three primary sources: the U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics (OEWS), which is the gold standard for wage data and is updated quarterly; individual state apprenticeship programs and their published wage progression data; and recent 2024-2025 salary surveys from the National Association of Plumbing-Heating-Cooling Contractors, the Electrical Contracting Foundation, and similar industry organizations.
+          <p className="text-slate-300 leading-relaxed">We pulled data from three primary sources: the U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics (OEWS), which is the gold standard for wage data and is updated quarterly; individual state apprenticeship programs and their published wage progression data; and recent 2024-2026 salary surveys from the National Association of Plumbing-Heating-Cooling Contractors, the Electrical Contracting Foundation, and similar industry organizations.
 
 The salaries listed here represent median annual earnings for established professionals, not entry-level wages. Most of these trades require 4-5 years of apprenticeship training before you reach these earning levels, but that training period is paid work, not classroom sitting. We&apos;ve also noted which jobs offer the highest growth rates and geographic variance in pay, because a lineman in Texas makes significantly different money than one in Massachusetts.
 
 One critical note: these figures are based on W-2 employees. Many skilled tradespeople are self-employed contractors, and those earnings can be 30-50% higher—but with more volatility and self-employment tax responsibility.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">1. Electrical Power-Line Installers and Repairers</h2>
@@ -85,8 +85,8 @@ These workers spend significant time working at heights, in harsh weather, and i
 
 Geographic variation is real here. Workers in the Northeast and West Coast earn 15-20% more than workers in the South, largely due to cost of living differences and union density. Self-employed power-line contractors can earn $120K-$180K+ annually, though they absorb equipment and insurance costs.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">2. Elevator Installers and Repairers</h2>
@@ -101,7 +101,7 @@ The barrier to entry is higher than most trades—you typically need to pass a s
 What makes this trade special is limited supply. There are only about 21,000 elevator installers and repairers in the entire United States. As existing workers retire and building codes require more frequent maintenance and upgrades, demand is outpacing supply dramatically. The International Union of Elevator Constructors (IUEC) has apprenticeships in every major metropolitan area.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">3. Commercial Divers</h2>
@@ -115,8 +115,8 @@ Entry to this field typically requires first getting certified as a recreational
 
 The physical toll is real—decompression sickness, nitrogen narcosis, and the psychological stress of deep-water work mean career longevity averages 10-15 years. But the earning rate is aggressive, and experienced commercial divers in specialized niches (saturation diving, for example) can earn $200K+ in a season.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">4. Plumbers</h2>
@@ -130,8 +130,8 @@ Entry requires a 4-5 year apprenticeship, typically completed while working unde
 
 The beauty of plumbing is that it&apos;s location-independent within reason—you can work almost anywhere there are buildings and pipes. Demand is steady and consistent. Unlike some trades that are tied to construction cycles, plumbers are needed for maintenance and repairs in any economic environment. The National Association of Plumbing-Heating-Cooling Contractors reports that the trade shortage in plumbing is acute, with many established plumbers turning away work.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">5. HVAC Technicians</h2>
@@ -145,8 +145,8 @@ The apprenticeship typically takes 4-5 years and combines classroom time with on
 
 The earning potential is strong because HVAC work is seasonal in many regions—winter heating and summer cooling create spikes in demand—but good technicians stay employed year-round by picking up maintenance contracts. Many HVAC techs transition to ownership or management, running their own service companies, which can generate $150K-$300K+ in annual revenue. The field is experiencing 8% job growth, one of the highest among trades, making it one of the safest bets for long-term employment.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">6. Electricians</h2>
@@ -160,8 +160,8 @@ The apprenticeship is 4-5 years of on-the-job training combined with classroom i
 
 The earning potential branches based on specialization. General residential electricians sit at the lower end of the range. Industrial electricians, who work on factory equipment and heavy manufacturing, earn more. Solar installation electricians are a newer niche with strong demand. Many electricians transition to contracting and running their own shops, which can generate $150K-$250K+ annually. The trade faces a significant worker shortage despite high entry numbers because retirements are outpacing new apprenticeship starts.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">7. Carpenters</h2>
@@ -175,8 +175,8 @@ Apprenticeship is 3-4 years of on-the-job training and classroom work. Union car
 
 What makes carpentry interesting is the skills breadth. A carpenter can specialize in rough carpentry (framing), finish carpentry (trim work and cabinetry), or specialized areas like staircase building. Finish carpenters often command premium rates. Many experienced carpenters transition to contracting or specialize in custom work, earning $100K-$180K+ annually. Carpentry also integrates well with other trades—many carpenters pick up general contracting skills and run their own construction businesses.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">8. Ironworkers</h2>
@@ -190,8 +190,8 @@ Apprenticeship is 3-4 years through a union local, typically in the Internationa
 
 Pay variations are dramatic based on location. Union ironworkers in New York City and the San Francisco Bay Area earn $120K-$150K+ annually with benefits. Rural ironwork pays significantly less. The job growth is only 4% because it&apos;s tied to construction cycles and doesn&apos;t have the recession-resistant quality of some other trades. However, when work is available, pay is excellent.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">9. Welders</h2>
@@ -205,8 +205,8 @@ Entry typically requires a vocational certificate or associate degree in welding
 
 Specialization matters significantly. General welders earn at the lower end. Underwater welders (a subset of commercial divers) earn substantially more—$150K-$250K+ annually. Pipeline welders, who work on oil and gas pipelines, earn $80K-$120K+ depending on project type. Many welders work project-based and can earn premium pay during periods of full employment. The field has moderate growth and moderate wages compared to other trades.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">10. Heavy Equipment Operators</h2>
@@ -220,8 +220,8 @@ Entry typically requires a high school diploma and varies by employer. Some heav
 
 Crane operators are the highest-paid subset, earning $80K-$120K+ annually. Tower crane operators in major metropolitan areas can earn $150K+. General heavy equipment operators earn at the median level listed. The job is tied to construction cycles, so employment can be inconsistent in recessions. However, infrastructure spending over the next decade is likely to keep steady demand for experienced operators. Many transition to running their own equipment rental or contracting businesses.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Honorable Mentions: Other High-Paying Trades</h2>
@@ -241,8 +241,8 @@ Truck drivers, technically not a trade in the traditional sense, earn $68,000-$9
 
 Construction and building inspectors earn $67,000-$110,000+ and require trade experience to qualify, making this a natural progression for career tradespeople.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Real Cost of Trade Training vs. College</h2>
@@ -256,8 +256,8 @@ Even private welding schools or HVAC programs, which are more expensive than uni
 
 A 2024 Georgetown University analysis found that bachelor&apos;s degree holders earn approximately $2.8 million more over a 40-year career than high school graduates. However, that advantage erodes significantly when you account for student debt payments, lost income during college years, and delayed career entry. For skilled tradespeople, the lifetime earnings advantage over non-college workers is nearly as large, achieved without the debt burden.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Market Demand: Where the Jobs Actually Are</h2>
@@ -280,8 +280,8 @@ Regional considerations matter. A plumber in rural Mississippi makes $45,000-$55
 
 The National Association of Home Builders reports that housing construction demand will remain strong through 2027, supporting steady work for most trades. Infrastructure spending authorized by the Bipartisan Infrastructure Law will boost demand for power-line workers, HVAC technicians, and construction workers through 2030.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Realistic Timeline to High Earnings</h2>
@@ -303,8 +303,8 @@ The critical misunderstanding many people have is that trade salaries don&apos;t
 
 The trades are also recession-resistant. During the 2008-2009 financial crisis, unemployment for skilled trades was significantly lower than for college-educated workers. Recession-resistant demand comes from maintenance and repair work—buildings still need new electrical wiring, plumbing fixes, HVAC service regardless of economic conditions.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Common Misconceptions About Trade Careers</h2>
@@ -324,8 +324,8 @@ Myth 6: Trades are boring. Reality: Many tradespeople report high job satisfacti
 
 Myth 7: Trade workers aren&apos;t respected. Reality: Skilled tradespeople are essential and increasingly recognized as such. Respect has followed as wages have risen.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">How to Get Started in a Skilled Trade</h2>
@@ -362,12 +362,12 @@ Local vocational schools and trade schools offer programs in specific trades.
 
 Local chamber of commerce offices can direct you to apprenticeship programs in your area.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">The highest paying trade jobs in 2025 range from electricians at $72,520 median to elevator installers at $88,540 median, with top earners in specialized fields like linework, diving, and elevator work reaching $120,000-$200,000+. The core reality is this: skilled trades offer a viable alternative to four-year college degrees without crushing debt, with earning potential that matches or exceeds many college-educated workers, and with demand that&apos;s outpacing supply dramatically. The timeline to solid income is 4-5 years through apprenticeship—not four years sitting in lecture halls racking up $110,000 in debt. You&apos;ll be paid while learning, enter the workforce debt-free, and have a recession-resistant career. The trades aren&apos;t for everyone—they require physical ability, problem-solving skills, and a willingness to work with your hands. But if you&apos;re even slightly inclined toward a career where you directly solve tangible problems and earn legitimate six-figure income potential, the data makes a compelling case that a skilled trade beats a generic college degree. The labor shortage is real, the jobs are available, and the money is there. The question isn&apos;t whether skilled trades are worth it in 2025—the data says they absolutely are. The question is whether you&apos;re willing to choose a different path than what you&apos;ve been told you should take.</p>
+          <p className="text-slate-300 leading-relaxed">The highest paying trade jobs in 2026 range from electricians at $72,520 median to elevator installers at $88,540 median, with top earners in specialized fields like linework, diving, and elevator work reaching $120,000-$200,000+. The core reality is this: skilled trades offer a viable alternative to four-year college degrees without crushing debt, with earning potential that matches or exceeds many college-educated workers, and with demand that&apos;s outpacing supply dramatically. The timeline to solid income is 4-5 years through apprenticeship—not four years sitting in lecture halls racking up $110,000 in debt. You&apos;ll be paid while learning, enter the workforce debt-free, and have a recession-resistant career. The trades aren&apos;t for everyone—they require physical ability, problem-solving skills, and a willingness to work with your hands. But if you&apos;re even slightly inclined toward a career where you directly solve tangible problems and earn legitimate six-figure income potential, the data makes a compelling case that a skilled trade beats a generic college degree. The labor shortage is real, the jobs are available, and the money is there. The question isn&apos;t whether skilled trades are worth it in 2026—the data says they absolutely are. The question is whether you&apos;re willing to choose a different path than what you&apos;ve been told you should take.</p>
         </section>
 
         <AdUnit slot="6600722153" />
@@ -387,10 +387,10 @@ Local chamber of commerce offices can direct you to apprenticeship programs in y
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>

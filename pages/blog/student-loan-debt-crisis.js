@@ -1,6 +1,6 @@
 // date: 2026-01-14
-// keyword: student loan debt crisis 2025
-// author: Jake Morrison
+// keyword: student loan debt crisis 2026
+// author: Stephanie Moore
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Student Loan Debt Crisis 2025: What the Numbers Actually Show","description":"Breaking down the 2025 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?","datePublished":"2026-01-14","dateModified":"2026-01-14","author":{"@type":"Person","name":"Jake Morrison"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/student-loan-debt-crisis-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Student Loan Debt Crisis 2026: What the Numbers Actually Show","description":"Breaking down the 2026 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?","datePublished":"2026-01-14","dateModified":"2026-01-14","author":{"@type":"Person","name":"Stephanie Moore"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/student-loan-debt-crisis","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/student-loan-debt-crisis"}}` }} />
       </Head>
       <SEO
-        title="Student Loan Debt Crisis 2025: Latest Stats & Real Stories"
-        description="Breaking down the 2025 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?"
+        title="Student Loan Debt Crisis 2026: Latest Stats & Real Stories"
+        description="Breaking down the 2026 student loan crisis with hard data, federal statistics, and borrower stories. Is college worth the debt?"
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-01-14
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            The Student Loan Debt Crisis 2025: What the Numbers Actually Show
+            The Student Loan Debt Crisis 2026: What the Numbers Actually Show
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=500&fit=crop&auto=format"
-              alt="The Student Loan Debt Crisis 2025: What the Numbers Actually Show"
+              alt="The Student Loan Debt Crisis 2026: What the Numbers Actually Show"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,31 +40,31 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            JM
+            SM
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Jake Morrison</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Jake spent 6 years in higher education administration before leaving to write about the economics of college. He covers student debt, ROI, and career alternatives.</div>
+            <div className="font-bold text-white text-sm">Stephanie Moore</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Stephanie is a personal finance writer who specializes in student debt, covering repayment strategies and the political fight over loan forgiveness.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
+
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">How Big Is the Student Loan Problem Right Now?</h2>
           <p className="text-slate-300 leading-relaxed">Let&apos;s start with what we&apos;re actually dealing with. As of Q4 2024, total student loan debt in the United States hit $1.76 trillion, according to Federal Reserve data. That&apos;s not a typo. Nearly 43 million Americans hold student loan debt, and the average borrower owes $37,850. For context, that&apos;s more than the median used car price in America.
 
-The student loan debt crisis 2025 isn&apos;t new—it&apos;s been building for two decades—but the problem has accelerated. Since 2010, student loan debt has grown by 169%, while median wages have risen just 25% in real terms. That gap is the core issue nobody&apos;s talking about enough.
+The student loan debt crisis 2026 isn&apos;t new—it&apos;s been building for two decades—but the problem has accelerated. Since 2010, student loan debt has grown by 169%, while median wages have risen just 25% in real terms. That gap is the core issue nobody&apos;s talking about enough.
 
-What makes 2025 different? The pause on federal student loan repayment ended in October 2023, and borrowers are now actually paying again. Default rates are climbing. The National Student Loan Data System reported that 3.6 million borrowers entered default status in the first 12 months after repayment resumed. That&apos;s roughly 8% of all borrowers. The Federal Reserve&apos;s most recent consumer credit report shows delinquency rates on student loans are back to pre-pandemic levels, hovering around 7-8% for 90+ day delinquencies.</p>
+What makes 2026 different? The pause on federal student loan repayment ended in October 2023, and borrowers are now actually paying again. Default rates are climbing. The National Student Loan Data System reported that 3.6 million borrowers entered default status in the first 12 months after repayment resumed. That&apos;s roughly 8% of all borrowers. The Federal Reserve&apos;s most recent consumer credit report shows delinquency rates on student loans are back to pre-pandemic levels, hovering around 7-8% for 90+ day delinquencies.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Demographics of Debt: Who's Actually Drowning?</h2>
-          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2025 isn&apos;t hitting everyone equally. Here&apos;s what the data shows:
+          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2026 isn&apos;t hitting everyone equally. Here&apos;s what the data shows:
 
 Graduate degree holders carry the highest individual balances. The average graduate student owes $41,600 according to the Education Data Initiative, compared to $28,950 for bachelor&apos;s degree holders. But here&apos;s the twist: graduate degree holders also earn significantly more. A master&apos;s degree holder earns roughly $17,000 more per year than a bachelor&apos;s degree holder, making their debt more manageable relative to income.
 
@@ -75,11 +75,11 @@ Race matters too, though nobody likes discussing it. Black college graduates owe
 Gender splits differently than expected. Women make up 57% of all bachelor&apos;s degree holders but 66% of student loan borrowers. Women borrow more on average ($33,000 vs. $29,000 for men), partly because they&apos;re more likely to attend graduate school.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">What's Happening With Loan Forgiveness Programs?</h2>
-          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2025 has been shaped entirely by the failure of broad forgiveness. Biden&apos;s student loan forgiveness plan—which would have wiped $10,000 to $20,000 per borrower—was blocked by the Supreme Court in June 2023. That&apos;s roughly $400 billion in relief that never happened.
+          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2026 has been shaped entirely by the failure of broad forgiveness. Biden&apos;s student loan forgiveness plan—which would have wiped $10,000 to $20,000 per borrower—was blocked by the Supreme Court in June 2023. That&apos;s roughly $400 billion in relief that never happened.
 
 Instead, what actually worked was the Public Service Loan Forgiveness (PSLF) expansion. Through the PSLF waiver that expired in October 2023, 636,000 borrowers received $116 billion in loan forgiveness. But PSLF only helps people working in government or nonprofit roles, and it requires 10 years of payments first. That doesn&apos;t solve the broader crisis.
 
@@ -87,12 +87,12 @@ Income-Driven Repayment (IDR) plans are being used by about 8.9 million borrower
 
 The Biden administration&apos;s SAVE plan, launched in 2023, promised faster forgiveness (after 20 years instead of 25), but it doesn&apos;t reduce the underlying debt crisis—it just changes the math on when forgiveness happens.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Why Is This Worse Than 2008?</h2>
-          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2025 is different from the housing crisis, and in some ways worse.
+          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2026 is different from the housing crisis, and in some ways worse.
 
 First, the scale. The housing crisis involved $1.4 trillion in mortgages going bad. Student loan debt is $1.76 trillion and growing. But here&apos;s the critical difference: you can walk away from a mortgage. Default on your home, lose the house, and the lender takes the loss. Student loans? You can&apos;t escape them. They don&apos;t expire. They follow you even if you file bankruptcy (with extremely rare exceptions). You can&apos;t discharge them. Wage garnishment is legal without a court order.
 
@@ -103,11 +103,11 @@ Third, the financial system impact is slower but deeper. Home prices crashed ove
 Let&apos;s talk about that third point concretely. Federal Reserve survey data shows that 36% of student loan borrowers have delayed buying a home because of their debt. Another 26% have delayed getting married or having children. That&apos;s nearly two-thirds of borrowers making major life decisions because of student debt.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">Real Borrower Stories From 2025</h2>
-          <p className="text-slate-300 leading-relaxed">Statistics are important. But here&apos;s what the student loan debt crisis 2025 actually looks like in people&apos;s lives.
+          <h2 className="text-2xl font-black text-white mb-4">Real Borrower Stories From 2026</h2>
+          <p className="text-slate-300 leading-relaxed">Statistics are important. But here&apos;s what the student loan debt crisis 2026 actually looks like in people&apos;s lives.
 
 Take Marcus, 32, from Atlanta. He graduated in 2014 with a bachelor&apos;s degree in business and $54,000 in student loans. He had decent intentions: he found a job paying $48,000 per year, enrolled in standard 10-year repayment, and made his $550 monthly payments consistently. But he never got ahead. His salary increased slowly—he&apos;s now at $62,000 after a decade—but his life costs kept rising. He got married, moved to a better neighborhood (more expensive), and wanted to save for a house down payment. Instead, he&apos;s still paying $410 monthly on student loans. His balance is now $31,000. He&apos;s paid $65,400 total and still owes more than half the original amount. The interest is killing him.
 
@@ -117,12 +117,12 @@ Then there&apos;s David, 26, from Columbus. He borrowed $18,000 for his bachelor
 
 These aren&apos;t edge cases. Marcus represents millions of standard borrowers whose wages didn&apos;t keep pace. Jasmine represents borrowers harmed by predatory institutions. David represents talented people trapped in fields by debt obligation, not genuine passion.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Ripple Effects Nobody Calculates</h2>
-          <p className="text-slate-300 leading-relaxed">When the student loan debt crisis 2025 is discussed in policy circles, the focus is usually on: Can borrowers repay? Will lenders get their money back? But that&apos;s too narrow.
+          <p className="text-slate-300 leading-relaxed">When the student loan debt crisis 2026 is discussed in policy circles, the focus is usually on: Can borrowers repay? Will lenders get their money back? But that&apos;s too narrow.
 
 Here are the actual consequences:
 
@@ -136,12 +136,12 @@ Here are the actual consequences:
 
 5. Mental health is affected. Studies consistently link student debt to anxiety, depression, and suicidal ideation in young adults. The Journal of Public Health found that each additional $10,000 in student debt correlates with a 0.6% increase in depression scores. This isn&apos;t just about money—it&apos;s about the psychological weight of an obligation that won&apos;t disappear.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">What Happens Next? Scenarios for 2025-2026</h2>
-          <p className="text-slate-300 leading-relaxed">Here&apos;s where the student loan debt crisis 2025 could go:
+          <h2 className="text-2xl font-black text-white mb-4">What Happens Next? Scenarios for 2026-2027</h2>
+          <p className="text-slate-300 leading-relaxed">Here&apos;s where the student loan debt crisis 2026 could go:
 
 Scenario One: Status Quo Persists. Borrowers continue making payments on extended schedules (many on IDR plans). Default rates remain in the 7-10% range. Lenders gradually write off losses. The crisis becomes a permanent feature of American life—manageable at the macro level but devastating for individuals. College enrollment stays relatively flat because the debt risk is now clearly visible.
 
@@ -153,12 +153,12 @@ Scenario Four: Bankruptcy Reform. Courts could make it easier to discharge stude
 
 The most likely outcome? A combination of scenarios one and three: current borrowers muddle through with extended repayment, while new policy targets preventing future debt accumulation. That means less federal lending, more income-share agreements, and more emphasis on trade schools and alternatives. Current borrowers don&apos;t get relief, but future students won&apos;t face $200,000 in debt for a bachelor&apos;s degree.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Is College Worth It Anymore?</h2>
-          <p className="text-slate-300 leading-relaxed">This is the question that defines the student loan debt crisis 2025. The calculus has changed.
+          <p className="text-slate-300 leading-relaxed">This is the question that defines the student loan debt crisis 2026. The calculus has changed.
 
 For STEM degrees from decent universities? Probably yes. An engineer earning $75,000 starting salary can justify $35,000 in debt. The payoff happens in 5-7 years.
 
@@ -172,14 +172,14 @@ For any degree from a for-profit college? Probably no. The data is clear: for-pr
 
 For students whose families can&apos;t contribute? The risk equation changes entirely. If you need to borrow $100,000 for a degree that pays $45,000 per year, you&apos;re in default territory from day one.
 
-The student loan debt crisis 2025 exists because too many young people borrowed too much for credentials that didn&apos;t deliver proportional earnings. Some did everything right and still got crushed by circumstances or market changes. Others made poor choices at 18 years old with incomplete information. All of them are suffering while lenders, colleges, and policymakers debate responsibility.</p>
+The student loan debt crisis 2026 exists because too many young people borrowed too much for credentials that didn&apos;t deliver proportional earnings. Some did everything right and still got crushed by circumstances or market changes. Others made poor choices at 18 years old with incomplete information. All of them are suffering while lenders, colleges, and policymakers debate responsibility.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2025 is real, it&apos;s large, and it&apos;s not going away without major policy changes or a generation&apos;s worth of financial grinding. Total debt exceeds $1.76 trillion, 43 million Americans carry it, and default rates are climbing now that the payment pause ended. The crisis hits hardest on Black borrowers, women, and students from for-profit institutions. It&apos;s delaying home purchases, suppressing entrepreneurship, and warping major life decisions for millions of people.
+          <p className="text-slate-300 leading-relaxed">The student loan debt crisis 2026 is real, it&apos;s large, and it&apos;s not going away without major policy changes or a generation&apos;s worth of financial grinding. Total debt exceeds $1.76 trillion, 43 million Americans carry it, and default rates are climbing now that the payment pause ended. The crisis hits hardest on Black borrowers, women, and students from for-profit institutions. It&apos;s delaying home purchases, suppressing entrepreneurship, and warping major life decisions for millions of people.
 
 No broad forgiveness is coming. The Supreme Court shut that down. Instead, we&apos;re getting extended repayment plans, means-tested forgiveness after 20+ years, and slow policy adjustments. For people already in debt, that means accepting a longer payoff timeline and making peace with opportunity costs—the house you didn&apos;t buy, the business you didn&apos;t start, the geographic moves you didn&apos;t make.
 
@@ -203,10 +203,10 @@ The real solution isn&apos;t forgiving yesterday&apos;s debt—it&apos;s stoppin
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>

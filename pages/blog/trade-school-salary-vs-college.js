@@ -1,6 +1,6 @@
 // date: 2026-01-25
-// keyword: trade school salary vs college 2025
-// author: Ryan Kowalski
+// keyword: trade school salary vs college 2026
+// author: Brandon Hill
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn","description":"Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2025 BLS statistics show trade school advantages.","datePublished":"2026-01-25","dateModified":"2026-01-25","author":{"@type":"Person","name":"Ryan Kowalski"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/trade-school-salary-vs-college-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"Trade School Salary vs College 2026: What Electricians and Plumbers Actually Earn","description":"Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2026 BLS statistics show trade school advantages.","datePublished":"2026-01-25","dateModified":"2026-01-25","author":{"@type":"Person","name":"Brandon Hill"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/trade-school-salary-vs-college","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/trade-school-salary-vs-college"}}` }} />
       </Head>
       <SEO
-        title="Trade School Salary vs College 2025: Electrician & Plumber Data"
-        description="Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2025 BLS statistics show trade school advantages."
+        title="Trade School Salary vs College 2026: Electrician & Plumber Data"
+        description="Real earnings data: electricians & plumbers vs college grads. Compare salaries, debt, and ROI. 2026 BLS statistics show trade school advantages."
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-01-25
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn
+            Trade School Salary vs College 2026: What Electricians and Plumbers Actually Earn
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=1200&h=500&fit=crop&auto=format"
-              alt="Trade School Salary vs College 2025: What Electricians and Plumbers Actually Earn"
+              alt="Trade School Salary vs College 2026: What Electricians and Plumbers Actually Earn"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,28 +40,28 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            RK
+            BH
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Ryan Kowalski</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Ryan is a master electrician turned writer. After 15 years in the trades, he documents the financial realities of skilled work vs. the college path.</div>
+            <div className="font-bold text-white text-sm">Brandon Hill</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Brandon spent six years as a high school guidance counselor steering students away from unnecessary four-year degrees and toward trades and certifications.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
+
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Short Answer: Trade School Is Winning on Money Right Now</h2>
-          <p className="text-slate-300 leading-relaxed">Let&apos;s cut through the noise. In 2025, a licensed electrician or plumber will earn significantly more than the average college graduate—often within 5 to 10 years of starting work, sometimes sooner. According to the U.S. Bureau of Labor Statistics, the median annual wage for electricians is $56,900, while plumbers earn $59,880. Compare that to the median bachelor&apos;s degree holder earning $64,896 annually (BLS, 2024), and the picture gets interesting: tradespeople start earning faster, accumulate less debt, and hit their earning plateau earlier with far fewer years of school.
+          <p className="text-slate-300 leading-relaxed">Let&apos;s cut through the noise. In 2026, a licensed electrician or plumber will earn significantly more than the average college graduate—often within 5 to 10 years of starting work, sometimes sooner. According to the U.S. Bureau of Labor Statistics, the median annual wage for electricians is $56,900, while plumbers earn $59,880. Compare that to the median bachelor&apos;s degree holder earning $64,896 annually (BLS, 2024), and the picture gets interesting: tradespeople start earning faster, accumulate less debt, and hit their earning plateau earlier with far fewer years of school.
 
 But here&apos;s where it gets really important: most people making the college-vs-trade decision don&apos;t understand the actual financial difference. They hear &quot;college graduates earn more&quot; (technically true) and stop thinking. This article digs into the real numbers—the debt, the time cost, the job security, and the actual lifetime earnings—so you can make a decision based on data, not marketing.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">What Electricians Actually Earn: 2025 Data</h2>
+          <h2 className="text-2xl font-black text-white mb-4">What Electricians Actually Earn: 2026 Data</h2>
           <p className="text-slate-300 leading-relaxed">The median electrician in the United States earned $56,900 in 2024, according to the BLS. But this number hides important variation. Here&apos;s what the data actually shows:
 
 Entry-level electricians (first-year apprentices) start around $28,000 to $35,000 annually. This is lower than the median because apprenticeship is part school, part work. However, by year three to four of a four-year apprenticeship program, wages rise to $40,000 to $48,000. Once licensed and working as a journeyman electrician, the median jumps to $56,900.
@@ -71,10 +71,10 @@ The top 10 percent of electricians—those running their own operations, working
 One critical detail: electricians&apos; earnings tend to be front-loaded compared to college graduates. An electrician hits their mid-career plateau (high 50s to low 60s) by age 30 to 35. A college graduate typically doesn&apos;t hit equivalent earnings until age 35 to 40. That&apos;s five to ten years of significantly higher cumulative earnings for the electrician.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">What Plumbers Actually Earn: 2025 Data</h2>
+          <h2 className="text-2xl font-black text-white mb-4">What Plumbers Actually Earn: 2026 Data</h2>
           <p className="text-slate-300 leading-relaxed">Plumbers slightly outpace electricians on median salary. The BLS reports a median annual wage of $59,880 for plumbers and pipefitters in 2024. Like electricians, this varies significantly by experience and geography.
 
 Apprentice plumbers start at $26,000 to $33,000 annually. After completing a 4-to-5-year apprenticeship and obtaining a license, journeyman plumbers typically earn $45,000 to $55,000 in their first few years as licensed professionals. The median of $59,880 reflects experienced plumbers across the country.
@@ -83,8 +83,8 @@ The top 10 percent of plumbers earn $104,020 or more annually. This includes mas
 
 One advantage plumbers have over some other trades: their work is less geography-dependent than, say, electricians in rural areas. A plumber in a mid-sized town still has steady demand year-round. This translates to more consistent work and income compared to construction-heavy trades.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Real Cost: Trade School vs College Degree</h2>
@@ -110,7 +110,7 @@ Let&apos;s quantify the financial advantage over a career:
 The electrician is earning more, has no debt, and spent four years building practical skills. The college graduate has $30,000+ in debt and is starting their career. This isn&apos;t theoretical—it&apos;s the lived financial reality for thousands of young people.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Lifetime Earnings: Where College Catches Up (And When)</h2>
@@ -124,8 +124,8 @@ The college graduate edges ahead—but barely—once you account for debt repaym
 
 Data from the Federal Reserve&apos;s 2022 Survey of Consumer Finances shows that bachelor&apos;s degree holders have a median net worth of $298,000 at age 45 to 54, while high school graduates have $105,000. Trade professionals land somewhere in the middle—approximately $200,000 to $250,000 median net worth in this age range, according to occupational data. They&apos;re building wealth faster initially because of zero debt and earlier earnings, but over four decades, college graduates typically accumulate slightly more.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Job Security and Demand: The Underrated Factor</h2>
@@ -139,8 +139,8 @@ There&apos;s also the recession-resistance factor. During the 2008 financial cri
 
 Lastly, there&apos;s the self-employment factor. About 10 percent of electricians and 25 percent of plumbers are self-employed or run their own businesses. When you do that, your earning potential rises substantially. A plumbing or electrical contractor with even five employees can earn $100,000 to $150,000+ annually. That&apos;s significantly easier to achieve in a trade where you have direct, hands-on certifiable expertise than for a college graduate trying to start a business in a knowledge sector with more competition.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Trade-Offs: What You're Actually Choosing</h2>
@@ -158,12 +158,12 @@ Social perception, fairly or not, still exists. Trade work is often perceived as
 
 None of these trade-offs make college universally better. They just mean you need to honestly assess whether a trade life aligns with how you want to actually live, not just how much money you want to make.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">2025 Considerations: Market Shifts and Automation</h2>
-          <p className="text-slate-300 leading-relaxed">A legitimate question: will electricians and plumbers still earn well in 2025 and beyond, or will automation disrupt these trades?
+          <h2 className="text-2xl font-black text-white mb-4">2026 Considerations: Market Shifts and Automation</h2>
+          <p className="text-slate-300 leading-relaxed">A legitimate question: will electricians and plumbers still earn well in 2026 and beyond, or will automation disrupt these trades?
 
 The honest answer is: disruption is slower and less severe in these trades than in many college-educated fields. Here&apos;s why:
 
@@ -175,8 +175,8 @@ There are risks worth noting, though. The apprenticeship system itself is under 
 
 One emerging trend: specialization and licensing are increasing, not decreasing. Green energy work, solar installation, advanced HVAC systems, and smart home technology all require specialized certifications beyond basic electrician licenses. This raises barriers to entry but also creates higher-wage opportunities for those with advanced skills. A solar electrician or a plumber specializing in high-efficiency systems can earn 20 to 30 percent above median wages.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line: Should You Choose Trade School Over College?</h2>
@@ -186,16 +186,16 @@ If you&apos;re trying to decide between trade school and college purely on finan
 
 The decision gets more complex when you factor in lifestyle, job preferences, aptitude, and career goals. Do you actually like working with your hands and solving physical problems? Trade school. Do you hate the idea of being on-call for emergency repairs at 2 a.m.? College, maybe, or maybe a different trade. Do you want the flexibility to relocate frequently? College gives you more portable skills. Do you want to start earning immediately and never carry student debt? Trade school is your answer.
 
-The uncomfortable truth that most career counselors won&apos;t say: for the average high school graduate without a clear passion for academic work or a specific professional path (doctor, lawyer, engineer), trade school is the financially superior choice in 2025. A four-year electrical or plumbing apprenticeship, paid or low-cost, leading to $55,000 to $60,000+ annual income by age 25 with zero debt, beats a $100,000+ college degree leading to a $40,000 to $50,000 entry-level job with $30,000 in loans ninety percent of the time.
+The uncomfortable truth that most career counselors won&apos;t say: for the average high school graduate without a clear passion for academic work or a specific professional path (doctor, lawyer, engineer), trade school is the financially superior choice in 2026. A four-year electrical or plumbing apprenticeship, paid or low-cost, leading to $55,000 to $60,000+ annual income by age 25 with zero debt, beats a $100,000+ college degree leading to a $40,000 to $50,000 entry-level job with $30,000 in loans ninety percent of the time.
 
-The &quot;go to college no matter what&quot; narrative was built for a labor market that no longer exists. In 2025, both paths are viable. The difference is that one is financially rational for most people, and the other has become a lifestyle choice that should be justified, not assumed.</p>
+The &quot;go to college no matter what&quot; narrative was built for a labor market that no longer exists. In 2026, both paths are viable. The difference is that one is financially rational for most people, and the other has become a lifestyle choice that should be justified, not assumed.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">The data is clear: electricians and plumbers in 2025 earn competitive wages ($56,900 to $59,880 median), require minimal education costs ($0 to $15,000 vs. $100,000+ for college), and build wealth faster due to zero debt and earlier earning. While college graduates may pull ahead slightly in lifetime earnings over a 40-year career, the advantage is marginal and disappears entirely when you account for debt repayment and opportunity costs. For most people, trade school is the financially smarter choice. The real decision should be based on whether you actually want to do this work, not on an outdated assumption that college is always better. In 2025, it isn&apos;t.</p>
+          <p className="text-slate-300 leading-relaxed">The data is clear: electricians and plumbers in 2026 earn competitive wages ($56,900 to $59,880 median), require minimal education costs ($0 to $15,000 vs. $100,000+ for college), and build wealth faster due to zero debt and earlier earning. While college graduates may pull ahead slightly in lifetime earnings over a 40-year career, the advantage is marginal and disappears entirely when you account for debt repayment and opportunity costs. For most people, trade school is the financially smarter choice. The real decision should be based on whether you actually want to do this work, not on an outdated assumption that college is always better. In 2026, it isn&apos;t.</p>
         </section>
 
         <AdUnit slot="6600722153" />
@@ -215,10 +215,10 @@ The &quot;go to college no matter what&quot; narrative was built for a labor mar
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>

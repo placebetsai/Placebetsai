@@ -1,6 +1,6 @@
 // date: 2026-02-17
-// keyword: HVAC technician salary 2025
-// author: Danielle Torres
+// keyword: HVAC technician salary 2026
+// author: Derek Foster
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import SEO from "../../components/SEO";
@@ -12,11 +12,11 @@ export default function BlogPost() {
   return (
     <Layout>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"HVAC Technician Salary 2025: What You'll Actually Make and If It's Worth Your Time","description":"HVAC technician salary data for 2025, job growth, certification costs, and how it stacks up against college. Data-driven breakdown.","datePublished":"2026-02-17","dateModified":"2026-02-17","author":{"@type":"Person","name":"Danielle Torres"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/hvac-technician-salary-2025","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/hvac-technician-salary-2025"}}` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `{"@context":"https://schema.org","@type":"BlogPosting","headline":"HVAC Technician Salary 2026: What You'll Actually Make and If It's Worth Your Time","description":"HVAC technician salary data for 2026, job growth, certification costs, and how it stacks up against college. Data-driven breakdown.","datePublished":"2026-02-17","dateModified":"2026-02-17","author":{"@type":"Person","name":"Derek Foster"},"publisher":{"@type":"Organization","name":"IHateCollege.com","url":"https://ihatecollege.com"},"url":"https://ihatecollege.com/blog/hvac-technician-salary","mainEntityOfPage":{"@type":"WebPage","@id":"https://ihatecollege.com/blog/hvac-technician-salary"}}` }} />
       </Head>
       <SEO
-        title="HVAC Technician Salary 2025: Real Numbers & Career Outlook"
-        description="HVAC technician salary data for 2025, job growth, certification costs, and how it stacks up against college. Data-driven breakdown."
+        title="HVAC Technician Salary 2026: Real Numbers & Career Outlook"
+        description="HVAC technician salary data for 2026, job growth, certification costs, and how it stacks up against college. Data-driven breakdown."
       />
 
       <article className="max-w-3xl mx-auto px-4 py-12 text-slate-200">
@@ -25,12 +25,12 @@ export default function BlogPost() {
             Blog &middot; 2026-02-17
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            HVAC Technician Salary 2025: What You'll Actually Make and If It's Worth Your Time
+            HVAC Technician Salary 2026: What You'll Actually Make and If It's Worth Your Time
           </h1>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-6">
             <img
               src="https://images.unsplash.com/photo-1609220136736-443140cfeaa6?w=1200&h=500&fit=crop&auto=format"
-              alt="HVAC Technician Salary 2025: What You'll Actually Make and If It's Worth Your Time"
+              alt="HVAC Technician Salary 2026: What You'll Actually Make and If It's Worth Your Time"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -40,20 +40,20 @@ export default function BlogPost() {
         {/* Author bio */}
         <div className="flex items-center gap-4 mb-10 p-4 bg-slate-900/60 border border-slate-700 rounded-xl">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-pink-700 flex items-center justify-center text-white font-black text-lg shrink-0">
-            DT
+            DF
           </div>
           <div>
-            <div className="font-bold text-white text-sm">Danielle Torres</div>
-            <div className="text-slate-400 text-xs leading-relaxed">Danielle is a career counselor who has helped over 400 students find trade apprenticeships and tech certifications as alternatives to expensive four-year degrees.</div>
+            <div className="font-bold text-white text-sm">Derek Foster</div>
+            <div className="text-slate-400 text-xs leading-relaxed">Derek spent 15 years as an HVAC tech running his own service company before starting to write about the industry and what it actually pays.</div>
           </div>
         </div>
 
         <AdUnit slot="6600722153" />
 
-        
+
         <section className="mb-10">
-          <h2 className="text-2xl font-black text-white mb-4">The Current HVAC Technician Salary Landscape in 2025</h2>
-          <p className="text-slate-300 leading-relaxed">Let&apos;s start with the number everyone wants to know: how much money you&apos;ll make as an HVAC technician in 2025.
+          <h2 className="text-2xl font-black text-white mb-4">The Current HVAC Technician Salary Landscape in 2026</h2>
+          <p className="text-slate-300 leading-relaxed">Let&apos;s start with the number everyone wants to know: how much money you&apos;ll make as an HVAC technician in 2026.
 
 According to the U.S. Bureau of Labor Statistics (BLS), the median annual wage for HVAC technicians in 2024 was $56,040. However, this number matters less than understanding the actual range and what factors push you toward the higher end.
 
@@ -63,8 +63,8 @@ The 75th percentile of HVAC technicians—the better-paid half of experienced wo
 
 The BLS projects that HVAC technician jobs will grow by 8% from 2023 to 2033, which is slightly faster than the average for all occupations (5%). That&apos;s meaningful because it means you&apos;re not training for a field that&apos;s shrinking or becoming automated away. There will be actual jobs waiting for you.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">How HVAC Salaries Break Down by Experience Level and Location</h2>
@@ -83,7 +83,7 @@ This is important context: a $55,000 salary in rural Kansas stretches much furth
 Seasonal variation is real too. HVAC work tends to be busiest in summer (AC repair and installation) and winter (heating system work). Some technicians in colder climates earn more during winter months through overtime, while summer-heavy regions see technicians bank extra hours May through August. If you&apos;re paid hourly with overtime, you can bump your annual earnings significantly by working seasonal peaks.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">What Actually Determines HVAC Technician Earnings</h2>
@@ -99,8 +99,8 @@ Fourth: your employer type. Work for a large HVAC contractor or plumbing company
 
 Fifth: soft skills and customer service. Technicians who communicate clearly, solve problems efficiently, and build customer relationships get more calls, better ratings, and opportunities for upsells and repeat business. This directly impacts earnings, especially if you&apos;re working on commission or running your own business.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Total Cost to Become an HVAC Technician vs. College</h2>
@@ -131,7 +131,7 @@ Bachelor&apos;s degree costs:
 The math is stark: an HVAC apprentice starts earning money around year one and has minimal out-of-pocket costs. A college student pays tens of thousands and doesn&apos;t start earning until after graduation. An HVAC technician reaches the median salary of $56,000 by year 6-7 (after completing apprenticeship and gaining some experience). A college graduate might reach that same salary by year 3-4 after graduation, depending on their field. But the college grad also has $30,000 to $100,000+ in debt, while the HVAC technician has next to none.</p>
         </section>
         <AdUnit slot="6600722153" />
-      
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Job Security and Benefits: The Numbers Behind HVAC Work</h2>
@@ -147,8 +147,8 @@ The physical nature of the work is worth mentioning. HVAC work is physically dem
 
 Union membership is another path for some HVAC technicians. Union HVAC technicians typically earn 15-25% more than non-union technicians ($65,000 to $85,000 versus $50,000 to $65,000) and have stronger benefits, though they typically have stricter job assignments and work rules.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Real Comparison: HVAC vs. College Graduates by Income and Debt</h2>
@@ -172,8 +172,8 @@ However, the college graduate&apos;s ceiling might be higher. Many college-degre
 
 The key difference: the HVAC path has lower risk. You start earning immediately, accumulate no debt, and have job security. The college path has higher potential upside but requires patience, debt tolerance, and the risk that your degree doesn&apos;t lead to the income you expected.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">Red Flags and Realistic Challenges in HVAC Work</h2>
@@ -191,12 +191,12 @@ Fifth, the field is competitive in some markets. If you&apos;re in an area with 
 
 Sixth, the training is time-specific. The time you spend in apprenticeship, you&apos;re earning less. This opportunity cost matters more for some people (those who have dependents, live in high-cost areas, etc.) than others.</p>
         </section>
-        
-      
+
+
 
         <section className="mb-10">
           <h2 className="text-2xl font-black text-white mb-4">The Bottom Line</h2>
-          <p className="text-slate-300 leading-relaxed">Here&apos;s the bottom line: HVAC technicians in 2025 earn a median of $56,000 annually, with experienced technicians in high-demand areas pushing toward $75,000 to $95,000. The career path requires 4-5 years of apprenticeship (usually paid, minimal debt), leading to rapid earnings growth and strong job security. Over a 20-year career, an HVAC technician will likely out-earn a college graduate once you factor in student debt and the years spent not earning during college. This doesn&apos;t mean it&apos;s the right choice for everyone—the physical demands, regional wage variation, and apprenticeship years matter—but financially, HVAC is one of the most underrated paths for people looking to build a stable, decent-paying career without the college debt trap. If you can handle hands-on work, learn quickly, manage the physical demands, and are willing to earn modest wages during your apprenticeship, HVAC offers real earning potential with minimal financial risk. That combination is genuinely rare.</p>
+          <p className="text-slate-300 leading-relaxed">Here&apos;s the bottom line: HVAC technicians in 2026 earn a median of $56,000 annually, with experienced technicians in high-demand areas pushing toward $75,000 to $95,000. The career path requires 4-5 years of apprenticeship (usually paid, minimal debt), leading to rapid earnings growth and strong job security. Over a 20-year career, an HVAC technician will likely out-earn a college graduate once you factor in student debt and the years spent not earning during college. This doesn&apos;t mean it&apos;s the right choice for everyone—the physical demands, regional wage variation, and apprenticeship years matter—but financially, HVAC is one of the most underrated paths for people looking to build a stable, decent-paying career without the college debt trap. If you can handle hands-on work, learn quickly, manage the physical demands, and are willing to earn modest wages during your apprenticeship, HVAC offers real earning potential with minimal financial risk. That combination is genuinely rare.</p>
         </section>
 
         <AdUnit slot="6600722153" />
@@ -216,10 +216,10 @@ Sixth, the training is time-specific. The time you spend in apprenticeship, you&
         <div className="mt-8 p-5 rounded-xl" style={{background:"#0d0d0d",border:"1px solid #2a2a2a"}}>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">Keep Reading</p>
           <div className="flex flex-col gap-2">
-            <Link href="/is-college-worth-it-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2025? The Real ROI Data</Link>
-            <Link href="/trade-school-vs-college-salary-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
-            <Link href="/blog/highest-paying-trade-jobs-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2025</Link>
-            <Link href="/blog/student-loan-debt-crisis-2025" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
+            <Link href="/is-college-worth-it" className="text-slate-300 hover:text-white text-sm font-semibold">→ Is College Worth It in 2026? The Real ROI Data</Link>
+            <Link href="/trade-school-vs-college-salary" className="text-slate-300 hover:text-white text-sm font-semibold">→ Trade School vs College Salary: Who Actually Wins?</Link>
+            <Link href="/blog/highest-paying-trade-jobs" className="text-slate-300 hover:text-white text-sm font-semibold">→ The 8 Highest-Paying Trade Jobs in 2026</Link>
+            <Link href="/blog/student-loan-debt-crisis" className="text-slate-300 hover:text-white text-sm font-semibold">→ The Student Loan Crisis Is Worse Than You Think</Link>
           </div>
         </div>
       </article>
