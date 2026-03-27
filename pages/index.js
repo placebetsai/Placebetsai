@@ -742,5 +742,5 @@ export async function getStaticProps() {
     console.error("getStaticProps blog load error:", e.message);
   }
 
-  return { props: { articles }, revalidate: 3600 };
+  return { props: { articles } };
 }
