@@ -1,0 +1,44 @@
+name: Daily Content Automation
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # 6:00 AM ET = 10:00 AM UTC every day
+  workflow_dispatch:         # manual trigger from GitHub UI (Actions tab → Run workflow)
+
+jobs:
+  generate-articles:
+    name: Generate 3 SEO Blog Articles
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: restore-good
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git identity
+        run: |
+          git config user.email "automation@ihatecollege.com"
+          git config user.name "IHateCollege Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Generate articles and push to repo
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SITE_URL: https://ihatecollege.com
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: restore-good
+        run: node scripts/generate-articles.js
