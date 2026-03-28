@@ -3,9 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-    ],
+    unoptimized: true, // disable Vercel image optimization — saves ~$19/month in transforms
   },
   async headers() {
     return [

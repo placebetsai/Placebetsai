@@ -109,12 +109,12 @@ function loadCollegesJson() {
 }
 
 export async function getStaticPaths() {
-  const jsonColleges = loadCollegesJson();
-
   const slugSet = new Set();
   const paths = [];
 
-  // Hardcoded schools first (they have extra data like rank)
+  // Pre-generate only the 50 hardcoded schools at build time.
+  // The remaining 6000+ colleges use fallback: 'blocking' — generated on first visit
+  // and cached permanently. This cuts build time from 30min → <2min.
   for (const s of ALL_SCHOOLS) {
     const slug = toSlug(s.name);
     if (!slugSet.has(slug)) {
@@ -123,15 +123,7 @@ export async function getStaticPaths() {
     }
   }
 
-  // JSON colleges from prebuild script (6000+)
-  for (const c of jsonColleges) {
-    if (c.slug && !slugSet.has(c.slug)) {
-      slugSet.add(c.slug);
-      paths.push({ params: { slug: c.slug } });
-    }
-  }
-
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }
 
 export async function getStaticProps({ params }) {
