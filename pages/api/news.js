@@ -1,5 +1,6 @@
 // pages/api/news.js
 // Pulls jobs, employment, commerce, breaking, and education news from multiple RSS feeds.
+export const config = { runtime: "edge" };
 
 const FEEDS = [
   // ── GOVERNMENT JOBS & EMPLOYMENT ─────────────────────────────────────────
@@ -32,9 +33,6 @@ const FEEDS = [
 ];
 
 const TOTAL_ITEMS = 40;
-
-let CACHE = { ts: 0, items: [] };
-const CACHE_TTL_MS = 10 * 60 * 1000;
 
 function stripCdata(s = "") {
   return s.replace("<![CDATA[", "").replace("]]>", "").trim();
@@ -98,16 +96,8 @@ function dedupe(items) {
   });
 }
 
-export default async function handler(req, res) {
+export default async function handler(req) {
   try {
-    const now     = Date.now();
-    const noCache = req.query?.nocache === "1";
-
-    if (!noCache && CACHE.items.length && now - CACHE.ts < CACHE_TTL_MS) {
-      res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=3600");
-      return res.status(200).json({ items: CACHE.items });
-    }
-
     const results = await Promise.allSettled(
       FEEDS.map(async ({ url, source, tag }) => {
         try {
@@ -131,17 +121,19 @@ export default async function handler(req, res) {
     all = dedupe(all).sort((a, b) => parseDate(b.pubDate) - parseDate(a.pubDate));
 
     const finalItems = all.slice(0, TOTAL_ITEMS);
-    CACHE = { ts: now, items: finalItems.length ? finalItems : CACHE.items };
 
-    res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=3600");
-    return res.status(200).json({
-      items: finalItems.length ? finalItems : [
-        { title: "Loading jobs, employment & breaking news…", link: "/news", source: "System" },
-      ],
-    });
+    return new Response(
+      JSON.stringify({
+        items: finalItems.length ? finalItems : [
+          { title: "Loading jobs, employment & breaking news…", link: "/news", source: "System" },
+        ],
+      }),
+      { status: 200, headers: { "Content-Type": "application/json", "Cache-Control": "s-maxage=600, stale-while-revalidate=3600" } }
+    );
   } catch {
-    return res.status(200).json({
-      items: [{ title: "Loading jobs, employment & breaking news…", link: "/news", source: "System" }],
-    });
+    return new Response(
+      JSON.stringify({ items: [{ title: "Loading jobs, employment & breaking news…", link: "/news", source: "System" }] }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   }
 }

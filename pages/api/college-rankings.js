@@ -1,12 +1,17 @@
 // pages/api/college-rankings.js
-export default async function handler(req, res) {
+import { NextResponse } from "next/server";
+
+export const config = { runtime: "edge" };
+
+export default async function handler(req) {
   const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY;
 
   if (!API_KEY) {
-    return res.status(500).json({ error: "Server config error: Key missing" });
+    return NextResponse.json({ error: "Server config error: Key missing" }, { status: 500 });
   }
 
-  const { search = "University" } = req.query;
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search") || "University";
   const page = 0;
   const perPage = 25;
 
@@ -49,9 +54,9 @@ export default async function handler(req, res) {
       };
     });
 
-    return res.status(200).json({ results });
+    return NextResponse.json({ results });
   } catch (err) {
     console.error("Fetch error:", err);
-    return res.status(500).json({ error: "Failed to fetch schools" });
+    return NextResponse.json({ error: "Failed to fetch schools" }, { status: 500 });
   }
 }

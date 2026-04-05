@@ -1,16 +1,21 @@
 // pages/api/jobs/post.js
 // Posts a job — tries Supabase first, falls back to email via formsubmit.co
+import { NextResponse } from "next/server";
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+export const config = { runtime: "edge" };
 
-  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email, logo_url, image_url } = req.body;
+export default async function handler(req) {
+  if (req.method !== "POST") return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+
+  let body = {};
+  try { body = await req.json(); } catch {}
+  const { title, company, location, category, salary_min, salary_max, description, apply_url, contact_email, logo_url, image_url } = body;
 
   if (!title?.trim() || !location?.trim() || !category?.trim() || !description?.trim()) {
-    return res.status(400).json({ error: "Title, location, category, and description are required." });
+    return NextResponse.json({ error: "Title, location, category, and description are required." }, { status: 400 });
   }
   if (!apply_url?.trim() && !contact_email?.trim()) {
-    return res.status(400).json({ error: "Provide either an apply URL or contact email." });
+    return NextResponse.json({ error: "Provide either an apply URL or contact email." }, { status: 400 });
   }
 
   const payload = {
@@ -28,7 +33,6 @@ export default async function handler(req, res) {
     is_approved:   true,
   };
 
-  // Try Supabase first if configured
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_ANON_KEY;
   if (supabaseUrl && supabaseKey) {
@@ -45,12 +49,11 @@ export default async function handler(req, res) {
       });
       if (resp.ok) {
         const [created] = await resp.json();
-        return res.status(201).json({ ok: true, id: created?.id });
+        return NextResponse.json({ ok: true, id: created?.id }, { status: 201 });
       }
     } catch {}
   }
 
-  // Fallback: email the job posting to admin via formsubmit.co
   try {
     const salary = payload.salary_min && payload.salary_max
       ? `$${payload.salary_min.toLocaleString()} – $${payload.salary_max.toLocaleString()}`
@@ -84,11 +87,11 @@ ${payload.description}
     });
     const d = await r.json();
     if (d.success === "true" || d.success === true) {
-      return res.status(201).json({ ok: true });
+      return NextResponse.json({ ok: true }, { status: 201 });
     }
     throw new Error("formsubmit failed");
   } catch (err) {
     console.error("jobs/post fallback error:", err);
-    return res.status(500).json({ error: "Failed to submit. Email us directly at info@ihatecollege.com." });
+    return NextResponse.json({ error: "Failed to submit. Email us directly at info@ihatecollege.com." }, { status: 500 });
   }
 }

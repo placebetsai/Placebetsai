@@ -1,18 +1,24 @@
 // pages/api/jobs/list.js
-export default async function handler(req, res) {
-  const { category = "", q = "", state = "" } = req.query;
+import { NextResponse } from "next/server";
+
+export const config = { runtime: "edge" };
+
+export default async function handler(req) {
+  const { searchParams } = new URL(req.url);
+  const category = searchParams.get("category") || "";
+  const q = searchParams.get("q") || "";
+  const state = searchParams.get("state") || "";
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
 
   if (!url || !key) {
-    return res.status(200).json({ jobs: [], configured: false });
+    return NextResponse.json({ jobs: [], configured: false });
   }
 
   try {
     let query = `${url}/rest/v1/job_posts?select=*&is_approved=eq.true&expires_at=gte.${new Date().toISOString()}&order=created_at.desc&limit=100`;
 
-    // Map filter categories to DB categories
     const govKeywords = ["law enforcement", "police", "sheriff", "patrol", "officer", "federal", "faa", "fbi", "dea", "cbp", "usps", "postal", "park service", "national park", "military", "army", "navy", "marines", "air force"];
 
     let dbCategory = "";
@@ -37,7 +43,6 @@ export default async function handler(req, res) {
     if (!resp.ok) throw new Error(`Supabase error: ${resp.status}`);
     let jobs = await resp.json();
 
-    // Client-side filtering
     if (q) {
       const qLower = q.toLowerCase();
       jobs = jobs.filter((j) =>
@@ -61,7 +66,6 @@ export default async function handler(req, res) {
       );
     }
 
-    // Law enforcement sub-filter
     if (category === "Law Enforcement") {
       jobs = jobs.filter((j) =>
         govKeywords.slice(0, 8).some((kw) =>
@@ -70,7 +74,6 @@ export default async function handler(req, res) {
       );
     }
 
-    // Federal sub-filter
     if (category === "Federal") {
       const fedKw = ["federal", "faa", "fbi", "dea", "cbp", "usps", "postal", "park service", "national park", "tsa", "cia", "irs", "army", "navy", "marines", "air force", "coast guard"];
       jobs = jobs.filter((j) =>
@@ -78,9 +81,9 @@ export default async function handler(req, res) {
       );
     }
 
-    return res.status(200).json({ jobs, configured: true });
+    return NextResponse.json({ jobs, configured: true });
   } catch (err) {
     console.error("jobs/list error:", err);
-    return res.status(200).json({ jobs: [], configured: true, error: true });
+    return NextResponse.json({ jobs: [], configured: true, error: true });
   }
 }

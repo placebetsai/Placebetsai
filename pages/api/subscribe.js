@@ -1,23 +1,22 @@
-/**
- * /api/subscribe
- * Handles email signups. Logs to console (visible in Railway/Vercel logs).
- * To connect a real email service, set EMAIL_WEBHOOK_URL in .env
- * and point it to a Zapier/Make.com webhook, ConvertKit API, etc.
- */
-export default async function handler(req, res) {
+import { NextResponse } from "next/server";
+
+export const config = { runtime: "edge" };
+
+export default async function handler(req) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
   }
 
-  const { email } = req.body;
+  let body = {};
+  try { body = await req.json(); } catch {}
+  const { email } = body;
+
   if (!email || !email.includes("@")) {
-    return res.status(400).json({ error: "Invalid email" });
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
 
-  // Log to server console (shows in Railway and Vercel logs)
   console.log(`[SUBSCRIBE] New email signup: ${email} at ${new Date().toISOString()}`);
 
-  // If EMAIL_WEBHOOK_URL is set, forward to Zapier/Make/ConvertKit webhook
   if (process.env.EMAIL_WEBHOOK_URL) {
     try {
       await fetch(process.env.EMAIL_WEBHOOK_URL, {
@@ -27,9 +26,8 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       console.error("[SUBSCRIBE] Webhook failed:", err.message);
-      // Don't fail the user request — just log the error
     }
   }
 
-  return res.status(200).json({ success: true });
+  return NextResponse.json({ success: true });
 }

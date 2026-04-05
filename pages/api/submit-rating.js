@@ -1,10 +1,16 @@
 // pages/api/submit-rating.js
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+import { NextResponse } from "next/server";
 
-  const { school, city, state, debtScore, mentalHealthScore, comment } = req.body || {};
+export const config = { runtime: "edge" };
 
-  if (!school) return res.status(400).json({ error: "school is required" });
+export default async function handler(req) {
+  if (req.method !== "POST") return new Response(null, { status: 405 });
+
+  let body = {};
+  try { body = await req.json(); } catch {}
+  const { school, city, state, debtScore, mentalHealthScore, comment } = body;
+
+  if (!school) return NextResponse.json({ error: "school is required" }, { status: 400 });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
@@ -19,7 +25,6 @@ export default async function handler(req, res) {
     created_at: new Date().toISOString(),
   };
 
-  // Log to Vercel runtime logs regardless
   console.log("[RATING]", JSON.stringify(payload));
 
   if (url && key) {
@@ -36,16 +41,14 @@ export default async function handler(req, res) {
       });
 
       if (resp.ok) {
-        return res.status(200).json({ ok: true });
+        return NextResponse.json({ ok: true });
       }
 
       const errText = await resp.text();
 
-      // Table doesn't exist yet — auto-create it
       if (resp.status === 404 || errText.includes("does not exist")) {
         const created = await createTable(url, key);
         if (created) {
-          // Retry insert
           const retry = await fetch(`${url}/rest/v1/school_ratings`, {
             method: "POST",
             headers: {
@@ -56,7 +59,7 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify(payload),
           });
-          if (retry.ok) return res.status(200).json({ ok: true });
+          if (retry.ok) return NextResponse.json({ ok: true });
         }
       }
 
@@ -66,12 +69,10 @@ export default async function handler(req, res) {
     }
   }
 
-  // Fallback: rating is logged, return success so form doesn't error
-  return res.status(200).json({ ok: true, stored: "logs" });
+  return NextResponse.json({ ok: true, stored: "logs" });
 }
 
 async function createTable(url, key) {
-  // Attempt to create the table via the service role (works if key is service role)
   const sql = `
     CREATE TABLE IF NOT EXISTS school_ratings (
       id bigserial PRIMARY KEY,

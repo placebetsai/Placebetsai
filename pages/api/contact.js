@@ -1,9 +1,16 @@
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+import { NextResponse } from "next/server";
 
-  const { name, email, message } = req.body || {};
+export const config = { runtime: "edge" };
+
+export default async function handler(req) {
+  if (req.method !== "POST") return new Response(null, { status: 405 });
+
+  let body = {};
+  try { body = await req.json(); } catch {}
+  const { name, email, message } = body;
+
   if (!email?.trim() || !message?.trim()) {
-    return res.status(400).json({ error: "Email and message are required." });
+    return NextResponse.json({ error: "Email and message are required." }, { status: 400 });
   }
 
   try {
@@ -24,12 +31,12 @@ export default async function handler(req, res) {
     let data;
     try { data = JSON.parse(text); } catch { data = {}; }
     if (data.success === "true" || data.success === true) {
-      return res.status(200).json({ success: true });
+      return NextResponse.json({ success: true });
     }
     console.error("[CONTACT] formsubmit did not return success:", data);
-    return res.status(500).json({ error: "Failed to send." });
+    return NextResponse.json({ error: "Failed to send." }, { status: 500 });
   } catch (err) {
     console.error("[CONTACT] error:", err);
-    return res.status(500).json({ error: "Failed to send." });
+    return NextResponse.json({ error: "Failed to send." }, { status: 500 });
   }
 }

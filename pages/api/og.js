@@ -1,8 +1,8 @@
 // pages/api/og.js
 // Dynamic OG image generation for social previews (WhatsApp, iMessage, Twitter, etc.)
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse } from "next/og";
 
-export const config = { runtime: "nodejs" };
+export const config = { runtime: "edge" };
 
 export default function handler(req) {
   const { searchParams } = new URL(req.url);
