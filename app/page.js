@@ -439,34 +439,29 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* AI DAILY PICKS */}
+        {/* CONCEPTS */}
         <section style={{ marginTop: "60px", paddingTop: "40px", borderTop: "1px solid #1f2937" }}>
           <div style={{ textAlign: "center", marginBottom: "30px" }}>
-            <span style={{ background: "#00ff87", color: "#000", fontSize: "0.7rem", fontWeight: 900, padding: "4px 12px", borderRadius: 99, letterSpacing: "0.1em", textTransform: "uppercase" }}>AI-Powered</span>
-            <h2 style={{ marginTop: "12px", marginBottom: "8px" }}>Today&apos;s Value Bets</h2>
+            <h2 style={{ marginTop: "12px", marginBottom: "8px" }}>How Sharp Bettors Think</h2>
             <p style={{ fontSize: "0.9rem", color: "#9ca3af", maxWidth: 560, margin: "0 auto" }}>
-              Our model scans line movements, injury reports, and historical ATS data to surface positive-EV spots. Updated daily.
+              Three concepts that separate recreational bettors from those who treat it like a math problem.
             </p>
           </div>
           <div className="grid-3">
             {[
-              { sport: "🏀 NBA", pick: "Fade the public on road favorites tonight", edge: "+4.2% EV", confidence: "High", note: "Public betting 68% on the favorite. Line hasn't moved — sharp money disagrees." },
-              { sport: "⚽ MLS", pick: "Under 2.5 goals in rivalry matchups this week", edge: "+3.1% EV", confidence: "Medium", note: "Rivalry games historically go under 64% of the time. Cold front incoming." },
-              { sport: "🎾 ATP", pick: "First-set winner markets on clay underdogs", edge: "+5.8% EV", confidence: "High", note: "Clay surfaces tighten first sets. Underdogs win first set 38% — priced at 30%." },
+              { icon: "📊", title: "Public vs. Sharp Money", body: "The public bets favorites and primetime games. Sharps look for spots where the line hasn't moved despite heavy public action — that gap is where the value hides." },
+              { icon: "📉", title: "Line Movement Tells a Story", body: "When a line moves opposite to the betting percentage, sharp money caused it. A team getting 30% of bets but the line moves in their favor? That's a signal worth tracking." },
+              { icon: "🔢", title: "Closing Line Value (CLV)", body: "If you consistently beat the closing line, you're making mathematically correct decisions — regardless of short-term results. CLV is the only long-run performance metric that matters." },
             ].map((p) => (
-              <div key={p.sport} className="card" style={{ borderColor: "#00ff8730" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                  <span style={{ fontWeight: 900, fontSize: "0.95rem" }}>{p.sport}</span>
-                  <span style={{ background: "#00ff8720", color: "#00ff87", fontSize: "0.7rem", fontWeight: 900, padding: "2px 10px", borderRadius: 99 }}>{p.edge}</span>
-                </div>
-                <p style={{ fontWeight: 700, color: "#fff", marginBottom: "8px", fontSize: "0.9rem" }}>{p.pick}</p>
-                <p style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: "12px" }}>{p.note}</p>
-                <div style={{ fontSize: "0.75rem", color: "#6b7280" }}>Confidence: <span style={{ color: p.confidence === "High" ? "#00ff87" : "#facc15", fontWeight: 700 }}>{p.confidence}</span></div>
+              <div key={p.title} className="card" style={{ borderColor: "#00ff8730" }}>
+                <div style={{ fontSize: "1.5rem", marginBottom: "10px" }}>{p.icon}</div>
+                <p style={{ fontWeight: 700, color: "#fff", marginBottom: "8px", fontSize: "0.9rem" }}>{p.title}</p>
+                <p style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: 0 }}>{p.body}</p>
               </div>
             ))}
           </div>
           <p style={{ textAlign: "center", fontSize: "0.72rem", color: "#4b5563", marginTop: "20px" }}>
-            ⚠️ Statistical insights only — not guaranteed wins. Bet responsibly. 18+. <a href="/responsible-gambling" style={{ color: "#6b7280" }}>Responsible Gambling</a>
+            ⚠️ Educational content only — not betting advice. Bet responsibly. 18+. <a href="/responsible-gambling" style={{ color: "#6b7280" }}>Responsible Gambling</a>
           </p>
         </section>
 
