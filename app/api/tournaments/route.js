@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "edge";
 export const revalidate = 0; // no static cache
 
 // Basic game-type images (external, no /public required)
