@@ -1,0 +1,32 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build
+        run: npx @cloudflare/next-on-pages@1
+        env:
+          NODE_VERSION: '20'
+          SITE_URL: https://placebets.ai
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN_PLACEBETSAI }}
+          accountId: 2765cb2786006552f33cc3dfe0b680a1
+          command: pages deploy .vercel/output/static --project-name=placebetsai --branch=main
