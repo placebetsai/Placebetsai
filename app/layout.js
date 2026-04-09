@@ -20,7 +20,7 @@ export const metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "PlaceBets.ai - Live Sports Prediction Markets and Professional Betting Tools",
@@ -32,15 +32,15 @@ export const metadata = {
     title: "PlaceBets.ai – The Professional Betting Toolkit",
     description:
       "Tools and analytics for disciplined, data-driven bettors. Not a sportsbook. Not gambling advice.",
-    images: ["/og-image.png"],
+    images: ["/og-image.svg"],
   },
   alternates: {
     canonical: "https://placebets.ai",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: { url: "/favicon.svg", type: "image/svg+xml" },
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
         "@id": "https://placebets.ai/#organization",
         name: "PlaceBets.ai",
         url: "https://placebets.ai",
-        logo: "https://placebets.ai/favicon.ico",
+        logo: "https://placebets.ai/favicon.svg",
       },
     ],
   };

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#050608"/>
+  <rect x="0" y="0" width="1200" height="6" fill="#00e676"/>
+  <text x="600" y="260" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="80" fill="#ffffff" text-anchor="middle">PLACEBETS.AI</text>
+  <text x="600" y="340" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#00e676" text-anchor="middle">Live Prediction Markets &amp; Betting Tools</text>
+  <rect x="440" y="380" width="320" height="3" rx="1.5" fill="#00e676" opacity="0.4"/>
+</svg>
