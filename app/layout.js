@@ -38,9 +38,9 @@ export const metadata = {
     canonical: "https://placebets.ai",
   },
   icons: {
-    icon: "/grok_1765395775037.jpg",
-    shortcut: "/grok_1765395775037.jpg",
-    apple: "/grok_1765395775037.jpg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
         "@id": "https://placebets.ai/#organization",
         name: "PlaceBets.ai",
         url: "https://placebets.ai",
-        logo: "https://placebets.ai/grok_1765395775037.jpg",
+        logo: "https://placebets.ai/favicon.ico",
       },
     ],
   };
@@ -143,6 +143,11 @@ export default function RootLayout({ children }) {
               </div>
             </div>
           </footer>
+        </div>
+
+        {/* Sticky anchor ad */}
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 40, textAlign: "center", overflow: "hidden", minHeight: "50px" }}>
+          <ins className="adsbygoogle" style={{ display: "block" }} data-ad-client="ca-pub-7215975042937417" data-ad-slot="6600722153" data-ad-format="auto" data-full-width-responsive="true" />
         </div>
       </body>
     </html>
