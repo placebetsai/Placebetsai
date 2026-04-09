@@ -4,6 +4,7 @@ export default function robots() {
       {
         userAgent: '*',
         allow: '/',
+        disallow: '/api/',
       },
     ],
     sitemap: 'https://placebets.ai/sitemap.xml',
