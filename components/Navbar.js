@@ -5,16 +5,11 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/tournaments", label: "Tournaments" },
+  { href: "/", label: "Markets" },
   { href: "/calculators", label: "Tools" },
-  { href: "/ev-betting", label: "+EV Strategy" },
-  { href: "/bankroll", label: "Bankroll" },
-  { href: "/glossary", label: "Glossary" },
+  { href: "/tournaments", label: "Tournaments" },
+  { href: "/ev-betting", label: "Strategy" },
   { href: "/about", label: "About" },
-  { href: "/terms", label: "Terms" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/contact", label: "Contact" },  // Contact in nav (desktop & mobile)
 ];
 
 export default function Navbar() {
