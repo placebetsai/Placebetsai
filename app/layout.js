@@ -141,40 +141,42 @@ export default function RootLayout({ children }) {
                   Privacy
                 </a>
               </div>
-              <div
-                style={{
-                  marginTop: "16px",
-                  paddingTop: "14px",
-                  borderTop: "1px solid #1f2937",
-                }}
-              >
+              <div style={{position:'absolute',left:'-9999px',overflow:'hidden',height:'1px',width:'1px'}}>
                 <div
                   style={{
-                    fontSize: "0.7rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.12em",
-                    color: "#6b7280",
-                    marginBottom: "8px",
-                    fontWeight: "700",
+                    marginTop: "16px",
+                    paddingTop: "14px",
+                    borderTop: "1px solid #1f2937",
                   }}
                 >
-                  Our Network
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "12px",
-                    justifyContent: "center",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  <a href="https://placebets.ai" style={{ color: "#00e676" }}>PlaceBets.ai</a>
-                  <a href="https://shopkurt.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>ShopKurt.com</a>
-                  <a href="https://ihatecollege.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>IHateCollege.com</a>
-                  <a href="https://hiddencameras.tv" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>HiddenCameras.tv</a>
-                  <a href="https://spanishtvshows.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>SpanishTVShows.com</a>
-                  <a href="https://fashionistas.ai" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>Fashionistas.ai</a>
+                  <div
+                    style={{
+                      fontSize: "0.7rem",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.12em",
+                      color: "#6b7280",
+                      marginBottom: "8px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Our Network
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "12px",
+                      justifyContent: "center",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    <a href="https://placebets.ai" style={{ color: "#00e676" }}>PlaceBets.ai</a>
+                    <a href="https://shopkurt.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>ShopKurt.com</a>
+                    <a href="https://ihatecollege.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>IHateCollege.com</a>
+                    <a href="https://hiddencameras.tv" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>HiddenCameras.tv</a>
+                    <a href="https://spanishtvshows.com" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>SpanishTVShows.com</a>
+                    <a href="https://fashionistas.ai" target="_blank" rel="noopener noreferrer" style={{ color: "#9ca3af" }}>Fashionistas.ai</a>
+                  </div>
                 </div>
               </div>
             </div>
