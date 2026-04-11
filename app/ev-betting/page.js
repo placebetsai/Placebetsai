@@ -2,11 +2,56 @@ export const metadata = {
   title: "Expected Value (+EV) Betting – The Math That Beats the Sportsbook",
   description:
     "Learn how to calculate Expected Value (+EV) in sports betting. Understand implied probability, line shopping, and why sharp bettors profit long-term using EV math.",
+  alternates: { canonical: "https://placebets.ai/ev-betting" },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is Expected Value (EV) in sports betting?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Expected Value (EV) measures the gap between the true probability of an outcome and the implied probability in the odds. A positive EV (+EV) bet is mathematically profitable long-term. The formula is: EV = (Probability of Winning x Profit) - (Probability of Losing x Stake).",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do you find +EV bets?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The main methods are: line shopping across multiple sportsbooks, beating the closing line (CLV), building or using projection models, and exploiting sportsbook promotions and odds boosts that cross into positive expected value territory.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do you convert American odds to implied probability?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For favorites (negative odds): Implied Probability = |Odds| / (|Odds| + 100). For underdogs (positive odds): Implied Probability = 100 / (Odds + 100). Example: -110 implies 52.38% probability.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How many bets do you need to prove an edge?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You should run at least 500 bets before drawing conclusions about your edge. Professional sports bettors operate on margins of 2-5% ROI over large sample sizes. Short-term variance can mask a real edge.",
+      },
+    },
+  ],
 };
 
 export default function EVPage() {
   return (
     <div style={{ maxWidth: 860, margin: "0 auto" }}>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <h1>Expected Value (+EV) Betting</h1>
       <p className="highlight">
         The only math that actually separates winners from losers over time.

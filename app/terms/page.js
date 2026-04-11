@@ -2,6 +2,7 @@ export const metadata = {
   title: "Terms of Service – PlaceBets.ai",
   description:
     "Review the Terms of Service that govern your use of PlaceBets.ai and its tools.",
+  alternates: { canonical: "https://placebets.ai/terms" },
 };
 
 export default function TermsPage() {

@@ -3,6 +3,7 @@ import React from 'react';
 export const metadata = {
   title: 'Contact | PlaceBets.ai',
   description: 'Professional inquiries and partnerships.',
+  alternates: { canonical: 'https://placebets.ai/contact' },
 };
 
 export default function ContactPage() {

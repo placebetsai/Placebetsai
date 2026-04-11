@@ -2,11 +2,48 @@ export const metadata = {
   title: "How Our Predictions Work | PlaceBets.ai",
   description:
     "Learn how PlaceBets.ai uses odds data, market movement, and historical patterns to generate AI-driven sports analysis.",
+  alternates: { canonical: "https://placebets.ai/how-predictions-work" },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How does PlaceBets.ai generate predictions?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "PlaceBets.ai analyzes sportsbook odds and pricing across markets, line movement from opening to current prices, historical outcomes and variance patterns, and basic market behavior including public bias and common pricing traps.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is PlaceBets.ai a sportsbook?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. PlaceBets.ai is for educational and entertainment purposes only. We do not operate a sportsbook and do not guarantee outcomes. Sports are unpredictable.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How should I use sports betting analysis responsibly?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Use analysis as one input alongside your own research. If you choose to bet, only wager what you can afford to lose and only where it is legal in your jurisdiction.",
+      },
+    },
+  ],
 };
 
 export default function HowPredictionsWorkPage() {
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: "44px 20px" }}>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <h1>How Our Predictions Work</h1>
 
       <p style={{ color: "#9ca3af", lineHeight: 1.8 }}>

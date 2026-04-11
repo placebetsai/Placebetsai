@@ -7,7 +7,6 @@ export default function sitemap() {
     { url: `${base}/ev-betting`,              lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/bankroll`,                lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/calculators`,             lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${base}/learn-betting`,           lastModified: now, changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${base}/how-predictions-work`,    lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/glossary`,                lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/about`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
