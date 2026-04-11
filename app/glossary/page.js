@@ -2,6 +2,7 @@ export const metadata = {
   title: "Sports Betting Glossary – Complete Dictionary of Betting Terms",
   description:
     "Full glossary of sports betting terminology: juice, vig, sharp, square, CLV, steam, parlay, prop, middling, and 40+ more terms explained clearly.",
+  alternates: { canonical: "https://placebets.ai/glossary" },
 };
 
 const TERMS = [
@@ -207,9 +208,53 @@ const TERMS = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does +EV mean in sports betting?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "+EV means positive expected value — a bet that is mathematically profitable in the long run because the true probability of winning exceeds the probability implied by the odds.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the vig or juice in sports betting?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The vig (or juice) is the commission the sportsbook charges, built into the odds. Standard US juice is -110 on both sides of a spread bet. The book keeps the vig whether you win or lose.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is Closing Line Value (CLV)?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CLV is the difference between the odds you got and the final price before game time. Consistently getting better prices than the closing line is the gold standard of sharp betting — it means you are beating the market.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a sharp and a square bettor?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A sharp is a sophisticated professional bettor who consistently beats the closing line and shows long-term profit. A square is a casual recreational bettor who typically bets based on popularity, media narrative, or gut feel.",
+      },
+    },
+  ],
+};
+
 export default function GlossaryPage() {
   return (
     <div style={{ maxWidth: 860, margin: "0 auto" }}>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <h1>Sports Betting Glossary</h1>
       <p>
         Every term you&apos;ll encounter at the sportsbook—defined clearly so

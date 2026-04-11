@@ -2,6 +2,7 @@ export const metadata = {
   title: "About PlaceBets.ai",
   description:
     "Learn the mission behind PlaceBets.ai — turning gambling into investing through data, tools, and real-time tournament intelligence.",
+  alternates: { canonical: "https://placebets.ai/about" },
 };
 
 export default function AboutPage() {

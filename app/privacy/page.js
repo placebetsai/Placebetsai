@@ -2,6 +2,7 @@ export const metadata = {
   title: "Privacy Policy – PlaceBets.ai",
   description:
     "Understand how PlaceBets.ai handles analytics, cookies, and contact form data.",
+  alternates: { canonical: "https://placebets.ai/privacy" },
 };
 
 export default function PrivacyPage() {

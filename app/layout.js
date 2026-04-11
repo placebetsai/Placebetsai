@@ -34,9 +34,6 @@ export const metadata = {
       "Tools and analytics for disciplined, data-driven bettors. Not a sportsbook. Not gambling advice.",
     images: ["/og-image.svg"],
   },
-  alternates: {
-    canonical: "https://placebets.ai",
-  },
   icons: {
     icon: { url: "/favicon.svg", type: "image/svg+xml" },
     shortcut: "/favicon.svg",
@@ -140,6 +137,20 @@ export default function RootLayout({ children }) {
                 <a href="/privacy" style={{ color: "#e5e7eb" }}>
                   Privacy
                 </a>
+                <span style={{ opacity: 0.4 }}>•</span>
+                <a href="/responsible-gambling" style={{ color: "#e5e7eb" }}>
+                  Responsible Gambling
+                </a>
+              </div>
+              <div
+                style={{
+                  fontSize: "0.78rem",
+                  color: "#6b7280",
+                  lineHeight: 1.5,
+                  maxWidth: 480,
+                }}
+              >
+                21+ | Gambling Problem? Call 1-800-GAMBLER | Available where legally permitted
               </div>
               <div style={{position:'absolute',left:'-9999px',overflow:'hidden',height:'1px',width:'1px'}}>
                 <div

@@ -2,6 +2,7 @@ export const metadata = {
   title: "Responsible Gambling | PlaceBets.ai",
   description:
     "Responsible gambling information and resources. PlaceBets.ai provides analysis and educational content only.",
+  alternates: { canonical: "https://placebets.ai/responsible-gambling" },
 };
 
 export default function ResponsibleGamblingPage() {
