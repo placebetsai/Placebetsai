@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SportsbookCTA from "../../components/SportsbookCTA";
 
 export default function CalculatorsPage() {
   const [odds, setOdds] = useState("-110");
@@ -257,6 +258,8 @@ export default function CalculatorsPage() {
           </div>
         )}
       </div>
+
+      <SportsbookCTA />
     </div>
   );
 }

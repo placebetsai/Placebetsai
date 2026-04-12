@@ -1,3 +1,5 @@
+import SportsbookCTA from "../../components/SportsbookCTA";
+
 export const metadata = {
   title: "Expected Value (+EV) Betting – The Math That Beats the Sportsbook",
   description:
@@ -204,6 +206,8 @@ export default function EVPage() {
           </li>
         </ul>
       </section>
+
+      <SportsbookCTA />
     </div>
   );
 }

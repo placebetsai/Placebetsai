@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import SportsbookCTA from "../../components/SportsbookCTA";
 
 /* Major 2026 tournaments — hardcoded so page always has real content */
 const MAJOR_EVENTS = [
@@ -448,6 +449,9 @@ export default function TournamentsPage() {
         )}
       </section>
 
+      {/* Sportsbook Affiliate CTA */}
+      <SportsbookCTA />
+
       {/* Bottom CTA */}
       <section className="bottom-cta">
         <h2>Trade the Biggest Events on Kalshi</h2>
@@ -456,7 +460,7 @@ export default function TournamentsPage() {
           Get in early before the lines sharpen.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
+          <a href="https://kalshi.com/sign-up/?utm_source=placebetsai&referral=PENDING" target="_blank" rel="noopener noreferrer" data-affiliate="pending" className="btn btn-primary btn-lg">
             Open Kalshi Markets
           </a>
           <Link href="/" className="btn btn-ghost btn-lg">
