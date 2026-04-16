@@ -68,10 +68,9 @@ export default function KalshiMarkets({ initialMarkets = [], compact = false }) 
           return (
             <a
               key={market.ticker}
-              href={`https://kalshi.com/sign-up/?utm_source=placebetsai&referral=PENDING`}
+              href="https://kalshi.com"
               target="_blank"
               rel="noopener noreferrer"
-              data-affiliate="pending"
               className="market-card"
               style={{ padding: '14px 16px', gap: '8px' }}
             >
@@ -167,10 +166,9 @@ export default function KalshiMarkets({ initialMarkets = [], compact = false }) 
           return (
             <a
               key={market.ticker}
-              href={`https://kalshi.com/sign-up/?utm_source=placebetsai&referral=PENDING`}
+              href="https://kalshi.com"
               target="_blank"
               rel="noopener noreferrer"
-              data-affiliate="pending"
               className="market-card"
             >
               <div>
@@ -231,10 +229,9 @@ export default function KalshiMarkets({ initialMarkets = [], compact = false }) 
 
       <div style={{ textAlign: 'center', marginTop: '28px' }}>
         <a
-          href="https://kalshi.com/sign-up/?utm_source=placebetsai&referral=PENDING"
+          href="https://kalshi.com"
           target="_blank"
           rel="noopener noreferrer"
-          data-affiliate="pending"
           className="btn btn-primary"
           style={{ padding: '16px 48px', fontSize: '1rem' }}
         >

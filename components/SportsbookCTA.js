@@ -4,19 +4,19 @@ const SPORTSBOOKS = [
   {
     name: "DraftKings",
     bonus: "Bet $5, Get $200 in Bonus Bets",
-    href: "https://sportsbook.draftkings.com/?utm_source=placebetsai",
+    href: "https://www.draftkings.com/affiliate-offers",
     color: "#00b94a",
   },
   {
     name: "FanDuel",
     bonus: "Bet $5, Get $150 in Bonus Bets",
-    href: "https://sportsbook.fanduel.com/?utm_source=placebetsai",
+    href: "https://partners.fanduel.com",
     color: "#1493ff",
   },
   {
     name: "BetMGM",
     bonus: "Up to $1,500 First Bet Offer",
-    href: "https://sports.betmgm.com/?utm_source=placebetsai",
+    href: "https://www.betmgmpartners.com",
     color: "#c4a44a",
   },
 ];
@@ -65,7 +65,6 @@ export default function SportsbookCTA() {
             href={book.href}
             target="_blank"
             rel="noopener noreferrer"
-            data-affiliate="pending"
             style={{
               display: "block",
               padding: "18px 20px",
