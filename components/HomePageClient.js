@@ -1,38 +1,55 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Script from "next/script";
-import KalshiMarkets from "./KalshiMarkets";
 import SportsbookCTA from "./SportsbookCTA";
 
 const SITE_URL = "https://placebets.ai";
 
-/* Hardcoded upcoming tournaments for the "Coming Up" sidebar */
 const UPCOMING_EVENTS = [
   { name: "WSOP Main Event 2026", date: "Jun 28 - Jul 16", type: "poker", prize: "$15M GTD", link: "https://www.wsop.com/" },
   { name: "NBA Finals 2026", date: "Jun 5 - Jun 22", type: "sports", prize: "Odds Live", link: "https://kalshi.com/sign-up/?utm_source=placebetsai&referral=PENDING" },
   { name: "FIFA World Cup 2026", date: "Jun 11 - Jul 19", type: "sports", prize: "48 Teams", link: "https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/26" },
   { name: "Valorant Champions 2026", date: "Aug 2 - Aug 24", type: "esports", prize: "$2M Pool", link: "https://valorantesports.com" },
   { name: "US Open (Tennis)", date: "Aug 25 - Sep 7", type: "sports", prize: "$65M", link: "https://www.usopen.org" },
-  { name: "The International (Dota 2)", date: "Oct TBD", type: "esports", prize: "$15M+", link: "https://www.dota2.com/esports" },
 ];
 
-const BADGE_CLASS = {
-  poker: "badge-poker",
-  sports: "badge-sports",
-  esports: "badge-esports",
+const TYPE_COLORS = {
+  poker: { bg: "#7c3aed22", text: "#a78bfa", border: "#7c3aed44" },
+  sports: { bg: "#10b98122", text: "#34d399", border: "#10b98144" },
+  esports: { bg: "#f59e0b22", text: "#fbbf24", border: "#f59e0b44" },
 };
 
-export default function HomePageClient({ initialMarkets = [] }) {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [now, setNow] = useState(new Date());
+/**
+ * Converts a raw Kalshi market title into plain English.
+ * Falls back to the original title if no pattern matches.
+ */
+function humanizeTitle(title) {
+  if (!title) return "Market";
 
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
-  }, []);
+  // "Will X happen?" -> "X to happen"
+  let t = title.replace(/\?$/, "").trim();
+
+  // "Will the NBA..." -> "NBA..."
+  t = t.replace(/^Will\s+(the\s+)?/i, "");
+
+  // Capitalize first letter
+  t = t.charAt(0).toUpperCase() + t.slice(1);
+
+  return t;
+}
+
+/**
+ * Returns a color for the probability bar based on probability value.
+ */
+function probColor(pct) {
+  if (pct >= 70) return "#10b981"; // green - likely
+  if (pct >= 40) return "#f59e0b"; // amber - toss-up
+  return "#ef4444"; // red - unlikely
+}
+
+export default function HomePageClient({ initialMarkets = [] }) {
+  const topPicks = initialMarkets.slice(0, 5);
 
   const jsonLdWebsite = {
     "@context": "https://schema.org",
@@ -40,7 +57,7 @@ export default function HomePageClient({ initialMarkets = [] }) {
     name: "PlaceBets.ai",
     url: SITE_URL,
     description:
-      "Live prediction market data, tournament schedules, and +EV tools for sharp bettors and traders.",
+      "Free sports betting tools, live odds, and expert picks for smart bettors.",
   };
 
   const jsonLdOrg = {
@@ -50,16 +67,6 @@ export default function HomePageClient({ initialMarkets = [] }) {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
   };
-
-  const handleEmailSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  /* Build ticker items from markets */
-  const tickerMarkets = initialMarkets.length > 0
-    ? initialMarkets.slice(0, 10)
-    : [];
 
   return (
     <>
@@ -77,190 +84,476 @@ export default function HomePageClient({ initialMarkets = [] }) {
       />
 
       <div className="page-wrap">
-        {/* HERO */}
-        <section className="hero-section">
-          <div className="hero-badge">LIVE MARKETS OPEN</div>
-          <h1>
-            Real-Time Prediction
-            <br />
-            <span className="highlight">Market Intelligence.</span>
+        {/* ========== HERO ========== */}
+        <section style={{
+          textAlign: "center",
+          padding: "60px 20px 40px",
+          maxWidth: 640,
+          margin: "0 auto",
+        }}>
+          <h1 style={{
+            fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
+            fontWeight: 800,
+            lineHeight: 1.15,
+            marginBottom: 16,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Smart Sports Betting{" "}
+            <span style={{ color: "var(--primary, #6366f1)" }}>Starts Here</span>
           </h1>
-          <p className="hero-subtitle">
-            Live Kalshi prices. Global tournament tracker. Sharp tools.
-            Everything a serious trader needs — free, no signup.
+          <p style={{
+            fontSize: "1.05rem",
+            color: "var(--text-muted, #9ca3af)",
+            lineHeight: 1.6,
+            marginBottom: 28,
+            maxWidth: 480,
+            margin: "0 auto 28px",
+          }}>
+            Free tools to find +EV bets, manage your bankroll, and track the
+            markets that matter. No signup required.
           </p>
-          <div className="hero-ctas">
-            <a href="#markets" className="btn btn-primary btn-lg">
-              View Live Markets
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="#picks" className="btn btn-primary btn-lg" style={{ minWidth: 180 }}>
+              See Today&#39;s Picks
             </a>
-            <Link href="/tournaments" className="btn btn-ghost btn-lg">
-              Tournaments
+            <Link href="/calculators" className="btn btn-ghost btn-lg" style={{ minWidth: 180 }}>
+              Try the EV Calculator
             </Link>
           </div>
         </section>
 
-        {/* LIVE TICKER BAR */}
-        {tickerMarkets.length > 0 && (
-          <div className="ticker-bar">
-            <div className="ticker-track">
-              {/* Duplicate for seamless loop */}
-              {[...tickerMarkets, ...tickerMarkets].map((m, i) => {
-                const yp = m.yesPrice != null ? Math.round(m.yesPrice * 100) : null;
+        {/* ========== TODAY'S PICKS ========== */}
+        <section id="picks" style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
+          <h2 style={{
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            marginBottom: 6,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Today&#39;s Picks
+          </h2>
+          <p style={{
+            fontSize: "0.88rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+          }}>
+            Live odds from prediction markets, updated every 2 minutes.
+          </p>
+
+          {topPicks.length > 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {topPicks.map((m) => {
+                const pct = m.yesPrice != null ? Math.round(m.yesPrice * 100) : null;
+                const color = pct != null ? probColor(pct) : "#6b7280";
                 return (
-                  <div key={`${m.ticker}-${i}`} className="ticker-item">
-                    <span className="ticker-title">{m.title}</span>
-                    <span className={`ticker-price ${yp !== null && yp < 30 ? 'red' : ''}`}>
-                      {yp !== null ? `${yp}\u00a2` : '--'}
-                    </span>
+                  <div
+                    key={m.ticker}
+                    style={{
+                      background: "var(--bg-card, #0f172a)",
+                      border: "1px solid var(--border, #1f2937)",
+                      borderRadius: 12,
+                      padding: "18px 20px",
+                    }}
+                  >
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      gap: 12,
+                      marginBottom: 12,
+                    }}>
+                      <div style={{
+                        fontSize: "0.95rem",
+                        fontWeight: 600,
+                        color: "var(--text-main, #e5e7eb)",
+                        lineHeight: 1.4,
+                        flex: 1,
+                      }}>
+                        {humanizeTitle(m.title)}
+                      </div>
+                      {pct != null && (
+                        <div style={{
+                          fontSize: "1.2rem",
+                          fontWeight: 800,
+                          color: color,
+                          whiteSpace: "nowrap",
+                          minWidth: 56,
+                          textAlign: "right",
+                        }}>
+                          {pct}%
+                        </div>
+                      )}
+                    </div>
+                    {pct != null && (
+                      <div style={{
+                        background: "var(--border, #1f2937)",
+                        borderRadius: 6,
+                        height: 8,
+                        overflow: "hidden",
+                      }}>
+                        <div style={{
+                          width: `${pct}%`,
+                          height: "100%",
+                          background: color,
+                          borderRadius: 6,
+                          transition: "width 0.3s ease",
+                        }} />
+                      </div>
+                    )}
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 8,
+                    }}>
+                      <span style={{
+                        fontSize: "0.75rem",
+                        color: "var(--text-dim, #6b7280)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}>
+                        {m.category || "Sports"}
+                      </span>
+                      {pct != null && (
+                        <span style={{
+                          fontSize: "0.75rem",
+                          color: "var(--text-dim, #6b7280)",
+                        }}>
+                          Yes {pct}% / No {100 - pct}%
+                        </span>
+                      )}
+                    </div>
                   </div>
                 );
               })}
             </div>
-          </div>
-        )}
-
-        {/* DASHBOARD 3-COL GRID */}
-        <div className="dashboard-grid">
-          {/* COL 1: Hot Markets */}
-          <div className="dashboard-col">
-            <div className="section-header">
-              <div className="section-title">
-                <span className="dot"></span>
-                Hot Markets
-              </div>
-              <a href="#markets" className="section-link">View All</a>
-            </div>
-            <KalshiMarkets initialMarkets={initialMarkets} compact />
-          </div>
-
-          {/* COL 2: Coming Up */}
-          <div className="dashboard-col">
-            <div className="section-header">
-              <div className="section-title">
-                <span className="dot" style={{ background: '#fbbf24', boxShadow: '0 0 8px rgba(251,191,36,0.3)' }}></span>
-                Coming Up
-              </div>
-              <Link href="/tournaments" className="section-link">All Events</Link>
-            </div>
-            {UPCOMING_EVENTS.map((ev, i) => (
-              <a
-                key={i}
-                href={ev.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tournament-card"
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                  <span className="tournament-date">{ev.date}</span>
-                  <span className={`tournament-badge ${BADGE_CLASS[ev.type] || 'badge-sports'}`}>
-                    {ev.type}
-                  </span>
-                </div>
-                <div className="tournament-name">{ev.name}</div>
-                <div className="tournament-prize">{ev.prize}</div>
-              </a>
-            ))}
-          </div>
-
-          {/* COL 3: Your Tools */}
-          <div className="dashboard-col">
-            <div className="section-header">
-              <div className="section-title">
-                <span className="dot" style={{ background: '#38bdf8', boxShadow: '0 0 8px rgba(56,189,248,0.3)' }}></span>
-                Your Tools
-              </div>
-            </div>
-            <Link href="/calculators" className="tool-card">
-              <div className="tool-icon">+EV</div>
-              <h3>EV Calculator</h3>
-              <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>Find positive expected value bets. The only math that matters.</p>
-              <span className="card-cta">Open Calculator &rarr;</span>
-            </Link>
-
-            <Link href="/bankroll" className="tool-card">
-              <div className="tool-icon">$</div>
-              <h3>Bankroll Manager</h3>
-              <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>Kelly criterion sizing. Survive variance. Protect capital.</p>
-              <span className="card-cta">Manage Bankroll &rarr;</span>
-            </Link>
-
-            <Link href="/glossary" className="tool-card">
-              <div className="tool-icon">A-Z</div>
-              <h3>Sharp Dictionary</h3>
-              <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>Juice, vig, handle, steam, CLV — learn the language.</p>
-              <span className="card-cta">Learn Terms &rarr;</span>
-            </Link>
-
-            {/* Live clock widget */}
-            <div style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '12px',
-              padding: '16px 20px',
-              textAlign: 'center',
-            }}>
-              <div style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
-                Market Time (ET)
-              </div>
-              <div className="mono" style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary)' }}>
-                {now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* FULL MARKETS SECTION */}
-        <div className="glow-line" />
-        <div id="markets">
-          <KalshiMarkets initialMarkets={initialMarkets} />
-        </div>
-
-        {/* SPORTSBOOK AFFILIATE CTA */}
-        <SportsbookCTA />
-
-        {/* EMAIL CAPTURE */}
-        <section className="email-capture">
-          <h2>Get Tomorrow's +EV Picks Before Markets Open</h2>
-          <p style={{ color: 'var(--text-muted)', maxWidth: 520, margin: '0 auto 20px', fontSize: '0.95rem' }}>
-            Free daily email: top market movers, mispriced lines, and tournament alerts.
-            Join 2,000+ traders who read this before placing a single bet.
-          </p>
-          {submitted ? (
-            <p style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '1.1rem' }}>
-              You're in. Check your inbox tomorrow morning.
-            </p>
           ) : (
-            <form onSubmit={handleEmailSubmit} className="email-form">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="email-input"
-              />
-              <button type="submit" className="btn btn-primary">
-                Get +EV Picks Free
-              </button>
-            </form>
+            <div style={{
+              background: "var(--bg-card, #0f172a)",
+              border: "1px solid var(--border, #1f2937)",
+              borderRadius: 12,
+              padding: "32px 20px",
+              textAlign: "center",
+              color: "var(--text-muted, #9ca3af)",
+              fontSize: "0.95rem",
+            }}>
+              Markets are loading or currently closed. Check back soon, or explore our tools below.
+            </div>
           )}
         </section>
 
-        {/* BOTTOM CTA */}
-        <section className="bottom-cta">
-          <h2>Stop Guessing. Start Trading.</h2>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '24px', maxWidth: '500px', margin: '0 auto 24px' }}>
-            Live markets. Real tournament data. Professional tools. Updated every 60 seconds.
+        {/* ========== TOOLS ========== */}
+        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
+          <h2 style={{
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            marginBottom: 6,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Free Betting Tools
+          </h2>
+          <p style={{
+            fontSize: "0.88rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+          }}>
+            The math behind every smart bet. No account needed.
           </p>
-          <a href="#markets" className="btn btn-primary btn-lg">
-            View All Live Markets
-          </a>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 14,
+          }}>
+            <Link href="/calculators" className="tool-card" style={{
+              display: "block",
+              background: "var(--bg-card, #0f172a)",
+              border: "1px solid var(--border, #1f2937)",
+              borderRadius: 12,
+              padding: "22px 20px",
+              textDecoration: "none",
+              transition: "border-color 0.2s, transform 0.2s",
+            }}>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 10,
+                background: "#6366f122",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                fontWeight: 800,
+                color: "var(--primary, #6366f1)",
+                marginBottom: 12,
+              }}>+EV</div>
+              <h3 style={{
+                fontSize: "1.05rem",
+                fontWeight: 700,
+                color: "var(--text-main, #e5e7eb)",
+                marginBottom: 6,
+              }}>EV Calculator</h3>
+              <p style={{
+                fontSize: "0.85rem",
+                color: "var(--text-muted, #9ca3af)",
+                lineHeight: 1.5,
+                marginBottom: 10,
+              }}>
+                Find positive expected value bets. Enter the odds, your edge, and see if the math works.
+              </p>
+              <span style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "var(--primary, #6366f1)",
+              }}>Open Calculator &rarr;</span>
+            </Link>
+
+            <Link href="/bankroll" className="tool-card" style={{
+              display: "block",
+              background: "var(--bg-card, #0f172a)",
+              border: "1px solid var(--border, #1f2937)",
+              borderRadius: 12,
+              padding: "22px 20px",
+              textDecoration: "none",
+              transition: "border-color 0.2s, transform 0.2s",
+            }}>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 10,
+                background: "#10b98122",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.3rem",
+                fontWeight: 800,
+                color: "#10b981",
+                marginBottom: 12,
+              }}>$</div>
+              <h3 style={{
+                fontSize: "1.05rem",
+                fontWeight: 700,
+                color: "var(--text-main, #e5e7eb)",
+                marginBottom: 6,
+              }}>Bankroll Manager</h3>
+              <p style={{
+                fontSize: "0.85rem",
+                color: "var(--text-muted, #9ca3af)",
+                lineHeight: 1.5,
+                marginBottom: 10,
+              }}>
+                Kelly criterion bet sizing. Know exactly how much to wager on every bet.
+              </p>
+              <span style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "#10b981",
+              }}>Manage Bankroll &rarr;</span>
+            </Link>
+
+            <Link href="/glossary" className="tool-card" style={{
+              display: "block",
+              background: "var(--bg-card, #0f172a)",
+              border: "1px solid var(--border, #1f2937)",
+              borderRadius: 12,
+              padding: "22px 20px",
+              textDecoration: "none",
+              transition: "border-color 0.2s, transform 0.2s",
+            }}>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 10,
+                background: "#f59e0b22",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1rem",
+                fontWeight: 800,
+                color: "#f59e0b",
+                marginBottom: 12,
+              }}>A-Z</div>
+              <h3 style={{
+                fontSize: "1.05rem",
+                fontWeight: 700,
+                color: "var(--text-main, #e5e7eb)",
+                marginBottom: 6,
+              }}>Betting Glossary</h3>
+              <p style={{
+                fontSize: "0.85rem",
+                color: "var(--text-muted, #9ca3af)",
+                lineHeight: 1.5,
+                marginBottom: 10,
+              }}>
+                Juice, vig, handle, steam, CLV -- learn every term the sharps use.
+              </p>
+              <span style={{
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "#f59e0b",
+              }}>Learn Terms &rarr;</span>
+            </Link>
+          </div>
         </section>
 
-        <p style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '40px' }}>
-          Educational content only — not betting or financial advice. 21+ where legal.{' '}
-          <a href="/responsible-gambling" style={{ color: 'var(--text-muted)' }}>Responsible Gambling</a>
-        </p>
+        {/* ========== SPORTSBOOK CTA ========== */}
+        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px" }}>
+          <SportsbookCTA />
+        </section>
+
+        {/* ========== UPCOMING EVENTS ========== */}
+        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
+          <h2 style={{
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            marginBottom: 6,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Upcoming Events
+          </h2>
+          <p style={{
+            fontSize: "0.88rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+          }}>
+            Major events with active betting markets.
+          </p>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 12,
+          }}>
+            {UPCOMING_EVENTS.map((ev, i) => {
+              const colors = TYPE_COLORS[ev.type] || TYPE_COLORS.sports;
+              return (
+                <a
+                  key={i}
+                  href={ev.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    background: "var(--bg-card, #0f172a)",
+                    border: "1px solid var(--border, #1f2937)",
+                    borderRadius: 12,
+                    padding: "18px 20px",
+                    textDecoration: "none",
+                    transition: "border-color 0.2s, transform 0.2s",
+                  }}
+                >
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 8,
+                  }}>
+                    <span style={{
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
+                      color: colors.text,
+                      background: colors.bg,
+                      border: `1px solid ${colors.border}`,
+                      borderRadius: 6,
+                      padding: "3px 8px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}>
+                      {ev.type}
+                    </span>
+                    <span style={{
+                      fontSize: "0.8rem",
+                      color: "var(--text-dim, #6b7280)",
+                    }}>
+                      {ev.date}
+                    </span>
+                  </div>
+                  <div style={{
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    color: "var(--text-main, #e5e7eb)",
+                    marginBottom: 4,
+                  }}>
+                    {ev.name}
+                  </div>
+                  <div style={{
+                    fontSize: "0.82rem",
+                    color: "var(--text-muted, #9ca3af)",
+                  }}>
+                    {ev.prize}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ========== BOTTOM CTA ========== */}
+        <section style={{
+          textAlign: "center",
+          padding: "48px 20px",
+          maxWidth: 540,
+          margin: "0 auto",
+        }}>
+          <h2 style={{
+            fontSize: "1.5rem",
+            fontWeight: 800,
+            color: "var(--text-main, #e5e7eb)",
+            marginBottom: 12,
+          }}>
+            Stop Guessing. Start Winning.
+          </h2>
+          <p style={{
+            color: "var(--text-muted, #9ca3af)",
+            marginBottom: 24,
+            fontSize: "0.95rem",
+            lineHeight: 1.6,
+          }}>
+            Use the same math the sharps use. Our free tools help you find
+            value, size your bets, and protect your bankroll.
+          </p>
+          <Link href="/calculators" className="btn btn-primary btn-lg" style={{ minWidth: 200 }}>
+            Try the EV Calculator
+          </Link>
+        </section>
+
+        {/* ========== FOOTER ========== */}
+        <footer style={{
+          textAlign: "center",
+          padding: "24px 20px 32px",
+          borderTop: "1px solid var(--border, #1f2937)",
+          marginTop: 20,
+        }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 20,
+            flexWrap: "wrap",
+            marginBottom: 16,
+          }}>
+            <Link href="/responsible-gambling" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
+              Responsible Gambling
+            </Link>
+            <Link href="/terms" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
+              Terms
+            </Link>
+            <Link href="/privacy" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
+              Privacy
+            </Link>
+            <Link href="/contact" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
+              Contact
+            </Link>
+          </div>
+          <p style={{
+            fontSize: "0.7rem",
+            color: "var(--text-dim, #6b7280)",
+            lineHeight: 1.6,
+            maxWidth: 480,
+            margin: "0 auto",
+          }}>
+            Educational content only -- not betting or financial advice. 21+ where legal.
+            Gambling Problem? Call 1-800-GAMBLER.
+          </p>
+        </footer>
       </div>
     </>
   );
