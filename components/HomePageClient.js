@@ -113,133 +113,18 @@ export default function HomePageClient({ initialMarkets = [] }) {
             markets that matter. No signup required.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="#picks" className="btn btn-primary btn-lg" style={{ minWidth: 180 }}>
-              See Today&#39;s Picks
-            </a>
-            <Link href="/calculators" className="btn btn-ghost btn-lg" style={{ minWidth: 180 }}>
+            <Link href="/calculators" className="btn btn-primary btn-lg" style={{ minWidth: 200 }}>
               Try the EV Calculator
+            </Link>
+            <Link href="/bankroll" className="btn btn-ghost btn-lg" style={{ minWidth: 200 }}>
+              Manage Your Bankroll
             </Link>
           </div>
         </section>
 
-        {/* ========== TODAY'S PICKS ========== */}
-        <section id="picks" style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
-          <h2 style={{
-            fontSize: "1.3rem",
-            fontWeight: 700,
-            marginBottom: 6,
-            color: "var(--text-main, #e5e7eb)",
-          }}>
-            Today&#39;s Picks
-          </h2>
-          <p style={{
-            fontSize: "0.88rem",
-            color: "var(--text-dim, #6b7280)",
-            marginBottom: 20,
-          }}>
-            Live odds from prediction markets, updated every 2 minutes.
-          </p>
-
-          {topPicks.length > 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {topPicks.map((m) => {
-                const pct = m.yesPrice != null ? Math.round(m.yesPrice * 100) : null;
-                const color = pct != null ? probColor(pct) : "#6b7280";
-                return (
-                  <div
-                    key={m.ticker}
-                    style={{
-                      background: "var(--bg-card, #0f172a)",
-                      border: "1px solid var(--border, #1f2937)",
-                      borderRadius: 12,
-                      padding: "18px 20px",
-                    }}
-                  >
-                    <div style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      gap: 12,
-                      marginBottom: 12,
-                    }}>
-                      <div style={{
-                        fontSize: "0.95rem",
-                        fontWeight: 600,
-                        color: "var(--text-main, #e5e7eb)",
-                        lineHeight: 1.4,
-                        flex: 1,
-                      }}>
-                        {humanizeTitle(m.title)}
-                      </div>
-                      {pct != null && (
-                        <div style={{
-                          fontSize: "1.2rem",
-                          fontWeight: 800,
-                          color: color,
-                          whiteSpace: "nowrap",
-                          minWidth: 56,
-                          textAlign: "right",
-                        }}>
-                          {pct}%
-                        </div>
-                      )}
-                    </div>
-                    {pct != null && (
-                      <div style={{
-                        background: "var(--border, #1f2937)",
-                        borderRadius: 6,
-                        height: 8,
-                        overflow: "hidden",
-                      }}>
-                        <div style={{
-                          width: `${pct}%`,
-                          height: "100%",
-                          background: color,
-                          borderRadius: 6,
-                          transition: "width 0.3s ease",
-                        }} />
-                      </div>
-                    )}
-                    <div style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: 8,
-                    }}>
-                      <span style={{
-                        fontSize: "0.75rem",
-                        color: "var(--text-dim, #6b7280)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                      }}>
-                        {m.category || "Sports"}
-                      </span>
-                      {pct != null && (
-                        <span style={{
-                          fontSize: "0.75rem",
-                          color: "var(--text-dim, #6b7280)",
-                        }}>
-                          Yes {pct}% / No {100 - pct}%
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div style={{
-              background: "var(--bg-card, #0f172a)",
-              border: "1px solid var(--border, #1f2937)",
-              borderRadius: 12,
-              padding: "32px 20px",
-              textAlign: "center",
-              color: "var(--text-muted, #9ca3af)",
-              fontSize: "0.95rem",
-            }}>
-              Markets are loading or currently closed. Check back soon, or explore our tools below.
-            </div>
-          )}
-        </section>
+        {/* Picks section removed — Kalshi API returns compound multi-market
+            strings that render as jumbled garbage. Tools are the real product
+            until we have a clean single-market data source. */}
 
         {/* ========== TOOLS ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
