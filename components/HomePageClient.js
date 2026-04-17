@@ -122,9 +122,107 @@ export default function HomePageClient({ initialMarkets = [] }) {
           </div>
         </section>
 
-        {/* Picks section removed — Kalshi API returns compound multi-market
-            strings that render as jumbled garbage. Tools are the real product
-            until we have a clean single-market data source. */}
+        {/* ========== STATS BAR ========== */}
+        <section style={{
+          maxWidth: 700,
+          margin: "0 auto",
+          padding: "0 16px 40px",
+        }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 14,
+          }}>
+            {[
+              { top: "100% Free", bottom: "No account needed" },
+              { top: "3 Pro Tools", bottom: "EV, Bankroll, Glossary" },
+              { top: "Updated Daily", bottom: "Live market data" },
+            ].map((stat, i) => (
+              <div key={i} style={{
+                background: "var(--bg-card, #0f172a)",
+                border: "1px solid var(--border, #1f2937)",
+                borderRadius: 12,
+                padding: "20px 16px",
+                textAlign: "center",
+              }}>
+                <div style={{
+                  fontSize: "1.3rem",
+                  fontWeight: 800,
+                  color: "var(--primary, #6366f1)",
+                  marginBottom: 4,
+                }}>{stat.top}</div>
+                <div style={{
+                  fontSize: "0.82rem",
+                  color: "var(--text-muted, #9ca3af)",
+                }}>{stat.bottom}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ========== HOW IT WORKS ========== */}
+        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
+          <h2 style={{
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            marginBottom: 6,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            How It Works
+          </h2>
+          <p style={{
+            fontSize: "0.88rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+          }}>
+            Three steps to smarter betting.
+          </p>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 14,
+          }}>
+            {[
+              { num: "1", title: "Find Value", desc: "Use our EV calculator to identify bets where the odds are in your favor" },
+              { num: "2", title: "Size Your Bets", desc: "Apply Kelly Criterion through our bankroll manager to optimize bet sizing" },
+              { num: "3", title: "Track Results", desc: "Monitor your betting performance and adjust your strategy" },
+            ].map((step, i) => (
+              <div key={i} style={{
+                background: "var(--bg-card, #0f172a)",
+                border: "1px solid var(--border, #1f2937)",
+                borderRadius: 12,
+                padding: "22px 20px",
+              }}>
+                <div style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 10,
+                  background: "#6366f122",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.2rem",
+                  fontWeight: 800,
+                  color: "var(--primary, #6366f1)",
+                  marginBottom: 12,
+                }}>{step.num}</div>
+                <h3 style={{
+                  fontSize: "1.05rem",
+                  fontWeight: 700,
+                  color: "var(--text-main, #e5e7eb)",
+                  marginBottom: 6,
+                }}>{step.title}</h3>
+                <p style={{
+                  fontSize: "0.85rem",
+                  color: "var(--text-muted, #9ca3af)",
+                  lineHeight: 1.5,
+                  margin: 0,
+                }}>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ========== TOOLS ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
@@ -283,6 +381,61 @@ export default function HomePageClient({ initialMarkets = [] }) {
         {/* ========== SPORTSBOOK CTA ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px" }}>
           <SportsbookCTA />
+        </section>
+
+        {/* ========== SPORTS BETTING 101 ========== */}
+        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
+          <h2 style={{
+            fontSize: "1.3rem",
+            fontWeight: 700,
+            marginBottom: 6,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Sports Betting 101
+          </h2>
+          <p style={{
+            fontSize: "0.88rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+          }}>
+            Learn the fundamentals before you place a bet.
+          </p>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 14,
+          }}>
+            {[
+              { title: "What is Expected Value?", desc: "Understand why EV is the single most important concept in profitable sports betting.", href: "/ev-betting" },
+              { title: "Kelly Criterion Explained", desc: "The mathematical formula that tells you exactly how much to wager on each bet.", href: "/bankroll" },
+              { title: "Reading Betting Odds", desc: "American, decimal, and fractional odds demystified. Convert between formats instantly.", href: "/glossary" },
+              { title: "Bankroll Management Tips", desc: "Protect your money with proven strategies used by professional bettors.", href: "/bankroll" },
+            ].map((card, i) => (
+              <Link key={i} href={card.href} style={{
+                display: "block",
+                background: "var(--bg-card, #0f172a)",
+                border: "1px solid var(--border, #1f2937)",
+                borderRadius: 12,
+                padding: "20px 20px",
+                textDecoration: "none",
+                transition: "border-color 0.2s, transform 0.2s",
+              }}>
+                <h3 style={{
+                  fontSize: "1rem",
+                  fontWeight: 700,
+                  color: "var(--text-main, #e5e7eb)",
+                  marginBottom: 6,
+                }}>{card.title}</h3>
+                <p style={{
+                  fontSize: "0.85rem",
+                  color: "var(--text-muted, #9ca3af)",
+                  lineHeight: 1.5,
+                  margin: 0,
+                }}>{card.desc}</p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         {/* ========== UPCOMING EVENTS ========== */}
