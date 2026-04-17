@@ -9,10 +9,10 @@
   --bg-dark: #06080d;
   --bg-surface: #0a0e17;
   --bg-card: #0d1220;
-  --primary: #00e676;
-  --primary-dim: #00c853;
-  --primary-glow: rgba(0, 230, 118, 0.25);
-  --primary-glow-strong: rgba(0, 230, 118, 0.45);
+  --primary: #34d399;
+  --primary-dim: #2bc48a;
+  --primary-glow: rgba(52, 211, 153, 0.15);
+  --primary-glow-strong: rgba(52, 211, 153, 0.25);
   --red: #ff3d57;
   --red-glow: rgba(255, 61, 87, 0.25);
   --accent: #38bdf8;
@@ -43,7 +43,7 @@ body {
 body {
   background: var(--bg-dark);
   background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0, 230, 118, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(52, 211, 153, 0.03) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 80% 50%, rgba(56, 189, 248, 0.02) 0%, transparent 50%),
     linear-gradient(180deg, #06080d 0%, #040610 50%, #06080d 100%);
   color: var(--text-main);
@@ -109,10 +109,10 @@ body {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  background: rgba(0, 230, 118, 0.08);
+  background: rgba(52, 211, 153, 0.06);
   color: var(--primary);
   margin-bottom: 20px;
-  border: 1px solid rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.12);
 }
 
 .hero-badge::before {
@@ -125,8 +125,8 @@ body {
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.5); }
-  50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(0, 230, 118, 0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.35); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(52, 211, 153, 0); }
 }
 
 .hero-subtitle {
@@ -168,7 +168,7 @@ body {
 .ticker-track {
   display: flex;
   gap: 0;
-  animation: ticker-scroll 30s linear infinite;
+  animation: ticker-scroll 50s linear infinite;
   width: max-content;
 }
 
@@ -273,9 +273,9 @@ body {
   margin-top: 48px;
   padding: 48px 32px;
   border-radius: 16px;
-  border: 1px solid rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.12);
   background:
-    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0, 230, 118, 0.06), transparent),
+    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(52, 211, 153, 0.04), transparent),
     var(--bg-card);
   position: relative;
   overflow: hidden;
@@ -357,8 +357,8 @@ body {
 }
 
 .market-card:hover {
-  border-color: rgba(0, 230, 118, 0.3);
-  box-shadow: 0 4px 24px rgba(0, 230, 118, 0.08), 0 0 0 1px rgba(0, 230, 118, 0.1);
+  border-color: rgba(52, 211, 153, 0.2);
+  box-shadow: 0 4px 24px rgba(52, 211, 153, 0.05), 0 0 0 1px rgba(52, 211, 153, 0.08);
   transform: translateY(-2px);
 }
 
@@ -387,7 +387,8 @@ body {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
+  padding: 4px 0;
 }
 
 .market-yes-price {
@@ -396,7 +397,7 @@ body {
   font-size: 2rem;
   line-height: 1;
   color: var(--primary);
-  text-shadow: 0 0 20px var(--primary-glow);
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.1);
 }
 
 .market-no-price {
@@ -407,22 +408,23 @@ body {
 }
 
 .market-bar-container {
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.04);
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
   overflow: hidden;
   display: flex;
+  margin-top: 4px;
 }
 
 .market-bar-yes {
   background: linear-gradient(90deg, var(--primary-dim), var(--primary));
-  border-radius: 3px 0 0 3px;
+  border-radius: 4px 0 0 4px;
   transition: width 0.5s ease;
 }
 
 .market-bar-no {
   background: linear-gradient(90deg, var(--red), #cc2d45);
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 4px 4px 0;
   transition: width 0.5s ease;
 }
 
@@ -526,7 +528,7 @@ body {
 .badge-poker { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
 .badge-sports { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
 .badge-esports { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-.badge-live { background: rgba(0, 230, 118, 0.15); color: var(--primary); }
+.badge-live { background: rgba(52, 211, 153, 0.1); color: var(--primary); }
 
 /* ============================
    TOOL CARDS
@@ -609,7 +611,7 @@ body {
 .news-track {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll 20s linear infinite;
+  animation: scroll 40s linear infinite;
 }
 
 .news-item {
@@ -669,7 +671,7 @@ p {
 
 .highlight {
   color: var(--primary);
-  text-shadow: 0 0 30px var(--primary-glow);
+  text-shadow: 0 0 20px rgba(52, 211, 153, 0.1);
 }
 
 a {
@@ -876,14 +878,14 @@ a {
 }
 
 .card:hover {
-  border-color: rgba(0, 230, 118, 0.2);
+  border-color: rgba(52, 211, 153, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 230, 118, 0.06);
+  box-shadow: 0 4px 20px rgba(52, 211, 153, 0.04);
 }
 
 @keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(0, 230, 118, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
 }
 .pulse-live { animation: pulse-green 2s ease-in-out infinite; }
 
@@ -922,7 +924,7 @@ a {
 }
 
 .pill.green {
-  background: rgba(0, 230, 118, 0.1);
+  background: rgba(52, 211, 153, 0.08);
   color: var(--primary);
 }
 
@@ -1015,7 +1017,7 @@ a {
 .glow-line {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  opacity: 0.3;
+  opacity: 0.2;
   margin: 40px 0;
 }
 

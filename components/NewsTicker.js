@@ -51,7 +51,7 @@ export default function NewsTicker() {
             <span key={`${item.id}-${idx}`} className="news-item">
               <span
                 style={{
-                  color: "#00e676",
+                  color: "#34d399",
                   marginRight: "8px",
                   fontSize: "1rem",
                 }}
