@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-const KALSHI_API = "https://api.elections.kalshi.com/trade-api/v2";
+const KALSHI_API = "https://trading-api.kalshi.com/trade-api/v2";
 
 // Sports-related keywords to filter markets
 const SPORTS_KEYWORDS = [
@@ -93,19 +93,26 @@ export async function GET() {
     // Filter to sports-related markets
     const sportsMarkets = allMarkets.filter(isSportsRelated);
 
-    // Format the response
-    const formatted = sportsMarkets.slice(0, 20).map((m) => ({
-      ticker: m.ticker,
-      title: m.title || m.subtitle || "Untitled Market",
-      category: m.category || "Sports",
-      yesPrice: m.yes_ask != null ? m.yes_ask / 100 : (m.last_price != null ? m.last_price / 100 : null),
-      noPrice: m.no_ask != null ? m.no_ask / 100 : (m.last_price != null ? (100 - m.last_price) / 100 : null),
-      volume: m.volume || m.open_interest || 0,
-      closeDate: m.close_time || m.expiration_time || null,
-    }));
+    // Format the response — Kalshi v2 prices are cents (0-100)
+    const formatted = sportsMarkets.slice(0, 20).map((m) => {
+      // Try multiple field names for yes price (cents)
+      const yesCents = m.yes_price ?? m.yes_ask ?? m.last_price ?? null;
+      const noCents = m.no_price ?? m.no_ask ?? (yesCents != null ? 100 - yesCents : null);
 
-    // If no sports markets found, return fallbacks
-    if (formatted.length === 0) {
+      return {
+        ticker: m.ticker,
+        title: m.title || m.subtitle || "Untitled Market",
+        category: m.category || "Sports",
+        yesPrice: yesCents != null ? yesCents / 100 : null,
+        noPrice: noCents != null ? noCents / 100 : null,
+        volume: m.volume || m.open_interest || 0,
+        closeDate: m.close_time || m.expiration_time || null,
+      };
+    });
+
+    // If no sports markets found or all prices are null, return fallbacks
+    const hasRealData = formatted.length > 0 && formatted.some((m) => m.yesPrice != null && m.volume > 0);
+    if (!hasRealData) {
       return NextResponse.json({ markets: FALLBACK_MARKETS });
     }
 
