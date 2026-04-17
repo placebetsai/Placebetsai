@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/tournaments", label: "Tournaments" },
   { href: "/ev-betting", label: "Strategy" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
