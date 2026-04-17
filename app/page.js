@@ -3,11 +3,11 @@ import HomePageClient from "../components/HomePageClient";
 const SITE_URL = "https://placebets.ai";
 
 export const metadata = {
-  title: "PlaceBets.ai - Live Sports Prediction Markets & Betting Tools",
+  title: "PlaceBets.ai — Live Prediction Markets & EV Tools",
   description:
     "Live prediction market data from Kalshi, +EV calculators, bankroll management tools, and real-time tournament info. The professional sports betting toolkit.",
   openGraph: {
-    title: "PlaceBets.ai - Live Sports Prediction Markets & Betting Tools",
+    title: "PlaceBets.ai — Live Prediction Markets & EV Tools",
     description:
       "Real-time prediction market prices, +EV calculators, bankroll tools, and live tournament data for sharp sports bettors.",
     url: SITE_URL,
@@ -17,7 +17,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlaceBets.ai - Live Sports Prediction Markets & Betting Tools",
+    title: "PlaceBets.ai — Live Prediction Markets & EV Tools",
     description:
       "Real-time prediction market prices, +EV calculators, bankroll tools, and live tournament data for sharp sports bettors.",
   },
