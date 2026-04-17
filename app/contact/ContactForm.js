@@ -117,5 +117,25 @@ export default function ContactForm() {
         Send Message
       </button>
     </form>
+
+    <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+      <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '12px' }}>Or email us directly:</p>
+      <a
+        href="mailto:info@placebets.ai"
+        style={{
+          display: 'inline-block',
+          padding: '14px 32px',
+          backgroundColor: '#1e293b',
+          color: '#34d399',
+          fontWeight: 700,
+          fontSize: '16px',
+          borderRadius: '12px',
+          border: '1px solid #334155',
+          textDecoration: 'none',
+        }}
+      >
+        info@placebets.ai
+      </a>
+    </div>
   );
 }
