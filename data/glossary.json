@@ -1,0 +1,850 @@
+{
+  "generated_at": "2026-04-19T16:30:06.524Z",
+  "categories": [
+    {
+      "id": "sports-betting",
+      "label": "Sports Betting",
+      "count": 40,
+      "examples": "ATS, CLV, EV, handle, juice, ladder, line movement, parlay, teaser, reverse-line-movement, middle, sharp, steam, take a number, vig",
+      "terms": [
+        {
+          "term": "Against The Spread (ATS)",
+          "definition": "Refers to a team's record when betting against the point spread, rather than just their win-loss record. It's a key metric for evaluating handicapping success.",
+          "example": "The underdog finished the season 10-5 ATS, meaning bettors who backed them with the points were profitable."
+        },
+        {
+          "term": "Arbitrage Betting",
+          "definition": "A strategy that guarantees a profit by exploiting differences in odds offered by different bookmakers on the same event. It involves placing bets on all possible outcomes to ensure a return regardless of the result.",
+          "example": "By finding favorable odds on both sides of a tennis match across two different sportsbooks, the bettor executed an arbitrage to lock in a small, risk-free profit."
+        },
+        {
+          "term": "Bankroll Management",
+          "definition": "The practice of setting aside a specific amount of money for sports betting and adhering to strict rules about how much to wager on each bet. This is crucial for long-term sustainability and avoiding catastrophic losses.",
+          "example": "With a $1,000 bankroll, the bettor decided to use a 1% unit system, risking no more than $10 on any single wager."
+        },
+        {
+          "term": "Beating the Closing Line",
+          "definition": "The act of placing a bet at odds that are better than the final odds offered by the sportsbook before the event begins. Consistently achieving this is a hallmark of a skilled bettor.",
+          "example": "The sharp bettor was able to get the Patriots at -3.5 when the closing line was -5.5, successfully beating the closing line."
+        },
+        {
+          "term": "Bookmaker",
+          "definition": "An individual or organization that accepts bets on sporting events and pays out winnings. They set the odds and manage the risk of their betting operations.",
+          "example": "The local bookmaker adjusted the odds on the championship game after a significant influx of money on one team."
+        },
+        {
+          "term": "Chalk",
+          "definition": "The favorite in a betting market. It refers to the team or player that is most likely to win according to the oddsmakers.",
+          "example": "Most bettors were on the chalk in the Super Bowl, expecting the heavily favored team to cover the spread."
+        },
+        {
+          "term": "Circled Game",
+          "definition": "A game where the sportsbook has limited the maximum bet allowed, often due to uncertainty about key player injuries or other factors that could significantly impact the outcome.",
+          "example": "Due to the star quarterback's questionable status, the sportsbook circled the upcoming game, capping all wagers at $500."
+        },
+        {
+          "term": "Closing Line Value (CLV)",
+          "definition": "The difference between the odds at which a bet was placed and the closing odds of the same market. Positive CLV indicates a bettor got better odds than the market ultimately settled on.",
+          "example": "The bettor's success was evident in their consistent ability to find CLV, often getting lines that moved favorably by the time the game started."
+        },
+        {
+          "term": "Contrarian Betting",
+          "definition": "A betting strategy that involves taking the opposite side of the public's opinion or the majority of bets. This approach assumes the public is often wrong.",
+          "example": "The bettor employed a contrarian strategy, backing the underdog despite 80% of the public money being on the favorite."
+        },
+        {
+          "term": "Correlation",
+          "definition": "The statistical relationship between two or more events. In betting, correlated outcomes can be combined in parlays to increase potential payouts, but also risk.",
+          "example": "Betting on a team to win and their star player to score the first touchdown is a correlated wager."
+        },
+        {
+          "term": "Cover",
+          "definition": "When a team wins by more than the point spread (if they were the favorite) or loses by less than the point spread (if they were the underdog).",
+          "example": "The Lakers covered the spread with a dominant second-half performance, winning by 10 points against a 7-point spread."
+        },
+        {
+          "term": "Derivative Bet",
+          "definition": "A bet that is based on a specific aspect of an event rather than the final outcome. These can include player props, team stats, or in-game occurrences.",
+          "example": "A derivative bet on the number of three-pointers made by a specific player in the NBA game was available."
+        },
+        {
+          "term": "Dime Line",
+          "definition": "A type of odds structure, particularly in baseball, where the moneyline for both sides is set at -110. This is a common offering from many sportsbooks.",
+          "example": "The baseball bettor preferred sportsbooks that offered a dime line, as it reduced the vig on their straight bets."
+        },
+        {
+          "term": "Dog",
+          "definition": "The underdog in a betting market; the team or player considered less likely to win.",
+          "example": "The betting public often overlooks the dog, but this handicapper found value in their recent form."
+        },
+        {
+          "term": "Draw (or Tie)",
+          "definition": "A result where neither side wins. In some sports, a draw is a possible outcome that can be bet on directly; in others, it results in a push on spread bets.",
+          "example": "The soccer match ended in a 1-1 draw, resulting in a push for bettors who wagered on either team to win."
+        },
+        {
+          "term": "Edge",
+          "definition": "A perceived advantage a bettor has over the sportsbook, based on superior analysis, information, or understanding of probabilities.",
+          "example": "The bettor believed they had an edge on the upcoming boxing match due to a detailed analysis of the fighters' recent performances."
+        },
+        {
+          "term": "Even Money",
+          "definition": "A bet where the payout is 1-to-1. If you bet $100, you win $100.",
+          "example": "The coin flip bet offered even money, meaning a successful wager would double the initial stake."
+        },
+        {
+          "term": "Expected Value (EV)",
+          "definition": "The long-term average outcome of a bet if it were repeated an infinite number of times. Positive EV indicates a bet that is expected to be profitable over time.",
+          "example": "The bettor calculated the EV of the proposition bet and found it to be slightly negative, advising against placing it."
+        },
+        {
+          "term": "Exposure",
+          "definition": "The total amount of money a sportsbook stands to lose on a particular event or outcome. High exposure on one side can lead to odds adjustments.",
+          "example": "The sportsbook had significant exposure on the home team to win, prompting them to lower their moneyline odds."
+        },
+        {
+          "term": "Favorite",
+          "definition": "The team or player that is expected to win an event, indicated by having lower odds (or a higher point spread for the opponent).",
+          "example": "The favorite was priced at -200 on the moneyline, reflecting their strong probability of winning."
+        },
+        {
+          "term": "Futures Bet",
+          "definition": "A bet placed on an event that will occur in the distant future, such as the winner of a league championship or a major tournament before it begins.",
+          "example": "The bettor placed a futures bet on the Lakers to win the NBA championship at the start of the season."
+        },
+        {
+          "term": "Handle",
+          "definition": "The total amount of money wagered on a particular event or across all events at a sportsbook.",
+          "example": "The Super Bowl generated a record handle for the state's sports betting operators."
+        },
+        {
+          "term": "Hedging",
+          "definition": "Placing a bet on an outcome that is opposite to a previously made bet, in order to limit potential losses or guarantee a profit. This is often done when a bettor's original wager is in danger.",
+          "example": "With their original parlay in jeopardy, the bettor hedged by placing a straight bet on the opposing team to win."
+        },
+        {
+          "term": "In-Play Betting",
+          "definition": "Betting on an event that is currently in progress. Odds change dynamically based on the live action.",
+          "example": "The bettor decided to place an in-play wager on the over after witnessing a flurry of early scoring in the basketball game."
+        },
+        {
+          "term": "Juice (or Vig)",
+          "definition": "The commission or fee charged by the sportsbook on each bet. It's the built-in profit margin for the bookmaker.",
+          "example": "The standard juice on point spread bets is -110, meaning a bettor must wager $110 to win $100."
+        },
+        {
+          "term": "Laddering",
+          "definition": "A strategy where a bettor places multiple bets on the same event at progressively higher odds or outcomes. This is often used in prop betting to capture larger payouts if a specific sequence of events occurs.",
+          "example": "The bettor was laddering the quarterback's passing yards, placing bets on 250+, 300+, and 350+ yards."
+        },
+        {
+          "term": "Line Movement",
+          "definition": "The fluctuation of odds or point spreads offered by sportsbooks. This movement is driven by betting volume, news, injuries, and other factors.",
+          "example": "The line movement on the college football game shifted from -7 to -9.5 as more money came in on the favored team."
+        },
+        {
+          "term": "Middle",
+          "definition": "A situation where a bettor profits from two opposing bets placed at different point spreads or totals. This occurs when the final score falls between the two numbers.",
+          "example": "The bettor successfully hit a middle by betting on the over 210 and the under 215, and the game finished with 212 points."
+        },
+        {
+          "term": "Moneyline",
+          "definition": "A type of bet where you wager on which team or individual will win an event outright, without regard to a point spread. Odds are expressed with a plus (+) for underdogs and a minus (-) for favorites.",
+          "example": "The bettor placed a moneyline wager on the underdog at +180, meaning a $100 bet would win $180."
+        },
+        {
+          "term": "Parlay",
+          "definition": "A bet that links together two or more individual bets. All selections in the parlay must win for the bet to pay out; if even one selection loses, the entire parlay loses.",
+          "example": "The bettor placed a four-team parlay, hoping all four teams would cover their respective spreads for a significant payout."
+        },
+        {
+          "term": "Pick'em",
+          "definition": "A game where there is no point spread or moneyline favorite; both teams are considered equal. The odds are typically close to even money.",
+          "example": "The matchup was a pick'em, with both teams listed at -110 on the moneyline."
+        },
+        {
+          "term": "Point Spread",
+          "definition": "A handicap given to the underdog in a game to equalize betting interest. The favorite must win by more than the spread, while the underdog can lose by less than the spread (or win outright) to cover.",
+          "example": "The betting line for the NFL game was set at -3.5 for the home team, meaning they had to win by four or more points to cover."
+        },
+        {
+          "term": "Prop Bet",
+          "definition": "A proposition bet, which is a wager on an event or outcome that is not directly related to the final score or winner of a game. These can include player statistics or specific game occurrences.",
+          "example": "A popular prop bet for the Super Bowl was whether the coin toss would be heads or tails."
+        },
+        {
+          "term": "Reverse Line Movement",
+          "definition": "When the betting line moves in the opposite direction of the majority of the money wagered. This often indicates sharp money is influencing the odds.",
+          "example": "Despite 70% of the public betting on the home team, the line moved from -5 to -3, signaling reverse line movement."
+        },
+        {
+          "term": "Round Robin",
+          "definition": "A series of parlays created from a larger group of teams or selections. Instead of betting all selections in one parlay, a round robin allows for smaller parlays of two or three selections at a time.",
+          "example": "The bettor placed a round robin on five teams, creating all possible three-team parlays to mitigate risk."
+        },
+        {
+          "term": "Sharp",
+          "definition": "A professional or highly skilled sports bettor who consistently makes profitable wagers. Sportsbooks often monitor the betting patterns of sharps.",
+          "example": "The sportsbook adjusted their odds after noticing a significant wager from a known sharp on the underdog."
+        },
+        {
+          "term": "Steam",
+          "definition": "A sudden and significant movement in betting odds across multiple sportsbooks, often indicating a large bet or a coordinated group of bettors acting on insider information or a strong conviction.",
+          "example": "A steam move on the over in the late game caused the total to jump three points in a matter of minutes."
+        },
+        {
+          "term": "Teaser",
+          "definition": "A type of parlay bet where the bettor can adjust the point spread or total in their favor for multiple games, but at the cost of a lower payout.",
+          "example": "The bettor used a 6-point teaser to move the spread on two NFL games, making it easier to win both legs."
+        },
+        {
+          "term": "Total (Over/Under)",
+          "definition": "A bet on the combined score of both teams in a game. Bettors wager on whether the total score will be over or under a predetermined number set by the sportsbook.",
+          "example": "The total for the basketball game was set at 225.5, and the bettor wagered on the under."
+        },
+        {
+          "term": "Underdog",
+          "definition": "The team or individual considered less likely to win an event, indicated by having higher odds (or receiving a point spread).",
+          "example": "The underdog pulled off a major upset, winning the game outright as a +250 moneyline bet."
+        },
+        {
+          "term": "Unit",
+          "definition": "A standardized measure of a bettor's confidence or risk, typically representing a fixed percentage of their bankroll. This is a core component of bankroll management.",
+          "example": "The bettor considered this a 2-unit play, indicating a higher level of confidence than their standard 1-unit wagers."
+        },
+        {
+          "term": "Value Bet",
+          "definition": "A bet where the odds offered by the sportsbook are perceived to be higher than the true probability of the outcome occurring. Identifying value is central to profitable sports betting.",
+          "example": "The bettor found significant value in the underdog's moneyline, believing their true odds of winning were better than what was offered."
+        }
+      ]
+    },
+    {
+      "id": "poker",
+      "label": "Poker",
+      "count": 35,
+      "examples": "GTO, ICM, 3-bet, check-raise, cutoff, donk bet, equity, fold equity, freeroll, heads-up, ICM pressure, implied odds, nit, overpair, rake, range, river, turn, under the gun, value bet",
+      "terms": [
+        {
+          "term": "3-bet",
+          "definition": "The third bet made in a pre-flop betting round, typically a re-raise after an initial raise and a caller. It's a common way to isolate opponents or build a pot with a strong hand.",
+          "example": "After the initial raiser made it 10 big blinds, Sarah decided to 3-bet to 30 big blinds from the button."
+        },
+        {
+          "term": "Action Bet",
+          "definition": "A bet made with a weak hand, often as a bluff or to represent strength, with the intention of forcing opponents to fold. These bets are usually made when a player feels they are behind but wants to take control of the pot.",
+          "example": "He made an action bet on the river, hoping to scare his opponent off a better hand."
+        },
+        {
+          "term": "All-In",
+          "definition": "When a player bets all of their remaining chips. This can be done voluntarily or involuntarily if they are forced to call a bet that exceeds their remaining stack.",
+          "example": "With only 500 chips left, she pushed all-in on the flop."
+        },
+        {
+          "term": "Bad Beat",
+          "definition": "A situation where a player with a statistically strong hand loses to an opponent who makes a weaker hand on the later streets. This often involves a significant swing in equity.",
+          "example": "He had pocket aces, but the board paired twice and his opponent hit a full house for a brutal bad beat."
+        },
+        {
+          "term": "Bankroll",
+          "definition": "The total amount of money a player has set aside specifically for playing poker. Proper bankroll management is crucial for long-term success and to withstand variance.",
+          "example": "He decided to move down in stakes because his bankroll had dwindled to under $500."
+        },
+        {
+          "term": "Bluff",
+          "definition": "A bet or raise made with a hand that is unlikely to be the best, with the intention of making opponents fold. Successful bluffs rely on reading opponents and exploiting their tendencies.",
+          "example": "He tried a large bluff on the turn, but his opponent called with a strong pair."
+        },
+        {
+          "term": "Board",
+          "definition": "The community cards dealt face-up on the table that all players can use to form their best five-card hand. This includes the flop, turn, and river.",
+          "example": "The board ran out Ace-King-Queen-Jack-Ten, giving him a royal flush."
+        },
+        {
+          "term": "Button",
+          "definition": "The dealer position in a game of poker, indicated by a disc. The player on the button acts last in every betting round, giving them a significant positional advantage.",
+          "example": "He was on the button and raised with a wide range of hands."
+        },
+        {
+          "term": "Call",
+          "definition": "To match the amount of the previous bet or raise. A call is made when a player believes their hand is strong enough to continue in the pot but not strong enough to raise.",
+          "example": "After the bet, he paused for a moment before announcing 'call'."
+        },
+        {
+          "term": "Check",
+          "definition": "To forgo betting when it is your turn, but to remain in the hand. This is only possible if no bet has been made before you in the current betting round.",
+          "example": "He checked his option on the flop, hoping to see what his opponent would do."
+        },
+        {
+          "term": "Check-Raise",
+          "definition": "A play where a player first checks and then raises after an opponent bets. This is often used to represent weakness initially and then trap opponents with a strong hand.",
+          "example": "She checked the turn, and when her opponent bet, she executed a powerful check-raise."
+        },
+        {
+          "term": "Chop",
+          "definition": "An agreement between players to split the pot, usually when the action is heads-up and the players agree that neither hand is likely to win. This is more common in cash games than tournaments.",
+          "example": "They agreed to a chop of the pot after a few minutes of discussion."
+        },
+        {
+          "term": "Cutoff",
+          "definition": "The position immediately to the right of the button. Players in the cutoff have a strong positional advantage as they act before the button but after most other players.",
+          "example": "He raised from the cutoff, knowing he would have position on most players if called."
+        },
+        {
+          "term": "Donk Bet",
+          "definition": "A bet made by a player who was not the aggressor in the previous betting round, often into a player who was. This bet is typically seen as a sign of weakness or a poorly played hand.",
+          "example": "He was surprised when his opponent donk bet into him on the flop after calling his pre-flop raise."
+        },
+        {
+          "term": "Equity",
+          "definition": "The percentage of the pot a player is entitled to based on their hand's current probability of winning. Equity is calculated by comparing a hand's chances against the possible holdings of opponents.",
+          "example": "His equity against a random hand was over 80% on the flop."
+        },
+        {
+          "term": "Fold",
+          "definition": "To surrender your hand and forfeit any claim to the pot. A fold is made when a player believes their hand is not strong enough to win.",
+          "example": "He decided to fold his marginal hand when facing a large bet on the river."
+        },
+        {
+          "term": "Fold Equity",
+          "definition": "The additional equity gained from opponents folding to a bet or raise. This is a crucial component of successful bluffing strategies.",
+          "example": "He factored in his fold equity when deciding to bluff the turn."
+        },
+        {
+          "term": "Freeroll",
+          "definition": "A tournament with no entry fee, or a situation in a hand where a player is guaranteed to win at least a portion of the pot regardless of the outcome. This can also refer to a situation where a player has a hand that cannot lose.",
+          "example": "He was in a freeroll situation when his opponent showed a hand that was mathematically impossible to beat his."
+        },
+        {
+          "term": "GTO (Game Theory Optimal)",
+          "definition": "A theoretical strategy in poker that aims to play in a way that is unexploitable by any opponent. GTO play involves balancing ranges and making mathematically sound decisions regardless of opponent tendencies.",
+          "example": "He studied GTO solvers to understand optimal bet sizing and range construction."
+        },
+        {
+          "term": "Heads-Up",
+          "definition": "A situation where only two players remain in a hand or tournament. Heads-up play often involves more aggressive strategies and wider ranges.",
+          "example": "After the final table bubble burst, he found himself heads-up for the championship."
+        },
+        {
+          "term": "ICM (Independent Chip Model)",
+          "definition": "A poker tournament calculation that estimates the real-money equity of each player's chip stack based on their position and the payout structure. ICM is crucial for making optimal decisions in late-stage tournaments.",
+          "example": "He was hesitant to shove all-in on the bubble because of the ICM pressure."
+        },
+        {
+          "term": "Implied Odds",
+          "definition": "The potential profit a player can make if they hit their hand, considering future betting rounds. Implied odds are important when deciding whether to call a bet with a drawing hand.",
+          "example": "He called the bet on the flop, believing the implied odds were good enough to chase his flush draw."
+        },
+        {
+          "term": "Nit",
+          "definition": "A tight, risk-averse player who plays very few hands and generally only bets or raises with very strong holdings. Nits are often predictable and can be exploited by aggressive players.",
+          "example": "He knew he had to be careful bluffing the nit, as he would only call with premium hands."
+        },
+        {
+          "term": "Overpair",
+          "definition": "A pair of hole cards that are higher than any of the community cards on the board. An overpair is generally a strong hand, but can be vulnerable if the board pairs or allows for straights/flushes.",
+          "example": "He held pocket kings and was happy to see the flop come down 7-2-9, giving him an overpair."
+        },
+        {
+          "term": "Pot",
+          "definition": "The total sum of money or chips that have been bet into a hand. The winner of the hand collects the entire pot.",
+          "example": "He bet aggressively on the river, trying to win the large pot."
+        },
+        {
+          "term": "Raise",
+          "definition": "To increase the amount of the current bet. A raise forces opponents to call the new, higher amount, fold, or re-raise.",
+          "example": "She decided to raise his bet to isolate him and take control of the hand."
+        },
+        {
+          "term": "Rake",
+          "definition": "The commission taken by the house or casino from each pot in a poker game. The rake is how poker rooms make their profit.",
+          "example": "The high rake in this game makes it difficult to win consistently."
+        },
+        {
+          "term": "Range",
+          "definition": "The set of possible hands a player might hold in a given situation, based on their actions and position. Understanding opponent ranges is fundamental to making good poker decisions.",
+          "example": "Based on his tight pre-flop play, his range on the flop was likely very strong."
+        },
+        {
+          "term": "River",
+          "definition": "The fifth and final community card dealt face-up in games like Texas Hold'em and Omaha. It's the last betting round before the showdown.",
+          "example": "He bet the river, hoping his opponent wouldn't have made their straight."
+        },
+        {
+          "term": "Set",
+          "definition": "A three-of-a-kind hand where a player holds a pocket pair and one of those cards appears on the board. This is a very strong hand, especially in Hold'em.",
+          "example": "He flopped a set of queens, which held up for a big win."
+        },
+        {
+          "term": "Showdown",
+          "definition": "The final stage of a poker hand where remaining players reveal their cards to determine the winner of the pot. The player with the best five-card hand wins.",
+          "example": "After the betting concluded, it went to a showdown, and he revealed his winning hand."
+        },
+        {
+          "term": "Turn",
+          "definition": "The fourth community card dealt face-up in games like Texas Hold'em and Omaha. It's the third betting round.",
+          "example": "He hit his flush draw on the turn and bet for value."
+        },
+        {
+          "term": "Under the Gun (UTG)",
+          "definition": "The first player to act in a betting round, immediately to the left of the big blind. This is the worst positional advantage in poker.",
+          "example": "He decided to fold his marginal hand from under the gun, as he had no positional advantage."
+        },
+        {
+          "term": "Value Bet",
+          "definition": "A bet made with a hand that is likely the best, with the intention of getting called by worse hands. The goal is to extract maximum chips from opponents who have weaker holdings.",
+          "example": "He made a value bet on the river, confident his opponent would call with a weaker pair."
+        },
+        {
+          "term": "Variance",
+          "definition": "The natural fluctuation of results in poker due to the element of luck. Even with optimal play, short-term results can deviate significantly from long-term expectations.",
+          "example": "He was experiencing a downswing, but knew that variance would eventually even out."
+        }
+      ]
+    },
+    {
+      "id": "slots",
+      "label": "Slots & Casino",
+      "count": 25,
+      "examples": "RTP, paylines, volatility, progressive jackpot, scatter, wild, bonus round, multiplier, cascading reels, cluster pays, Megaways, sticky wild, tumble feature",
+      "terms": [
+        {
+          "term": "RTP",
+          "definition": "Return to Player (RTP) is a theoretical percentage of wagered money that a slot machine is programmed to pay back to players over an extended period. A higher RTP indicates a statistically better return for the player.",
+          "example": "This new slot boasts an impressive 97.5% RTP, making it an attractive option for players seeking longer gameplay sessions."
+        },
+        {
+          "term": "Paylines",
+          "definition": "Paylines are the predetermined patterns on a slot machine's reels where winning combinations of symbols must land to trigger a payout. Traditional slots often have a single horizontal payline, while modern video slots can feature dozens or even hundreds.",
+          "example": "With 25 active paylines, players have numerous opportunities to form winning combinations across the five reels."
+        },
+        {
+          "term": "Volatility",
+          "definition": "Slot volatility, also known as variance, describes the risk associated with a particular game, relating to the frequency and size of payouts. High volatility slots pay out less frequently but offer larger wins, while low volatility slots pay out more often with smaller wins.",
+          "example": "If you prefer frequent, smaller wins, opt for a low volatility slot; if you're chasing a big score, a high volatility game might be more suitable."
+        },
+        {
+          "term": "Progressive Jackpot",
+          "definition": "A progressive jackpot is a prize pool that increases with each wager placed on a specific slot machine or network of machines until it is won. A small portion of each bet contributes to the growing jackpot.",
+          "example": "The allure of the multi-million dollar progressive jackpot on 'Mega Moolah' draws countless players hoping for a life-changing win."
+        },
+        {
+          "term": "Scatter",
+          "definition": "Scatter symbols are special icons in slot games that do not need to land on a specific payline to trigger a bonus feature or payout. Typically, landing a certain number of scatters anywhere on the reels initiates free spins or a bonus game.",
+          "example": "Three or more scatter symbols appearing on the reels will unlock the highly anticipated free spins bonus round."
+        },
+        {
+          "term": "Wild",
+          "definition": "Wild symbols are versatile icons that can substitute for most other symbols on the reels to help form winning combinations. They are a common feature designed to increase the frequency of payouts.",
+          "example": "The golden dragon symbol acts as a wild, completing a winning line of three sevens for a substantial payout."
+        },
+        {
+          "term": "Bonus Round",
+          "definition": "A bonus round is a special feature within a slot game, often triggered by landing specific symbols, that offers additional gameplay and potential for larger wins. These can include free spins, pick-and-win games, or interactive mini-games.",
+          "example": "Hitting three treasure chest symbols launched the exciting bonus round where players could uncover hidden riches."
+        },
+        {
+          "term": "Multiplier",
+          "definition": "A multiplier is a feature that increases the payout of a winning combination by a specified factor. Multipliers can be static, appearing on specific symbols, or dynamic, increasing throughout a bonus feature.",
+          "example": "During the free spins, any wins achieved with the dragon symbol will be multiplied by five."
+        },
+        {
+          "term": "Cascading Reels",
+          "definition": "Cascading reels, also known as tumbling reels or avalanche features, cause winning symbols to disappear after a payout, with new symbols falling from above to fill the empty spaces. This can lead to multiple consecutive wins from a single spin.",
+          "example": "The cascading reels feature on 'Gonzo's Quest' allows for a chain reaction of wins as new symbols replace winning ones."
+        },
+        {
+          "term": "Cluster Pays",
+          "definition": "Cluster pays is a slot mechanic where wins are formed by landing groups of matching symbols adjacent to each other, rather than on traditional paylines. The size of the cluster determines the payout.",
+          "example": "Instead of paylines, this slot utilizes a cluster pays system, rewarding players for forming groups of five or more identical symbols."
+        },
+        {
+          "term": "Megaways",
+          "definition": "Megaways is a patented slot mechanic that randomly changes the number of symbols on each reel with every spin, creating a vast number of potential winning ways. The number of ways can range from a few thousand to over 100,000.",
+          "example": "The Megaways engine ensures that each spin on 'Bonanza' offers a unique and dynamic gaming experience with up to 117,649 ways to win."
+        },
+        {
+          "term": "Sticky Wild",
+          "definition": "A sticky wild is a wild symbol that remains fixed in its position on the reels for a subsequent spin or for the duration of a bonus feature. This increases the chances of forming winning combinations on subsequent spins.",
+          "example": "During the free spins, any wild symbol that lands will become a sticky wild, remaining in place for the rest of the feature."
+        },
+        {
+          "term": "Tumble Feature",
+          "definition": "The tumble feature is synonymous with cascading reels, where winning symbols are removed and replaced by new ones, potentially creating consecutive wins from a single wager. It's a common mechanic in modern slot design.",
+          "example": "The constant tumbles in 'Jammin' Jars' can lead to impressive win streaks as new symbols fall into place."
+        },
+        {
+          "term": "Bet Max",
+          "definition": "Bet Max is a button on slot machines that allows players to instantly place the highest possible wager allowed by the game. This is often a strategy for players aiming for progressive jackpots that require maximum bet to qualify.",
+          "example": "To be eligible for the top progressive prize, players must select the 'Bet Max' option before each spin."
+        },
+        {
+          "term": "Coin Value",
+          "definition": "Coin value refers to the monetary worth assigned to each 'coin' or credit used in a slot machine. Adjusting the coin value allows players to control their total bet size per spin.",
+          "example": "By setting the coin value to $0.50, a player betting 10 coins per line is wagering $5 per spin."
+        },
+        {
+          "term": "Free Spins",
+          "definition": "Free spins are a type of bonus awarded in slot games that allow players to spin the reels a set number of times without wagering their own money. They are often triggered by scatter symbols and can include additional multipliers or special features.",
+          "example": "Landing three or more 'Free Spins' symbols on the reels awards the player 10 free spins with a 2x multiplier on all wins."
+        },
+        {
+          "term": "Bonus Symbols",
+          "definition": "Bonus symbols are specific icons that, when landed in a required combination, trigger a bonus game or feature within a slot machine. These symbols are distinct from regular paying symbols and wilds.",
+          "example": "The appearance of three 'Bonus Chest' symbols on reels 1, 3, and 5 activates the lucrative treasure hunt bonus game."
+        },
+        {
+          "term": "Reels",
+          "definition": "Reels are the vertical columns on a slot machine that spin and display the various symbols. Most modern video slots feature five reels, but some can have more or fewer.",
+          "example": "The game's layout consists of five reels and three rows, offering a standard grid for symbol combinations."
+        },
+        {
+          "term": "Symbols",
+          "definition": "Symbols are the graphics that appear on the reels of a slot machine. These can range from traditional card suits and fruits to themed icons specific to the game's design, and they form winning combinations when aligned correctly.",
+          "example": "The highest paying symbol in this game is the diamond, followed by the ruby and emerald."
+        },
+        {
+          "term": "Gamble Feature",
+          "definition": "The gamble feature, often found in older or classic slots, allows players to risk their winnings from a spin for a chance to double or quadruple their payout. This is typically done by guessing the color or suit of a hidden card.",
+          "example": "After a winning spin, the player opted to use the gamble feature, correctly guessing the red card to double their winnings."
+        },
+        {
+          "term": "Expanding Wild",
+          "definition": "An expanding wild is a wild symbol that, when it appears on a reel, will expand to cover the entire reel. This significantly increases the potential for winning combinations across multiple paylines.",
+          "example": "The expanding wild symbol landed on the third reel, transforming it completely and leading to a substantial payout."
+        },
+        {
+          "term": "Stacked Wilds",
+          "definition": "Stacked wilds are groups of wild symbols that appear on top of each other on a single reel. When they land, they can cover multiple positions on the reel, increasing the likelihood of forming winning combinations.",
+          "example": "The appearance of stacked wilds on reels two and four created multiple winning lines simultaneously."
+        },
+        {
+          "term": "Feature Buy",
+          "definition": "Feature buy is an option in some slot games that allows players to directly purchase entry into a bonus round or free spins feature for a predetermined cost, bypassing the need to trigger it through regular gameplay.",
+          "example": "Frustrated by not hitting the bonus, the player decided to use the feature buy option to immediately access the free spins."
+        },
+        {
+          "term": "Random Number Generator (RNG)",
+          "definition": "A Random Number Generator (RNG) is a complex algorithm used in all legitimate online slots to ensure that the outcome of each spin is completely random and unpredictable. This guarantees fair play and prevents manipulation of results.",
+          "example": "The fairness of the slot is assured by its certified RNG, which ensures that every spin is independent and unbiased."
+        },
+        {
+          "term": "Bet Line",
+          "definition": "A bet line, often used interchangeably with payline, is a specific pattern across the slot machine's reels where matching symbols must land to constitute a win. Players can often choose to activate or deactivate bet lines.",
+          "example": "By activating all 50 bet lines, the player ensured that any winning combination across these patterns would result in a payout."
+        }
+      ]
+    },
+    {
+      "id": "casino-table",
+      "label": "Casino Table Games",
+      "count": 25,
+      "examples": "banker bet, basic strategy, come bet, craps, don't pass, hard 8, hedge, house edge, mini-baccarat, pai gow, RSA, shoe, soft 17, split, surrender",
+      "terms": [
+        {
+          "term": "Banker Bet",
+          "definition": "In games like Baccarat, this is a wager placed on the dealer's hand to win. It typically has a slightly lower house edge than the player bet, but often incurs a commission on winning bets.",
+          "example": "She decided to consistently place the banker bet in mini-baccarat, aiming to leverage its statistically favorable odds."
+        },
+        {
+          "term": "Basic Strategy",
+          "definition": "A mathematically derived set of optimal decisions for playing a hand in games like Blackjack, based on the player's cards and the dealer's upcard. Adhering to basic strategy minimizes the house edge.",
+          "example": "He meticulously studied the basic strategy chart for blackjack before heading to the casino floor."
+        },
+        {
+          "term": "Betting Limit",
+          "definition": "The maximum and minimum amount a player can wager on a single bet at a table. These limits are clearly posted and vary by game and casino.",
+          "example": "The high-roller table had a significantly higher betting limit than the standard blackjack games."
+        },
+        {
+          "term": "Blackjack",
+          "definition": "A card game where players aim to achieve a hand total closer to 21 than the dealer, without exceeding 21.  The game involves strategic decisions on hitting, standing, splitting, and doubling down.",
+          "example": "He was dealt a natural blackjack on his first hand, immediately winning his wager."
+        },
+        {
+          "term": "Bust",
+          "definition": "In Blackjack, this occurs when a player's hand total exceeds 21, resulting in an automatic loss of their bet.",
+          "example": "The player hit on 16 and was dismayed to see a 7 come up, resulting in a bust."
+        },
+        {
+          "term": "Card Counting",
+          "definition": "A technique used in Blackjack to track the ratio of high-value cards to low-value cards remaining in the shoe. This allows players to adjust their betting and playing strategy to gain an advantage.",
+          "example": "While not illegal, casinos actively discourage and may ban players suspected of card counting."
+        },
+        {
+          "term": "Come Bet",
+          "definition": "A wager in Craps made after the come-out roll. It functions similarly to a pass line bet, with the point being established by the next roll.",
+          "example": "After the shooter established a point of 6, he immediately placed a come bet, hoping for a favorable outcome on the next roll."
+        },
+        {
+          "term": "Craps",
+          "definition": "A dice game where players bet on the outcome of the roll of two dice. It features a complex array of betting options, including pass line, don't pass, come, and proposition bets.",
+          "example": "The energy around the craps table was palpable as the shooter rolled a string of sevens."
+        },
+        {
+          "term": "Don't Pass",
+          "definition": "A bet in Craps that wins if the shooter rolls a 2 or 3 on the come-out roll, and loses if they roll a 7 or 11. If a point is established, the bet wins if the point is rolled again before a 7.",
+          "example": "He opted for the don't pass bet, taking a contrarian stance against the majority of players at the table."
+        },
+        {
+          "term": "Double Down",
+          "definition": "A Blackjack maneuver where a player doubles their initial bet after seeing their first two cards, in exchange for receiving only one more card. This is typically done when the player has a strong starting hand.",
+          "example": "With a starting hand of 11 against a dealer's 5, she decided to double down, confident in her chances."
+        },
+        {
+          "term": "Edge",
+          "definition": "The statistical advantage a casino has over a player in any given game. This is often referred to as the 'house edge'.",
+          "example": "Understanding the edge of each bet is crucial for responsible bankroll management."
+        },
+        {
+          "term": "Even Money",
+          "definition": "A payout of 1:1, meaning the player wins an amount equal to their original bet. This is common for bets like the banker bet in Baccarat (before commission) or certain roulette bets.",
+          "example": "She placed an even money bet on red in roulette, hoping to double her stake."
+        },
+        {
+          "term": "Hard 8",
+          "definition": "A specific proposition bet in Craps where the player bets that an 8 will be rolled as a pair of fours (4-4). This bet pays higher than a regular 8 but is more difficult to achieve.",
+          "example": "He decided to risk a portion of his winnings on a hard 8, knowing the significant payout if successful."
+        },
+        {
+          "term": "Hedge",
+          "definition": "A secondary bet placed to offset potential losses on a primary bet. This is often used to lock in a profit or minimize a loss, particularly in sports betting but also applicable in some table games.",
+          "example": "To hedge his initial bet on the player in baccarat, he placed a small wager on the tie."
+        },
+        {
+          "term": "House Edge",
+          "definition": "The mathematical advantage the casino holds over the player in any casino game. This is built into the rules and payouts of each game, ensuring profitability for the establishment.",
+          "example": "The house edge on the progressive jackpot side bet in blackjack was considerably higher than the main game."
+        },
+        {
+          "term": "Insurance",
+          "definition": "A side bet offered in Blackjack when the dealer's upcard is an Ace. Players bet that the dealer has a blackjack, and if they do, the insurance bet pays 2:1.",
+          "example": "Despite the dealer showing an Ace, he declined the insurance bet, trusting his hand."
+        },
+        {
+          "term": "Mini-Baccarat",
+          "definition": "A faster-paced, lower-limit version of Baccarat played on a smaller table, often with a dealer handling all the cards. It offers the same core game mechanics as traditional Baccarat.",
+          "example": "She found mini-baccarat to be an accessible entry point into the game due to its simpler setup and quicker rounds."
+        },
+        {
+          "term": "Pai Gow",
+          "definition": "A Chinese domino-based game played with tiles, adapted into a card game in casinos. Players are dealt seven cards and must arrange them into a two-card and a five-card hand, both of which must rank higher than the dealer's corresponding hands.",
+          "example": "He enjoyed the strategic depth of Pai Gow Poker, carefully considering how to set his hands against the house."
+        },
+        {
+          "term": "Pass Line",
+          "definition": "The most common bet in Craps, made before the come-out roll. It wins if the shooter rolls a 7 or 11 on the come-out roll, and loses if they roll a 2, 3, or 12. If a point is established, the bet wins if the point is rolled again before a 7.",
+          "example": "He placed his chips on the pass line, joining the majority of players hoping for a good roll."
+        },
+        {
+          "term": "Point",
+          "definition": "In Craps, a number (4, 5, 6, 8, 9, or 10) established on the come-out roll. Subsequent rolls are then made to try and roll the point again before rolling a 7.",
+          "example": "The shooter rolled a 9, establishing it as the point for the next series of rolls."
+        },
+        {
+          "term": "Proposition Bet",
+          "definition": "A bet in Craps that is not directly related to the outcome of the point or the pass/don't pass lines. These bets often have higher payouts but also a significantly higher house edge.",
+          "example": "He decided to place a proposition bet on the dice showing a specific combination, accepting the increased risk for a larger reward."
+        },
+        {
+          "term": "Push",
+          "definition": "A tie between the player and the dealer, resulting in the player's bet being returned. This occurs in Blackjack when both have the same hand total (excluding busts) or in other games where a tie condition is met.",
+          "example": "The blackjack hand resulted in a push, so neither the player nor the dealer won or lost their wager."
+        },
+        {
+          "term": "RSA",
+          "definition": "An abbreviation for 'Re-Split Aces' in Blackjack. This rule allows players to split Aces that have already been split, though typically only one additional card is dealt to each Ace.",
+          "example": "The casino's policy on RSA significantly impacted the basic strategy for players holding two Aces."
+        },
+        {
+          "term": "Shoe",
+          "definition": "A device used in Blackjack and other card games to hold multiple decks of cards. The cards are dealt one by one from the shoe until it is depleted or a cut card is reached.",
+          "example": "The dealer inserted the cut card into the shoe, signaling that the current deck was nearing its end."
+        },
+        {
+          "term": "Soft 17",
+          "definition": "In Blackjack, a hand containing an Ace counted as 11. For example, an Ace and a 6 is a soft 17. The dealer's rules on hitting a soft 17 can vary and affect the house edge.",
+          "example": "The casino's rule of 'dealer hits soft 17' is a common variation that slightly increases the house edge."
+        },
+        {
+          "term": "Split",
+          "definition": "A Blackjack maneuver where a player divides a pair of cards into two separate hands, placing an additional bet equal to their original wager on the second hand. This is typically done when the initial two cards are of equal value.",
+          "example": "Seeing two eights, he chose to split his hand, creating two potentially strong starting points."
+        },
+        {
+          "term": "Surrender",
+          "definition": "An option in some Blackjack variations where a player can forfeit half of their bet and end their hand after the initial two cards are dealt. This is usually offered when the player's hand is very weak against the dealer's upcard.",
+          "example": "With a 16 against a dealer's 10, he decided to surrender, cutting his losses rather than risking a bust."
+        }
+      ]
+    },
+    {
+      "id": "horse-racing",
+      "label": "Horse Racing",
+      "count": 15,
+      "examples": "across the board, daily double, exacta, furlong, handicap, photo finish, quinella, superfecta, trifecta, tote, trip, turf, win/place/show",
+      "terms": [
+        {
+          "term": "Across the Board",
+          "definition": "A bet that combines a win, place, and show wager on a single horse. The horse must win for all three parts of the bet to pay; it places for the place portion, and shows for the show portion.",
+          "example": "I'm feeling confident about this longshot, so I'm putting $10 across the board on him in the third race."
+        },
+        {
+          "term": "Daily Double",
+          "definition": "A wager that requires the bettor to select the winners of two consecutive races at the same track. If the first horse does not win, the ticket is immediately a loser.",
+          "example": "The handicapper is recommending a $50 daily double from the fifth race into the sixth, believing the favorite in the sixth is a lock."
+        },
+        {
+          "term": "Exacta",
+          "definition": "A bet where the bettor must correctly select the first two horses in a race in the exact order of finish. This is also known as a 'perfecta'.",
+          "example": "I'm playing a $1 exacta box with the 3 and the 7, hoping they run 1-2 in either order."
+        },
+        {
+          "term": "Furlong",
+          "definition": "A unit of distance in horse racing, equal to one-eighth of a mile. Races are often described by their length in furlongs.",
+          "example": "This colt has shown a strong closing kick in his last few starts, especially over the final three furlongs."
+        },
+        {
+          "term": "Handicap",
+          "definition": "A race where weights are assigned to horses based on past performance, with better horses carrying more weight to equalize their chances. The term also refers to the process of analyzing past performances to predict race outcomes.",
+          "example": "The handicapper spent hours studying the past performances, looking for an edge in the Grade 1 handicap."
+        },
+        {
+          "term": "Photo Finish",
+          "definition": "A finish so close that a photograph is required to determine the order of the horses. The track's photo finish camera captures the exact moment the horses cross the finish line.",
+          "example": "It was a thrilling photo finish, and the judges had to review the replay to declare the winner by a nose."
+        },
+        {
+          "term": "Quinella",
+          "definition": "A wager where the bettor selects two horses to finish first and second in any order. It is similar to an exacta but does not require the horses to finish in a specific order.",
+          "example": "I'm playing a $2 quinella with the 5 and the 9, as I think they are the two strongest contenders."
+        },
+        {
+          "term": "Superfecta",
+          "definition": "A bet where the bettor must correctly select the first four horses in a race in the exact order of finish. This wager typically offers large payouts due to its difficulty.",
+          "example": "The superfecta paid out over $50,000 to a single ticket holder who correctly tabbed all four finishers."
+        },
+        {
+          "term": "Trifecta",
+          "definition": "A bet where the bettor must correctly select the first three horses in a race in the exact order of finish. Like the superfecta, it can offer substantial returns.",
+          "example": "I'm going to try a $1 trifecta wheel, putting my top pick first and using several horses underneath."
+        },
+        {
+          "term": "Tote",
+          "definition": "The pari-mutuel betting system used at racetracks, where all wagers are pooled and winnings are distributed among the winning tickets after track commissions and breakage are deducted. The 'tote board' displays current odds and pool sizes.",
+          "example": "The tote board showed the odds on the favorite shortening considerably as post time approached."
+        },
+        {
+          "term": "Trip",
+          "definition": "Refers to the journey a horse has during a race, including how it is positioned, any traffic issues encountered, and how it finishes. A 'good trip' is generally considered advantageous.",
+          "example": "The jockey felt his horse had a compromised trip, getting boxed in on the backstretch."
+        },
+        {
+          "term": "Turf",
+          "definition": "The grass surface on which some horse races are run. Many horses are specifically bred or perform better on turf compared to dirt.",
+          "example": "This filly has a strong pedigree for turf racing and is making her debut on the grass today."
+        },
+        {
+          "term": "Win/Place/Show",
+          "definition": "The three basic types of straight bets. A 'win' bet pays if the horse finishes first. A 'place' bet pays if the horse finishes first or second. A 'show' bet pays if the horse finishes first, second, or third.",
+          "example": "I'm playing a $5 win bet on the morning line favorite, but I'll also put $2 to show on the outsider just in case."
+        },
+        {
+          "term": "Paddock",
+          "definition": "The area where horses are paraded before a race, allowing bettors to observe their condition and temperament. Observing a horse in the paddock is a key part of visual handicapping.",
+          "example": "He always checks the paddock for signs of nervousness or lameness before making his final selections."
+        },
+        {
+          "term": "Class",
+          "definition": "Refers to the level of competition a horse has been competing against. A horse dropping in class is moving to a lower level of race, often indicating a better chance of winning.",
+          "example": "This mare is dropping significantly in class today after facing much tougher competition in graded stakes races."
+        }
+      ]
+    },
+    {
+      "id": "dfs-props",
+      "label": "DFS & Props",
+      "count": 15,
+      "examples": "chalk, contrarian, game stack, ownership %, leverage, late swap, salary cap, slate, stack, scorigami, player prop, SGP, same-game parlay",
+      "terms": [
+        {
+          "term": "Chalk",
+          "definition": "The highest-owned players on a given slate, typically considered the safest or most obvious plays.  These players are often heavily favored or have a high projected point total.",
+          "example": "In tonight's NBA DFS slate, LeBron James is the clear chalk at his price point due to his consistent production and favorable matchup."
+        },
+        {
+          "term": "Contrarian",
+          "definition": "A player or lineup construction strategy that goes against the popular consensus or high-owned plays.  Contrarians aim to differentiate their lineups and capitalize on potentially overlooked value.",
+          "example": "I'm fading the chalk quarterback and taking a contrarian approach by rostering his backup, who has a lower ownership projection but a similar ceiling."
+        },
+        {
+          "term": "Game Stack",
+          "definition": "A DFS lineup construction strategy that involves selecting multiple players from the same game, often including players from both teams. The goal is to capitalize on high-scoring, back-and-forth contests.",
+          "example": "For the upcoming Chiefs-Bills game, I'm building a game stack by pairing Patrick Mahomes with Stefon Diggs and a cheaper Bills pass-catcher."
+        },
+        {
+          "term": "Ownership %",
+          "definition": "The percentage of DFS lineups that a particular player is projected to be included in. This metric is crucial for identifying chalk and contrarian plays.",
+          "example": "Our ownership projections indicate that Justin Jefferson will be in over 30% of lineups, making him a significant chalk option."
+        },
+        {
+          "term": "Leverage",
+          "definition": "A DFS strategy where a player's inclusion in a lineup is designed to significantly benefit if a specific outcome occurs, especially if that outcome is not widely anticipated. This often involves pairing a high-owned player with a lower-owned player who benefits from their success or failure.",
+          "example": "By rostering the opposing team's tight end, I'm creating leverage against the chalk quarterback, as a defensive touchdown could swing my lineup's fortunes."
+        },
+        {
+          "term": "Late Swap",
+          "definition": "The ability in some DFS contests to change players in your lineup after the initial games have started, up until the start of the last game on the slate. This allows for adjustments based on news or late-breaking information.",
+          "example": "With the news of the starting pitcher being scratched, I'm utilizing late swap to replace him with the scheduled reliever who is now expected to pitch more innings."
+        },
+        {
+          "term": "Salary Cap",
+          "definition": "The maximum amount of virtual currency a DFS player can spend to build their roster for a given contest. Effectively managing the salary cap is fundamental to successful lineup construction.",
+          "example": "I'm struggling to fit both elite running backs into my lineup while staying within the $50,000 salary cap."
+        },
+        {
+          "term": "Slate",
+          "definition": "The collection of all games scheduled for a particular day or period in a DFS contest. Different slates (e.g., 'main slate,' 'early slate') offer varying player pools and strategic considerations.",
+          "example": "The upcoming Saturday NFL slate features 10 games, providing a wide range of options for lineup construction."
+        },
+        {
+          "term": "Stack",
+          "definition": "A combination of players from the same team in a DFS lineup, most commonly a quarterback paired with one or more of his pass-catchers. This strategy aims to maximize scoring potential if the team performs well offensively.",
+          "example": "I'm building a simple stack by pairing Josh Allen with Gabe Davis, hoping for a big passing game from the Bills."
+        },
+        {
+          "term": "Scorigami",
+          "definition": "A rare final score in an NFL game that has never occurred before in league history. DFS players may target games with potential for unusual scoring outcomes.",
+          "example": "The 34-27 final score in last week's game was a scorigami, a result that had never been recorded in the NFL before."
+        },
+        {
+          "term": "Player Prop",
+          "definition": "A type of bet that focuses on the statistical performance of an individual player, rather than the outcome of the game itself. Examples include over/under on passing yards, receiving touchdowns, or total rebounds.",
+          "example": "I'm placing a player prop bet on Patrick Mahomes to throw for over 300 passing yards in tonight's matchup."
+        },
+        {
+          "term": "SGP",
+          "definition": "An abbreviation for Same-Game Parlay, a type of bet that combines multiple selections from a single game into one wager. All selections must be correct for the parlay to win.",
+          "example": "I'm building an SGP by combining a team moneyline with an over/under on total points and a player to score a touchdown."
+        },
+        {
+          "term": "Same-Game Parlay",
+          "definition": "A bet that links together multiple wagers from the same sporting event. For the parlay to win, every individual leg of the bet must be successful.",
+          "example": "My same-game parlay for the Lakers vs. Celtics game includes LeBron James scoring over 25 points and the Celtics winning by more than 5 points."
+        },
+        {
+          "term": "Correlation",
+          "definition": "The statistical relationship between two or more variables. In DFS, correlation refers to how the performance of one player is likely to impact the performance of another, often used to justify stacking.",
+          "example": "The strong positive correlation between a quarterback's passing yards and his wide receiver's receiving yards is why we often see them paired in DFS stacks."
+        },
+        {
+          "term": "Vegas Implied Total",
+          "definition": "The projected total number of points a team is expected to score in a game, derived from the sportsbook's over/under line and moneyline. This is a key metric for DFS and prop betting.",
+          "example": "The Vegas implied total for the Chiefs is set at 31.5 points, suggesting they are expected to be a high-scoring offense tonight."
+        }
+      ]
+    }
+  ],
+  "total_tokens": 15150,
+  "total_terms": 159
+}

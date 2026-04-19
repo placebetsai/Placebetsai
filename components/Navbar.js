@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const LINKS = [
-  { href: "/", label: "Markets" },
+  { href: "/", label: "Home" },
   { href: "/calculators", label: "Tools" },
   { href: "/tournaments", label: "Tournaments" },
   { href: "/ev-betting", label: "Strategy" },
+  { href: "/glossary", label: "Glossary" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

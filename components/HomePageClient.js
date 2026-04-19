@@ -163,6 +163,128 @@ export default function HomePageClient({ initialMarkets = [] }) {
           </div>
         </section>
 
+        {/* ========== GLOSSARY SHOWCASE ========== */}
+        <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 48px" }}>
+          <div style={{
+            background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(16,185,129,0.06) 100%)",
+            border: "1px solid var(--border, #1f2937)",
+            borderRadius: 16,
+            padding: "32px 28px",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 12,
+              flexWrap: "wrap",
+              marginBottom: 8,
+            }}>
+              <span style={{
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                letterSpacing: "0.2em",
+                color: "var(--primary, #6366f1)",
+                background: "rgba(99,102,241,0.12)",
+                padding: "4px 10px",
+                borderRadius: 4,
+                textTransform: "uppercase",
+                fontFamily: "var(--font-mono, monospace)",
+              }}>
+                NEW · 159 Terms
+              </span>
+              <span style={{ fontSize: "0.8rem", color: "var(--text-dim, #6b7280)" }}>
+                Sports · Poker · Slots · Casino · Horses · DFS
+              </span>
+            </div>
+
+            <h2 style={{
+              fontSize: "clamp(1.6rem, 3.5vw, 2.2rem)",
+              fontWeight: 800,
+              color: "var(--text-main, #e5e7eb)",
+              margin: "0 0 10px",
+              lineHeight: 1.15,
+              letterSpacing: "-0.5px",
+            }}>
+              The Sharp Bettor&rsquo;s Dictionary
+            </h2>
+            <p style={{
+              fontSize: "1rem",
+              color: "var(--text-muted, #9ca3af)",
+              lineHeight: 1.6,
+              marginBottom: 24,
+              maxWidth: 640,
+            }}>
+              159 terms across every game, written by people who actually bet. Clean definitions, real examples, zero fluff. From CLV to ICM, juice to Megaways — learn the language the pros use.
+            </p>
+
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: 12,
+              marginBottom: 24,
+            }}>
+              {[
+                { term: "CLV", def: "Closing Line Value — beat the closing line, beat the market." },
+                { term: "ICM", def: "Independent Chip Model. Tournament equity math for the final table." },
+                { term: "RTP", def: "Return to Player. The % a slot pays back over millions of spins." },
+                { term: "Juice", def: "The sportsbook's built-in margin. The -110 on both sides." },
+              ].map((item) => (
+                <Link
+                  key={item.term}
+                  href={`/glossary#${item.term.toLowerCase()}`}
+                  style={{
+                    display: "block",
+                    background: "var(--bg-card, #0f172a)",
+                    border: "1px solid var(--border, #1f2937)",
+                    borderRadius: 10,
+                    padding: "14px 16px",
+                    textDecoration: "none",
+                    transition: "border-color 0.15s, transform 0.15s",
+                  }}
+                >
+                  <div style={{
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    color: "var(--primary, #6366f1)",
+                    fontFamily: "var(--font-mono, monospace)",
+                    letterSpacing: "0.5px",
+                    marginBottom: 6,
+                  }}>
+                    {item.term}
+                  </div>
+                  <div style={{
+                    fontSize: "0.82rem",
+                    color: "var(--text-muted, #9ca3af)",
+                    lineHeight: 1.4,
+                  }}>
+                    {item.def}
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/glossary" className="btn btn-primary" style={{ minWidth: 180 }}>
+                Open Full Glossary &rarr;
+              </Link>
+              <Link href="/glossary#poker" style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "10px 18px",
+                borderRadius: 6,
+                border: "1px solid var(--border, #1f2937)",
+                color: "var(--text-main, #e5e7eb)",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                textDecoration: "none",
+              }}>
+                Jump to Poker
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ========== HOW IT WORKS ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
           <h2 style={{
