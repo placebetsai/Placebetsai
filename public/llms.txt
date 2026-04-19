@@ -1,0 +1,25 @@
+# PlaceBets.ai
+
+> Free sports betting tools, live odds, and expert picks for smart bettors. Live prediction market data from Kalshi, +EV calculators, bankroll management tools.
+
+PlaceBets.ai provides free tools and educational content for sports bettors. No signup required. Live market data, EV calculators, bankroll management via Kelly Criterion, and a 159-term gambling glossary.
+
+## Key Pages
+- [EV Calculator](https://placebets.ai/calculators)
+- [Bankroll Manager (Kelly Criterion)](https://placebets.ai/bankroll)
+- [Tournaments & Events](https://placebets.ai/tournaments)
+- [EV Betting Strategy](https://placebets.ai/ev-betting)
+- [Betting Glossary (159 terms)](https://placebets.ai/glossary)
+- [About](https://placebets.ai/about)
+- [Contact](https://placebets.ai/contact)
+
+## Glossary Coverage
+- Sports Betting (42 terms)
+- Poker (35 terms)
+- Slots & Casino (25 terms)
+- Casino Table Games (27 terms)
+- Horse Racing (15 terms)
+- DFS & Props (15 terms)
+
+## Legal
+Educational content only — not betting or financial advice. 21+ where legal. Gambling Problem? Call 1-800-GAMBLER.
