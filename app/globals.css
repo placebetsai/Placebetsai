@@ -1050,3 +1050,297 @@ a {
 
   .ticker-bar { margin: 16px 0 24px; }
 }
+
+/* ============================
+   CONTACT PAGE — 2026 redesign (Inter + JetBrains Mono)
+   Grounded in Grok research: dark + subtle green/red accents,
+   card-based grid, glass-morphism on CTAs, monospaced eyebrows.
+   ============================ */
+
+.contact-page {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  color: var(--text-main);
+  padding: 60px 24px 120px;
+  font-family: var(--font-main);
+}
+
+.contact-hero {
+  max-width: 1080px;
+  margin: 0 auto 40px;
+}
+
+.contact-hero__inner {
+  border-left: 2px solid var(--primary);
+  padding: 8px 0 8px 20px;
+}
+
+.contact-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--primary);
+  margin-bottom: 16px;
+  padding: 4px 10px;
+  background: var(--primary-glow);
+  border-radius: 2px;
+}
+
+.contact-hero__h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.02;
+  margin: 0 0 16px;
+  background: linear-gradient(135deg, #f0f2f5 0%, #7a8494 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.contact-hero__sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0;
+}
+.contact-hero__sub strong { color: var(--text-main); font-weight: 600; }
+
+.contact-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 840px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px;
+  transition: border-color 0.2s ease;
+}
+.contact-card:hover { border-color: var(--border-hover); }
+
+.contact-card--muted {
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%);
+}
+
+.contact-card--tip {
+  background: rgba(255, 61, 87, 0.05);
+  border-color: rgba(255, 61, 87, 0.25);
+}
+
+.contact-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-card__h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.contact-card__h3 {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 20px;
+  font-family: var(--font-mono);
+}
+
+.contact-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.contact-card__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow-strong);
+  animation: pb-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pb-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50%      { opacity: 1; transform: scale(1.1); }
+}
+
+/* Email list */
+.contact-email-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-email-item {
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--border);
+}
+.contact-email-item:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.contact-email-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.contact-email-role {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.contact-email-addr {
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.contact-email-addr:hover { color: var(--primary-dim); text-decoration: underline; }
+
+.contact-email-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.contact-no-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.contact-no-list li { padding-left: 18px; position: relative; }
+.contact-no-list li::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  color: var(--red);
+  font-weight: 700;
+}
+.contact-no-list strong { color: var(--text-main); font-weight: 600; }
+
+.contact-tip-head {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--red);
+  padding: 4px 10px;
+  border: 1px solid var(--red);
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.contact-tip-body {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+.contact-tip-body a {
+  color: var(--red);
+  font-weight: 700;
+  text-decoration: none;
+}
+.contact-tip-body a:hover { text-decoration: underline; }
+
+/* Form overrides — modernize the raw Tailwind in ContactForm */
+.contact-form-wrap form { display: flex; flex-direction: column; gap: 20px; }
+.contact-form-wrap form label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+}
+.contact-form-wrap form input,
+.contact-form-wrap form textarea,
+.contact-form-wrap form select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-family: var(--font-main);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  outline: none;
+}
+.contact-form-wrap form input:focus,
+.contact-form-wrap form textarea:focus,
+.contact-form-wrap form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--bg-card);
+}
+.contact-form-wrap form button[type="submit"] {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dim) 100%);
+  color: #06080d;
+  border: 0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-main);
+}
+.contact-form-wrap form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--primary-glow-strong);
+}
+.contact-form-wrap form button[type="submit"]:active {
+  transform: translateY(0);
+}

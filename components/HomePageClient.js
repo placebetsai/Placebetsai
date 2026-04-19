@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import SportsbookCTA from "./SportsbookCTA";
+import NewsTicker from "./NewsTicker";
 
 const SITE_URL = "https://placebets.ai";
 
@@ -84,6 +85,8 @@ export default function HomePageClient({ initialMarkets = [] }) {
       />
 
       <div className="page-wrap">
+        <NewsTicker />
+
         {/* ========== HERO ========== */}
         <section style={{
           textAlign: "center",
