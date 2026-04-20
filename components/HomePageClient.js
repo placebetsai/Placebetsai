@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import SportsbookCTA from "./SportsbookCTA";
 import NewsTicker from "./NewsTicker";
+import BettingDeskCta from "./BettingDeskCta";
 
 const SITE_URL = "https://placebets.ai";
 
@@ -20,6 +21,30 @@ const TYPE_COLORS = {
   sports: { bg: "#10b98122", text: "#34d399", border: "#10b98144" },
   esports: { bg: "#f59e0b22", text: "#fbbf24", border: "#f59e0b44" },
 };
+
+const LEARNING_PATHS = [
+  {
+    tag: "Start Here",
+    title: "Learn EV before you bet another dollar",
+    desc: "The calculator, the concept, and the guide pages that explain why expected value is the backbone of long-term betting.",
+    href: "/ev-betting-guide",
+    color: "#6366f1",
+  },
+  {
+    tag: "Protect Capital",
+    title: "Build a bankroll system you can actually follow",
+    desc: "Move from random unit sizes to a repeatable framework built around risk, Kelly sizing, and discipline.",
+    href: "/bankroll-management-guide",
+    color: "#10b981",
+  },
+  {
+    tag: "Stay Current",
+    title: "Track tournaments, promo codes, and market opportunities",
+    desc: "Use live events, sportsbook offers, and tournament timing as part of a sharper weekly betting routine.",
+    href: "/tournaments",
+    color: "#f59e0b",
+  },
+];
 
 /**
  * Converts a raw Kalshi market title into plain English.
@@ -175,6 +200,67 @@ export default function HomePageClient({ initialMarkets = [] }) {
             </Link>
           </div>
         </section>
+
+        {topPicks.length > 0 && (
+          <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 48px" }}>
+            <div style={{
+              background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(15,23,42,0.96) 60%)",
+              border: "1px solid var(--border, #1f2937)",
+              borderRadius: 16,
+              padding: "28px 24px",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "end", flexWrap: "wrap", marginBottom: 18 }}>
+                <div>
+                  <p style={{ fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "#818cf8", marginBottom: 8 }}>
+                    Market Pulse
+                  </p>
+                  <h2 style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 800, lineHeight: 1.1, color: "var(--text-main, #e5e7eb)", margin: 0 }}>
+                    Live sports markets worth watching right now
+                  </h2>
+                </div>
+                <Link href="/tournaments" style={{ color: "#34d399", fontWeight: 700, textDecoration: "none" }}>
+                  View all events →
+                </Link>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
+                {topPicks.map((market) => {
+                  const pct = market.yesPrice != null ? Math.round(market.yesPrice * 100) : null;
+                  return (
+                    <div
+                      key={market.ticker}
+                      style={{
+                        background: "rgba(15,23,42,0.88)",
+                        border: "1px solid rgba(99,102,241,0.12)",
+                        borderRadius: 12,
+                        padding: "16px 14px",
+                      }}
+                    >
+                      <div style={{ color: "#818cf8", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>
+                        {market.category || "Sports"}
+                      </div>
+                      <div style={{ color: "var(--text-main, #e5e7eb)", fontSize: "0.95rem", fontWeight: 700, lineHeight: 1.35, marginBottom: 14 }}>
+                        {humanizeTitle(market.title)}
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem", marginBottom: 8 }}>
+                        <span style={{ color: "var(--text-muted, #9ca3af)" }}>Yes price</span>
+                        <span style={{ color: pct != null ? probColor(pct) : "#e5e7eb", fontWeight: 700 }}>
+                          {pct != null ? `${pct}%` : "Live"}
+                        </span>
+                      </div>
+                      <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginBottom: 10 }}>
+                        <div style={{ width: `${pct || 35}%`, height: "100%", background: pct != null ? probColor(pct) : "#6366f1" }} />
+                      </div>
+                      <div style={{ color: "var(--text-dim, #6b7280)", fontSize: "0.78rem" }}>
+                        Vol: {Number(market.volume || 0).toLocaleString()}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ========== STATS BAR ========== */}
         <section style={{
@@ -432,6 +518,77 @@ export default function HomePageClient({ initialMarkets = [] }) {
           </div>
         </section>
 
+        <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 44px" }}>
+          <h2 style={{
+            fontSize: "1.35rem",
+            fontWeight: 800,
+            marginBottom: 8,
+            color: "var(--text-main, #e5e7eb)",
+          }}>
+            Build a Real Betting Edge
+          </h2>
+          <p style={{
+            fontSize: "0.9rem",
+            color: "var(--text-dim, #6b7280)",
+            marginBottom: 20,
+            maxWidth: 720,
+          }}>
+            PlaceBets works best when it feels like a serious workflow: learn the core math, track the live calendar, and use one repeatable system instead of random bets and random pages.
+          </p>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 14,
+          }}>
+            {LEARNING_PATHS.map((path) => (
+              <Link
+                key={path.title}
+                href={path.href}
+                style={{
+                  display: "block",
+                  background: "var(--bg-card, #0f172a)",
+                  border: "1px solid var(--border, #1f2937)",
+                  borderRadius: 14,
+                  padding: "22px 20px",
+                  textDecoration: "none",
+                }}
+              >
+                <div style={{
+                  color: path.color,
+                  fontSize: "0.72rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  marginBottom: 10,
+                }}>
+                  {path.tag}
+                </div>
+                <div style={{
+                  color: "var(--text-main, #e5e7eb)",
+                  fontSize: "1.02rem",
+                  fontWeight: 700,
+                  lineHeight: 1.35,
+                  marginBottom: 10,
+                }}>
+                  {path.title}
+                </div>
+                <p style={{
+                  color: "var(--text-muted, #9ca3af)",
+                  fontSize: "0.86rem",
+                  lineHeight: 1.65,
+                  marginBottom: 14,
+                }}>
+                  {path.desc}
+                </p>
+                <span style={{ color: path.color, fontWeight: 700, fontSize: "0.86rem" }}>
+                  Open Path →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* ========== TOOLS ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
           <h2 style={{
@@ -585,6 +742,9 @@ export default function HomePageClient({ initialMarkets = [] }) {
             </Link>
           </div>
         </section>
+
+        {/* ========== SPORTSBOOK CTA ========== */}
+        <BettingDeskCta />
 
         {/* ========== SPORTSBOOK CTA ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px" }}>
