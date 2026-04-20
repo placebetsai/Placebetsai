@@ -90,10 +90,61 @@ export default function HomePageClient({ initialMarkets = [] }) {
         {/* ========== HERO ========== */}
         <section style={{
           textAlign: "center",
-          padding: "60px 20px 40px",
-          maxWidth: 640,
+          padding: "48px 20px 40px",
+          maxWidth: 900,
           margin: "0 auto",
         }}>
+          {/* Hero SVG illustration — probability curve + market chart vibe */}
+          <div aria-hidden="true" style={{ maxWidth: 560, margin: "0 auto 28px", opacity: 0.95 }}>
+            <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }} role="img" aria-label="Prediction market probability chart illustration">
+              <defs>
+                <linearGradient id="pbLine" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#6366f1" />
+                  <stop offset="50%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#10b981" />
+                </linearGradient>
+                <linearGradient id="pbFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.28" />
+                  <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* grid */}
+              <g stroke="#1f2937" strokeWidth="1">
+                <line x1="40" y1="40"  x2="540" y2="40" />
+                <line x1="40" y1="90"  x2="540" y2="90" />
+                <line x1="40" y1="140" x2="540" y2="140" />
+                <line x1="40" y1="190" x2="540" y2="190" />
+              </g>
+              {/* y-axis labels */}
+              <g fill="#6b7280" fontSize="10" fontFamily="monospace">
+                <text x="6"  y="44">100%</text>
+                <text x="10" y="94">75%</text>
+                <text x="10" y="144">50%</text>
+                <text x="10" y="194">25%</text>
+              </g>
+              {/* area fill under curve */}
+              <path d="M 40,170 C 100,160 140,90 190,100 S 260,60 310,80 S 380,50 430,70 S 500,40 540,55 L 540,190 L 40,190 Z" fill="url(#pbFill)" />
+              {/* main line */}
+              <path d="M 40,170 C 100,160 140,90 190,100 S 260,60 310,80 S 380,50 430,70 S 500,40 540,55" fill="none" stroke="url(#pbLine)" strokeWidth="3" strokeLinecap="round" />
+              {/* live price dots */}
+              <g>
+                <circle cx="190" cy="100" r="5" fill="#8b5cf6" />
+                <circle cx="310" cy="80"  r="5" fill="#8b5cf6" />
+                <circle cx="430" cy="70"  r="5" fill="#10b981" />
+                <circle cx="540" cy="55"  r="6" fill="#10b981" stroke="#064e3b" strokeWidth="2" />
+              </g>
+              {/* pill badges */}
+              <g fontFamily="monospace" fontSize="11" fontWeight="700">
+                <rect x="160" y="72" width="58" height="20" rx="4" fill="#8b5cf622" stroke="#8b5cf644" />
+                <text x="168" y="86" fill="#a78bfa">NBA 57¢</text>
+                <rect x="280" y="52" width="58" height="20" rx="4" fill="#8b5cf622" stroke="#8b5cf644" />
+                <text x="286" y="66" fill="#a78bfa">NFL 68¢</text>
+                <rect x="398" y="42" width="64" height="20" rx="4" fill="#10b98122" stroke="#10b98144" />
+                <text x="404" y="56" fill="#34d399">+EV 12%</text>
+              </g>
+            </svg>
+          </div>
+
           <h1 style={{
             fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
             fontWeight: 800,
@@ -137,9 +188,38 @@ export default function HomePageClient({ initialMarkets = [] }) {
             gap: 14,
           }}>
             {[
-              { top: "100% Free", bottom: "No account needed" },
-              { top: "3 Pro Tools", bottom: "EV, Bankroll, Glossary" },
-              { top: "Updated Daily", bottom: "Live market data" },
+              {
+                top: "100% Free",
+                bottom: "No account needed",
+                icon: (
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v12M9 9h6M9 15h6" />
+                  </svg>
+                ),
+              },
+              {
+                top: "3 Pro Tools",
+                bottom: "EV, Bankroll, Glossary",
+                icon: (
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <path d="M14 17.5h7M17.5 14v7" />
+                  </svg>
+                ),
+              },
+              {
+                top: "Updated Daily",
+                bottom: "Live market data",
+                icon: (
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                    <path d="M12 7v5l3 2" />
+                  </svg>
+                ),
+              },
             ].map((stat, i) => (
               <div key={i} style={{
                 background: "var(--bg-card, #0f172a)",
@@ -148,6 +228,9 @@ export default function HomePageClient({ initialMarkets = [] }) {
                 padding: "20px 16px",
                 textAlign: "center",
               }}>
+                <div style={{ color: "var(--primary, #6366f1)", marginBottom: 6, display: "flex", justifyContent: "center" }}>
+                  {stat.icon}
+                </div>
                 <div style={{
                   fontSize: "1.3rem",
                   fontWeight: 800,
