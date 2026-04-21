@@ -89,8 +89,16 @@ async function getProducts() {
 }
 
 export const metadata = {
-  title: "Bettor Shop — Poker Chips, Cards, Dice | PlaceBets.ai",
+  title: "Bettor Shop — Poker Chips, Cards, Dice",
   description: "Curated poker chips, playing cards, and casino dice for serious home games. Sourced through Fashionistas.ai with US shipping.",
+  alternates: { canonical: "https://placebets.ai/shop" },
+  openGraph: {
+    title: "Bettor Shop — Poker Chips, Cards, Dice | PlaceBets.ai",
+    description: "Curated poker chips, playing cards, and casino dice for serious home games. Sourced through Fashionistas.ai with US shipping.",
+    url: "https://placebets.ai/shop",
+    siteName: "PlaceBets.ai",
+    type: "website",
+  },
 };
 
 function shopifyImage(url, width = 600) {
