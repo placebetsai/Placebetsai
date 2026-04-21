@@ -3,6 +3,8 @@ export const revalidate = 3600;
 const SHOP = "https://fashionistas.ai";
 const CATALOG = "https://js0hy0-ux.myshopify.com";
 const COLLECTION = "placebets-merch";
+const REF = "placebets";
+const THIN_SECTION_COUNT = 2;
 
 const SUBSECTIONS = [
   {
@@ -91,9 +93,16 @@ export const metadata = {
   description: "Curated poker chips, playing cards, and casino dice for serious home games. Sourced through Fashionistas.ai with US shipping.",
 };
 
+function shopifyImage(url, width = 600) {
+  if (!url) return url;
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}width=${width}`;
+}
+
 function ProductCard({ p, accent }) {
   const variant = p.variants[0] || {};
-  const image = (p.images || [])[0]?.src;
+  const rawImage = (p.images || [])[0]?.src;
+  const image = shopifyImage(rawImage, 600);
   const price = variant.price || "?";
   const compareAt = variant.compare_at_price && parseFloat(variant.compare_at_price) > parseFloat(price)
     ? variant.compare_at_price
@@ -102,10 +111,10 @@ function ProductCard({ p, accent }) {
 
   return (
     <a
-      href={`${SHOP}/products/${p.handle}?ref=placebets`}
+      href={`${SHOP}/products/${p.handle}?ref=${REF}`}
       target="_blank"
       rel="noopener nofollow"
-      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] hover:border-white/30 transition-all duration-300 flex flex-col"
+      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] hover:border-white/30 transition-all duration-300 flex flex-col w-full max-w-[260px] mx-auto md:max-w-none"
       style={{ boxShadow: "0 12px 28px -16px rgba(0,0,0,0.6)" }}
     >
       {discount && (
@@ -114,9 +123,16 @@ function ProductCard({ p, accent }) {
           -{discount}%
         </div>
       )}
-      <div className="aspect-square bg-slate-950 overflow-hidden relative">
+      <div className="aspect-square bg-slate-950 overflow-hidden relative max-h-[260px] md:max-h-none">
         {image ? (
-          <img src={image} alt={p.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <img
+            src={image}
+            alt={p.title}
+            loading="lazy"
+            width="600"
+            height="600"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-xs uppercase tracking-[0.18em] text-slate-500">No image</div>
         )}
@@ -133,6 +149,18 @@ function ProductCard({ p, accent }) {
   );
 }
 
+function getProductHref(handle) {
+  return `${SHOP}/products/${handle}?ref=${REF}`;
+}
+
+function getCollectionHref() {
+  return `${CATALOG}/collections/${COLLECTION}`;
+}
+
+function getFullCatalogHref() {
+  return `${CATALOG}/collections/all`;
+}
+
 export default async function ShopPage() {
   const { products, state, message } = await getProducts();
   const sections = SUBSECTIONS.map((section) => ({
@@ -141,8 +169,10 @@ export default async function ShopPage() {
   }));
   const totalCount = sections.reduce((sum, s) => sum + s.products.length, 0);
   const populatedSections = sections.filter((section) => section.products.length > 0);
+  const thinSections = populatedSections.filter((section) => section.products.length < THIN_SECTION_COUNT);
   const hasCatalog = populatedSections.length > 0;
-  const showFallbackPanel = state !== "ready" || !hasCatalog;
+  const showFallbackPanel = state !== "ready" || !hasCatalog || thinSections.length > 0;
+  const featuredFallbacks = products.slice(0, 4);
 
   return (
     <div className="min-h-screen">
@@ -181,12 +211,12 @@ export default async function ShopPage() {
             ))}
             {showFallbackPanel && (
               <a
-                href={SHOP}
+                href={getCollectionHref()}
                 target="_blank"
                 rel="noopener nofollow"
                 className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-2.5 text-xs uppercase tracking-[0.2em] text-cyan-100 hover:bg-cyan-400/15 transition-all"
               >
-                Open live catalog
+                Open live collection
               </a>
             )}
           </div>
@@ -209,23 +239,49 @@ export default async function ShopPage() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="max-w-2xl">
                   <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-200">
-                    {state === "error" ? "Catalog connection issue" : "Catalog refresh in progress"}
+                    {state === "error" ? "Catalog connection issue" : state === "empty" ? "No tagged merch live" : "Lean merch snapshot"}
                   </p>
                   <h2 className="mt-2 text-2xl font-black text-white">
-                    {state === "error" ? "The live shop did not load cleanly." : "This collection is temporarily thin."}
+                    {state === "error"
+                      ? "The live shop did not load cleanly."
+                      : state === "empty"
+                        ? "No tagged PlaceBets items are live right now."
+                        : thinSections.length > 0
+                          ? "Some gear categories only have one live item right now."
+                          : "This collection is temporarily thin."}
                   </h2>
                   <p className="mt-3 text-sm leading-6 text-slate-200">
-                    {message} You can still browse the full Fashionistas catalog or jump back into the betting tools while inventory sync catches up.
+                    {state !== "ready"
+                      ? `${message} You can still browse the full Fashionistas catalog or jump back into the betting tools while inventory sync catches up.`
+                      : "This page hides empty categories and only shows verified live products. If a category looks sparse, that is the real catalog state rather than filler links."}
                   </p>
                 </div>
                 <div className="min-w-[220px] rounded-xl border border-white/10 bg-black/20 p-4">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">What still works</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Working fallbacks</p>
                   <ul className="mt-3 space-y-2 text-sm text-white">
-                    <li>Full Fashionistas storefront is live</li>
+                    <li>PlaceBets collection stays browsable</li>
+                    <li>Full upstream catalog stays browsable</li>
                     <li>Checkout and fulfillment stay on the main store</li>
-                    <li>PlaceBets calculators and guides are unaffected</li>
                   </ul>
                 </div>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href={getCollectionHref()}
+                  target="_blank"
+                  rel="noopener nofollow"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-bold tracking-wider text-white hover:bg-white/10 transition-all"
+                >
+                  Open PlaceBets collection
+                </a>
+                <a
+                  href={getFullCatalogHref()}
+                  target="_blank"
+                  rel="noopener nofollow"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-bold tracking-wider text-white hover:bg-white/10 transition-all"
+                >
+                  Browse full catalog
+                </a>
               </div>
             </div>
           )}
@@ -251,14 +307,19 @@ export default async function ShopPage() {
                   <div className="flex items-baseline gap-3 flex-wrap">
                     <h2 className="text-2xl md:text-3xl font-black text-white">{section.title}</h2>
                     <span className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      {section.products.length} in stock
+                      {section.products.length === 1 ? "1 live item" : `${section.products.length} live items`}
                     </span>
                   </div>
                   <p className="text-slate-300 text-sm md:text-base leading-relaxed mt-2 max-w-2xl">{section.blurb}</p>
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {section.products.length < THIN_SECTION_COUNT && (
+              <p className="mb-5 text-sm leading-6 text-amber-200">
+                This category is thin right now, so we are only showing the live item we could verify.
+              </p>
+            )}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-md md:max-w-none mx-auto">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
           </section>
@@ -273,21 +334,32 @@ export default async function ShopPage() {
                 Rather than showing an empty fake storefront, this page is exposing the upstream catalog issue and routing you to working paths until the merch feed recovers.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
+                {featuredFallbacks.map((product) => (
+                  <a
+                    key={product.id}
+                    href={getProductHref(product.handle)}
+                    target="_blank"
+                    rel="noopener nofollow"
+                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-bold tracking-wider text-white hover:bg-white/10 transition-all"
+                  >
+                    {product.title}
+                  </a>
+                ))}
                 <a
-                  href={`${SHOP}/collections/${COLLECTION}`}
-                  target="_blank"
-                  rel="noopener nofollow"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-bold tracking-wider text-black hover:bg-cyan-300 transition-all"
-                >
-                  Browse PlaceBets collection
-                </a>
-                <a
-                  href={SHOP}
+                  href={getCollectionHref()}
                   target="_blank"
                   rel="noopener nofollow"
                   className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-bold tracking-wider text-white hover:bg-white/10 transition-all"
                 >
-                  Browse Fashionistas home
+                  Open PlaceBets collection
+                </a>
+                <a
+                  href={getFullCatalogHref()}
+                  target="_blank"
+                  rel="noopener nofollow"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-bold tracking-wider text-white hover:bg-white/10 transition-all"
+                >
+                  Browse full catalog
                 </a>
                 <a
                   href="/calculators"
@@ -311,7 +383,11 @@ export default async function ShopPage() {
             Browse the full Fashionistas.ai catalog or jump back to the bettor tools that brought you here.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href={SHOP} target="_blank" rel="noopener nofollow"
+            <a href={getCollectionHref()} target="_blank" rel="noopener nofollow"
+              className="inline-flex items-center justify-center rounded-full bg-white text-black font-bold text-sm tracking-wider px-7 py-3 hover:bg-cyan-300 transition-all">
+              Open PlaceBets Collection →
+            </a>
+            <a href={getFullCatalogHref()} target="_blank" rel="noopener nofollow"
               className="inline-flex items-center justify-center rounded-full bg-white text-black font-bold text-sm tracking-wider px-7 py-3 hover:bg-cyan-300 transition-all">
               Browse Full Catalog →
             </a>
