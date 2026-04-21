@@ -6,13 +6,6 @@ export const metadata = {
   alternates: { canonical: 'https://placebets.ai/contact' },
 };
 
-const TEAM_EMAILS = [
-  { role: 'Partnerships', email: 'partners@placebets.ai', desc: 'Sportsbook, data feeds, affiliate programs.' },
-  { role: 'Press / Media', email: 'press@placebets.ai', desc: 'Quotes, interviews, industry commentary.' },
-  { role: 'Product Feedback', email: 'feedback@placebets.ai', desc: 'Feature requests, calculator bugs, broken data.' },
-  { role: 'Legal / Compliance', email: 'legal@placebets.ai', desc: 'DMCA, privacy, responsible gambling concerns.' },
-];
-
 export default function ContactPage() {
   return (
     <main className="contact-page">
@@ -46,19 +39,17 @@ export default function ContactPage() {
         <aside className="contact-sidebar">
           <div className="contact-card">
             <h3 className="contact-card__h3">Direct email</h3>
-            <ul className="contact-email-list">
-              {TEAM_EMAILS.map((t) => (
-                <li key={t.email} className="contact-email-item">
-                  <div className="contact-email-row">
-                    <span className="contact-email-role">{t.role}</span>
-                    <a className="contact-email-addr" href={`mailto:${t.email}`}>
-                      {t.email}
-                    </a>
-                  </div>
-                  <p className="contact-email-desc">{t.desc}</p>
-                </li>
-              ))}
-            </ul>
+            <div className="contact-email-item">
+              <div className="contact-email-row">
+                <span className="contact-email-role">General inbox</span>
+                <a className="contact-email-addr" href="mailto:info@placebets.ai">
+                  info@placebets.ai
+                </a>
+              </div>
+              <p className="contact-email-desc">
+                Use this for partnerships, press, product issues, compliance questions, and everything else.
+              </p>
+            </div>
           </div>
 
           <div className="contact-card contact-card--muted">
