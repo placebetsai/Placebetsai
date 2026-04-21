@@ -158,7 +158,7 @@ function getCollectionHref() {
 }
 
 function getFullCatalogHref() {
-  return `${CATALOG}/collections/all`;
+  return `${SHOP}/collections`;
 }
 
 export default async function ShopPage() {
