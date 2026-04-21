@@ -1,10 +1,267 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Script from "next/script";
 import SportsbookCTA from "./SportsbookCTA";
 import NewsTicker from "./NewsTicker";
 import BettingDeskCta from "./BettingDeskCta";
+
+// ── HERO CAROUSEL DATA ─────────────────────────────────────────────────────
+// Sport-specific gradients + icons + CTAs. No external image dependencies.
+const HERO_SLIDES = [
+  {
+    id: "wsop",
+    eyebrow: "POKER · JUN 28 – JUL 16",
+    title: "WSOP Main Event 2026",
+    sub: "$15M GTD · Track every chip leader, payout structure, and live final-table odds.",
+    cta: { label: "Open Tournament Hub", href: "/tournaments" },
+    gradient: "linear-gradient(135deg, #0c3a2a 0%, #064e3b 38%, #050505 100%)",
+    accent: "#34d399",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="32" cy="32" r="22" />
+        <circle cx="32" cy="32" r="14" />
+        <path d="M32 14v8M32 42v8M14 32h8M42 32h8M19.5 19.5l5.5 5.5M39 39l5.5 5.5M19.5 44.5l5.5-5.5M39 25l5.5-5.5" />
+      </svg>
+    ),
+  },
+  {
+    id: "nba",
+    eyebrow: "NBA · JUN 5 – JUN 22",
+    title: "NBA Finals 2026",
+    sub: "Live championship odds, MVP markets, and game-by-game closing-line tracking.",
+    cta: { label: "View NBA Markets", href: "/tournaments" },
+    gradient: "linear-gradient(135deg, #c2410c 0%, #7c2d12 45%, #18181b 100%)",
+    accent: "#fb923c",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+        <circle cx="32" cy="32" r="22" />
+        <path d="M10 32h44M32 10v44M14.5 18C20 26 26 32 32 32s12-6 17.5-14M14.5 46C20 38 26 32 32 32s12 6 17.5 14" />
+      </svg>
+    ),
+  },
+  {
+    id: "wc",
+    eyebrow: "FIFA · JUN 11 – JUL 19",
+    title: "FIFA World Cup 2026",
+    sub: "48 teams. Group-stage moneylines, dark-horse futures, and live in-play markets.",
+    cta: { label: "World Cup Markets", href: "/tournaments" },
+    gradient: "linear-gradient(135deg, #15803d 0%, #1e40af 55%, #0f172a 100%)",
+    accent: "#4ade80",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="32" cy="32" r="22" />
+        <path d="M32 12l8 6-3 10h-10l-3-10 8-6zM37 28l5 9M27 28l-5 9M40 38l-3 10M24 38l3 10M37 48h-10" />
+      </svg>
+    ),
+  },
+  {
+    id: "val",
+    eyebrow: "ESPORTS · AUG 2 – AUG 24",
+    title: "Valorant Champions 2026",
+    sub: "$2M prize pool. Map-by-map odds, head-to-head splits, and tournament EV.",
+    cta: { label: "Esports Markets", href: "/tournaments" },
+    gradient: "linear-gradient(135deg, #7c3aed 0%, #be185d 50%, #1e1b4b 100%)",
+    accent: "#c084fc",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="8" y="20" width="48" height="24" rx="6" />
+        <circle cx="20" cy="32" r="3" fill="currentColor" />
+        <circle cx="44" cy="32" r="3" fill="currentColor" />
+        <path d="M28 28v8M32 32h-4M44 28v8M48 32h-4" />
+      </svg>
+    ),
+  },
+  {
+    id: "uso",
+    eyebrow: "TENNIS · AUG 25 – SEP 7",
+    title: "US Open 2026",
+    sub: "$65M Slam. Live set-by-set markets, draw-bracket EV, and futures shading.",
+    cta: { label: "Tennis Markets", href: "/tournaments" },
+    gradient: "linear-gradient(135deg, #65a30d 0%, #0e7490 50%, #082f49 100%)",
+    accent: "#bef264",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="32" cy="32" r="22" />
+        <path d="M14 22c12 4 24 4 36 0M14 42c12-4 24-4 36 0" />
+      </svg>
+    ),
+  },
+  {
+    id: "ev",
+    eyebrow: "FREE TOOL",
+    title: "Find +EV Bets in Seconds",
+    sub: "Plug a sportsbook line + a fair-market price. Get instant expected value, Kelly stake, and ROI.",
+    cta: { label: "Open EV Calculator", href: "/calculators" },
+    gradient: "linear-gradient(135deg, #6366f1 0%, #4338ca 50%, #1e1b4b 100%)",
+    accent: "#a5b4fc",
+    icon: (
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="10" y="10" width="44" height="44" rx="6" />
+        <path d="M22 22h6M36 22h6M22 32h6M36 32h6M22 42h20" />
+      </svg>
+    ),
+  },
+];
+
+function HeroCarousel() {
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (paused) return;
+    intervalRef.current = setInterval(() => {
+      setIdx((i) => (i + 1) % HERO_SLIDES.length);
+    }, 5500);
+    return () => clearInterval(intervalRef.current);
+  }, [paused]);
+
+  const slide = HERO_SLIDES[idx];
+  const next = () => setIdx((i) => (i + 1) % HERO_SLIDES.length);
+  const prev = () => setIdx((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+
+  return (
+    <div
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      style={{
+        position: "relative",
+        borderRadius: 20,
+        overflow: "hidden",
+        boxShadow: "0 24px 60px -20px rgba(0,0,0,0.55)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        marginBottom: 36,
+      }}
+    >
+      <div
+        key={slide.id}
+        style={{
+          background: slide.gradient,
+          padding: "44px 32px 40px",
+          minHeight: 280,
+          display: "grid",
+          gridTemplateColumns: "minmax(0,1fr) auto",
+          gap: 24,
+          alignItems: "center",
+          color: "#fff",
+          animation: "pbHeroFade 0.6s ease",
+        }}
+      >
+        <div style={{ minWidth: 0 }}>
+          <div style={{
+            display: "inline-block",
+            fontSize: "0.7rem",
+            fontWeight: 800,
+            letterSpacing: "0.22em",
+            color: slide.accent,
+            background: "rgba(0,0,0,0.32)",
+            padding: "6px 12px",
+            borderRadius: 999,
+            marginBottom: 16,
+          }}>
+            {slide.eyebrow}
+          </div>
+          <h2 style={{
+            fontSize: "clamp(1.6rem, 4.2vw, 2.6rem)",
+            fontWeight: 900,
+            lineHeight: 1.05,
+            margin: "0 0 14px",
+            letterSpacing: "-0.01em",
+          }}>
+            {slide.title}
+          </h2>
+          <p style={{
+            fontSize: "1rem",
+            lineHeight: 1.55,
+            color: "rgba(255,255,255,0.86)",
+            maxWidth: 540,
+            margin: "0 0 22px",
+          }}>
+            {slide.sub}
+          </p>
+          <Link href={slide.cta.href} style={{
+            display: "inline-block",
+            background: "rgba(0,0,0,0.4)",
+            color: "#fff",
+            padding: "12px 22px",
+            borderRadius: 10,
+            fontWeight: 700,
+            fontSize: "0.92rem",
+            textDecoration: "none",
+            border: `1px solid ${slide.accent}55`,
+            transition: "background 0.2s",
+          }}>
+            {slide.cta.label} →
+          </Link>
+        </div>
+        <div style={{
+          width: "clamp(80px, 18vw, 160px)",
+          height: "clamp(80px, 18vw, 160px)",
+          color: slide.accent,
+          opacity: 0.92,
+          flexShrink: 0,
+        }}>
+          {slide.icon}
+        </div>
+      </div>
+
+      {/* prev / next */}
+      <button
+        onClick={prev}
+        aria-label="Previous slide"
+        style={{
+          position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+          width: 36, height: 36, borderRadius: "50%", border: "none",
+          background: "rgba(0,0,0,0.42)", color: "#fff", cursor: "pointer",
+          fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center",
+        }}
+      >‹</button>
+      <button
+        onClick={next}
+        aria-label="Next slide"
+        style={{
+          position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+          width: 36, height: 36, borderRadius: "50%", border: "none",
+          background: "rgba(0,0,0,0.42)", color: "#fff", cursor: "pointer",
+          fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center",
+        }}
+      >›</button>
+
+      {/* dots */}
+      <div style={{
+        position: "absolute", bottom: 14, left: "50%", transform: "translateX(-50%)",
+        display: "flex", gap: 8,
+      }}>
+        {HERO_SLIDES.map((s, i) => (
+          <button
+            key={s.id}
+            onClick={() => setIdx(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            style={{
+              width: i === idx ? 24 : 8,
+              height: 8,
+              borderRadius: 4,
+              border: "none",
+              background: i === idx ? "#fff" : "rgba(255,255,255,0.4)",
+              transition: "all 0.3s",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          />
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes pbHeroFade {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 const SITE_URL = "https://placebets.ai";
 
@@ -114,62 +371,13 @@ export default function HomePageClient({ initialMarkets = [] }) {
 
         {/* ========== HERO ========== */}
         <section style={{
-          textAlign: "center",
-          padding: "48px 20px 40px",
-          maxWidth: 900,
+          padding: "32px 20px 32px",
+          maxWidth: 1000,
           margin: "0 auto",
         }}>
-          {/* Hero SVG illustration — probability curve + market chart vibe */}
-          <div aria-hidden="true" style={{ maxWidth: 560, margin: "0 auto 28px", opacity: 0.95 }}>
-            <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }} role="img" aria-label="Prediction market probability chart illustration">
-              <defs>
-                <linearGradient id="pbLine" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="50%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-                <linearGradient id="pbFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.28" />
-                  <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {/* grid */}
-              <g stroke="#1f2937" strokeWidth="1">
-                <line x1="40" y1="40"  x2="540" y2="40" />
-                <line x1="40" y1="90"  x2="540" y2="90" />
-                <line x1="40" y1="140" x2="540" y2="140" />
-                <line x1="40" y1="190" x2="540" y2="190" />
-              </g>
-              {/* y-axis labels */}
-              <g fill="#6b7280" fontSize="10" fontFamily="monospace">
-                <text x="6"  y="44">100%</text>
-                <text x="10" y="94">75%</text>
-                <text x="10" y="144">50%</text>
-                <text x="10" y="194">25%</text>
-              </g>
-              {/* area fill under curve */}
-              <path d="M 40,170 C 100,160 140,90 190,100 S 260,60 310,80 S 380,50 430,70 S 500,40 540,55 L 540,190 L 40,190 Z" fill="url(#pbFill)" />
-              {/* main line */}
-              <path d="M 40,170 C 100,160 140,90 190,100 S 260,60 310,80 S 380,50 430,70 S 500,40 540,55" fill="none" stroke="url(#pbLine)" strokeWidth="3" strokeLinecap="round" />
-              {/* live price dots */}
-              <g>
-                <circle cx="190" cy="100" r="5" fill="#8b5cf6" />
-                <circle cx="310" cy="80"  r="5" fill="#8b5cf6" />
-                <circle cx="430" cy="70"  r="5" fill="#10b981" />
-                <circle cx="540" cy="55"  r="6" fill="#10b981" stroke="#064e3b" strokeWidth="2" />
-              </g>
-              {/* pill badges */}
-              <g fontFamily="monospace" fontSize="11" fontWeight="700">
-                <rect x="160" y="72" width="58" height="20" rx="4" fill="#8b5cf622" stroke="#8b5cf644" />
-                <text x="168" y="86" fill="#a78bfa">NBA 57¢</text>
-                <rect x="280" y="52" width="58" height="20" rx="4" fill="#8b5cf622" stroke="#8b5cf644" />
-                <text x="286" y="66" fill="#a78bfa">NFL 68¢</text>
-                <rect x="398" y="42" width="64" height="20" rx="4" fill="#10b98122" stroke="#10b98144" />
-                <text x="404" y="56" fill="#34d399">+EV 12%</text>
-              </g>
-            </svg>
-          </div>
+          <HeroCarousel />
 
+          <div style={{ textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
           <h1 style={{
             fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
             fontWeight: 800,
@@ -198,6 +406,7 @@ export default function HomePageClient({ initialMarkets = [] }) {
             <Link href="/bankroll" className="btn btn-ghost btn-lg" style={{ minWidth: 200 }}>
               Manage Your Bankroll
             </Link>
+          </div>
           </div>
         </section>
 
