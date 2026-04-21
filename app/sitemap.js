@@ -5,6 +5,8 @@ export default function sitemap() {
     { url: `${base}/`,                        lastModified: now, changeFrequency: 'daily',   priority: 1.0 },
     { url: `${base}/tournaments`,             lastModified: now, changeFrequency: 'daily',   priority: 0.9 },
     { url: `${base}/ev-betting`,              lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${base}/ev-betting-guide`,         lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/israel-joffe`,             lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/bankroll`,                lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/calculators`,             lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/how-predictions-work`,    lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
