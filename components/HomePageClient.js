@@ -410,66 +410,9 @@ export default function HomePageClient({ initialMarkets = [] }) {
           </div>
         </section>
 
-        {topPicks.length > 0 && (
-          <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 48px" }}>
-            <div style={{
-              background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(15,23,42,0.96) 60%)",
-              border: "1px solid var(--border, #1f2937)",
-              borderRadius: 16,
-              padding: "28px 24px",
-            }}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "end", flexWrap: "wrap", marginBottom: 18 }}>
-                <div>
-                  <p style={{ fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "#818cf8", marginBottom: 8 }}>
-                    Market Pulse
-                  </p>
-                  <h2 style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 800, lineHeight: 1.1, color: "var(--text-main, #e5e7eb)", margin: 0 }}>
-                    Live sports markets worth watching right now
-                  </h2>
-                </div>
-                <Link href="/tournaments" style={{ color: "#34d399", fontWeight: 700, textDecoration: "none" }}>
-                  View all events →
-                </Link>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
-                {topPicks.map((market) => {
-                  const pct = market.yesPrice != null ? Math.round(market.yesPrice * 100) : null;
-                  return (
-                    <div
-                      key={market.ticker}
-                      style={{
-                        background: "rgba(15,23,42,0.88)",
-                        border: "1px solid rgba(99,102,241,0.12)",
-                        borderRadius: 12,
-                        padding: "16px 14px",
-                      }}
-                    >
-                      <div style={{ color: "#818cf8", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>
-                        {market.category || "Sports"}
-                      </div>
-                      <div style={{ color: "var(--text-main, #e5e7eb)", fontSize: "0.95rem", fontWeight: 700, lineHeight: 1.35, marginBottom: 14 }}>
-                        {humanizeTitle(market.title)}
-                      </div>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem", marginBottom: 8 }}>
-                        <span style={{ color: "var(--text-muted, #9ca3af)" }}>Yes price</span>
-                        <span style={{ color: pct != null ? probColor(pct) : "#e5e7eb", fontWeight: 700 }}>
-                          {pct != null ? `${pct}%` : "Live"}
-                        </span>
-                      </div>
-                      <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginBottom: 10 }}>
-                        <div style={{ width: `${pct || 35}%`, height: "100%", background: pct != null ? probColor(pct) : "#6366f1" }} />
-                      </div>
-                      <div style={{ color: "var(--text-dim, #6b7280)", fontSize: "0.78rem" }}>
-                        Vol: {Number(market.volume || 0).toLocaleString()}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
+        {/* Market Pulse removed — Kalshi player-prop titles render as jumbled garbage
+            ("Jamal Murray: 2+,yes Nikola Jokić: 8+"). The hero carousel above
+            already showcases the real tournament-tier events. */}
 
         {/* ========== STATS BAR ========== */}
         <section style={{
