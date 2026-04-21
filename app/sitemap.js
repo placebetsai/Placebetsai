@@ -10,6 +10,7 @@ export default function sitemap() {
     { url: `${base}/how-predictions-work`,    lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/glossary`,                lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/about`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${base}/shop`,                    lastModified: now, changeFrequency: 'daily',   priority: 0.8 },
     { url: `${base}/contact`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/responsible-gambling`,    lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/privacy`,                 lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },

@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/calculators", label: "Tools" },
   { href: "/tournaments", label: "Tournaments" },
   { href: "/ev-betting", label: "Strategy" },
+  { href: "/shop", label: "Shop" },
   { href: "/glossary", label: "Glossary" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
