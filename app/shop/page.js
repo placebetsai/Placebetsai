@@ -1,6 +1,7 @@
 export const revalidate = 3600;
 
 const SHOP = "https://fashionistas.ai";
+const CATALOG = "https://js0hy0-ux.myshopify.com";
 const COLLECTION = "placebets-merch";
 
 const SUBSECTIONS = [
@@ -52,7 +53,7 @@ const SUBSECTIONS = [
 
 async function getProducts() {
   try {
-    const res = await fetch(`${SHOP}/collections/${COLLECTION}/products.json?limit=250`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${CATALOG}/collections/${COLLECTION}/products.json?limit=250`, { next: { revalidate: 3600 } });
     if (!res.ok) {
       return {
         products: [],
