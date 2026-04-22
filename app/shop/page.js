@@ -53,6 +53,28 @@ const SUBSECTIONS = [
   },
 ];
 
+function productText(product) {
+  return [
+    product?.title,
+    ...(product?.tags || []),
+    product?.product_type,
+    product?.body_html,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function getSectionTag(product) {
+  const text = productText(product);
+
+  if (/(dice|craps)/.test(text)) return "casino-dice";
+  if (/(card|deck|blackjack|discard tray)/.test(text)) return "playing-cards";
+  if (/(chip|dealer button|hold'em)/.test(text)) return "poker-chips";
+
+  return null;
+}
+
 async function getProducts() {
   try {
     const res = await fetch(`${CATALOG}/collections/${COLLECTION}/products.json?limit=250`, { next: { revalidate: 3600 } });
@@ -166,20 +188,19 @@ function getCollectionHref() {
 }
 
 function getFullCatalogHref() {
-  return `${SHOP}/collections`;
+  return `${SHOP}/products?ref=${REF}`;
 }
 
 export default async function ShopPage() {
   const { products, state, message } = await getProducts();
   const sections = SUBSECTIONS.map((section) => ({
     ...section,
-    products: products.filter((p) => (p.tags || []).includes(section.tag)),
+    products: products.filter((p) => getSectionTag(p) === section.tag),
   }));
   const totalCount = sections.reduce((sum, s) => sum + s.products.length, 0);
   const populatedSections = sections.filter((section) => section.products.length > 0);
-  const thinSections = populatedSections.filter((section) => section.products.length < THIN_SECTION_COUNT);
   const hasCatalog = populatedSections.length > 0;
-  const showFallbackPanel = state !== "ready" || !hasCatalog || thinSections.length > 0;
+  const showFallbackPanel = state !== "ready" || !hasCatalog;
   const featuredFallbacks = products.slice(0, 4);
 
   return (
