@@ -197,7 +197,7 @@ async function getProducts() {
       return {
         products: [],
         state: "empty",
-        message: `All ${products.length} tagged products are missing on Fashionistas.ai right now (dropped to avoid dead links).`,
+        message: `All ${products.length} tagged products are out of stock right now.`,
         dropped,
       };
     }
@@ -206,7 +206,7 @@ async function getProducts() {
       products: live,
       state: "ready",
       message: dropped.length > 0
-        ? `Filtered ${dropped.length} product(s) whose Fashionistas.ai pages are not live.`
+        ? `Filtered ${dropped.length} product(s) that are not available right now.`
         : null,
       dropped,
     };
@@ -222,11 +222,11 @@ async function getProducts() {
 
 export const metadata = {
   title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
-  description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Routed through live Fashionistas.ai products.",
+  description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Live inventory, US shipping.",
   alternates: { canonical: "https://placebets.ai/shop" },
   openGraph: {
     title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
-    description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Routed through live Fashionistas.ai products.",
+    description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Live inventory, US shipping.",
     url: "https://placebets.ai/shop",
     siteName: "PlaceBets.ai",
     type: "website",
@@ -291,11 +291,11 @@ function ProductCard({ p, accent }) {
       <div className="p-4 flex flex-col flex-1 min-w-0">
         <h3 className="text-sm font-black text-white leading-snug mb-2 line-clamp-2">{p.title}</h3>
         <p className="text-[11px] leading-5 text-slate-400 line-clamp-2">
-          {getSectionTag(p)?.replace("-", " ") || "Bettor gear"} with live inventory routed through the Fashionistas checkout lane.
+          {getSectionTag(p)?.replace("-", " ") || "Bettor gear"} with live inventory and fast US checkout.
         </p>
         <div className="mt-auto pt-3 flex items-baseline gap-2">
           {compareAt && <span className="text-slate-500 text-xs line-through">${compareAt}</span>}
-          <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>Open on Fashionistas →</span>
+          <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>View product →</span>
         </div>
       </div>
     </a>
@@ -373,11 +373,7 @@ export default async function ShopPage() {
             </span>
           </h1>
           <p className="mt-6 max-w-2xl text-slate-300 text-base md:text-lg leading-relaxed">
-            Clay poker chips, gold-foil decks, casino-style dice — sourced through our partner{" "}
-            <a href={SHOP} target="_blank" rel="noopener nofollow" className="text-cyan-300 underline decoration-dotted underline-offset-4 hover:text-white">
-              Fashionistas.ai
-            </a>
-            . Live inventory, US fulfillment, fast checkout.
+            Clay poker chips, gold-foil decks, casino-style dice. Live inventory, US fulfillment, fast checkout.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -429,7 +425,7 @@ export default async function ShopPage() {
                   </h2>
                   <p className="mt-3 text-sm leading-6 text-slate-200">
                     {state !== "ready"
-                      ? `${message} You can still browse the full Fashionistas catalog or jump back into the betting tools while inventory sync catches up.`
+                      ? `${message} You can still browse the full catalog or jump back into the betting tools while inventory sync catches up.`
                       : "This page hides empty categories and only shows verified live products. If a category looks sparse, that is the real catalog state rather than filler links."}
                   </p>
                 </div>
@@ -557,7 +553,7 @@ export default async function ShopPage() {
             Don&apos;t see what you need?
           </h2>
           <p className="text-slate-400 mb-6 max-w-xl mx-auto">
-            Browse the full Fashionistas.ai catalog or jump back to the bettor tools that brought you here.
+            Browse the full catalog or jump back to the bettor tools that brought you here.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <a href={getCollectionHref()} target="_blank" rel="noopener nofollow"

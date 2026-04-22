@@ -303,44 +303,56 @@ const LEARNING_PATHS = [
   },
 ];
 
-/**
- * Converts a raw Kalshi market title into plain English.
- * Falls back to the original title if no pattern matches.
- */
-function humanizeTitle(title) {
-  if (!title) return "Market";
+const EDGE_PILLARS = [
+  {
+    tag: "Live markets",
+    title: "See how the market is pricing reality",
+    desc: "Use event pricing and live market context to anchor decisions in actual probabilities instead of noise.",
+    color: "#34d399",
+  },
+  {
+    tag: "Betting math",
+    title: "Run the EV and bankroll logic before you bet",
+    desc: "The tools should help people size better, skip bad wagers, and understand where the edge really is.",
+    color: "#818cf8",
+  },
+  {
+    tag: "Audience fit",
+    title: "Serve bettors, poker players, and casino-adjacent readers",
+    desc: "PlaceBets should feel useful to the whole audience: not just sports bettors, but people who want info, markets, and themed gear.",
+    color: "#f59e0b",
+  },
+];
 
-  // "Will X happen?" -> "X to happen"
-  let t = title.replace(/\?$/, "").trim();
+const CORE_LANES = [
+  {
+    title: "Prediction market tracking",
+    desc: "Watch event prices, tournament timing, and market movement without digging through a bloated news site.",
+    href: "/tournaments",
+    cta: "Track events →",
+  },
+  {
+    title: "EV + bankroll workflow",
+    desc: "Use the calculator and bankroll tools as a repeatable workflow instead of making one-off emotional bets.",
+    href: "/calculators",
+    cta: "Use tools →",
+  },
+  {
+    title: "Casino and desk merch",
+    desc: "Poker chips, cards, dice, and bettor-desk items live in the catalog without cluttering the education side of the site.",
+    href: "/shop",
+    cta: "Open shop →",
+  },
+];
 
-  // "Will the NBA..." -> "NBA..."
-  t = t.replace(/^Will\s+(the\s+)?/i, "");
-
-  // Capitalize first letter
-  t = t.charAt(0).toUpperCase() + t.slice(1);
-
-  return t;
-}
-
-/**
- * Returns a color for the probability bar based on probability value.
- */
-function probColor(pct) {
-  if (pct >= 70) return "#10b981"; // green - likely
-  if (pct >= 40) return "#f59e0b"; // amber - toss-up
-  return "#ef4444"; // red - unlikely
-}
-
-export default function HomePageClient({ initialMarkets = [] }) {
-  const topPicks = initialMarkets.slice(0, 5);
-
+export default function HomePageClient() {
   const jsonLdWebsite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "PlaceBets.ai",
     url: SITE_URL,
     description:
-      "Free sports betting tools, live odds, and expert picks for smart bettors.",
+      "Prediction market data, EV calculators, bankroll tools, tournament tracking, and betting education for disciplined bettors.",
   };
 
   const jsonLdOrg = {
@@ -379,34 +391,82 @@ export default function HomePageClient({ initialMarkets = [] }) {
 
           <div style={{ textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
           <h1 style={{
-            fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
-            fontWeight: 800,
-            lineHeight: 1.15,
+            fontSize: "clamp(2.15rem, 6vw, 3.35rem)",
+            fontWeight: 900,
+            lineHeight: 1.04,
             marginBottom: 16,
             color: "var(--text-main, #e5e7eb)",
+            letterSpacing: "-0.03em",
           }}>
-            Smart Sports Betting{" "}
+            Prediction markets, EV tools, and bankroll discipline{" "}
             <span style={{ color: "var(--primary, #6366f1)" }}>Starts Here</span>
           </h1>
           <p style={{
-            fontSize: "1.05rem",
+            fontSize: "1.08rem",
             color: "var(--text-muted, #9ca3af)",
-            lineHeight: 1.6,
+            lineHeight: 1.75,
             marginBottom: 28,
-            maxWidth: 480,
+            maxWidth: 620,
             margin: "0 auto 28px",
           }}>
-            Free tools to find +EV bets, manage your bankroll, and track the
-            markets that matter. No signup required.
+            PlaceBets.ai should feel like a serious operator dashboard: live market context, cleaner betting math,
+            tournament timing, and a merch lane that actually fits the audience instead of random junk.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/calculators" className="btn btn-primary btn-lg" style={{ minWidth: 200 }}>
               Try the EV Calculator
             </Link>
-            <Link href="/bankroll" className="btn btn-ghost btn-lg" style={{ minWidth: 200 }}>
-              Manage Your Bankroll
+            <Link href="/tournaments" className="btn btn-ghost btn-lg" style={{ minWidth: 200 }}>
+              Track Live Markets
             </Link>
           </div>
+          </div>
+        </section>
+
+        <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 44px" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 14,
+          }}>
+            {EDGE_PILLARS.map((item) => (
+              <div
+                key={item.title}
+                style={{
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015))",
+                  border: "1px solid var(--border, #1f2937)",
+                  borderRadius: 14,
+                  padding: "22px 20px",
+                }}
+              >
+                <div style={{
+                  color: item.color,
+                  fontSize: "0.72rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  marginBottom: 12,
+                }}>
+                  {item.tag}
+                </div>
+                <h2 style={{
+                  fontSize: "1.06rem",
+                  fontWeight: 800,
+                  lineHeight: 1.35,
+                  color: "var(--text-main, #e5e7eb)",
+                  marginBottom: 10,
+                }}>
+                  {item.title}
+                </h2>
+                <p style={{
+                  fontSize: "0.86rem",
+                  lineHeight: 1.65,
+                  color: "var(--text-muted, #9ca3af)",
+                }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -621,7 +681,7 @@ export default function HomePageClient({ initialMarkets = [] }) {
             color: "var(--text-dim, #6b7280)",
             marginBottom: 20,
           }}>
-            Three steps to smarter betting.
+            Three steps to a more disciplined workflow.
           </p>
 
           <div style={{
@@ -735,6 +795,60 @@ export default function HomePageClient({ initialMarkets = [] }) {
                 </p>
                 <span style={{ color: path.color, fontWeight: 700, fontSize: "0.86rem" }}>
                   Open Path →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 16px 44px" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 14,
+          }}>
+            {CORE_LANES.map((lane) => (
+              <Link
+                key={lane.title}
+                href={lane.href}
+                style={{
+                  display: "block",
+                  background: "var(--bg-card, #0f172a)",
+                  border: "1px solid var(--border, #1f2937)",
+                  borderRadius: 14,
+                  padding: "22px 20px",
+                  textDecoration: "none",
+                }}
+              >
+                <div style={{
+                  fontSize: "0.72rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "var(--accent, #38bdf8)",
+                  marginBottom: 10,
+                }}>
+                  Core lane
+                </div>
+                <div style={{
+                  fontSize: "1.08rem",
+                  fontWeight: 800,
+                  lineHeight: 1.35,
+                  color: "var(--text-main, #e5e7eb)",
+                  marginBottom: 10,
+                }}>
+                  {lane.title}
+                </div>
+                <p style={{
+                  fontSize: "0.86rem",
+                  lineHeight: 1.65,
+                  color: "var(--text-muted, #9ca3af)",
+                  marginBottom: 12,
+                }}>
+                  {lane.desc}
+                </p>
+                <span style={{ color: "var(--primary, #34d399)", fontWeight: 700, fontSize: "0.86rem" }}>
+                  {lane.cta}
                 </span>
               </Link>
             ))}
@@ -903,61 +1017,6 @@ export default function HomePageClient({ initialMarkets = [] }) {
           <SportsbookCTA />
         </section>
 
-        {/* ========== SPORTS BETTING 101 ========== */}
-        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
-          <h2 style={{
-            fontSize: "1.3rem",
-            fontWeight: 700,
-            marginBottom: 6,
-            color: "var(--text-main, #e5e7eb)",
-          }}>
-            Sports Betting 101
-          </h2>
-          <p style={{
-            fontSize: "0.88rem",
-            color: "var(--text-dim, #6b7280)",
-            marginBottom: 20,
-          }}>
-            Learn the fundamentals before you place a bet.
-          </p>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 14,
-          }}>
-            {[
-              { title: "What is Expected Value?", desc: "Understand why EV is the single most important concept in profitable sports betting.", href: "/ev-betting" },
-              { title: "Kelly Criterion Explained", desc: "The mathematical formula that tells you exactly how much to wager on each bet.", href: "/bankroll" },
-              { title: "Reading Betting Odds", desc: "American, decimal, and fractional odds demystified. Convert between formats instantly.", href: "/glossary" },
-              { title: "Bankroll Management Tips", desc: "Protect your money with proven strategies used by professional bettors.", href: "/bankroll" },
-            ].map((card, i) => (
-              <Link key={i} href={card.href} style={{
-                display: "block",
-                background: "var(--bg-card, #0f172a)",
-                border: "1px solid var(--border, #1f2937)",
-                borderRadius: 12,
-                padding: "20px 20px",
-                textDecoration: "none",
-                transition: "border-color 0.2s, transform 0.2s",
-              }}>
-                <h3 style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  color: "var(--text-main, #e5e7eb)",
-                  marginBottom: 6,
-                }}>{card.title}</h3>
-                <p style={{
-                  fontSize: "0.85rem",
-                  color: "var(--text-muted, #9ca3af)",
-                  lineHeight: 1.5,
-                  margin: 0,
-                }}>{card.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-
         {/* ========== UPCOMING EVENTS ========== */}
         <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 16px 40px" }}>
           <h2 style={{
@@ -1074,44 +1133,6 @@ export default function HomePageClient({ initialMarkets = [] }) {
           </Link>
         </section>
 
-        {/* ========== FOOTER ========== */}
-        <footer style={{
-          textAlign: "center",
-          padding: "24px 20px 32px",
-          borderTop: "1px solid var(--border, #1f2937)",
-          marginTop: 20,
-        }}>
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 20,
-            flexWrap: "wrap",
-            marginBottom: 16,
-          }}>
-            <Link href="/responsible-gambling" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
-              Responsible Gambling
-            </Link>
-            <Link href="/terms" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
-              Terms
-            </Link>
-            <Link href="/privacy" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
-              Privacy
-            </Link>
-            <Link href="/contact" style={{ fontSize: "0.8rem", color: "var(--text-muted, #9ca3af)", textDecoration: "none" }}>
-              Contact
-            </Link>
-          </div>
-          <p style={{
-            fontSize: "0.7rem",
-            color: "var(--text-dim, #6b7280)",
-            lineHeight: 1.6,
-            maxWidth: 480,
-            margin: "0 auto",
-          }}>
-            Educational content only -- not betting or financial advice. 21+ where legal.
-            Gambling Problem? Call 1-800-GAMBLER.
-          </p>
-        </footer>
       </div>
     </>
   );
