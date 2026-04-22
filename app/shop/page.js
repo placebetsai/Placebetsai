@@ -4,7 +4,7 @@ const SHOP = "https://fashionistas.ai";
 const CATALOG = "https://js0hy0-ux.myshopify.com";
 const COLLECTION = "placebets-merch";
 const REF = "placebets";
-const THIN_SECTION_COUNT = 2;
+const THIN_SECTION_COUNT = 4;
 
 const SUBSECTIONS = [
   {
@@ -51,6 +51,29 @@ const SUBSECTIONS = [
       </svg>
     ),
   },
+  {
+    tag: "table-gear",
+    title: "Table Gear",
+    blurb: "Dealer buttons, discard trays, cut cards, and table accessories that make a home setup feel legit.",
+    accent: "#22d3ee",
+    gradient: "linear-gradient(135deg, rgba(34,211,238,0.18) 0%, rgba(0,0,0,0.6) 100%)",
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round">
+        <path d="M6 11h20v12a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V11Z" />
+        <path d="M10 11V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" />
+        <path d="M12 17h8M16 14v6" />
+      </svg>
+    ),
+  },
+];
+
+const EXCLUDED_PRODUCT_PATTERNS = [
+  "translucent",
+  "jumbo dice",
+  "30pc",
+  "36pc",
+  "denomination 100pc",
+  "silicone",
 ];
 
 function productText(product) {
@@ -68,11 +91,37 @@ function productText(product) {
 function getSectionTag(product) {
   const text = productText(product);
 
+  if (/(dealer button|discard tray|cut card|shoe|shuffler|table layout|table cover)/.test(text)) return "table-gear";
   if (/(dice|craps)/.test(text)) return "casino-dice";
   if (/(card|deck|blackjack|discard tray)/.test(text)) return "playing-cards";
   if (/(chip|dealer button|hold'em)/.test(text)) return "poker-chips";
 
   return null;
+}
+
+function isMerchandiseable(product) {
+  const text = productText(product);
+  return !EXCLUDED_PRODUCT_PATTERNS.some((pattern) => text.includes(pattern));
+}
+
+function scoreProduct(product) {
+  const text = productText(product);
+  let score = 0;
+
+  if (text.includes("gold foil")) score += 5;
+  if (text.includes("casino used")) score += 4;
+  if (text.includes("blackjack")) score += 4;
+  if (text.includes("dealer button")) score += 2;
+  if (text.includes("cut card")) score += 4;
+  if (text.includes("discard tray")) score += 4;
+  if (text.includes("card shoe")) score += 4;
+  if (text.includes("clay poker chip")) score += 3;
+  if (text.includes("storage box")) score += 1;
+  if (text.includes("poker chip set")) score -= 1;
+  if (text.includes("translucent")) score -= 5;
+  if (text.includes("jumbo")) score -= 4;
+
+  return score;
 }
 
 async function getProducts() {
@@ -144,8 +193,8 @@ function ProductCard({ p, accent }) {
       href={`${SHOP}/products/${p.handle}?ref=${REF}`}
       target="_blank"
       rel="noopener nofollow"
-      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] hover:border-white/30 transition-all duration-300 flex flex-col w-full max-w-[260px] mx-auto md:max-w-none"
-      style={{ boxShadow: "0 12px 28px -16px rgba(0,0,0,0.6)" }}
+      className="group relative rounded-[28px] overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] hover:border-white/30 transition-all duration-300 flex flex-col w-full max-w-[260px] mx-auto md:max-w-none hover:-translate-y-1"
+      style={{ boxShadow: "0 20px 40px -24px rgba(0,0,0,0.82)" }}
     >
       {discount && (
         <div className="absolute top-3 left-3 z-10 rounded-md px-2 py-1 text-[10px] font-bold tracking-wider"
@@ -153,7 +202,10 @@ function ProductCard({ p, accent }) {
           -{discount}%
         </div>
       )}
-      <div className="aspect-square bg-slate-950 overflow-hidden relative max-h-[260px] md:max-h-none">
+      <div
+        className="aspect-[4/5] overflow-hidden relative max-h-[280px] md:max-h-none"
+        style={{ background: `radial-gradient(circle at top, ${accent}22 0%, rgba(2,6,23,0.92) 52%, rgba(2,6,23,1) 100%)` }}
+      >
         {image ? (
           <img
             src={image}
@@ -161,18 +213,25 @@ function ProductCard({ p, accent }) {
             loading="lazy"
             width="600"
             height="600"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-xs uppercase tracking-[0.18em] text-slate-500">No image</div>
         )}
+        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3">
+          <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur">
+            {getSectionTag(p)?.replace("-", " ") || "bettor gear"}
+          </span>
+          <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1 text-xs font-black backdrop-blur" style={{ color: accent }}>
+            ${price}
+          </span>
+        </div>
       </div>
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-sm font-semibold text-white leading-snug mb-3 line-clamp-2">{p.title}</h3>
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-base font-black text-white leading-snug mb-3 line-clamp-2 min-h-[3rem]">{p.title}</h3>
         <div className="mt-auto flex items-baseline gap-2">
-          <span className="text-white font-bold text-lg">${price}</span>
           {compareAt && <span className="text-slate-500 text-xs line-through">${compareAt}</span>}
-          <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>Buy →</span>
+          <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>Open on Fashionistas →</span>
         </div>
       </div>
     </a>
@@ -193,15 +252,18 @@ function getFullCatalogHref() {
 
 export default async function ShopPage() {
   const { products, state, message } = await getProducts();
+  const curatedProducts = products
+    .filter(isMerchandiseable)
+    .sort((a, b) => scoreProduct(b) - scoreProduct(a));
   const sections = SUBSECTIONS.map((section) => ({
     ...section,
-    products: products.filter((p) => getSectionTag(p) === section.tag),
+    products: curatedProducts.filter((p) => getSectionTag(p) === section.tag).slice(0, 6),
   }));
   const totalCount = sections.reduce((sum, s) => sum + s.products.length, 0);
   const populatedSections = sections.filter((section) => section.products.length > 0);
   const hasCatalog = populatedSections.length > 0;
   const showFallbackPanel = state !== "ready" || !hasCatalog;
-  const featuredFallbacks = products.slice(0, 4);
+  const featuredFallbacks = curatedProducts.slice(0, 4);
 
   return (
     <div className="min-h-screen">
@@ -275,9 +337,7 @@ export default async function ShopPage() {
                       ? "The live shop did not load cleanly."
                       : state === "empty"
                         ? "No tagged PlaceBets items are live right now."
-                        : thinSections.length > 0
-                          ? "Some gear categories only have one live item right now."
-                          : "This collection is temporarily thin."}
+                        : "This collection is temporarily thin."}
                   </h2>
                   <p className="mt-3 text-sm leading-6 text-slate-200">
                     {state !== "ready"
@@ -348,7 +408,7 @@ export default async function ShopPage() {
                 This category is thin right now, so we are only showing the live item we could verify.
               </p>
             )}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-md md:max-w-none mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-auto">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
           </section>
