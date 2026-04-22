@@ -5,6 +5,8 @@ const CATALOG = "https://js0hy0-ux.myshopify.com";
 const COLLECTION = "placebets-merch";
 const REF = "placebets";
 const THIN_SECTION_COUNT = 4;
+const VERIFY_CHUNK = 5;
+const VERIFY_TIMEOUT_MS = 7000;
 
 const SUBSECTIONS = [
   {
@@ -124,6 +126,49 @@ function scoreProduct(product) {
   return score;
 }
 
+async function verifyFashionistasHandles(products) {
+  if (!Array.isArray(products) || products.length === 0) {
+    return { live: [], dropped: [] };
+  }
+
+  async function checkOne(handle) {
+    const url = `${SHOP}/products/${handle}`;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), VERIFY_TIMEOUT_MS);
+    try {
+      let res = await fetch(url, { method: "HEAD", redirect: "follow", signal: controller.signal });
+      if (res.status === 405 || res.status === 501) {
+        res = await fetch(url, { method: "GET", redirect: "follow", signal: controller.signal });
+      }
+      return { handle, status: res.status, ok: res.status === 200 };
+    } catch (err) {
+      return { handle, status: 0, ok: false, error: err?.name || "fetch_error" };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  const results = [];
+  for (let i = 0; i < products.length; i += VERIFY_CHUNK) {
+    const slice = products.slice(i, i + VERIFY_CHUNK);
+    results.push(...(await Promise.all(slice.map((p) => checkOne(p.handle)))));
+  }
+
+  const byHandle = new Map(results.map((r) => [r.handle, r]));
+  const live = [];
+  const dropped = [];
+  for (const product of products) {
+    const result = byHandle.get(product.handle);
+    if (result?.ok) {
+      live.push(product);
+    } else {
+      dropped.push({ handle: product.handle, status: result?.status ?? 0, error: result?.error });
+    }
+  }
+
+  return { live, dropped };
+}
+
 async function getProducts() {
   try {
     const res = await fetch(`${CATALOG}/collections/${COLLECTION}/products.json?limit=250`, { next: { revalidate: 3600 } });
@@ -142,30 +187,46 @@ async function getProducts() {
         products: [],
         state: "empty",
         message: "The live catalog is up, but nothing in this collection is currently available.",
+        dropped: [],
+      };
+    }
+
+    const { live, dropped } = await verifyFashionistasHandles(products);
+
+    if (live.length === 0) {
+      return {
+        products: [],
+        state: "empty",
+        message: `All ${products.length} tagged products are missing on Fashionistas.ai right now (dropped to avoid dead links).`,
+        dropped,
       };
     }
 
     return {
-      products,
+      products: live,
       state: "ready",
-      message: null,
+      message: dropped.length > 0
+        ? `Filtered ${dropped.length} product(s) whose Fashionistas.ai pages are not live.`
+        : null,
+      dropped,
     };
   } catch {
     return {
       products: [],
       state: "error",
       message: "The live catalog is taking too long or unavailable right now.",
+      dropped: [],
     };
   }
 }
 
 export const metadata = {
-  title: "Bettor Shop — Poker Chips, Cards, Dice",
-  description: "Curated poker chips, playing cards, and casino dice for serious home games. Sourced through Fashionistas.ai with US shipping.",
+  title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
+  description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Routed through live Fashionistas.ai products.",
   alternates: { canonical: "https://placebets.ai/shop" },
   openGraph: {
-    title: "Bettor Shop — Poker Chips, Cards, Dice | PlaceBets.ai",
-    description: "Curated poker chips, playing cards, and casino dice for serious home games. Sourced through Fashionistas.ai with US shipping.",
+    title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
+    description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Routed through live Fashionistas.ai products.",
     url: "https://placebets.ai/shop",
     siteName: "PlaceBets.ai",
     type: "website",
@@ -193,7 +254,7 @@ function ProductCard({ p, accent }) {
       href={`${SHOP}/products/${p.handle}?ref=${REF}`}
       target="_blank"
       rel="noopener nofollow"
-      className="group relative rounded-[28px] overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] hover:border-white/30 transition-all duration-300 flex flex-col w-full max-w-[260px] mx-auto md:max-w-none hover:-translate-y-1"
+      className="group relative rounded-[22px] overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] hover:border-white/30 transition-all duration-300 flex flex-row w-full max-w-none hover:-translate-y-1"
       style={{ boxShadow: "0 20px 40px -24px rgba(0,0,0,0.82)" }}
     >
       {discount && (
@@ -203,7 +264,7 @@ function ProductCard({ p, accent }) {
         </div>
       )}
       <div
-        className="aspect-[4/5] overflow-hidden relative max-h-[280px] md:max-h-none"
+        className="relative h-[110px] w-[104px] shrink-0 overflow-hidden lg:h-[118px] lg:w-[112px]"
         style={{ background: `radial-gradient(circle at top, ${accent}22 0%, rgba(2,6,23,0.92) 52%, rgba(2,6,23,1) 100%)` }}
       >
         {image ? (
@@ -213,23 +274,26 @@ function ProductCard({ p, accent }) {
             loading="lazy"
             width="600"
             height="600"
-            className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-xs uppercase tracking-[0.18em] text-slate-500">No image</div>
         )}
-        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3">
-          <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur">
+        <div className="absolute inset-x-2 bottom-2 flex items-center justify-between gap-2">
+          <span className="rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
             {getSectionTag(p)?.replace("-", " ") || "bettor gear"}
           </span>
-          <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1 text-xs font-black backdrop-blur" style={{ color: accent }}>
+          <span className="rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-[11px] font-black backdrop-blur" style={{ color: accent }}>
             ${price}
           </span>
         </div>
       </div>
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-base font-black text-white leading-snug mb-3 line-clamp-2 min-h-[3rem]">{p.title}</h3>
-        <div className="mt-auto flex items-baseline gap-2">
+      <div className="p-4 flex flex-col flex-1 min-w-0">
+        <h3 className="text-sm font-black text-white leading-snug mb-2 line-clamp-2">{p.title}</h3>
+        <p className="text-[11px] leading-5 text-slate-400 line-clamp-2">
+          {getSectionTag(p)?.replace("-", " ") || "Bettor gear"} with live inventory routed through the Fashionistas checkout lane.
+        </p>
+        <div className="mt-auto pt-3 flex items-baseline gap-2">
           {compareAt && <span className="text-slate-500 text-xs line-through">${compareAt}</span>}
           <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>Open on Fashionistas →</span>
         </div>
@@ -264,9 +328,33 @@ export default async function ShopPage() {
   const hasCatalog = populatedSections.length > 0;
   const showFallbackPanel = state !== "ready" || !hasCatalog;
   const featuredFallbacks = curatedProducts.slice(0, 4);
+  const itemListProducts = populatedSections.flatMap((section) => section.products);
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Bettor Shop | PlaceBets.ai",
+    url: "https://placebets.ai/shop",
+    numberOfItems: itemListProducts.length,
+    itemListElement: itemListProducts.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${SHOP}/products/${p.handle}?ref=${REF}`,
+      name: p.title,
+    })),
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://placebets.ai" },
+      { "@type": "ListItem", position: 2, name: "Shop", item: "https://placebets.ai/shop" },
+    ],
+  };
 
   return (
     <div className="min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 -z-10" style={{
@@ -408,7 +496,7 @@ export default async function ShopPage() {
                 This category is thin right now, so we are only showing the live item we could verify.
               </p>
             )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-auto">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
           </section>
