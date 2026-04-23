@@ -357,9 +357,9 @@ export default async function ShopPage() {
           backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }} />
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-6 py-10 md:py-14">
           <p className="text-cyan-300 text-xs font-bold uppercase tracking-[0.32em] mb-5">Bettor Shop</p>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05] max-w-3xl">
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white leading-[1.05] max-w-3xl">
             Real gear for serious{" "}
             <span className="bg-gradient-to-r from-cyan-300 via-indigo-400 to-fuchsia-400 bg-clip-text text-transparent">
               home games.
