@@ -242,7 +242,7 @@ function shopifyImage(url, width = 600) {
 function ProductCard({ p, accent }) {
   const variant = p.variants[0] || {};
   const rawImage = (p.images || [])[0]?.src;
-  const image = shopifyImage(rawImage, 600);
+  const image = shopifyImage(rawImage, 400);
   const price = variant.price || "?";
   const compareAt = variant.compare_at_price && parseFloat(variant.compare_at_price) > parseFloat(price)
     ? variant.compare_at_price
@@ -254,48 +254,34 @@ function ProductCard({ p, accent }) {
       href={`${SHOP}/products/${p.handle}?ref=${REF}`}
       target="_blank"
       rel="noopener nofollow"
-      className="group relative rounded-[22px] overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] hover:border-white/30 transition-all duration-300 flex flex-row w-full max-w-none hover:-translate-y-1"
-      style={{ boxShadow: "0 20px 40px -24px rgba(0,0,0,0.82)" }}
+      className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] hover:border-white/30 hover:-translate-y-0.5 transition-all flex flex-col"
     >
       {discount && (
-        <div className="absolute top-3 left-3 z-10 rounded-md px-2 py-1 text-[10px] font-bold tracking-wider"
+        <div className="absolute top-2 left-2 z-10 rounded-md px-2 py-0.5 text-[10px] font-bold tracking-wider"
           style={{ background: accent, color: "#0a0a0a" }}>
           -{discount}%
         </div>
       )}
-      <div
-        className="relative h-[110px] w-[104px] shrink-0 overflow-hidden lg:h-[118px] lg:w-[112px]"
-        style={{ background: `radial-gradient(circle at top, ${accent}22 0%, rgba(2,6,23,0.92) 52%, rgba(2,6,23,1) 100%)` }}
-      >
+      <div className="aspect-square bg-black/40 overflow-hidden relative">
         {image ? (
           <img
             src={image}
             alt={p.title}
             loading="lazy"
-            width="600"
-            height="600"
-            className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-xs uppercase tracking-[0.18em] text-slate-500">No image</div>
+          <div className="w-full h-full flex items-center justify-center text-[10px] uppercase tracking-[0.18em] text-slate-500">No image</div>
         )}
-        <div className="absolute inset-x-2 bottom-2 flex items-center justify-between gap-2">
-          <span className="rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
-            {getSectionTag(p)?.replace("-", " ") || "bettor gear"}
-          </span>
-          <span className="rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-[11px] font-black backdrop-blur" style={{ color: accent }}>
-            ${price}
-          </span>
-        </div>
+        <span className="absolute top-2 right-2 rounded-full bg-black/70 px-2 py-0.5 text-[11px] font-black backdrop-blur" style={{ color: accent }}>
+          ${price}
+        </span>
       </div>
-      <div className="p-4 flex flex-col flex-1 min-w-0">
-        <h3 className="text-sm font-black text-white leading-snug mb-2 line-clamp-2">{p.title}</h3>
-        <p className="text-[11px] leading-5 text-slate-400 line-clamp-2">
-          {getSectionTag(p)?.replace("-", " ") || "Bettor gear"} with live inventory and fast US checkout.
-        </p>
-        <div className="mt-auto pt-3 flex items-baseline gap-2">
-          {compareAt && <span className="text-slate-500 text-xs line-through">${compareAt}</span>}
-          <span className="ml-auto text-[10px] uppercase tracking-[0.18em]" style={{ color: accent }}>View product →</span>
+      <div className="p-3 flex flex-col flex-1">
+        <h3 className="text-[13px] font-bold text-white leading-tight line-clamp-2 min-h-[2.4rem]">{p.title}</h3>
+        <div className="mt-1.5 flex items-baseline gap-2">
+          {compareAt && <span className="text-slate-500 text-[11px] line-through">${compareAt}</span>}
+          <span className="ml-auto text-[10px] uppercase tracking-[0.14em] text-slate-400">{getSectionTag(p)?.replace("-", " ") || "bettor gear"}</span>
         </div>
       </div>
     </a>
@@ -487,7 +473,7 @@ export default async function ShopPage() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
           </section>
