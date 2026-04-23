@@ -1344,3 +1344,30 @@ a {
 .contact-form-wrap form button[type="submit"]:active {
   transform: translateY(0);
 }
+
+/* ── Nav search ─────────────────────────────────────────────────────────── */
+.nav-search-inline {
+  display: none;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 2px 2px 2px 12px;
+  margin-left: 14px;
+  max-width: 220px;
+}
+@media (min-width: 1024px) {
+  .nav-search-inline { display: inline-flex; }
+}
+.nav-search-inline:focus-within { background: rgba(255,255,255,0.1); border-color: rgba(99,102,241,0.4); }
+.nav-search-inline input {
+  background: transparent; border: 0; outline: 0; color: #f3efe8;
+  font-size: 12px; min-width: 120px; max-width: 160px; padding: 5px 5px 5px 0;
+}
+.nav-search-inline input::placeholder { color: #64748b; }
+.nav-search-inline button {
+  background: rgba(99,102,241,0.2); border: 0; border-radius: 999px;
+  width: 28px; height: 28px; color: #c7d2fe; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.nav-search-inline button:hover { background: #6366f1; color: #fff; }
