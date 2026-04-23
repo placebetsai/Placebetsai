@@ -222,11 +222,11 @@ async function getProducts() {
 
 export const metadata = {
   title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
-  description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Live inventory, US shipping.",
+  description: "Clay poker chips, gold-foil decks, casino dice, dealer buttons — gear for home poker games. US shipping.",
   alternates: { canonical: "https://placebets.ai/shop" },
   openGraph: {
     title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
-    description: "Curated poker chips, playing cards, casino dice, and table gear for serious home games. Live inventory, US shipping.",
+    description: "Clay poker chips, gold-foil decks, casino dice, dealer buttons — gear for home poker games. US shipping.",
     url: "https://placebets.ai/shop",
     siteName: "PlaceBets.ai",
     type: "website",
