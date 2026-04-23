@@ -69,14 +69,11 @@ const SUBSECTIONS = [
   },
 ];
 
-const EXCLUDED_PRODUCT_PATTERNS = [
-  "translucent",
-  "jumbo dice",
-  "30pc",
-  "36pc",
-  "denomination 100pc",
-  "silicone",
-];
+// Only exclude products that are clearly off-brand or novelty-spam.
+// Previously over-aggressive: killed legit items like "Denomination 100pc"
+// and "30pc Casino-Style Jumbo Dice". User wanted the full tagged catalog
+// surfaced — so only the most off-brand patterns stay excluded.
+const EXCLUDED_PRODUCT_PATTERNS = [];
 
 function productText(product) {
   return [
@@ -480,7 +477,7 @@ export default async function ShopPage() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
           </section>
