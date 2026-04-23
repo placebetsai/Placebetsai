@@ -221,7 +221,7 @@ async function getProducts() {
 }
 
 export const metadata = {
-  title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
+  title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear",
   description: "Clay poker chips, gold-foil decks, casino dice, dealer buttons — gear for home poker games. US shipping.",
   alternates: { canonical: "https://placebets.ai/shop" },
   openGraph: {
@@ -230,6 +230,13 @@ export const metadata = {
     url: "https://placebets.ai/shop",
     siteName: "PlaceBets.ai",
     type: "website",
+    images: ["https://placebets.ai/og-image.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bettor Shop — Poker Chips, Cards, Dice, Table Gear | PlaceBets.ai",
+    description: "Clay poker chips, gold-foil decks, casino dice, dealer buttons — gear for home poker games. US shipping.",
+    images: ["https://placebets.ai/og-image.svg"],
   },
 };
 
