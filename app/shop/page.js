@@ -487,11 +487,6 @@ export default async function ShopPage() {
                 </div>
               </div>
             </div>
-            {section.products.length < THIN_SECTION_COUNT && (
-              <p className="mb-5 text-sm leading-6 text-amber-200">
-                This category is thin right now, so we are only showing the live item we could verify.
-              </p>
-            )}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
               {section.products.map((p) => <ProductCard key={p.id} p={p} accent={section.accent} />)}
             </div>
